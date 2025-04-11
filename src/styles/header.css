@@ -1,0 +1,28 @@
+header {
+    background-color: #4E3629;
+    color: #E9D6C7;
+    padding: 20px 0;
+    text-align: center;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+}
+header img {
+    width: 150px;
+    margin-bottom: 10px;
+}
+nav ul {
+    list-style-type: none;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 0;
+}
+nav a {
+    color: #E9D6C7;
+    text-decoration: none;
+    font-weight: bold;
+}
+nav a:hover {
+    color: #C0A28E;
+}

@@ -1,0 +1,107 @@
+
+
+.login-page {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    row-gap: 15px;
+    width: 100%;
+    max-width: 400px; /* Ограничиваем ширину */
+    padding: 20px;
+    background: #e0e5ec; /* Фон формы тот же цвет, что и фон страницы */
+    border-radius: 20px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.loginTitle {
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.loginForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    row-gap: 20px;
+    width: 100%;
+}
+
+.shadows-input {
+    background: #e0e5ec; /* Тот же цвет фона */
+    border-radius: 20px;
+    box-shadow: inset 5px 5px 10px rgba(0, 0, 0, 0.1), inset -5px -5px 10px white;
+    border: none;
+    height: 35px;
+    width: 100%;
+    padding-left: 10px;
+    font-size: 16px;
+}
+
+.shadows-input:focus {
+    outline: none;
+    box-shadow: inset 5px 5px 10px rgba(0, 0, 0, 0.15), inset -5px -5px 10px white;
+}
+
+.button-login {
+    background-color: #e0e5ec; /* Тот же цвет фона */
+    color: black;
+    border-radius: 20px;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1), -5px -5px 10px white;
+}
+
+.button-login:hover {
+    background-color: #cbd2d9; /* Чуть более темный оттенок */
+}
+
+.button-login:active {
+    background-color: #b3bcc8; /* Еще более темный оттенок */
+}
+
+a {
+    text-decoration: none;
+    color: lightgrey; /* Соответствует фону */
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+@media (min-width: 1201px) {
+
+}
+
+
+@media (max-width: 576px) {
+    .login-section {
+        width: 100%;
+        max-width: 576px;
+    }
+    h1 {
+        font-size: 38px;
+    }
+    .shadows-input {
+        font-size: 26px;
+        height: 40px;
+    }
+    p{
+        font-size: 20px;
+    }
+    .button-login {
+        width: 130px;
+        height: 60px;
+        font-size: 24px;
+    }
+}
