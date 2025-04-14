@@ -1,20 +1,17 @@
 import React, {useState} from 'react';
 import '../styles/login.css'
+import {Link} from "react-router-dom";
 
 
 const LoginPage = () => {
-
-
-
-    // НЕ СТОИТ ХРАНИТЬ ПАРОЛИ В USESTATE -> USEREF
     const [InputValue, setInputValue] = useState({
         inputUser: '',
         inputPass: '',
     });
 
     function sendToBack() {
-        console.log("Отправляем данные:", InputValue);
-            fetch("api/login", {
+        console.log(InputValue)
+            fetch("/api/login", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -24,11 +21,10 @@ const LoginPage = () => {
                     password: InputValue.inputPass
                 })
             })
-                .then((res) => res.text())
-                .then((data) =>   console.log('Server response: ', data))
+                .then((res) => console.log(res.json()))
+                .then((data) => console.log('Server response: ', data))
                 .catch((err) => console.error(err));
     }
-
     return (
         <div className="login-page">
             <div className="login-section">
@@ -55,10 +51,11 @@ const LoginPage = () => {
 
                     <p><input className="checkbox" type="checkbox" name="rememberMe"/> Запомнить меня</p>
 
-                    <button onClick={() => {
-                        sendToBack()
-                    }} className="button-login shadowsSection" type='submit' >Войти</button>
+                 <Link to="/check"><button onClick={() => {
+                     sendToBack()
 
+                 }} className="button-login shadowsSection" type='submit' >Войти</button>
+                 </Link>
                 </form>
             </div>
         </div>

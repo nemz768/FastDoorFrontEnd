@@ -4,6 +4,7 @@ import LoginPage from "../modules/LoginPage.jsx";
 import PageNotFound from "../modules/moduleError/PageNotFound.jsx";
 import {Seller} from "../modules/Seller.jsx";
 import {PageNotEnoughRules} from "../modules/moduleError/PageNotEnoughRules.jsx";
+import {Check} from "../modules/Check.jsx";
 
 
 const SiteRoutes = () => {
@@ -15,6 +16,7 @@ const SiteRoutes = () => {
                     <Route path="/home/seller"  element={<Seller/>}></Route>
                     <Route path="*"  element={<PageNotFound/>}></Route>
                     <Route path="/test"  element={<PageNotEnoughRules/>}></Route>
+                    <Route path="/check" element={<Check/>}></Route>
                 </Routes>
         </>
     );
