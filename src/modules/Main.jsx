@@ -2,8 +2,8 @@ import React from 'react';
 
 export const Main = () => {
     return (
-        <div>
-          КИрЮшА ne МОЛОДЕЦ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+        Main
         </div>
     );
 };

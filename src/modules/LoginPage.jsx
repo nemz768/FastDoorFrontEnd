@@ -14,7 +14,7 @@ const LoginPage = () => {
 
     function sendToBack() {
         console.log("Отправляем данные:", InputValue);
-            fetch("http://127.0.0.1:8080/api/login", {
+            fetch("api/login", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
