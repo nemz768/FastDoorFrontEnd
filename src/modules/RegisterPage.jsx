@@ -1,9 +1,11 @@
 import React, {useState} from 'react';
 import '../styles/registerPage.css'
+import {Link} from "react-router-dom";
 export const RegisterPage = () => {
 
 
-    let resultRegister = {
+
+    const [InputValueRegister, SetInputValueRegister] = useState({
         inputUser: '',
         inputPass: '',
         confirm: '',
@@ -11,8 +13,7 @@ export const RegisterPage = () => {
         email: '',
         phone: '',
         role: ''
-    }
-    const [InputValueRegister, SetInputValueRegister] = useState(resultRegister);
+    });
 
     function registerToBack()
     {
@@ -98,8 +99,9 @@ export const RegisterPage = () => {
                             role: e.target.value
                         })
                     }}  type="text" id="role" name="role"/>
-
-                    <button onClick={()=> registerToBack()} className="registration_button" type="submit">Зарегистрироваться</button>
+                    <Link to='/check'>
+                        <button onClick={()=> registerToBack()} className="registration_button" type="submit">Зарегистрироваться</button>
+                    </Link>
                 </form>
             </div>
         </div>
