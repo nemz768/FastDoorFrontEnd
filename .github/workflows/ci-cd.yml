@@ -43,7 +43,8 @@ jobs:
             cd /var/www/frontend/
             rm index.html
             rm -r assets
-            cd
+            cd mrDverkinFront/
+            git pull origin master
             yarn build
             sudo cp -r ~/mrDverkinFront/dist/* /var/www/frontend/
             sudo nginx -t
