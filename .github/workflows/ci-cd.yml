@@ -46,7 +46,7 @@ jobs:
             cd mrDverkinFront
             git pull origin master
             yarn build
-            sudo cp -r ~/mrDverkinFront/dist/* /var/www/frontend/
+            sudo cp -r mrDverkinFront/dist/* /var/www/frontend/
             sudo nginx -t
             sudo systemctl restart nginx
             echo "Finish!!!"
