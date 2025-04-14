@@ -40,7 +40,7 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             echo "Start"
-            cd /var/www/frontend
+            cd /var/www/frontend/
             rm index.html
             rm -r assets
             cd
