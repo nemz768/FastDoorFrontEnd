@@ -1,33 +1,105 @@
-import React from 'react';
+import React, {useState} from 'react';
 import '../styles/registerPage.css'
 export const RegisterPage = () => {
+
+
+    let resultRegister = {
+        inputUser: '',
+        inputPass: '',
+        confirm: '',
+        fullname: '',
+        email: '',
+        phone: '',
+        role: ''
+    }
+    const [InputValueRegister, SetInputValueRegister] = useState(resultRegister);
+
+    function registerToBack()
+    {
+        console.log(InputValueRegister)
+        fetch("/register", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                inputUser: InputValueRegister.inputUser,
+                inputPass: InputValueRegister.inputPass,
+                confirm: InputValueRegister.confirm,
+                fullname: InputValueRegister.fullname,
+                email: InputValueRegister.email,
+                phone: InputValueRegister.phone,
+                role: InputValueRegister.role
+            })
+        })
+            .then((res)=> res.json())
+            .then((data) => console.log('Server response: ', data.message))
+            .catch((err) => console.error(err));
+    }
+
+
     return (
         <div className="registerBlock">
             <div className="registration">
                 <h1>Регистрация</h1>
                 <form className="form-register" method="POST" id="registerForm">
                     <label htmlFor="username">Логин: </label>
-                    <input type="text" id="username" name="username"/>
+                    <input value={InputValueRegister.inputUser} onChange={(e)=> {
+                        SetInputValueRegister({
+                            ...InputValueRegister,
+                            inputUser: e.target.value
+                        })
+                    }} type="text" id="username" name="username"/>
 
                     <label htmlFor="password">Пароль: </label>
-                    <input type="password" id="password" name="password"/>
+                    <input value={InputValueRegister.inputPass} onChange={(e)=> {
+                        SetInputValueRegister({
+                            ...InputValueRegister,
+                            inputPass: e.target.value
+                        })
+                    }} type="password" id="password" name="password"/>
 
                     <label htmlFor="confirm">Подтвердить Пароль: </label>
-                    <input type="password" id="confirm" name="confirm"/>
+                    <input value={InputValueRegister.confirm} onChange={(e)=> {
+                        SetInputValueRegister({
+                            ...InputValueRegister,
+                            confirm: e.target.value
+                        })
+                    }} type="password" id="confirm" name="confirm"/>
 
                     <label htmlFor="fullname">ФИО: </label>
-                    <input type="text" id="fullname" name="fullname"/>
+                    <input value={InputValueRegister.fullname} onChange={(e)=> {
+                        SetInputValueRegister({
+                            ...InputValueRegister,
+                            fullname: e.target.value
+                        })
+                    }}  type="text" id="fullname" name="fullname"/>
 
                     <label htmlFor="email">Почта: </label>
-                    <input type="email" id="email" name="email"/>
+                    <input  value={InputValueRegister.email} onChange={(e)=> {
+                        SetInputValueRegister({
+                            ...InputValueRegister,
+                            email: e.target.value
+                        })
+                    }} type="email" id="email" name="email"/>
 
                     <label htmlFor="phone">Номер телефона: </label>
-                    <input type="text" id="phone" name="phone"
+                    <input  value={InputValueRegister.phone} onChange={(e)=> {
+                        SetInputValueRegister({
+                            ...InputValueRegister,
+                            phone: e.target.value
+                        })
+                    }}  type="text" id="phone" name="phone"
                     />
                     <label htmlFor="role">Роль: </label>
-                    <input type="text" id="role" name="role"/>
+                    <input value={InputValueRegister.role} onChange={(e)=> {
+                        SetInputValueRegister({
+                            ...InputValueRegister,
+                            role: e.target.value
+                        })
+                    }}  type="text" id="role" name="role"/>
 
-                    <button className="registration_button" type="submit">Зарегистрироваться</button>
+                    <button onClick={()=> registerToBack()} className="registration_button" type="submit">Зарегистрироваться</button>
                 </form>
             </div>
         </div>

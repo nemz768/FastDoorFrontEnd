@@ -1,4 +1,11 @@
 
+.registerBlock {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .registration {
     display: flex;
     flex-direction: column;
@@ -18,7 +25,6 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 100%;
 }
 
 input {
