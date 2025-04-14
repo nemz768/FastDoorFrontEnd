@@ -4,6 +4,9 @@ import '../styles/login.css'
 
 const LoginPage = () => {
 
+
+
+    // НЕ СТОИТ ХРАНИТЬ ПАРОЛИ В USESTATE -> USEREF
     const [InputValue, setInputValue] = useState({
         inputUser: '',
         inputPass: '',
@@ -12,9 +15,16 @@ const LoginPage = () => {
     function sendToBack() {
             fetch("http://localhost:8080/api/login", {
                 method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    username: InputValue.inputUser,
+                    password: InputValue.inputPass
+                })
             })
                 .then((res) => res.text())
-                .then((data) => setInputValue(data))
+                .then((data) =>   console.log('Server response: ', data))
                 .catch((err) => console.error(err));
     }
 
