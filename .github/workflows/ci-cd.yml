@@ -39,7 +39,7 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           port: ${{ secrets.PORT }}
           script: |
-            cd /var/www/frontend/
+             cd /var/www/frontend/
              if [ -f index.html ]; then
              rm index.html
              echo "Удалён index.html"
