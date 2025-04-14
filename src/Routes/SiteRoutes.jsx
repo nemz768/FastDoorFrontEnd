@@ -5,6 +5,8 @@ import PageNotFound from "../modules/moduleError/PageNotFound.jsx";
 import {Seller} from "../modules/Seller.jsx";
 import {PageNotEnoughRules} from "../modules/moduleError/PageNotEnoughRules.jsx";
 import {Check} from "../modules/Check.jsx";
+import {RegisterPage} from '../modules/RegisterPage.jsx';
+
 
 
 const SiteRoutes = () => {
@@ -17,6 +19,7 @@ const SiteRoutes = () => {
                     <Route path="*"  element={<PageNotFound/>}></Route>
                     <Route path="/test"  element={<PageNotEnoughRules/>}></Route>
                     <Route path="/check" element={<Check/>}></Route>
+                    <Route path="/register" element={<RegisterPage/>}></Route>
                 </Routes>
         </>
     );

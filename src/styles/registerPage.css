@@ -1,0 +1,73 @@
+
+.registration {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    row-gap: 5px;
+    width: 100%;
+    max-width: 400px; /* Ограничиваем ширину */
+    padding: 20px;
+    background: #e0e5ec; /* Фон формы тот же цвет, что и фон страницы */
+    border-radius: 20px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+
+.form-register {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+}
+
+input {
+    width: 300px;
+    height: 25px;
+    padding: 0;
+    margin-bottom: 10px;
+}
+
+
+.registration_button {
+    background-color: #e0e5ec; /* Тот же цвет фона */
+    color: black;
+    border-radius: 20px;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1), -5px -5px 10px white;
+    margin-top: 30px;
+
+}
+
+.registration_button:hover {
+    background-color: #cbd2d9; /* Чуть более темный оттенок */
+}
+
+.registration_button:active {
+    background-color: #b3bcc8; /* Еще более темный оттенок */
+}
+
+
+@media(max-width: 576px) {
+    .registration {
+        width: 100%;
+        max-width: 576px;
+        height: 100vh;
+        border-radius: 0;
+        justify-content: flex-start;
+    }
+    input {
+        width: 100%;
+        max-width: 576px;
+        height: 26px;
+        padding: 5px 10px;
+    }
+    .registration_button{
+        width: 100%;
+        max-width: 250px;
+        height: 70px;
+    }
+}

@@ -9,7 +9,8 @@ const LoginPage = () => {
         inputPass: '',
     });
 
-    function sendToBack() {
+    function sendToBack()
+    {
         console.log(InputValue)
             fetch("/api/login", {
                 method: 'POST',
@@ -21,8 +22,7 @@ const LoginPage = () => {
                     password: InputValue.inputPass
                 })
             })
-                .then((res) => console.log(res.json()))
-                .then((data) => console.log('Server response: ', data))
+                .then((data) => console.log('Server response: ', data.message))
                 .catch((err) => console.error(err));
     }
     return (
