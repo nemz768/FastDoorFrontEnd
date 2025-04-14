@@ -39,31 +39,29 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           port: ${{ secrets.PORT }}
           script: |
-            echo "🚀 Начало деплоя"
+            cd /var/www/frontend/
+
+          # Проверка и удаление index.html
+             if [ -f index.html ]; then
+             rm index.html
+             echo "Удалён index.html"
+             else
+             echo "Файл index.html не найден"
+             fi
             
-            cd ~/mrDverkinFront
-            
-            echo "🔁 Сброс локальных изменений"
-            git reset --hard HEAD
-            git clean -fd
-            
-            echo "📥 Получаем свежий код"
-            git pull origin master
-            if [ $? -ne 0 ]; then echo "❌ git pull не удался"; exit 1; fi
-            
-            echo "🧹 Удаляем старые фронтенд-файлы"
-            sudo rm -f /var/www/frontend/index.html
-            sudo rm -rf /var/www/frontend/assets
-            
-            echo "📦 Копируем новые файлы"
-            sudo cp -r ~/mrDverkinFront/dist/* /var/www/frontend/
-            
-            echo "🔍 Проверка конфигурации nginx"
-            sudo nginx -t
-            if [ $? -ne 0 ]; then echo "❌ Ошибка в конфиге nginx"; exit 1; fi
-            
-            echo "🔄 Перезапуск nginx"
-            sudo systemctl restart nginx
-            if [ $? -ne 0 ]; then echo "❌ Не удалось перезапустить nginx"; exit 1; fi
-            
-            echo "✅ Деплой завершён успешно!"
+  # Проверка и удаление папки assets
+             if [ -d assets ]; then
+             rm -r assets
+             echo "Удалена папка assets"
+             else
+             echo "Папка assets не найдена"
+             fi
+  
+             cd ~/mrDverkinFront/
+             git pull origin master
+             yarn build
+  
+             sudo cp -r dist/* /var/www/frontend/
+             sudo nginx -t
+             sudo systemctl restart nginx
+             echo "Finish!!!"
