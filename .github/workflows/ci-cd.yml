@@ -39,4 +39,12 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           port: ${{ secrets.PORT }}
           script: |
-            echo "Текст, который нужно записать в файл" > testFile.txt
+            echo "Start"
+            cd /var/www/frontend
+            rm index.html
+            rm -r assets
+            yarn build
+            sudo cp -r ~/mrDverkinFront/dist/* /var/www/frontend/
+            sudo nginx -t
+            sudo systemctl restart nginx
+            echo "Finish!!!"
