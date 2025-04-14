@@ -13,6 +13,7 @@ const LoginPage = () => {
     });
 
     function sendToBack() {
+        console.log("Отправляем данные:", InputValue);
             fetch("http://127.0.0.1:8080/api/login", {
                 method: 'POST',
                 headers: {
@@ -54,10 +55,9 @@ const LoginPage = () => {
 
                     <p><input className="checkbox" type="checkbox" name="rememberMe"/> Запомнить меня</p>
 
-                    <button onClick={(e) => {
-                        e.preventDefault();
+                    <button onClick={() => {
                         sendToBack()
-                    }} className="button-login shadowsSection" >Войти</button>
+                    }} className="button-login shadowsSection" type='submit' >Войти</button>
 
                 </form>
             </div>
