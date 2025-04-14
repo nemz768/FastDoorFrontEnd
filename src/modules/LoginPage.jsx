@@ -22,8 +22,8 @@ const LoginPage = () => {
                     password: InputValue.inputPass
                 })
             })
-                .then((res)=> console.log(res.json()))
-                .then((data) => console.log('Server response: ', data.text()))
+                .then((res)=> res.json())
+                .then((data) => console.log('Server response: ', data.message))
                 .catch((err) => console.error(err));
     }
     return (
