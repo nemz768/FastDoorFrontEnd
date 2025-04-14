@@ -43,6 +43,7 @@ jobs:
             cd /var/www/frontend
             rm index.html
             rm -r assets
+            cd
             yarn build
             sudo cp -r ~/mrDverkinFront/dist/* /var/www/frontend/
             sudo nginx -t
