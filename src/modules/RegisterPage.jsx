@@ -24,8 +24,8 @@ export const RegisterPage = () => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                inputUser: InputValueRegister.inputUser,
-                inputPass: InputValueRegister.inputPass,
+                username: InputValueRegister.inputUser,
+                password: InputValueRegister.inputPass,
                 confirm: InputValueRegister.confirm,
                 fullname: InputValueRegister.fullname,
                 email: InputValueRegister.email,
@@ -100,7 +100,7 @@ export const RegisterPage = () => {
                         })
                     }}  type="text" id="role" name="role"/>
                     <Link to='/check'>
-                        <button onClick={()=> registerToBack()} className="registration_button" type="submit">Зарегистрироваться</button>
+                        <button onClick={()=> {registerToBack()}} className="registration_button" type="submit">Зарегистрироваться</button>
                     </Link>
                 </form>
             </div>
