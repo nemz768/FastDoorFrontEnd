@@ -31,9 +31,12 @@ jobs:
       - name: Check contents of dist
         run: ls -la dist
 
-      - name: Create dist folder on server and deploy via SCP
-        run: |
-          sshpass -p ${{ secrets.SSH_PASSWORD }} ssh -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} "mkdir -p /var/www/html/dist"
-          scp -r dist/* ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/var/www/html/dist/
-        env:
-          SSHPASS: ${{ secrets.SSH_PASSWORD }}
+      - name: Deploy to Server
+        uses: appleboy/ssh-action@v0.1.2
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: ${{ secrets.PORT }}
+          script: |
+            echo "Текст, который нужно записать в файл" > testFile.txt
