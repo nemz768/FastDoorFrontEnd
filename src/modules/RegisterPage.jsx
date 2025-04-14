@@ -33,7 +33,7 @@ export const RegisterPage = () => {
             })
         })
             .then((res)=> res.json())
-            .then((data) => console.log('Server response: ', data.message))
+            .then((data) => console.log('Server response: ', data))
             .catch((err) => console.error(err));
     }
 
