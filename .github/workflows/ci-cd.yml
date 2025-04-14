@@ -28,12 +28,12 @@ jobs:
       - name: Build the app
         run: npm run build
 
-      - name: Deploy via SCP
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          password: ${{ secrets.SSH_PASSWORD }}
-          port: ${{ secrets.PORT }}
-          source: "mrDverkinFront/dist/*"
-          target: "/var/www/html/"
+      - name: Check contents of dist
+        run: ls -la dist
+
+      - name: Create dist folder on server and deploy via SCP
+        run: |
+          sshpass -p ${{ secrets.SSH_PASSWORD }} ssh -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} "mkdir -p /var/www/html/dist"
+          scp -r dist/* ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/var/www/html/dist/
+        env:
+          SSHPASS: ${{ secrets.SSH_PASSWORD }}
