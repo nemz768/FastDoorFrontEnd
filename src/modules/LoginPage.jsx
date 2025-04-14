@@ -22,7 +22,8 @@ const LoginPage = () => {
                     password: InputValue.inputPass
                 })
             })
-                .then((data) => console.log('Server response: ', data.message))
+                .then((res)=> console.log(res.json()))
+                .then((data) => console.log('Server response: ', data.text()))
                 .catch((err) => console.error(err));
     }
     return (
@@ -53,7 +54,6 @@ const LoginPage = () => {
 
                  <Link to="/check"><button onClick={() => {
                      sendToBack()
-
                  }} className="button-login shadowsSection" type='submit' >Войти</button>
                  </Link>
                 </form>
