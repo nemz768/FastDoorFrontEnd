@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Main = () => {
+export const Main = () => {
     return (
         <div>
           КИрЮшА МОЛОДЕЦ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -8,4 +8,3 @@ const Main = () => {
     );
 };
 
-export default Main;
