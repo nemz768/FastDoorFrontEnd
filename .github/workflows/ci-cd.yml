@@ -41,10 +41,14 @@ jobs:
           script: |
             echo "Start"
             cd /var/www/frontend/
+            echo "trying remove"
             rm index.html
             rm -r assets
+            echo "Переход на главную"
             cd
+            echo "Переход на mrDverkinFront"
             cd mrDverkinFront/
+            echo "pull обн"
             git pull origin master
             yarn build
             cd
