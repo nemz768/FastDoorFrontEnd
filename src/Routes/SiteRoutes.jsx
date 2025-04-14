@@ -19,7 +19,7 @@ const SiteRoutes = () => {
                     <Route path="*"  element={<PageNotFound/>}></Route>
                     <Route path="/test"  element={<PageNotEnoughRules/>}></Route>
                     <Route path="/check" element={<Check/>}></Route>
-                    <Route path="/register" element={<RegisterPage/>}></Route>
+                    <Route path="/reg" element={<RegisterPage/>}></Route>
                 </Routes>
         </>
     );
