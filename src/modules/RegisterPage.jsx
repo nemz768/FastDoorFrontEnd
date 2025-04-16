@@ -18,9 +18,8 @@ export const RegisterPage = () => {
 
 
 
-    const registerToBack = async (e) =>
+    const registerToBack = async () =>
     {
-        e.preventDefault();
         console.log(refs.inputUser.current.value)
 
         const username = refs.inputUser.current.value;
