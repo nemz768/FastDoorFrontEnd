@@ -1,10 +1,10 @@
 import React, {useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
-import {Header} from "./Header.jsx";
-import {Footer} from "./Footer.jsx";
-import '../styles/seller.css'
+import {Header} from "../Header.jsx";
+import {Footer} from "../Footer.jsx";
+import '../../styles/stylePages/sellerPage.css'
 
-export const Seller = () => {
+export const SellerPage = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -31,7 +31,7 @@ export const Seller = () => {
             <div>
                 <section className="orders">
                     <h2>Действия</h2>
-                    <button><a>Создать новый заказ</a></button>
+                    <button onClick={()=> navigate('./create')}>Создать новый заказ</button>
                 </section>
             </div>
             <Footer/>

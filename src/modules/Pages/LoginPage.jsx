@@ -1,5 +1,5 @@
 import React, {useRef} from 'react';
-import '../styles/login.css'
+import '../../styles/stylePages/loginPage.css'
 import {Link} from "react-router-dom";
 
 

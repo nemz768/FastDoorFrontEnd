@@ -1,6 +1,6 @@
 import React, {useRef} from 'react';
 import {useNavigate} from 'react-router-dom';
-import '../styles/registerPage.css'
+import '../../styles/stylePages/registerPage.css'
 
 export const RegisterPage = () => {
 
