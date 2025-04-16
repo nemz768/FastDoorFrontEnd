@@ -18,7 +18,7 @@ export const Header = () => {
         <header className="header">
             <img src={logo} alt="dverka"/>
             <p>{message}</p>
-            <Link to='login'>Войти</Link>
+            zxcxzcxz
         </header>
     );
 };
