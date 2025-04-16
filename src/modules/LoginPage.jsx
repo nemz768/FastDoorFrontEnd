@@ -7,8 +7,7 @@ const LoginPage = () => {
     const UsernameRef = useRef(null);
     const PasswordRef = useRef(null);
 
-    const sendToBack = async (e) => {
-        e.preventDefault();
+    const sendToBack = async () => {
         console.log(UsernameRef.current.value)
         console.log(PasswordRef.current.value)
         const login = UsernameRef.current.value;
@@ -38,12 +37,11 @@ const LoginPage = () => {
                     <input ref={UsernameRef} className="shadows-input"  placeholder="Логин" type="text" name="username" id="username"/>
                     <input ref={PasswordRef} className="shadows-input" placeholder="Пароль" type="password" name="password" id="password"/>
 
-                    <p><a>Нажми</a> для регистрации</p>
+                    <p><Link to="/reg">Нажми</Link> для регистрации</p>
 
                     <p><input className="checkbox" type="checkbox" name="rememberMe"/> Запомнить меня</p>
 
                 <button className="button-login shadowsSection" type='submit' >Войти</button>
-
                 </form>
             </div>
         </div>

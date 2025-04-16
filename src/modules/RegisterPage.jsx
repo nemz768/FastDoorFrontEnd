@@ -1,40 +1,43 @@
-import React, {useState} from 'react';
+import React, {useRef} from 'react';
+import {useNavigate} from 'react-router-dom';
 import '../styles/registerPage.css'
-import {Link} from "react-router-dom";
+
 export const RegisterPage = () => {
 
 
-
-    const [InputValueRegister, SetInputValueRegister] = useState({
-        inputUser: '',
-        inputPass: '',
-        confirm: '',
-        fullname: '',
-        email: '',
-        phone: '',
-        role: ''
-    });
+    const refs = {
+        inputUser: useRef(null),
+        inputPass: useRef(null),
+        confirm: useRef(null),
+        fullname: useRef(null),
+        email: useRef(null),
+        phone: useRef(null),
+        role: useRef(null)
+    }
+    const navigate = useNavigate();
 
     function registerToBack()
     {
-        console.log(InputValueRegister)
+        console.log(refs.inputUser.current.value)
+
         fetch("/register", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                username: InputValueRegister.inputUser,
-                password: InputValueRegister.inputPass,
-                confirm: InputValueRegister.confirm,
-                fullname: InputValueRegister.fullname,
-                email: InputValueRegister.email,
-                phone: InputValueRegister.phone,
-                role: InputValueRegister.role
+                username: refs.inputUser.current.value,
+                password: refs.inputPass.current.value,
+                confirm: refs.confirm.current.value,
+                fullname: refs.fullname.current.value,
+                email: refs.email.current.value,
+                phone: refs.phone.current.value,
+                role: refs.role.current.value
             })
         })
             .then((res)=> res.json())
             .then((data) => console.log('Server response: ', data))
+            .then(()=> navigate("/login"))
             .catch((err) => console.error(err));
     }
 
@@ -43,65 +46,29 @@ export const RegisterPage = () => {
         <div className="registerBlock">
             <div className="registration">
                 <h1>Регистрация</h1>
-                <form className="form-register" method="POST" id="registerForm">
+                <form onSubmit={registerToBack} className="form-register" method="POST" id="registerForm">
                     <label htmlFor="username">Логин: </label>
-                    <input value={InputValueRegister.inputUser} onChange={(e)=> {
-                        SetInputValueRegister({
-                            ...InputValueRegister,
-                            inputUser: e.target.value
-                        })
-                    }} type="text" id="username" name="username"/>
+                    <input ref={refs.inputUser.current.value} type="text" id="username" name="username"/>
 
                     <label htmlFor="password">Пароль: </label>
-                    <input value={InputValueRegister.inputPass} onChange={(e)=> {
-                        SetInputValueRegister({
-                            ...InputValueRegister,
-                            inputPass: e.target.value
-                        })
-                    }} type="password" id="password" name="password"/>
+                    <input ref={refs.inputPass.current.value} type="password" id="password" name="password"/>
 
                     <label htmlFor="confirm">Подтвердить Пароль: </label>
-                    <input value={InputValueRegister.confirm} onChange={(e)=> {
-                        SetInputValueRegister({
-                            ...InputValueRegister,
-                            confirm: e.target.value
-                        })
-                    }} type="password" id="confirm" name="confirm"/>
+                    <input ref={refs.confirm.current.value} type="password" id="confirm" name="confirm"/>
 
                     <label htmlFor="fullname">ФИО: </label>
-                    <input value={InputValueRegister.fullname} onChange={(e)=> {
-                        SetInputValueRegister({
-                            ...InputValueRegister,
-                            fullname: e.target.value
-                        })
-                    }}  type="text" id="fullname" name="fullname"/>
+                    <input ref={refs.fullname.current.value} type="text" id="fullname" name="fullname"/>
 
                     <label htmlFor="email">Почта: </label>
-                    <input  value={InputValueRegister.email} onChange={(e)=> {
-                        SetInputValueRegister({
-                            ...InputValueRegister,
-                            email: e.target.value
-                        })
-                    }} type="email" id="email" name="email"/>
+                    <input ref={refs.email.current.value} type="email" id="email" name="email"/>
 
                     <label htmlFor="phone">Номер телефона: </label>
-                    <input  value={InputValueRegister.phone} onChange={(e)=> {
-                        SetInputValueRegister({
-                            ...InputValueRegister,
-                            phone: e.target.value
-                        })
-                    }}  type="text" id="phone" name="phone"
+                    <input ref={refs.phone.current.value}  type="text" id="phone" name="phone"
                     />
                     <label htmlFor="role">Роль: </label>
-                    <input value={InputValueRegister.role} onChange={(e)=> {
-                        SetInputValueRegister({
-                            ...InputValueRegister,
-                            role: e.target.value
-                        })
-                    }}  type="text" id="role" name="role"/>
-                    <Link to='/check'>
-                        <button onClick={()=> {registerToBack()}} className="registration_button" type="submit">Зарегистрироваться</button>
-                    </Link>
+                    <input ref={refs.role.current.value} type="text" id="role" name="role"/>
+
+                        <button className="registration_button" type="submit">Зарегистрироваться</button>
                 </form>
             </div>
         </div>
