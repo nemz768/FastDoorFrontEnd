@@ -59,19 +59,24 @@ export const SellerCreatePage = () => {
                     const day = String(date.getDate()).padStart(2, '0');
                     dateRef.current.value = `${year}-${month}-${day}`;
                 },
-                onDraw: function () {
-                    const days = document.querySelectorAll('.pika-day');
-                    days.forEach(dayElement => {
-                        const year = dayElement.getAttribute('data-pika-year');
-                        const month = String(Number(dayElement.getAttribute('data-pika-month')) + 1).padStart(2, '0');
-                        const day = String(dayElement.getAttribute('data-pika-day')).padStart(2, '0');
-                        const dateStr = `${year}-${month}-${day}`;
-                        if (availabilityMap[dateStr] !== undefined) {
-                            const availableDoors = availabilityMap[dateStr];
-                            dayElement.innerHTML += `<br><small>${availableDoors} дв.</small>`;
-                        }
-                    });
-                },
+                     onDraw: function () {
+                         const days = document.querySelectorAll('.pika-day');
+
+                         days.forEach(dayElement => {
+                             const year = dayElement.getAttribute('data-pika-year');
+                             const month = String(Number(dayElement.getAttribute('data-pika-month')) + 1).padStart(2, '0');
+                             const day = String(dayElement.getAttribute('data-pika-day')).padStart(2, '0');
+                             const dateStr = `${year}-${month}-${day}`;
+
+                             if (availabilityMap[dateStr] !== undefined) {
+                                 const availableDoors = availabilityMap[dateStr];
+                                 dayElement.setAttribute('title', `${availableDoors} дверей доступно`);
+                             } else {
+                                 dayElement.removeAttribute('title');
+                             }
+                         });
+                     }
+                     ,
                 disableDayFn: function (date) {
                     const year = date.getFullYear();
                     const month = String(date.getMonth() + 1).padStart(2, '0');
