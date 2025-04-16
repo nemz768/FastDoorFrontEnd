@@ -3,7 +3,6 @@ import '../../styles/stylePages/createSellerPage.css';
 import Pikaday from 'pikaday';
 import 'pikaday/css/pikaday.css';
 
-
 export const SellerCreatePage = () => {
     const availabilityData = /*[[${availabilityList}]]*/ [];
     const availabilityMap = {};
