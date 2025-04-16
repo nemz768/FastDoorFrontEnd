@@ -30,7 +30,7 @@ export const RegisterPage = () => {
         const phone = refs.phone.current.value;
         const role = refs.role.current.value;
 
-       await fetch("/register", {
+       await fetch("/api/register", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
