@@ -39,7 +39,7 @@ export const SellerCreatePage = () => {
 
     useEffect(() => {
         if (dateRef.current) {
-            const picker = new Pikaday({
+                 new Pikaday({
                 field: dateRef.current,
                 format: "YYYY-MM-DD",
                 firstDay: 1,
