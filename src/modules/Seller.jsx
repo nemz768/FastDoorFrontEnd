@@ -1,20 +1,29 @@
 import React, {useEffect} from 'react';
+import {useNavigate} from 'react-router-dom';
 import {Header} from "./Header.jsx";
 import {Footer} from "./Footer.jsx";
 import '../styles/seller.css'
 
 export const Seller = () => {
-
+    const navigate = useNavigate();
 
     useEffect(() => {
-        fetch("/api/orders/create", {
-            method: 'GET',
-            credentials: 'include',
-        })
-            .then((res) => res.text())
-            .then((data) => console.log(data))
-            .catch((err) => console.error(err));
-    }, [])
+        const getResult = async () => {
+            const response = await fetch("/api/home/seller", {
+                method: 'GET',
+                credentials: 'include',
+            });
+            if (!response.ok) {
+                navigate("/403");
+            }
+            const data = await response.json();
+            console.log(data.message);
+
+        }
+        getResult();
+
+    }, [navigate])
+
 
     return (
         <>
