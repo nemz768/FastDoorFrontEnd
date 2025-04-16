@@ -16,11 +16,11 @@ export const RegisterPage = () => {
     }
     const navigate = useNavigate();
 
-    function registerToBack()
+    const registerToBack = async () =>
     {
         console.log(refs.inputUser.current.value)
 
-        fetch("/register", {
+       await fetch("/register", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
