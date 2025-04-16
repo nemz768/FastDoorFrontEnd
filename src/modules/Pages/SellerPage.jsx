@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {useNavigate} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import {Header} from "../Header.jsx";
 import {Footer} from "../Footer.jsx";
 import '../../styles/stylePages/sellerPage.css'
@@ -31,7 +31,7 @@ export const SellerPage = () => {
             <div>
                 <section className="orders">
                     <h2>Действия</h2>
-                    <button onClick={()=> navigate('./create')}>Создать новый заказ</button>
+                    <Link to="/create">Создать новый заказ</Link>
                 </section>
             </div>
             <Footer/>
