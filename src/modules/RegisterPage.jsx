@@ -18,8 +18,9 @@ export const RegisterPage = () => {
 
 
 
-    const registerToBack = async () =>
+    const registerToBack = async (e) =>
     {
+        e.preventDefault();
         console.log(refs.inputUser.current.value)
 
         const username = refs.inputUser.current.value;
@@ -46,8 +47,10 @@ export const RegisterPage = () => {
             })
         })
             .then((res)=> res.json())
-            .then((data) => console.log('Server response: ', data))
-            .then(()=> navigate("/login"))
+            .then((data) => {
+                console.log('Server response: ', data)
+                navigate("/login")
+            })
             .catch((err) => console.error(err));
     }
 
