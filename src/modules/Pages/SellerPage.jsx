@@ -31,7 +31,7 @@ export const SellerPage = () => {
             <div>
                 <section className="orders">
                     <h2>Действия</h2>
-                    <Link to="/create">Создать новый заказ</Link>
+                    <Link to="./create">Создать новый заказ</Link>
                 </section>
             </div>
             <Footer/>
