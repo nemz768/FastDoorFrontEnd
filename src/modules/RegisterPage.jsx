@@ -16,9 +16,20 @@ export const RegisterPage = () => {
     }
     const navigate = useNavigate();
 
-    const registerToBack = async () =>
+
+
+    const registerToBack = async (e) =>
     {
+        e.preventDefault();
         console.log(refs.inputUser.current.value)
+
+        const username = refs.inputUser.current.value;
+        const password = refs.inputPass.current.value;
+        const conf = refs.confirm.current.value;
+        const fullname = refs.fullname.current.value;
+        const email = refs.email.current.value;
+        const phone = refs.phone.current.value;
+        const role = refs.role.current.value;
 
        await fetch("/register", {
             method: 'POST',
@@ -26,13 +37,13 @@ export const RegisterPage = () => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                username: refs.inputUser.current.value,
-                password: refs.inputPass.current.value,
-                confirm: refs.confirm.current.value,
-                fullname: refs.fullname.current.value,
-                email: refs.email.current.value,
-                phone: refs.phone.current.value,
-                role: refs.role.current.value
+                username: username,
+                password: password,
+                confirm: conf,
+                fullname: fullname,
+                email: email,
+                phone: phone,
+                role: role
             })
         })
             .then((res)=> res.json())
@@ -48,25 +59,25 @@ export const RegisterPage = () => {
                 <h1>Регистрация</h1>
                 <form onSubmit={registerToBack} className="form-register" method="POST" id="registerForm">
                     <label htmlFor="username">Логин: </label>
-                    <input ref={refs.inputUser.current.value} type="text" id="username" name="username"/>
+                    <input ref={refs.inputUser} type="text" id="username" name="username"/>
 
                     <label htmlFor="password">Пароль: </label>
-                    <input ref={refs.inputPass.current.value} type="password" id="password" name="password"/>
+                    <input ref={refs.inputPass} type="password" id="password" name="password"/>
 
                     <label htmlFor="confirm">Подтвердить Пароль: </label>
-                    <input ref={refs.confirm.current.value} type="password" id="confirm" name="confirm"/>
+                    <input ref={refs.confirm} type="password" id="confirm" name="confirm"/>
 
                     <label htmlFor="fullname">ФИО: </label>
-                    <input ref={refs.fullname.current.value} type="text" id="fullname" name="fullname"/>
+                    <input ref={refs.fullname} type="text" id="fullname" name="fullname"/>
 
                     <label htmlFor="email">Почта: </label>
-                    <input ref={refs.email.current.value} type="email" id="email" name="email"/>
+                    <input ref={refs.email} type="email" id="email" name="email"/>
 
                     <label htmlFor="phone">Номер телефона: </label>
-                    <input ref={refs.phone.current.value}  type="text" id="phone" name="phone"
+                    <input ref={refs.phone}  type="text" id="phone" name="phone"
                     />
                     <label htmlFor="role">Роль: </label>
-                    <input ref={refs.role.current.value} type="text" id="role" name="role"/>
+                    <input ref={refs.role} type="text" id="role" name="role"/>
 
                         <button className="registration_button" type="submit">Зарегистрироваться</button>
                 </form>

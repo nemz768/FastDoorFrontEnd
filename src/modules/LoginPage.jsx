@@ -41,7 +41,7 @@ const LoginPage = () => {
 
                     <p><input className="checkbox" type="checkbox" name="rememberMe"/> Запомнить меня</p>
 
-                <button className="button-login shadowsSection" type='submit' >Войти</button>
+                <button className="button-login shadowsSection" type='submit'>Войти</button>
                 </form>
             </div>
         </div>
