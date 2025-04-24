@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import {navigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import '../../styles/stylePages/createSellerPage.css';
 import Pikaday from 'pikaday';
 import 'pikaday/css/pikaday.css';
@@ -10,7 +10,7 @@ export const SellerCreatePage = () => {
     availabilityData.forEach(day => {
         availabilityMap[day.date] = day.frontDoorQuantity;
     });
-
+    const navigate = useNavigate();
     const numbers = '1234567890';
 
     const refs = {
