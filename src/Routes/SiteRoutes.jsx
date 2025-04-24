@@ -19,12 +19,12 @@ const SiteRoutes = () => {
                     <Route path="/login"  element={<LoginPage/>}></Route>
                     <Route path="/home/seller"  element={<SellerPage/>}></Route>
                     <Route path="/home/seller/create"  element={<SellerCreatePage/>}></Route>
-                    <Route path="*"  element={<PageNotFound/>}></Route>
                     <Route path="/403"  element={<PageNotEnoughRules/>}></Route>
                     <Route path="/check" element={<Check/>}></Route>
                     <Route path="/reg" element={<RegisterPage/>}></Route>
                     <Route path="/done" element={<DonePage/>}></Route>
-                </Routes>
+                    <Route path="*"  element={<PageNotFound/>}></Route>
+                 </Routes>
         </>
     );
 };
