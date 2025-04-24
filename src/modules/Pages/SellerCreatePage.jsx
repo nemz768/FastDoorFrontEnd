@@ -53,12 +53,12 @@ export const SellerCreatePage = () => {
         })
             .then((res)=> {
                     res.json()
-                navigate("./done")
             })
             .then((data) => {
                 console.log('Server response: ', data)
             })
             .catch((err) => console.error(err));
+        navigate("./done")
     }
 
     useEffect(() => {
