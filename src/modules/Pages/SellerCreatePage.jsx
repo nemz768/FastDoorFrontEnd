@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import {navigate} from "react-router-dom";
 import '../../styles/stylePages/createSellerPage.css';
 import Pikaday from 'pikaday';
 import 'pikaday/css/pikaday.css';
@@ -10,14 +11,57 @@ export const SellerCreatePage = () => {
         availabilityMap[day.date] = day.frontDoorQuantity;
     });
 
-    const frontDoorRef = useRef(null);
-    const inDoorRef = useRef(null);
-    const dateRef = useRef(null);
     const numbers = '1234567890';
 
+    const refs = {
+        fullname: useRef(null),
+        address: useRef(null),
+        phone: useRef(null),
+        comments: useRef(null),
+        dateRef: useRef(null),
+        frontDoorRef: useRef(null),
+        inDoorRef: useRef(null),
+    };
+
+    const sendResultsCreate = async () =>
+    {
+
+        console.log(refs.fullname.current.value)
+
+        const fullname = refs.fullname.current.value;
+        const address = refs.address.current.value;
+        const phone = refs.phone.current.value;
+        const comments = refs.comments.current.value;
+        const dateRef = refs.dateRef.current.value;
+        const frontDoorRef = refs.frontDoorRef.current.value;
+        const inDoorRef = refs.inDoorRef.current.value;
+
+        await fetch("/api/orders/create", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                fullName: fullname,
+                address: address,
+                phone: phone,
+                messageSeller: comments,
+                dateOrder: dateRef,
+                frontDoorQuantity: frontDoorRef,
+                inDoorQuantity: inDoorRef
+            })
+        })
+            .then((res)=> res.json())
+            .then((data) => {
+                console.log('Server response: ', data)
+                navigate("/login")
+            })
+            .catch((err) => console.error(err));
+    }
+
     useEffect(() => {
-        const frontInput = frontDoorRef.current;
-        const inInput = inDoorRef.current;
+        const frontInput = refs.frontDoorRef.current;
+        const inInput = refs.inDoorRef.current;
 
         const handleInput = (el) => {
             const inputArray = el.value.split('');
@@ -27,7 +71,6 @@ export const SellerCreatePage = () => {
                 el.value = currentVal.slice(0, -1);
             }
         };
-
         frontInput.addEventListener('input', () => handleInput(frontInput));
         inInput.addEventListener('input', () => handleInput(inInput));
 
@@ -38,9 +81,9 @@ export const SellerCreatePage = () => {
     }, []);
 
     useEffect(() => {
-        if (dateRef.current) {
+        if (refs.dateRef.current) {
                  new Pikaday({
-                field: dateRef.current,
+                field: refs.dateRef.current,
                 format: "YYYY-MM-DD",
                 firstDay: 1,
                 minDate: new Date(2024, 0, 1),
@@ -57,7 +100,7 @@ export const SellerCreatePage = () => {
                     const year = date.getFullYear();
                     const month = String(date.getMonth() + 1).padStart(2, '0');
                     const day = String(date.getDate()).padStart(2, '0');
-                    dateRef.current.value = `${year}-${month}-${day}`;
+                    refs.dateRef.current.value = `${year}-${month}-${day}`;
                 },
                      onDraw: function () {
                          const days = document.querySelectorAll('.pika-day');
@@ -90,45 +133,45 @@ export const SellerCreatePage = () => {
 
     return (
         <div className="sellerCreatePage">
-            <form method="POST" className="form-container">
+            <form onSubmit={sendResultsCreate} method="POST" className="form-container">
                 <h1>Заполните данные о заказе</h1>
                 <h3 className='subtitleInput'>Укажите данные заказчика</h3>
 
                 <div className="input-group">
                     <label htmlFor="fullName">ФИО: </label>
-                    <input type="text" id="fullName" required />
+                    <input type="text" id="fullName" required ref={refs.fullname} />
                 </div>
 
                 <div className="input-group">
                     <label htmlFor="address">Адрес: </label>
-                    <input type="text" id="address" required />
+                    <input type="text" id="address" required ref={refs.address} />
                 </div>
 
                 <div className="input-group">
                     <label htmlFor="phoneDelivery">Номер телефона: </label>
-                    <input type="text" id="phoneDelivery" required />
+                    <input type="text" id="phoneDelivery" required ref={refs.phone} />
                 </div>
 
                 <div className="input-group">
                     <label htmlFor="messageSeller">Комментарий: </label>
-                    <input type="text" id="messageSeller" required />
+                    <input type="text" id="messageSeller" required ref={refs.comments} />
                 </div>
 
                 <h3 className='subtitleInput'>Укажите прочие данные</h3>
 
                 <div className="input-group">
                     <label htmlFor="dateOrdered">Дата доставки: </label>
-                    <input readOnly required type="text" id="dateOrdered" ref={dateRef} placeholder="Выбрать дату" />
+                    <input readOnly required type="text" id="dateOrdered" ref={refs.dateRef} placeholder="Выбрать дату" />
                 </div>
 
                 <div className="input-group">
                     <label htmlFor="frontDoorQuantity">Количество входных дверей</label>
-                    <input type="text" id="frontDoorQuantity" ref={frontDoorRef} required />
+                    <input type="text" id="frontDoorQuantity" ref={refs.frontDoorRef} required />
                 </div>
 
                 <div className="input-group">
                     <label htmlFor="inDoorQuantity">Количество межкомнатных дверей</label>
-                    <input type="text" id="inDoorQuantity" ref={inDoorRef} required />
+                    <input type="text" id="inDoorQuantity" ref={refs.inDoorRef} required />
                 </div>
 
                 <button id="submitButton" type="submit" className="submit-btn">Подтвердить заказ</button>
