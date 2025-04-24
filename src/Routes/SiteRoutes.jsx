@@ -7,6 +7,7 @@ import {PageNotEnoughRules} from "../modules/moduleError/PageNotEnoughRules.jsx"
 import {Check} from "../modules/Pages/Check.jsx";
 import {RegisterPage} from '../modules/Pages/RegisterPage.jsx';
 import {SellerCreatePage} from "../modules/Pages/SellerCreatePage.jsx";
+import {DonePage} from "../modules/Pages/donePage.jsx";
 
 
 
@@ -22,6 +23,7 @@ const SiteRoutes = () => {
                     <Route path="/403"  element={<PageNotEnoughRules/>}></Route>
                     <Route path="/check" element={<Check/>}></Route>
                     <Route path="/reg" element={<RegisterPage/>}></Route>
+                    <Route path="/done" element={<DonePage/>}></Route>
                 </Routes>
         </>
     );
