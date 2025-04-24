@@ -135,8 +135,8 @@ export const SellerCreatePage = () => {
 
     return (
         <div className="sellerCreatePage">
-            <form onSubmit={()=> {
-                sendResultsCreate();
+            <form onSubmit={(e)=> {
+                sendResultsCreate(e);
             }} method="POST" className="form-container">
                 <h1>Заполните данные о заказе</h1>
                 <h3 className='subtitleInput'>Укажите данные заказчика</h3>
