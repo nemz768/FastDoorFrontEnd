@@ -58,7 +58,6 @@ export const SellerCreatePage = () => {
                 console.log('Server response: ', data)
             })
             .catch((err) => console.error(err));
-        navigate("./done")
     }
 
     useEffect(() => {
@@ -176,7 +175,7 @@ export const SellerCreatePage = () => {
                     <input type="text" id="inDoorQuantity" ref={refs.inDoorRef} required />
                 </div>
 
-                <button id="submitButton" type="submit" className="submit-btn">Подтвердить заказ</button>
+                <button onClick={()=> navigate("/done")} id="submitButton" type="submit" className="submit-btn">Подтвердить заказ</button>
             </form>
         </div>
     );
