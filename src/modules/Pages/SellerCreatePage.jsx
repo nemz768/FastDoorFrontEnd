@@ -23,9 +23,9 @@ export const SellerCreatePage = () => {
         inDoorRef: useRef(null),
     };
 
-    const sendResultsCreate = async () =>
+    const sendResultsCreate = async (e) =>
     {
-
+        e.preventDefault();
         console.log(refs.fullname.current.value)
 
         const fullname = refs.fullname.current.value;
@@ -134,7 +134,11 @@ export const SellerCreatePage = () => {
 
     return (
         <div className="sellerCreatePage">
-            <form onSubmit={sendResultsCreate} method="POST" className="form-container">
+            <form onSubmit={()=> {
+                sendResultsCreate();
+                navigate("./done");
+
+            }} method="POST" className="form-container">
                 <h1>Заполните данные о заказе</h1>
                 <h3 className='subtitleInput'>Укажите данные заказчика</h3>
 
@@ -175,7 +179,7 @@ export const SellerCreatePage = () => {
                     <input type="text" id="inDoorQuantity" ref={refs.inDoorRef} required />
                 </div>
 
-                <button onClick={()=> navigate("./done")} id="submitButton" type="submit" className="submit-btn">Подтвердить заказ</button>
+                <button id="submitButton" type="submit" className="submit-btn">Подтвердить заказ</button>
             </form>
         </div>
     );
