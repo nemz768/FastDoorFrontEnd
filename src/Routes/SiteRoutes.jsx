@@ -7,7 +7,7 @@ import {PageNotEnoughRules} from "../modules/moduleError/PageNotEnoughRules.jsx"
 import {Check} from "../modules/Pages/Check.jsx";
 import {RegisterPage} from '../modules/Pages/RegisterPage.jsx';
 import {SellerCreatePage} from "../modules/Pages/SellerCreatePage.jsx";
-import {DonePage} from "../modules/Pages/donePage.jsx";
+import {DonePage} from "../modules/Pages/DonePage.jsx";
 
 
 
