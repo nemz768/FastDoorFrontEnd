@@ -58,7 +58,7 @@ export const SellerCreatePage = () => {
                 console.log('Server response: ', data)
             })
             .catch((err) => console.error(err));
-        navigate("./done")
+        navigate("/done")
     }
 
     useEffect(() => {
