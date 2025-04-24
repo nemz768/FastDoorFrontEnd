@@ -51,10 +51,12 @@ export const SellerCreatePage = () => {
                 inDoorQuantity: inDoorRef
             })
         })
-            .then((res)=> res.json())
+            .then((res)=> {
+                    res.json()
+                navigate("./done")
+            })
             .then((data) => {
                 console.log('Server response: ', data)
-                navigate("./done")
             })
             .catch((err) => console.error(err));
     }
