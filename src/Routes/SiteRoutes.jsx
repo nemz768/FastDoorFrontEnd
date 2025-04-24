@@ -22,7 +22,7 @@ const SiteRoutes = () => {
                     <Route path="/403"  element={<PageNotEnoughRules/>}></Route>
                     <Route path="/check" element={<Check/>}></Route>
                     <Route path="/reg" element={<RegisterPage/>}></Route>
-                    <Route path="/done" element={<DonePage/>}></Route>
+                    <Route path="/home/seller/create/done" element={<DonePage/>}></Route>
                     <Route path="*"  element={<PageNotFound/>}></Route>
                  </Routes>
         </>

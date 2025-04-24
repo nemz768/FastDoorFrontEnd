@@ -54,7 +54,7 @@ export const SellerCreatePage = () => {
             .then((res)=> res.json())
             .then((data) => {
                 console.log('Server response: ', data)
-                navigate("/done")
+                navigate("./done")
             })
             .catch((err) => console.error(err));
     }
