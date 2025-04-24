@@ -175,7 +175,7 @@ export const SellerCreatePage = () => {
                     <input type="text" id="inDoorQuantity" ref={refs.inDoorRef} required />
                 </div>
 
-                <button onClick={()=> navigate("/done")} id="submitButton" type="submit" className="submit-btn">Подтвердить заказ</button>
+                <button onClick={()=> navigate("./done")} id="submitButton" type="submit" className="submit-btn">Подтвердить заказ</button>
             </form>
         </div>
     );
