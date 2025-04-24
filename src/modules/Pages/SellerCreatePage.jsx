@@ -56,6 +56,7 @@ export const SellerCreatePage = () => {
             })
             .then((data) => {
                 console.log('Server response: ', data)
+                navigate("./done");
             })
             .catch((err) => console.error(err));
     }
@@ -134,10 +135,8 @@ export const SellerCreatePage = () => {
 
     return (
         <div className="sellerCreatePage">
-            <form onSubmit={()=> {
-                sendResultsCreate();
-                navigate("./done");
-
+            <form onSubmit={(e)=> {
+                sendResultsCreate(e);
             }} method="POST" className="form-container">
                 <h1>Заполните данные о заказе</h1>
                 <h3 className='subtitleInput'>Укажите данные заказчика</h3>
