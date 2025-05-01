@@ -8,34 +8,25 @@ export const Popup = () => {
 
     return (
         <>
-            <div style={{background: `${bgColor}`}} onClick={() => {
-                setShowNavbar(prev => !prev)
-                setBgColor( showNavbar ? "#4E3629" : "#E9D6C7");
-            }} className="popup_adaptive">
-                {
-                    showNavbar ? (
-                            <div className="popup_crest">
-                                <div className="popup_crest-first"></div>
-                                <div className="popup_crest-second"></div>
-                            </div>
-
-                    ) : (
-                        <>
-                            <div className="popup_line"></div>
-                            <div className="popup_line"></div>
-                            <div className="popup_line"></div>
-                        </>
-                    )
-                }
+            <div
+                style={{ background: `${bgColor}` }}
+                onClick={() => {
+                    setShowNavbar(prev => !prev);
+                    setBgColor(showNavbar ? "#4E3629" : "#E9D6C7");
+                }}
+                className={`popup_adaptive ${showNavbar ? 'active' : ''}`}
+            >
+                <div className="popup_line"></div>
+                <div className="popup_line"></div>
+                <div className="popup_line"></div>
             </div>
-            {
-                showNavbar && (
-                    <nav className="popup_navbar">
-                        <Link to='/login'>Войти</Link>
-                        <Link to='/reg'>Регистрация</Link>
-                    </nav>
-                )
-            }
+
+            {showNavbar && (
+                <nav className={`popup_navbar ${showNavbar ? 'active' : ''}`}>
+                    <Link to='/login'>Войти</Link>
+                    <Link to='/reg'>Регистрация</Link>
+                </nav>
+            )}
         </>
     );
 };

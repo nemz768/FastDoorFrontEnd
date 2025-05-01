@@ -17,3 +17,8 @@ footer a {
 footer a:hover {
     color: white;
 }
+
+
+@media (max-width: 567px) {
+
+}
