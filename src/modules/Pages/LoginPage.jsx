@@ -24,7 +24,6 @@ const LoginPage = () => {
             })
                 .then((res)=> {
                     res.json()
-                    console.log(res.json())
                 })
                 .then((data) => {
                     console.log('Server response: ', data.message)
