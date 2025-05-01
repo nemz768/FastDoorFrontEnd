@@ -13,7 +13,7 @@ const LoginPage = () => {
         console.log(PasswordRef.current.value)
         const login = UsernameRef.current.value;
         const password = PasswordRef.current.value;
-           await fetch("/api/login", {
+          const response =  await fetch("/api/login", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -25,10 +25,7 @@ const LoginPage = () => {
             })
                 .then((res)=> {
                         res.json()
-                        if (res.status === 401) {
-                            alert("Неверный логин или пароль.");
-                            window.location.reload();
-                        }
+
                 }
                 )
                 .then((data) => {
@@ -42,7 +39,11 @@ const LoginPage = () => {
                     }
                     else if (data.roles === 'salespeople') {
                         navigate('/home/seller')
-                    }else{
+                    }else if (response.status === 401) {
+                        alert("Неверный логин или пароль.");
+                        window.location.reload();
+                    }
+                    else{
                         navigate('/')
                     }
                 })
