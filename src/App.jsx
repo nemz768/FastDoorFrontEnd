@@ -1,11 +1,9 @@
 import './App.css'
 import SiteRoutes from "./Routes/SiteRoutes.jsx";
-function App() {
+export function App() {
   return (
     <>
          <SiteRoutes/>
     </>
   )
 }
-
-export default App

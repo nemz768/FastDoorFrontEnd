@@ -34,5 +34,7 @@ nav a:hover {
 /*adaptive*/
 
 @media (max-width: 576px) {
-
+    .header-nav{
+        display: none;
+    }
 }
