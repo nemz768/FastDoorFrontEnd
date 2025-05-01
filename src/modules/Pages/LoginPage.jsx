@@ -27,15 +27,24 @@ const LoginPage = () => {
                 )
                 .then((data) => {
                     console.log('Server response: ', data.roles)
-                    if (data.roles === 'ROLE_USER') {
-                        navigate('/reg')
+                    if (data.roles === 'main') {
+                        navigate('404')
+                        //'/home/mainInstaller'
+                    }
+                    else if (data.roles === 'administrator') {
+                        navigate('/404')
+                    }
+                    else if (data.roles === 'salespeople') {
+                        navigate('/home/seller')
+                    }else {
+                        navigate('/')
                     }
                 })
                 .catch((err) => console.error(err));
         UsernameRef.current.value = '';
         PasswordRef.current.value = '';
 
-
+        // /api/logout
     }
     return (
         <div className="login-page">
