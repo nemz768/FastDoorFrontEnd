@@ -39,7 +39,7 @@ const LoginPage = () => {
 
                 <h1 className="loginTitle">Вход</h1>
 
-                <form onSubmit={sendToBack} className="loginForm" method="POST" id="loginForm">
+                <form onSubmit={sendToBack} className="loginForm" id="loginForm">
                     <input ref={UsernameRef} className="shadows-input"  placeholder="Логин" type="text" name="username" id="username"/>
 
                     <input ref={PasswordRef} className="shadows-input" placeholder="Пароль" type="password" name="password" id="password"/>
