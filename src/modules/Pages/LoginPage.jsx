@@ -13,7 +13,9 @@ const LoginPage = () => {
         console.log(PasswordRef.current.value)
         const login = UsernameRef.current.value;
         const password = PasswordRef.current.value;
-            await fetch("/api/login", {
+
+        try {
+            const response = await fetch("/api/login", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -23,36 +25,33 @@ const LoginPage = () => {
                     password: password
                 })
             })
-                .then(res=> {
-                    if (res.status === 401) {
-                        alert('Ошибка ввода логина и/или пароля')
-                        return;
-                    }
-                    res.json()
-                }
-                   )
-                .then((data) => {
-                    console.log('Server response: ', data.roles)
-                    if (data.roles === 'main') {
-                        navigate('/404')
-                        //'/home/mainInstaller'
-                    }
-                    else if (data.roles === 'administrator') {
-                        navigate('/404')
-                    }
-                    else if (data.roles === 'salespeople') {
-                        navigate('/home/seller')
-                    }
-                    else {
-                        navigate('/')
-                    }
-                })
-                .catch((err) => console.error(err));
-        UsernameRef.current.value = '';
-        PasswordRef.current.value = '';
+            if (response.status === 401) {
+                alert("Error")
+                return;
+            }
 
-        // /api/logout
-    }
+            const data = await response.json();
+
+            console.log('Server response: ', data.roles)
+            if (data.roles === 'main') {
+                navigate('/404')
+                //'/home/mainInstaller'
+            } else if (data.roles === 'administrator') {
+                navigate('/404')
+            } else if (data.roles === 'salespeople') {
+                navigate('/home/seller')
+            } else {
+                navigate('/')
+            }
+
+            UsernameRef.current.value = '';
+            PasswordRef.current.value = '';
+
+           // /api/logout
+    }catch (err){
+            console.error('Ошибка при запросе:', err);
+        }
+    };
     return (
         <div className="login-page">
             <div className="login-section">
@@ -75,6 +74,5 @@ const LoginPage = () => {
             </div>
         </div>
     );
-};
-
+}
 export default LoginPage;
