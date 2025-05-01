@@ -14,8 +14,9 @@ export const RegisterPage = () => {
     }
     const navigate = useNavigate();
 
-    const registerToBack = async () =>
+    const registerToBack = async (e) =>
     {
+        e.preventDefault();
         console.log(refs.inputUser.current.value)
 
         const username = refs.inputUser.current.value;
@@ -54,7 +55,7 @@ export const RegisterPage = () => {
         <div className="registerBlock">
             <div className="registration">
                 <h1>Регистрация</h1>
-                <form onSubmit={registerToBack} className="form-register" method="POST" id="registerForm">
+                <form onSubmit={registerToBack} className="form-register"  id="registerForm">
                     <label htmlFor="username">Логин: </label>
                     <input className="input_RegisterPage shadows-input" ref={refs.inputUser} type="text" id="username" name="username"/>
 

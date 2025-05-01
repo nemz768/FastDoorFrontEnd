@@ -27,7 +27,6 @@ export const SellerCreatePage = () => {
     {
         e.preventDefault();
         console.log(refs.fullname.current.value)
-
         const fullname = refs.fullname.current.value;
         const address = refs.address.current.value;
         const phone = refs.phone.current.value;
@@ -136,7 +135,7 @@ export const SellerCreatePage = () => {
         <div className="sellerCreatePage">
             <form onSubmit={(e)=> {
                 sendResultsCreate(e);
-            }} method="POST" className="form-container">
+            }} className="form-container">
                 <h1>Заполните данные о заказе</h1>
                 <h3 className='subtitleInput'>Укажите данные заказчика</h3>
 
