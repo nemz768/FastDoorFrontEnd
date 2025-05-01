@@ -13,7 +13,7 @@ const LoginPage = () => {
         console.log(PasswordRef.current.value)
         const login = UsernameRef.current.value;
         const password = PasswordRef.current.value;
-          await fetch("/api/login", {
+            await fetch("/api/login", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -23,15 +23,12 @@ const LoginPage = () => {
                     password: password
                 })
             })
-                .then((res)=> {
-                        res.json()
-
-                }
+                .then(res=> res.json()
                 )
                 .then((data) => {
                     console.log('Server response: ', data.roles)
                     if (data.roles === 'main') {
-                        navigate('404')
+                        navigate('/404')
                         //'/home/mainInstaller'
                     }
                     else if (data.roles === 'administrator') {
@@ -39,8 +36,7 @@ const LoginPage = () => {
                     }
                     else if (data.roles === 'salespeople') {
                         navigate('/home/seller')
-                    }
-                    else{
+                    }else {
                         navigate('/')
                     }
                 })
