@@ -7,8 +7,7 @@ const LoginPage = () => {
     const PasswordRef = useRef(null);
     // const navigate = useNavigate();
 
-    const sendToBack = async (e) => {
-        e.preventDefault();
+    const sendToBack = async () => {
         console.log(UsernameRef.current.value)
         console.log(PasswordRef.current.value)
         const login = UsernameRef.current.value;
