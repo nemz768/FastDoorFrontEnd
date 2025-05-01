@@ -36,9 +36,20 @@
 }
 .checkbox_div {
     display: flex;
-    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+    white-space: nowrap;
 }
 
+.checkbox {
+    width: 17px;
+    height: 17px;
+}
+.p_login{
+    margin-top: 0;
+    line-height: 1;
+    font-size: 20px;
+}
 
 .button-login {
     background-color: #e0e5ec; /* Тот же цвет фона */
@@ -68,21 +79,19 @@ a:hover {
     text-decoration: underline;
 }
 
-@media (min-width: 1201px) {
-
-}
-
-
 @media (max-width: 576px) {
     .login-section {
         width: 100%;
         max-width: 576px;
+        height: 100%;
     }
+
     h1 {
         font-size: 38px;
     }
+
     .shadows-input {
-        font-size: 26px;
+        font-size: 16px;
         height: 40px;
     }
     .p_login{
@@ -94,3 +103,5 @@ a:hover {
         font-size: 24px;
     }
 }
+
+
