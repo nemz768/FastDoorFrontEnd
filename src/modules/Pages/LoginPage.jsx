@@ -23,16 +23,19 @@ const LoginPage = () => {
                     password: password
                 })
             })
-                .then((res)=> {
-                    res.json()
-                })
+                .then(res=> res.json()
+                )
                 .then((data) => {
-                    console.log('Server response: ', data.message)
+                    console.log('Server response: ', data.roles)
+                    if (data.roles === 'ROLE_USER') {
+                        navigate('/reg')
+                    }
                 })
                 .catch((err) => console.error(err));
         UsernameRef.current.value = '';
         PasswordRef.current.value = '';
-        navigate('/')
+
+
     }
     return (
         <div className="login-page">
