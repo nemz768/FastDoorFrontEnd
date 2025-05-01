@@ -23,7 +23,8 @@ const LoginPage = () => {
                     password: password
                 })
             })
-                .then(res=> res.json())
+                .then(res=>
+                    res.json())
                 .then((data) => {
                     console.log('Server response: ', data.roles)
                     if (data.roles === 'main') {
@@ -35,15 +36,16 @@ const LoginPage = () => {
                     }
                     else if (data.roles === 'salespeople') {
                         navigate('/home/seller')
-                    }else if(response.status === 401) {
-                        alert("Ошибка ввода логина и пароля")
-                        window.location.reload();
                     }
                     else {
                         navigate('/')
                     }
                 })
                 .catch((err) => console.error(err));
+          if (response.status === 401) {
+              alert("Ошибка ввода логина и/или пароля")
+              window.location.reload();
+          }
         UsernameRef.current.value = '';
         PasswordRef.current.value = '';
 
