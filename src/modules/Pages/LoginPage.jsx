@@ -13,7 +13,7 @@ const LoginPage = () => {
         console.log(PasswordRef.current.value)
         const login = UsernameRef.current.value;
         const password = PasswordRef.current.value;
-          const response =  await fetch("/api/login", {
+            await fetch("/api/login", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -23,8 +23,14 @@ const LoginPage = () => {
                     password: password
                 })
             })
-                .then(res=>
-                    res.json())
+                .then(res=> {
+                    if (res.status === 401) {
+                        alert('Ошибка ввода логина и/или пароля')
+                        window.location.reload();
+                    }
+                    res.json()
+                }
+                   )
                 .then((data) => {
                     console.log('Server response: ', data.roles)
                     if (data.roles === 'main') {
@@ -42,10 +48,6 @@ const LoginPage = () => {
                     }
                 })
                 .catch((err) => console.error(err));
-          if (response.status === 401) {
-              alert("Ошибка ввода логина и/или пароля")
-              window.location.reload();
-          }
         UsernameRef.current.value = '';
         PasswordRef.current.value = '';
 
