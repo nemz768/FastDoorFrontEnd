@@ -27,12 +27,11 @@ const LoginPage = () => {
                 })
                 .then((data) => {
                     console.log('Server response: ', data.message)
-                    navigate('/')
                 })
                 .catch((err) => console.error(err));
         UsernameRef.current.value = '';
         PasswordRef.current.value = '';
-
+        navigate('/')
     }
     return (
         <div className="login-page">

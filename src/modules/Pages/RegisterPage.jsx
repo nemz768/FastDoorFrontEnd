@@ -3,8 +3,6 @@ import {useNavigate} from 'react-router-dom';
 import '../../styles/stylePages/registerPage.css'
 
 export const RegisterPage = () => {
-
-
     const refs = {
         inputUser: useRef(null),
         inputPass: useRef(null),
@@ -15,8 +13,6 @@ export const RegisterPage = () => {
         role: useRef(null)
     }
     const navigate = useNavigate();
-
-
 
     const registerToBack = async () =>
     {
