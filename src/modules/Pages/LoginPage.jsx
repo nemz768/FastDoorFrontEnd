@@ -32,16 +32,21 @@ const LoginPage = () => {
     return (
         <div className="login-page">
             <div className="login-section">
+
                 <h1 className="loginTitle">Вход</h1>
+
                 <form onSubmit={sendToBack} className="loginForm" method="POST" id="loginForm">
                     <input ref={UsernameRef} className="shadows-input"  placeholder="Логин" type="text" name="username" id="username"/>
+
                     <input ref={PasswordRef} className="shadows-input" placeholder="Пароль" type="password" name="password" id="password"/>
 
-                    <p><Link to="/reg">Нажми</Link> для регистрации</p>
+                    <p><Link style={{color: "black"}} to="/reg">Нажми</Link> для регистрации</p>
+                    <div className='checkbox_div'>
+                        <input className="checkbox" type="checkbox" name="rememberMe"/>
+                        <p> Запомнить меня</p>
+                    </div>
+                    <button className="button-login shadowsSection" type='submit'>Войти</button>
 
-                    <p><input className="checkbox" type="checkbox" name="rememberMe"/> Запомнить меня</p>
-
-                <button className="button-login shadowsSection" type='submit'>Войти</button>
                 </form>
             </div>
         </div>

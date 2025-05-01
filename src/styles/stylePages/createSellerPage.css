@@ -42,7 +42,7 @@ h3 {
 }
 
 
-input {
+.input_SellerPage {
     width: 520px;
     height: 34px;
     border-radius: 100px;
@@ -50,7 +50,6 @@ input {
     padding-left: 10px;
     font-size: 16px;
     font-family: Inter, sans-serif;
-    color: #4E3629;
 }
 
 

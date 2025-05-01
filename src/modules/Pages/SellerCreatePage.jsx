@@ -143,39 +143,39 @@ export const SellerCreatePage = () => {
 
                 <div className="input-group">
                     <label htmlFor="fullName">ФИО: </label>
-                    <input type="text" id="fullName" required ref={refs.fullname} />
+                    <input type="text" className="input_SellerPage" id="fullName" required ref={refs.fullname} />
                 </div>
 
                 <div className="input-group">
                     <label htmlFor="address">Адрес: </label>
-                    <input type="text" id="address" required ref={refs.address} />
+                    <input type="text" className="input_SellerPage" id="address" required ref={refs.address} />
                 </div>
 
                 <div className="input-group">
                     <label htmlFor="phoneDelivery">Номер телефона: </label>
-                    <input type="text" id="phoneDelivery" required ref={refs.phone} />
+                    <input type="text" className="input_SellerPage" id="phoneDelivery" required ref={refs.phone} />
                 </div>
 
                 <div className="input-group">
                     <label htmlFor="messageSeller">Комментарий: </label>
-                    <input type="text" id="messageSeller" required ref={refs.comments} />
+                    <input type="text" className="input_SellerPage" id="messageSeller" required ref={refs.comments} />
                 </div>
 
                 <h3 className='subtitleInput'>Укажите прочие данные</h3>
 
                 <div className="input-group">
                     <label htmlFor="dateOrdered">Дата доставки: </label>
-                    <input readOnly required type="text" id="dateOrdered" ref={refs.dateRef} placeholder="Выбрать дату" />
+                    <input readOnly required className="input_SellerPage" type="text" id="dateOrdered" ref={refs.dateRef} placeholder="Выбрать дату" />
                 </div>
 
                 <div className="input-group">
                     <label htmlFor="frontDoorQuantity">Количество входных дверей</label>
-                    <input type="text" id="frontDoorQuantity" ref={refs.frontDoorRef} required />
+                    <input type="text" className="input_SellerPage" id="frontDoorQuantity" ref={refs.frontDoorRef} required />
                 </div>
 
                 <div className="input-group">
                     <label htmlFor="inDoorQuantity">Количество межкомнатных дверей</label>
-                    <input type="text" id="inDoorQuantity" ref={refs.inDoorRef} required />
+                    <input type="text" className="input_SellerPage" id="inDoorQuantity" ref={refs.inDoorRef} required />
                 </div>
 
                 <button id="submitButton" type="submit" className="submit-btn">Подтвердить заказ</button>

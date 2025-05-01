@@ -61,25 +61,25 @@ export const RegisterPage = () => {
                 <h1>Регистрация</h1>
                 <form onSubmit={registerToBack} className="form-register" method="POST" id="registerForm">
                     <label htmlFor="username">Логин: </label>
-                    <input ref={refs.inputUser} type="text" id="username" name="username"/>
+                    <input className="input_RegisterPage shadows-input" ref={refs.inputUser} type="text" id="username" name="username"/>
 
                     <label htmlFor="password">Пароль: </label>
-                    <input ref={refs.inputPass} type="password" id="password" name="password"/>
+                    <input className="input_RegisterPage shadows-input" ref={refs.inputPass} type="password" id="password" name="password"/>
 
                     <label htmlFor="confirm">Подтвердить Пароль: </label>
-                    <input ref={refs.confirm} type="password" id="confirm" name="confirm"/>
+                    <input className="input_RegisterPage shadows-input" ref={refs.confirm} type="password" id="confirm" name="confirm"/>
 
                     <label htmlFor="fullname">ФИО: </label>
-                    <input ref={refs.fullname} type="text" id="fullname" name="fullname"/>
+                    <input className="input_RegisterPage shadows-input" ref={refs.fullname} type="text" id="fullname" name="fullname"/>
 
                     <label htmlFor="email">Почта: </label>
-                    <input ref={refs.email} type="email" id="email" name="email"/>
+                    <input className="input_RegisterPage shadows-input" ref={refs.email} type="email" id="email" name="email"/>
 
                     <label htmlFor="phone">Номер телефона: </label>
-                    <input ref={refs.phone}  type="text" id="phone" name="phone"
+                    <input className="input_RegisterPage shadows-input" ref={refs.phone}  type="text" id="phone" name="phone"
                     />
                     <label htmlFor="role">Роль: </label>
-                    <input ref={refs.role} type="text" id="role" name="role"/>
+                    <input className="input_RegisterPage shadows-input" ref={refs.role} type="text" id="role" name="role"/>
 
                         <button className="registration_button" type="submit">Зарегистрироваться</button>
                 </form>

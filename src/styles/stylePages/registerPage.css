@@ -27,11 +27,15 @@
     justify-content: center;
 }
 
-input {
+.input_RegisterPage {
     width: 300px;
-    height: 25px;
-    padding: 0;
-    margin-bottom: 10px;
+    height: 32px;
+    border-radius: 100px;
+    padding-left: 10px;
+    font-size: 16px;
+    font-family: Inter, sans-serif;
+    border: 1px solid #00000050;
+
 }
 
 

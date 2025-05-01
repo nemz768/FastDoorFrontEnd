@@ -1,15 +1,18 @@
-header {
+.header {
     background-color: #4E3629;
     color: #E9D6C7;
     padding: 20px 0;
     text-align: center;
-    display: flex;
     width: 100%;
     flex-direction: column;
 }
-header img {
+.header img {
     width: 150px;
     margin-bottom: 10px;
+}
+.header-nav {
+    display: flex;
+    flex-direction: column;
 }
 nav ul {
     list-style-type: none;
@@ -25,4 +28,11 @@ nav a {
 }
 nav a:hover {
     color: #C0A28E;
+}
+
+
+/*adaptive*/
+
+@media (max-width: 576px) {
+
 }

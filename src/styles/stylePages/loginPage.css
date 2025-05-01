@@ -34,22 +34,11 @@
     row-gap: 20px;
     width: 100%;
 }
-
-.shadows-input {
-    background: #e0e5ec; /* Тот же цвет фона */
-    border-radius: 20px;
-    box-shadow: inset 5px 5px 10px rgba(0, 0, 0, 0.1), inset -5px -5px 10px white;
-    border: none;
-    height: 35px;
-    width: 100%;
-    padding-left: 10px;
-    font-size: 16px;
+.checkbox_div {
+    display: flex;
+    flex-direction: column;
 }
 
-.shadows-input:focus {
-    outline: none;
-    box-shadow: inset 5px 5px 10px rgba(0, 0, 0, 0.15), inset -5px -5px 10px white;
-}
 
 .button-login {
     background-color: #e0e5ec; /* Тот же цвет фона */
@@ -72,7 +61,7 @@
 
 a {
     text-decoration: none;
-    color: lightgrey; /* Соответствует фону */
+    color: lightgrey;
 }
 
 a:hover {
