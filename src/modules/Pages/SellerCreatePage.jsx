@@ -81,7 +81,6 @@ export const SellerCreatePage = () => {
             inInput.removeEventListener('input', () => handleInput(inInput));
         };
     }, []);
-
     useEffect(() => {
         if (refs.dateRef.current) {
                  new Pikaday({
