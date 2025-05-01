@@ -1,11 +1,11 @@
 import React, {useRef} from 'react';
 import '../../styles/stylePages/loginPage.css'
-import {Link, useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom";
 
 const LoginPage = () => {
     const UsernameRef = useRef(null);
     const PasswordRef = useRef(null);
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     const sendToBack = async () => {
         console.log(UsernameRef.current.value)
