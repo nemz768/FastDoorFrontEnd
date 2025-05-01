@@ -26,7 +26,7 @@ const LoginPage = () => {
                 .then(res=> {
                     if (res.status === 401) {
                         alert('Ошибка ввода логина и/или пароля')
-                        window.location.reload();
+                        return;
                     }
                     res.json()
                 }
