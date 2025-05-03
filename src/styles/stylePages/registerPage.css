@@ -14,9 +14,9 @@
     align-items: center;
     row-gap: 5px;
     width: 100%;
-    max-width: 400px; /* Ограничиваем ширину */
+    max-width: 400px;
     padding: 20px;
-    background: #e0e5ec; /* Фон формы тот же цвет, что и фон страницы */
+    background: #e0e5ec;
     border-radius: 20px;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }

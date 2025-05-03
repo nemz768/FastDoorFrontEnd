@@ -5,6 +5,7 @@
     text-align: center;
     width: 100%;
     flex-direction: column;
+
 }
 .header img {
     width: 150px;
@@ -29,9 +30,6 @@ nav a {
 nav a:hover {
     color: #C0A28E;
 }
-
-
-/*adaptive*/
 
 @media (max-width: 576px) {
     .header-nav{

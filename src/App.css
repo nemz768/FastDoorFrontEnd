@@ -1,24 +1,18 @@
-* {
-  margin: 0 auto;
-  padding: 0;
-  box-sizing: border-box;
-}
 
 html {
   margin: 0;
   padding: 0;
   height: 100%;
 }
-
 body {
   margin: 0;
   padding: 0;
-  background-color: #4E3629; /* Коричневый */
-  min-height: 100%;
+  background-color: #4E3629;
+
 }
 
 .shadows-input {
-  background: #e0e5ec; /* Тот же цвет фона */
+  background: #e0e5ec;
   border-radius: 20px;
   box-shadow: inset 5px 5px 10px rgba(0, 0, 0, 0.1), inset -5px -5px 10px white;
   border: none;

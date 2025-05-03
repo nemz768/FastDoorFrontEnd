@@ -1,3 +1,29 @@
+
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    height: 100%;
+}
+
+#root {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header, footer {
+    flex-shrink: 0;
+}
+
+.sellerPage_block {
+    background-color: #E9D6C7;
+    padding: 20px;
+    flex: 1; /* Fills remaining space */
+}
+
 .orders {
     width: 80%;
     margin: 30px auto;
@@ -5,16 +31,13 @@
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-
-}
-
-.sellerPage_block {
-    background-color: #C0A28E;
 }
 
 .orders h2 {
     color: #4E3629;
+    margin: 0; /* Reset default margin */
 }
+
 button {
     background-color: #4E3629;
     color: white;

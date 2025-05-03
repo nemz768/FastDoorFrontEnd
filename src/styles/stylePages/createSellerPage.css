@@ -36,10 +36,9 @@ h3 {
 }
 
 .subtitleInput {
-    text-align: left;
+    text-align: center;
     align-self: flex-start;
     width: 100%;
-    margin-left: 40px;
     margin-top: 20px;
 }
 
