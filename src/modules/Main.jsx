@@ -5,8 +5,8 @@ export const Main = () => {
     return (
         <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
         Main
-       <Popup />
-        </div>
+            <Popup />
+       </div>
     );
 };
 

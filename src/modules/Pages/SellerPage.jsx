@@ -3,6 +3,7 @@ import {Link, useNavigate} from 'react-router-dom';
 import {Header} from "../Header.jsx";
 import {Footer} from "../Footer.jsx";
 import '../../styles/stylePages/sellerPage.css'
+import {Popup} from "../special/Popup.jsx";
 
 export const SellerPage = () => {
     const navigate = useNavigate();
@@ -33,6 +34,7 @@ export const SellerPage = () => {
                     <h2>Действия</h2>
                     <Link to="./create">Создать новый заказ!</Link>
                 </section>
+                <Popup />
             </div>
             <Footer/>
         </>

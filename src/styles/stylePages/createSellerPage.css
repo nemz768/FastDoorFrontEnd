@@ -1,4 +1,4 @@
-.sellerCreatePage{
+.sellerCreatePage {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -6,14 +6,13 @@
     height: 100vh;
 }
 
-
 .form-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 40%;
     background: #E0E5EC;
+    padding: 20px;
 }
 
 .input-group {
@@ -26,9 +25,11 @@ h1, h3 {
     font-weight: bold;
     color: #4E3629;
 }
+
 h1 {
     font-size: 20px;
 }
+
 h3 {
     font-size: 16px;
 }
@@ -37,10 +38,9 @@ h3 {
     text-align: left;
     align-self: flex-start;
     width: 100%;
-    margin-left: 40px; /* если что-то сдвинуто */
-    margin-top: 20px; /* для отступа сверху */
+    margin-left: 40px;
+    margin-top: 20px;
 }
-
 
 .input_SellerPage {
     width: 520px;
@@ -50,14 +50,83 @@ h3 {
     padding-left: 10px;
     font-size: 16px;
     font-family: Inter, sans-serif;
+    border: 1px solid #4E3629;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-
-label{
+label {
     font-family: Inter, sans-serif;
-
 }
 
 .submit-btn {
     margin: 20px 0;
+}
+
+@media (max-width: 576px) {
+    .form-container {
+        text-align: center;
+        height: 100%;
+        background: #E5F0FA;
+        border-radius: 20px;
+        padding: 10px;
+        width: 100%;
+        max-width: 340px;
+    }
+
+    label {
+        display: none;
+    }
+
+    .input-group {
+        margin-bottom: 15px;
+    }
+
+    h1 {
+        font-size: 24px;
+        color: #4E3629;
+        margin-bottom: 20px;
+    }
+
+    h3.subtitleInput {
+        font-size: 18px;
+        color: #666;
+        margin-left: 0;
+        text-align: center;
+        margin-top: 20px;
+        margin-bottom: 10px;
+    }
+
+    .input_SellerPage {
+        width: 281px;
+        height: 39px;
+        border-radius: 20px;
+        padding: 0 15px;
+        border: none;
+        background-color: #fff;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        color: #333;
+    }
+
+    .input_SellerPage::placeholder {
+        color: #666;
+        font-size: 16px;
+        font-family: Inter, sans-serif;
+    }
+
+    .submit-btn {
+        width: 281px;
+        height: 39px;
+        background-color: #4E3629;
+        color: #fff;
+        border: none;
+        border-radius: 20px;
+        font-family: Inter, sans-serif;
+        font-size: 16px;
+        cursor: pointer;
+        margin-top: 5px;
+    }
+
+    .submit-btn:hover {
+        background-color: #3b2a20;
+    }
 }
