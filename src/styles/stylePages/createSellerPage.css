@@ -3,7 +3,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh;
+
 }
 
 .form-container {
@@ -20,7 +20,7 @@
     flex-direction: column;
 }
 
-h1, h3 {
+.sellerCreatePage h1, h3 {
     font-family: Inter, sans-serif;
     font-weight: bold;
     color: #4E3629;
@@ -53,6 +53,9 @@ h3 {
     border: 1px solid #4E3629;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
+.input_SellerPage::placeholder {
+    color: transparent;
+}
 
 label {
     font-family: Inter, sans-serif;
@@ -73,7 +76,7 @@ label {
         max-width: 340px;
     }
 
-    label {
+    .sellerCreatePage label {
         display: none;
     }
 

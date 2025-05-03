@@ -3,13 +3,15 @@ import {Header} from "../Header.jsx";
 import {Footer} from "../Footer.jsx";
 import {Main} from "../Main.jsx";
 
+
+
 const MainPage = () => {
     return (
-     <>
+     <div className="mainPage">
          <Header />
          <Main/>
          <Footer />
-     </>
+     </div>
     );
 };
 
