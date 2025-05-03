@@ -1,27 +1,30 @@
-
+/* Reset defaults */
 * {
     box-sizing: border-box;
+    margin: 0;
 }
 
 html, body {
-    margin: 0;
     height: 100%;
+    overflow-x: hidden; /* Prevent horizontal scroll */
 }
 
 #root {
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    min-height: 100%; /* Use 100% instead of 100vh to avoid mobile quirks */
+    height: 100%; /* Ensure it takes full height */
 }
 
 header, footer {
-    flex-shrink: 0;
+    flex-shrink: 0; /* Prevent header/footer from shrinking */
 }
 
 .sellerPage_block {
     background-color: #E9D6C7;
     padding: 20px;
-    flex: 1; /* Fills remaining space */
+    flex: 1; /* Fills only the remaining space */
+    overflow-y: auto; /* Allow scrolling within this block if content overflows */
 }
 
 .orders {
@@ -35,7 +38,6 @@ header, footer {
 
 .orders h2 {
     color: #4E3629;
-    margin: 0; /* Reset default margin */
 }
 
 button {
