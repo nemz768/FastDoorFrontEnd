@@ -3,13 +3,18 @@
   padding: 0;
   box-sizing: border-box;
 }
+
 html {
-  overscroll-behavior: none;
+  margin: 0;
+  padding: 0;
+  height: 100%;
 }
 
 body {
-  background-color: #E9D6C7;
-
+  margin: 0;
+  padding: 0;
+  background-color: #4E3629; /* Коричневый */
+  min-height: 100%;
 }
 
 .shadows-input {

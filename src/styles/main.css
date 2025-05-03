@@ -1,0 +1,7 @@
+.main {
+    display: flex;
+    justify-content: center;
+    flex-grow: 1; /* Занимает всё доступное пространство */
+    background-color: #E9D6C7; /* Бежевый */
+    height: 450px;
+}
