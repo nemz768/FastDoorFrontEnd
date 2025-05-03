@@ -29,7 +29,7 @@ export const SellerPage = () => {
     return (
         <>
             <Header />
-            <div>
+            <div className="sellerPage_block">
                 <section className="orders">
                     <h2>Действия</h2>
                     <Link to="./create">Создать новый заказ!</Link>
