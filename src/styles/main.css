@@ -5,3 +5,20 @@
     background-color: #E9D6C7; /* Бежевый */
     height: 450px;
 }
+
+
+html, body {
+    height: 100%;
+    overflow-x: hidden; /* Prevent horizontal scroll */
+}
+
+#root {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%; /* Use 100% instead of 100vh to avoid mobile quirks */
+    height: 100%; /* Ensure it takes full height */
+}
+
+header, footer {
+    flex-shrink: 0; /* Prevent header/footer from shrinking */
+}
