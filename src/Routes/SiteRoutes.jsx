@@ -8,10 +8,11 @@ import {Check} from "../modules/Pages/Check.jsx";
 import {RegisterPage} from '../modules/Pages/RegisterPage.jsx';
 import {SellerCreatePage} from "../modules/Pages/SellerCreatePage.jsx";
 import {DonePage} from "../modules/Pages/DonePage.jsx";
+import {MainInstallerPage} from "../modules/Pages/MainInstallerPage.jsx";
 
 
 
-const SiteRoutes = () => {
+export const SiteRoutes = () => {
     return (
         <>
                 <Routes>
@@ -23,10 +24,9 @@ const SiteRoutes = () => {
                     <Route path="/check" element={<Check/>}></Route>
                     <Route path="/reg" element={<RegisterPage/>}></Route>
                     <Route path="/home/seller/create/done" element={<DonePage/>}></Route>
+                    <Route path="/home/mainInstaller" element={<MainInstallerPage/>}></Route>
                     <Route path="*"  element={<PageNotFound/>}></Route>
                  </Routes>
         </>
     );
 };
-
-export default SiteRoutes;

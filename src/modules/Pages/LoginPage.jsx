@@ -14,6 +14,8 @@ const LoginPage = () => {
         const login = UsernameRef.current.value;
         const password = PasswordRef.current.value;
 
+
+
         try {
             const response = await fetch("/api/login", {
                 method: 'POST',
@@ -34,8 +36,7 @@ const LoginPage = () => {
 
             console.log('Server response: ', data.roles)
             if (data.roles === 'main') {
-                navigate('/404')
-                //'/home/mainInstaller'
+                navigate('/home/mainInstaller')
             } else if (data.roles === 'administrator') {
                 navigate('/404')
             } else if (data.roles === 'salespeople') {
