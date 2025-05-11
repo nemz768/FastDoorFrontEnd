@@ -17,7 +17,7 @@ export const ConfirmPopup = ({ closeModal, handleDeleteSuccess, orderId }) => {
         setIsDeleting(true);
         setError(null);
         try {
-            const response = await fetch(`/api/delete/${orderId}`, {
+            const response = await fetch(`/api/delete?id=${orderId}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
