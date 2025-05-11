@@ -9,7 +9,7 @@ export const ConfirmPopup = ({closeModal}) => {
         <div className='confirm-popup'>
             <div className="confirm-popup_block">
                 <h1>Вы уверены что хотите удалить эту запись?</h1>
-                <div>
+                <div className='confirm-popup_content'>
                     <button>Да</button>
                     <button onClick={closeModal}>Нет</button>
                 </div>

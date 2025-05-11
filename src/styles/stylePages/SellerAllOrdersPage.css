@@ -100,31 +100,31 @@
 
 .edit-button {
     background-color: #4e3629;
-    color: #C0A28E;
+    color: rgb(233, 214, 199);
     transition: 0.7s;
 }
 
 .edit-button:hover {
-    background-color: #C0A28E;
+    background-color: rgb(233, 214, 199);
     color: #3a281f;
     transition: 0.7s;
 }
 
 .delete-button {
     background-color: #4e3629;
-    color: #C0A28E;
+    color: rgb(233, 214, 199);
     transition: 0.7s;
 }
 
 .delete-button:hover {
-    background-color:#C0A28E;
+    background-color: rgb(233, 214, 199);
     color: #3a281f;
     transition: 0.7s;
 }
 
 .pagination-button {
     background-color: #4E3629;
-    color: #E9D6C7;
+    color: rgb(233, 214, 199);
 }
 
 .pagination-button:hover:not(:disabled) {
