@@ -71,15 +71,6 @@
     background-color: #b3bcc8; /* Еще более темный оттенок */
 }
 
-a {
-    text-decoration: none;
-    color: lightgrey;
-}
-
-a:hover {
-    text-decoration: underline;
-}
-
 @media (max-width: 576px) {
     .login-section {
         width: 100%;

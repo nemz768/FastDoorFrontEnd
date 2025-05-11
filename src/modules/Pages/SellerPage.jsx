@@ -32,7 +32,10 @@ export const SellerPage = () => {
             <div className="sellerPage_block">
                 <section className="orders">
                     <h2>Действия</h2>
-                    <Link to="./create">Создать новый заказ!</Link>
+                    <div className="orders_addresses">
+                        <Link className="orders_address" to="./create">Создать новый заказ!</Link>
+                        <Link className="orders_address" to="./listOrdersSeller">Список всех заказов</Link>
+                    </div>
                 </section>
                 <Popup />
             </div>

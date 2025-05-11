@@ -9,6 +9,7 @@ import {RegisterPage} from '../modules/Pages/RegisterPage.jsx';
 import {SellerCreatePage} from "../modules/Pages/SellerCreatePage.jsx";
 import {DonePage} from "../modules/Pages/DonePage.jsx";
 import {MainInstallerPage} from "../modules/Pages/MainInstallerPage.jsx";
+import {SellerAllOrdersPage} from "../modules/Pages/SellerAllOrdersPage.jsx";
 
 
 
@@ -20,6 +21,7 @@ export const SiteRoutes = () => {
                     <Route path="/login"  element={<LoginPage/>}></Route>
                     <Route path="/home/seller"  element={<SellerPage/>}></Route>
                     <Route path="/home/seller/create"  element={<SellerCreatePage/>}></Route>
+                    <Route path="/home/seller/listOrdersSeller" element={<SellerAllOrdersPage/>}></Route>
                     <Route path="/403"  element={<PageNotEnoughRules/>}></Route>
                     <Route path="/check" element={<Check/>}></Route>
                     <Route path="/reg" element={<RegisterPage/>}></Route>

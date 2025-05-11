@@ -49,3 +49,14 @@ button {
     cursor: pointer;
     font-size: 16px;
 }
+
+
+.orders_addresses {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.orders_address {
+    color: black;
+}
