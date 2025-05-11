@@ -18,7 +18,7 @@ export const SellerAllOrdersPage = () => {
             setIsLoading(true);
             setError(null);
             try {
-                const response = await fetch(`/api/list/sellerList?page=${currentPage}`, {
+                const response = await fetch(`/api/list/sellerList?id=${currentPage}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
