@@ -1,8 +1,10 @@
 html, body {
-    height: 100%;
     margin: 0;
     padding: 0;
+    min-height: 100vh;
     overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
 /* Root container */
@@ -12,21 +14,17 @@ html, body {
     min-height: 100vh; /* Use viewport height for full coverage */
 }
 
-/* Header and Footer */
-header, footer {
-    flex-shrink: 0; /* Prevent shrinking */
-}
-
 /* Main content area */
 .main {
     display: flex;
     flex-direction: column;
-    flex-grow: 1; /* Take remaining space */
+    flex-grow: 1;
     background-color: #E9D6C7;
     width: 100%;
     box-sizing: border-box;
     padding: 20px;
     text-align: center;
+    min-height: 66.4vh;
 }
 
 /* Responsive design */
