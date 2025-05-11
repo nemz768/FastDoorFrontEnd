@@ -24,7 +24,7 @@ html, body {
     box-sizing: border-box;
     padding: 20px;
     text-align: center;
-    min-height: 66.4vh;
+    min-height: calc(100vh - 100px); /* 100px — высота хедера/футера */
 }
 
 /* Responsive design */

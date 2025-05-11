@@ -9,7 +9,7 @@
 /* Main content area */
 .SellerAllOrdersPage {
     flex: 1;
-    padding: 20px 0 200px;
+    padding: 20px 0;
     max-width: 1200px;
     margin: 0 auto;
     width: 100%;
