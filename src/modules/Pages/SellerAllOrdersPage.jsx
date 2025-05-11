@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../../styles/stylePages/SellerAllOrdersPage.css';
 import { Header } from '../Header.jsx';
 import { Footer } from '../Footer.jsx';
-import {Popup} from "../special/Popup.jsx";
-import {ConfirmPopup} from "../special/ConfirmPopup.jsx";
+import { ConfirmPopup } from '../special/ConfirmPopup.jsx';
 
 export const SellerAllOrdersPage = () => {
     const [orders, setOrders] = useState([]);
@@ -11,9 +10,8 @@ export const SellerAllOrdersPage = () => {
     const [totalPages, setTotalPages] = useState(1);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
-    const [activeModal, isActiveModal] = useState(false);
+    const [activeModal, setActiveModal] = useState(false);
     const [selectedOrderId, setSelectedOrderId] = useState(null);
-
 
     useEffect(() => {
         const fetchOrders = async () => {
@@ -55,13 +53,15 @@ export const SellerAllOrdersPage = () => {
     };
 
     const openModal = (orderId) => {
+        console.log('Opening modal with orderId:', orderId);
         setSelectedOrderId(orderId);
-        isActiveModal(true);
-    }
+        setActiveModal(true);
+    };
+
     const closeModal = () => {
         setSelectedOrderId(null);
-        isActiveModal(false);
-    }
+        setActiveModal(false);
+    };
 
     const handleDeleteSuccess = (deletedOrderId) => {
         setOrders(orders.filter((order) => order.id !== deletedOrderId));
@@ -69,13 +69,14 @@ export const SellerAllOrdersPage = () => {
 
     return (
         <div className="page-wrapper">
-            {activeModal}
             <Header />
             <main className="SellerAllOrdersPage">
                 <h2>Заказы продавца</h2>
                 {isLoading && <div className="loading">Загрузка...</div>}
                 {error && <div className="error">Ошибка: {error}</div>}
-                {!isLoading && !error && orders.length === 0 && <div className="no-orders">Заказы не найдены</div>}
+                {!isLoading && !error && orders.length === 0 && (
+                    <div className="no-orders">Заказы не найдены</div>
+                )}
                 {!isLoading && !error && orders.length > 0 && (
                     <>
                         <div className="table-container">
@@ -107,7 +108,12 @@ export const SellerAllOrdersPage = () => {
                                         <td>
                                             <div className="action-buttons">
                                                 <button className="edit-button">Изменить</button>
-                                                <button onClick={openModal} className="delete-button">Удалить</button>
+                                                <button
+                                                    onClick={() => openModal(order.id)}
+                                                    className="delete-button"
+                                                >
+                                                    Удалить
+                                                </button>
                                             </div>
                                         </td>
                                     </tr>
@@ -124,8 +130,8 @@ export const SellerAllOrdersPage = () => {
                                 Предыдущая
                             </button>
                             <span className="pagination-info">
-                                Страница {currentPage + 1} из {totalPages}
-                            </span>
+                Страница {currentPage + 1} из {totalPages}
+              </span>
                             <button
                                 onClick={() => handlePageChange(currentPage + 1)}
                                 disabled={currentPage >= totalPages - 1}
@@ -137,8 +143,13 @@ export const SellerAllOrdersPage = () => {
                     </>
                 )}
             </main>
-            {activeModal && <ConfirmPopup handleDeleteSuccess={handleDeleteSuccess} orderId={selectedOrderId} closeModal={closeModal} />}
-            <Popup/>
+            {activeModal && (
+                <ConfirmPopup
+                    handleDeleteSuccess={handleDeleteSuccess}
+                    orderId={selectedOrderId}
+                    closeModal={closeModal}
+                />
+            )}
             <Footer />
         </div>
     );
