@@ -1,24 +1,48 @@
-.main {
-    display: flex;
-    justify-content: center;
-    flex-grow: 1; /* Занимает всё доступное пространство */
-    background-color: #E9D6C7; /* Бежевый */
-    height: 450px;
-}
-
 
 html, body {
     height: 100%;
-    overflow-x: hidden; /* Prevent horizontal scroll */
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
 }
 
+/* Root container */
 #root {
     display: flex;
     flex-direction: column;
-    min-height: 100%; /* Use 100% instead of 100vh to avoid mobile quirks */
-    height: 100%; /* Ensure it takes full height */
+    min-height: 100vh; /* Use viewport height for full coverage */
 }
 
+/* Header and Footer */
 header, footer {
-    flex-shrink: 0; /* Prevent header/footer from shrinking */
+    flex-shrink: 0; /* Prevent shrinking */
+}
+
+/* Main content area */
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1; /* Take remaining space */
+    background-color: #E9D6C7;
+    min-height: 450px; /* Minimum height, adjust as needed */
+    width: 100%;
+    box-sizing: border-box;
+    padding: 20px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .main {
+        padding: 15px;
+        min-height: 300px; /* Adjust for smaller screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .main {
+        padding: 10px;
+        min-height: 200px; /* Further adjust for mobile */
+    }
 }
