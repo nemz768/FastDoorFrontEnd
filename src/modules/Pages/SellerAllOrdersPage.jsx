@@ -29,7 +29,7 @@ export const SellerAllOrdersPage = () => {
         <div className="SellerAllOrdersPage">
             {orders.length > 0 ? (
                 orders.map(order => (
-                    <div key={order.id}>{order.id}</div> // Render each order ID
+                    <div key={order.orders.id}>{order.orders.id}</div> // Render each order ID
                 ))
             ) : (
                 <div>No orders found</div>
