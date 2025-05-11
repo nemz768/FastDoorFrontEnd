@@ -1,24 +1,39 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import '../../styles/stylePages/SellerAllOrdersPage.css';
 
 export const SellerAllOrdersPage = () => {
+    const [orders, setOrders] = useState([]); // Changed 'order' to 'orders' for clarity
 
-    const getApi = () => {
-       fetch("/api/list/sellerList", {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
+    // Use useEffect to handle API calls
+    useEffect(() => {
+        const getApi = async () => {
+            try {
+                const response = await fetch("/api/list/sellerList", {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                const data = await response.json(); // Parse JSON here
+                setOrders(data); // Set the parsed data
+                console.log(data);
+            } catch (err) {
+                console.error('Error fetching orders:', err);
             }
-        })
-        .then(response => response.json())
-        .then(data => console.log(data))
-        .catch(err => console.log(err));
-    }
-    getApi();
+        };
+
+        getApi();
+    }, []); // Empty dependency array to run once on mount
 
     return (
         <div className="SellerAllOrdersPage">
-            123
+            {orders.length > 0 ? (
+                orders.map(order => (
+                    <div key={order.id}>{order.id}</div> // Render each order ID
+                ))
+            ) : (
+                <div>No orders found</div>
+            )}
         </div>
     );
 };
