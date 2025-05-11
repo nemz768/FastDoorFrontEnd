@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { useNavigate } from "react-router-dom";
-import '../../styles/stylePages/createSellerPage.css';
+import '../../../styles/stylePages/createSellerPage.css';
 import Pikaday from 'pikaday';
 import 'pikaday/css/pikaday.css';
 

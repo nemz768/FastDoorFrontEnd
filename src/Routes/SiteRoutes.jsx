@@ -2,14 +2,15 @@ import { Routes, Route } from "react-router-dom";
 import MainPage from "../modules/Pages/MainPage.jsx";
 import LoginPage from "../modules/Pages/LoginPage.jsx";
 import PageNotFound from "../modules/moduleError/PageNotFound.jsx";
-import {SellerPage} from "../modules/Pages/SellerPage.jsx";
+import {SellerPage} from "../modules/Pages/SellerPages/SellerPage.jsx";
 import {PageNotEnoughRules} from "../modules/moduleError/PageNotEnoughRules.jsx";
 import {Check} from "../modules/Pages/Check.jsx";
 import {RegisterPage} from '../modules/Pages/RegisterPage.jsx';
-import {SellerCreatePage} from "../modules/Pages/SellerCreatePage.jsx";
+import {SellerCreatePage} from "../modules/Pages/SellerPages/SellerCreatePage.jsx";
 import {DonePage} from "../modules/Pages/DonePage.jsx";
 import {MainInstallerPage} from "../modules/Pages/MainInstallerPage.jsx";
-import {SellerAllOrdersPage} from "../modules/Pages/SellerAllOrdersPage.jsx";
+import {SellerAllOrdersPage} from "../modules/Pages/SellerPages/SellerAllOrdersPage.jsx";
+import {PatchOrderPage} from "../modules/Pages/SellerPages/PatchOrderPage.jsx";
 
 
 
@@ -22,6 +23,7 @@ export const SiteRoutes = () => {
                     <Route path="/home/seller"  element={<SellerPage/>}></Route>
                     <Route path="/home/seller/create"  element={<SellerCreatePage/>}></Route>
                     <Route path="/home/seller/listOrdersSeller" element={<SellerAllOrdersPage/>}></Route>
+                    <Route path="/home/seller/listOrdersSeller/edit" element={<PatchOrderPage/>}/>
                     <Route path="/403"  element={<PageNotEnoughRules/>}></Route>
                     <Route path="/check" element={<Check/>}></Route>
                     <Route path="/reg" element={<RegisterPage/>}></Route>
