@@ -12,7 +12,7 @@ export const SellerAllOrdersPage = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
     const [activeModal, isActiveModal] = useState(false);
-
+    const [selectedOrderId, setSelectedOrderId] = useState(null);
 
 
     useEffect(() => {
@@ -54,12 +54,18 @@ export const SellerAllOrdersPage = () => {
         }
     };
 
-    const openModal = () => {
+    const openModal = (orderId) => {
+        setSelectedOrderId(orderId);
         isActiveModal(true);
     }
     const closeModal = () => {
+        setSelectedOrderId(null);
         isActiveModal(false);
     }
+
+    const handleDeleteSuccess = (deletedOrderId) => {
+        setOrders(orders.filter((order) => order.id !== deletedOrderId));
+    };
 
     return (
         <div className="page-wrapper">
@@ -131,7 +137,7 @@ export const SellerAllOrdersPage = () => {
                     </>
                 )}
             </main>
-            {activeModal && <ConfirmPopup closeModal={closeModal} />}
+            {activeModal && <ConfirmPopup handleDeleteSuccess={handleDeleteSuccess} orderId={selectedOrderId} closeModal={closeModal} />}
             <Popup/>
             <Footer />
         </div>
