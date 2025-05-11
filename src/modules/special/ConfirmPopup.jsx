@@ -5,9 +5,12 @@ export const ConfirmPopup = ({ closeModal, handleDeleteSuccess, orderId }) => {
     const [isDeleting, setIsDeleting] = useState(false);
     const [error, setError] = useState(null);
 
+    console.log('ConfirmPopup orderId:', orderId); // Логирование для отладки
+
     const deleteOrder = async () => {
         if (!orderId || typeof orderId !== 'string') {
             setError('Неверный идентификатор заказа');
+            console.error('Invalid orderId:', orderId);
             return;
         }
 
@@ -21,7 +24,8 @@ export const ConfirmPopup = ({ closeModal, handleDeleteSuccess, orderId }) => {
                 },
             });
             if (!response.ok) {
-                throw new Error('Произошла ошибка при удалении');
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Произошла ошибка при удалении');
             }
             handleDeleteSuccess(orderId);
             closeModal();

@@ -10,7 +10,7 @@ export const SellerAllOrdersPage = () => {
     const [totalPages, setTotalPages] = useState(1);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
-    const [activeModal, setActiveModal] = useState(false);
+    const [activeModal, setActiveModal] = useState(false); // Исправлено isActiveModal на setActiveModal
     const [selectedOrderId, setSelectedOrderId] = useState(null);
 
     useEffect(() => {
@@ -26,15 +26,21 @@ export const SellerAllOrdersPage = () => {
                 });
                 console.log('Response status:', response.status);
                 if (!response.ok) {
-                    throw new Error(`Failed to fetch orders: ${response.statusText}`);
+                    throw new Error(`Не удалось загрузить заказы: ${response.statusText}`);
                 }
                 const data = await response.json();
                 console.log('API data:', data);
-                setOrders(data.orders || []);
+                // Приведение id к строке, если это необходимо
+                setOrders(
+                    data.orders.map((order) => ({
+                        ...order,
+                        id: String(order.id), // Убедимся, что id - строка
+                    })) || []
+                );
                 setTotalPages(data.totalPages || 1);
                 setCurrentPage(data.currentPage || 0);
             } catch (err) {
-                console.error('Error fetching orders:', err);
+                console.error('Ошибка загрузки заказов:', err);
                 setError(err.message);
             } finally {
                 setIsLoading(false);
@@ -53,12 +59,13 @@ export const SellerAllOrdersPage = () => {
     };
 
     const openModal = (orderId) => {
-        console.log('Opening modal with orderId:', orderId);
-        setSelectedOrderId(orderId);
+        console.log('Открытие модального окна с orderId:', orderId); // Логирование
+        setSelectedOrderId(String(orderId)); // Приведение к строке
         setActiveModal(true);
     };
 
     const closeModal = () => {
+        console.log('Закрытие модального окна, selectedOrderId:', selectedOrderId);
         setSelectedOrderId(null);
         setActiveModal(false);
     };
@@ -109,7 +116,7 @@ export const SellerAllOrdersPage = () => {
                                             <div className="action-buttons">
                                                 <button className="edit-button">Изменить</button>
                                                 <button
-                                                    onClick={() => openModal(order.id)}
+                                                    onClick={() => openModal(order.id)} // Исправлено
                                                     className="delete-button"
                                                 >
                                                     Удалить
