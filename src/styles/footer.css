@@ -5,6 +5,9 @@ footer {
     padding: 20px;
     width: 100%;
     box-sizing: border-box;
+    margin-top: auto; /* Pushes footer to the bottom of the flex container */
+    position: fixed;
+    bottom: 0;
 }
 
 footer a {

@@ -9,7 +9,7 @@ const MainPage = () => {
     return (
      <div>
          <Header />
-         <Main/>
+         <Main />
          <Footer />
      </div>
     );
