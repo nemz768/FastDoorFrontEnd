@@ -17,7 +17,6 @@ export const SellerAllOrdersPage = () => {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
-                        // Add Authorization if needed: 'Authorization': `Bearer ${token}`,
                     },
                 });
                 console.log('Response status:', response.status);
@@ -56,17 +55,18 @@ export const SellerAllOrdersPage = () => {
             {!isLoading && !error && orders.length === 0 && <div>No orders found</div>}
             {!isLoading && !error && orders.length > 0 && (
                 <>
-                    <table className="orders-table">
+                    <table border="1" className="orders-table">
                         <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>Full Name</th>
-                            <th>Address</th>
-                            <th>Phone</th>
-                            <th>Date</th>
-                            <th>Front Doors</th>
-                            <th>Interior Doors</th>
-                            <th>Seller Message</th>
+                            <th>ФИО</th>
+                            <th>Адрес доставки</th>
+                            <th>Номер</th>
+                            <th>Дата</th>
+                            <th>Количество входных дверей</th>
+                            <th>Количество межкомнатных дверей</th>
+                            <th>Ваш комментарий</th>
+                            <th>Установщик</th>
+                            <th>Действия</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -80,6 +80,13 @@ export const SellerAllOrdersPage = () => {
                                 <td>{order.frontDoorQuantity}</td>
                                 <td>{order.inDoorQuantity}</td>
                                 <td>{order.messageSeller}</td>
+                                <td>{order.mainInstaller}</td>
+                                <td>
+                                    <div>
+                                        <button>Изменить</button>
+                                        <button>Удалить</button>
+                                    </div>
+                                </td>
                             </tr>
                         ))}
                         </tbody>
@@ -89,16 +96,16 @@ export const SellerAllOrdersPage = () => {
                             onClick={() => handlePageChange(currentPage - 1)}
                             disabled={currentPage === 0}
                         >
-                            Previous
+                            Предыдущая
                         </button>
                         <span>
-                            Page {currentPage + 1} of {totalPages}
+                            Страница {currentPage + 1} of {totalPages}
                         </span>
                         <button
                             onClick={() => handlePageChange(currentPage + 1)}
                             disabled={currentPage >= totalPages - 1}
                         >
-                            Next
+                            Следующая
                         </button>
                     </div>
                 </>
