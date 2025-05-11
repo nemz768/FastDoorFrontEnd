@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../../styles/stylePages/SellerAllOrdersPage.css';
+import {Header} from "../Header.jsx";
+import {Footer} from "../Footer.jsx";
 
 export const SellerAllOrdersPage = () => {
     const [orders, setOrders] = useState([]);
@@ -49,6 +51,7 @@ export const SellerAllOrdersPage = () => {
 
     return (
         <div className="SellerAllOrdersPage">
+            <Header />
             <h2>Seller Orders</h2>
             {isLoading && <div>Loading...</div>}
             {error && <div className="error">Error: {error}</div>}
@@ -72,7 +75,6 @@ export const SellerAllOrdersPage = () => {
                         <tbody>
                         {orders.map((order) => (
                             <tr key={order.id}>
-                                <td>{order.id}</td>
                                 <td>{order.fullName}</td>
                                 <td>{order.address}</td>
                                 <td>{order.phone}</td>
@@ -110,6 +112,7 @@ export const SellerAllOrdersPage = () => {
                     </div>
                 </>
             )}
+            <Footer/>
         </div>
     );
 };
