@@ -1,4 +1,185 @@
-.SellerAllOrdersPage {
-    background-color:  #E9D6C7;
+/* Page wrapper to ensure full height and footer positioning */
+.page-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #E9D6C7;
+}
 
+/* Main content area */
+.SellerAllOrdersPage {
+    flex: 1;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.SellerAllOrdersPage h2 {
+    text-align: center;
+    color: #4E3629;
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+/* Loading and error states */
+.loading,
+.error,
+.no-orders {
+    text-align: center;
+    padding: 20px;
+    font-size: 18px;
+    color: #4E3629;
+}
+
+.error {
+    color: #a94442;
+    background-color: #f2dede;
+    border-radius: 5px;
+}
+
+/* Table container for horizontal scrolling on small screens */
+.table-container {
+    overflow-x: auto;
+    margin-bottom: 20px;
+}
+
+/* Table styling */
+.orders-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.orders-table th,
+.orders-table td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #C0A28E;
+}
+
+.orders-table th {
+    background-color: #4E3629;
+    color: #E9D6C7;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.orders-table td {
+    color: #4E3629;
+    font-size: 14px;
+}
+
+.orders-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.orders-table tr:hover {
+    background-color: #E9D6C7;
+}
+
+/* Action buttons */
+.action-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.edit-button,
+.delete-button,
+.pagination-button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+.edit-button {
+    background-color: #C0A28E;
+    color: #fff;
+}
+
+.edit-button:hover {
+    background-color: #a88a74;
+}
+
+.delete-button {
+    background-color: #a94442;
+    color: #fff;
+}
+
+.delete-button:hover {
+    background-color: #8b3a3a;
+}
+
+.pagination-button {
+    background-color: #4E3629;
+    color: #E9D6C7;
+}
+
+.pagination-button:hover:not(:disabled) {
+    background-color: #3a281f;
+}
+
+.pagination-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+/* Pagination */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.pagination-info {
+    font-size: 16px;
+    color: #4E3629;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .SellerAllOrdersPage {
+        padding: 10px;
+    }
+
+    .orders-table th,
+    .orders-table td {
+        padding: 8px;
+        font-size: 12px;
+    }
+
+    .edit-button,
+    .delete-button,
+    .pagination-button {
+        padding: 6px 10px;
+        font-size: 12px;
+    }
+
+    .pagination {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+}
+
+@media (max-width: 576px) {
+    .SellerAllOrdersPage h2 {
+        font-size: 20px;
+    }
+
+    .orders-table {
+        font-size: 12px;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+        gap: 5px;
+    }
 }

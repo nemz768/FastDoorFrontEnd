@@ -3,9 +3,8 @@ footer {
     color: #E9D6C7;
     text-align: center;
     padding: 20px;
-    position: absolute;
-    bottom: 0;
     width: 100%;
+    box-sizing: border-box;
 }
 
 footer a {
@@ -18,7 +17,17 @@ footer a:hover {
     color: white;
 }
 
+.social-links {
+    margin-top: 10px;
+}
 
-@media (max-width: 567px) {
+@media (max-width: 576px) {
+    footer {
+        padding: 15px;
+        font-size: 14px;
+    }
 
+    footer a {
+        margin: 0 5px;
+    }
 }
