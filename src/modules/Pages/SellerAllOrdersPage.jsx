@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import '../../styles/stylePages/SellerAllOrdersPage.css';
 import { Header } from '../Header.jsx';
 import { Footer } from '../Footer.jsx';
+import {Popup} from "../special/Popup.jsx";
+import {ConfirmPopup} from "../special/ConfirmPopup.jsx";
 
 export const SellerAllOrdersPage = () => {
     const [orders, setOrders] = useState([]);
@@ -9,6 +11,9 @@ export const SellerAllOrdersPage = () => {
     const [totalPages, setTotalPages] = useState(1);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [activeModal, isActiveModal] = useState(false);
+
+
 
     useEffect(() => {
         const fetchOrders = async () => {
@@ -49,8 +54,16 @@ export const SellerAllOrdersPage = () => {
         }
     };
 
+    const openModal = () => {
+        isActiveModal(true);
+    }
+    const closeModal = () => {
+        isActiveModal(false);
+    }
+
     return (
         <div className="page-wrapper">
+            {activeModal}
             <Header />
             <main className="SellerAllOrdersPage">
                 <h2>Заказы продавца</h2>
@@ -88,7 +101,7 @@ export const SellerAllOrdersPage = () => {
                                         <td>
                                             <div className="action-buttons">
                                                 <button className="edit-button">Изменить</button>
-                                                <button className="delete-button">Удалить</button>
+                                                <button onClick={openModal} className="delete-button">Удалить</button>
                                             </div>
                                         </td>
                                     </tr>
@@ -118,6 +131,8 @@ export const SellerAllOrdersPage = () => {
                     </>
                 )}
             </main>
+            {activeModal && <ConfirmPopup closeModal={closeModal} />}
+            <Popup/>
             <Footer />
         </div>
     );

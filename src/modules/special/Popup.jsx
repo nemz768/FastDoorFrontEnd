@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../../styles/popup.css';
+import '../../styles/specialStyles/popup.css';
 import { Link } from "react-router-dom";
 
 export const Popup = () => {

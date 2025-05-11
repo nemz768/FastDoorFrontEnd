@@ -99,25 +99,25 @@
 }
 
 .edit-button {
-    background-color: #3a281f;
-    color: #a88a74;
+    background-color: #4e3629;
+    color: #C0A28E;
     transition: 0.7s;
 }
 
 .edit-button:hover {
-    background-color: #a88a74;
+    background-color: #C0A28E;
     color: #3a281f;
     transition: 0.7s;
 }
 
 .delete-button {
-    background-color: #3a281f;
-    color: #a88a74;
+    background-color: #4e3629;
+    color: #C0A28E;
     transition: 0.7s;
 }
 
 .delete-button:hover {
-    background-color: #a88a74;
+    background-color:#C0A28E;
     color: #3a281f;
     transition: 0.7s;
 }
