@@ -32,18 +32,23 @@ export const PatchOrderPage = () => {
                     'Content-Type': 'application/json',
                 }
             });
+            if (!response.ok) {
+                throw new Error(`Ошибка HTTP! Статус: ${response.status}`);
+            }
             const data = await response.json();
             console.log(data);
+            setOrderId(data)
+            setError(null);
         }
         catch(err) {
-            setOrderId(null);
             console.log(err)
-            setError(err);
+            setError(err.message);
         }
     }
     useEffect(()=> {
      if (orderId){
          getApi();
+         console.log(123)
      }
     }, [orderId])
 
@@ -120,6 +125,7 @@ export const PatchOrderPage = () => {
 
     return (
         <div className="sellerCreatePage">
+            {error && <div className="error-message">{error}</div> }
             {!error && <form className="form-container">
                 <h1>Заполните данные о заказе</h1>
                 <h3 className='subtitleInput'>Укажите данные заказчика</h3>
@@ -132,6 +138,7 @@ export const PatchOrderPage = () => {
                         id="fullName"
                         required
                         placeholder="ФИО"
+                        defaultValue={orderId.fullName || ''}
                     />
                 </div>
 
