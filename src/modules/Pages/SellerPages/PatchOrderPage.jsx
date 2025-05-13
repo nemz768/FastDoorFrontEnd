@@ -20,11 +20,15 @@ export const PatchOrderPage = () => {
         messageSellerRef: useRef(null),
     };
 
+    // Флаг для предотвращения рекурсии
+    const isProgrammaticUpdate = useRef(false);
+
     // Загрузка данных о доступности
     useEffect(() => {
         const fetchAvailability = async () => {
             try {
                 const response = await fetch('/api/availability'); // Замените на ваш API
+                if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
                 const data = await response.json();
                 setAvailabilityData(data);
             } catch (err) {
@@ -50,6 +54,7 @@ export const PatchOrderPage = () => {
                     "Content-Type": "application/json",
                 },
             });
+            if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
             const data = await response.json();
             setGetOrderById(data);
         } catch (err) {
@@ -75,6 +80,7 @@ export const PatchOrderPage = () => {
                     inDoorQuantity: refs.inDoorRef.current.value,
                 }),
             });
+            if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
             const data = await response.json();
             navigate(-1);
         } catch (err) {
@@ -86,8 +92,10 @@ export const PatchOrderPage = () => {
         getApi();
     }, []);
 
+    // Синхронизация значений полей
     useEffect(() => {
-        if (getOrderById) {
+        if (getOrderById && refs.dateRef.current) {
+            isProgrammaticUpdate.current = true; // Устанавливаем флаг
             refs.fullNameRef.current.value = getOrderById.fullName || '';
             refs.addressRef.current.value = getOrderById.address || '';
             refs.phoneRef.current.value = getOrderById.phone || '';
@@ -95,9 +103,11 @@ export const PatchOrderPage = () => {
             refs.dateRef.current.value = getOrderById.dateOrder || '';
             refs.frontDoorRef.current.value = getOrderById.frontDoorQuantity || '';
             refs.inDoorRef.current.value = getOrderById.inDoorQuantity || '';
+            isProgrammaticUpdate.current = false; // Сбрасываем флаг
         }
     }, [getOrderById]);
 
+    // Обработка ввода чисел
     useEffect(() => {
         const frontInput = refs.frontDoorRef.current;
         const inInput = refs.inDoorRef.current;
@@ -118,6 +128,7 @@ export const PatchOrderPage = () => {
         };
     }, []);
 
+    // Инициализация Pikaday
     useEffect(() => {
         let picker;
         if (refs.dateRef.current) {
@@ -142,10 +153,12 @@ export const PatchOrderPage = () => {
                     weekdaysShort: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
                 },
                 onSelect: function (date) {
+                    isProgrammaticUpdate.current = true; // Устанавливаем флаг
                     const year = date.getFullYear();
                     const month = String(date.getMonth() + 1).padStart(2, '0');
                     const day = String(date.getDate()).padStart(2, '0');
                     refs.dateRef.current.value = `${year}-${month}-${day}`;
+                    isProgrammaticUpdate.current = false; // Сбрасываем флаг
                 },
                 onDraw: function () {
                     const days = document.querySelectorAll('.pika-day');
@@ -173,16 +186,30 @@ export const PatchOrderPage = () => {
                 },
             });
 
+            // Устанавливаем начальное значение
             if (getOrderById?.dateOrder) {
+                isProgrammaticUpdate.current = true;
                 refs.dateRef.current.value = getOrderById.dateOrder;
+                picker.setDate(getOrderById.dateOrder, true); // true для подавления событий
+                isProgrammaticUpdate.current = false;
             }
-        }
 
-        return () => {
-            if (picker) {
-                picker.destroy();
-            }
-        };
+            // Перехватываем событие input, чтобы избежать рекурсии
+            const handleInput = () => {
+                if (!isProgrammaticUpdate.current) {
+                    picker.setDate(refs.dateRef.current.value, true); // true для подавления событий
+                }
+            };
+
+            refs.dateRef.current.addEventListener('input', handleInput);
+
+            return () => {
+                refs.dateRef.current.removeEventListener('input', handleInput);
+                if (picker) {
+                    picker.destroy();
+                }
+            };
+        }
     }, [availabilityMap, getOrderById]);
 
     return (
