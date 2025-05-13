@@ -6,7 +6,6 @@ import 'pikaday/css/pikaday.css';
 export const PatchOrderPage = () => {
     const { orderId } = useParams();
     const navigate = useNavigate();
-    const numbers = '1234567890';
     const [getOrderById, setGetOrderById] = useState(null);
     const [availabilityData, setAvailabilityData] = useState([]); // Загрузка данных
 
@@ -81,8 +80,7 @@ export const PatchOrderPage = () => {
                 }),
             });
             if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-            const data = await response.json();
-            navigate(-1);
+           navigate('/home/seller/listOrdersSeller');
         } catch (err) {
             console.error("Ошибка при обновлении:", err.message);
         }
