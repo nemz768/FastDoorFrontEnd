@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, {use, useEffect, useRef, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import Pikaday from 'pikaday';
 import 'pikaday/css/pikaday.css';
@@ -19,8 +19,6 @@ export const PatchOrderPage = () => {
         inDoorRef: useRef(null),
     };
 
-
-
     const getApi = async () => {
         try {
             const response = await fetch("/api/edit/41", {
@@ -38,6 +36,9 @@ export const PatchOrderPage = () => {
         }
     }
 
+    useEffect(() => {
+        getApi();
+    }, []);
 
     useEffect(() => {
         const frontInput = refs.frontDoorRef.current;
@@ -134,11 +135,6 @@ export const PatchOrderPage = () => {
 
     return (
         <div className="sellerCreatePage">
-                <div className="error-message">
-                    <button onClick={() => navigate(-1)} className="submit-btn">
-                        Назад
-                    </button>
-                </div>
                 <form className="form-container">
                     <h1>Заполните данные о заказе</h1>
                     <h3 className="subtitleInput">Укажите данные заказчика</h3>
@@ -233,7 +229,7 @@ export const PatchOrderPage = () => {
                         />
                     </div>
 
-                    <button id="submitButton" onClick={getApi} className="submit-btn">
+                    <button id="submitButton" className="submit-btn">
                         Подтвердить
                     </button>
                     <button
