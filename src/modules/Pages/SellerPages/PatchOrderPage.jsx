@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {useNavigate} from "react-router-dom";
 import Pikaday from "pikaday";
 
@@ -11,14 +11,9 @@ export const PatchOrderPage = () => {
     });
     const navigate = useNavigate();
     const numbers = '1234567890';
-    const [getOrderById, setGetOrderById] = useState(null);
+    // const [getOrderById, setGetOrderById] = useState(null);
 
     const refs = {
-        fullname: useRef(null),
-        address: useRef(null),
-        phone: useRef(null),
-        comments: useRef(null),
-        dateRef: useRef(null),
         frontDoorRef: useRef(null),
         inDoorRef: useRef(null),
     };
@@ -26,28 +21,12 @@ export const PatchOrderPage = () => {
     const sendResultsCreate = async (e) => {
         e.preventDefault();
         console.log(refs.fullname.current.value);
-        const fullname = refs.fullname.current.value;
-        const address = refs.address.current.value;
-        const phone = refs.phone.current.value;
-        const comments = refs.comments.current.value;
-        const dateRef = refs.dateRef.current.value;
-        const frontDoorRef = refs.frontDoorRef.current.value;
-        const inDoorRef = refs.inDoorRef.current.value;
 
         await fetch(`/api/edit/${getOrderById.id}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                fullName: fullname,
-                address: address,
-                phone: phone,
-                messageSeller: comments,
-                dateOrder: dateRef,
-                frontDoorQuantity: frontDoorRef,
-                inDoorQuantity: inDoorRef
-            })
         })
             .then((res) => {
                 res.json();
