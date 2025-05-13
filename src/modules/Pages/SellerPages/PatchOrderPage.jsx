@@ -155,29 +155,34 @@ export const PatchOrderPage = () => {
     }, [availabilityMap]);
 
 
-    const patchApi = async (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        const fullname = refs.fullname.current.value;
-        // const address = refs.address.current.value;
-        // const phone = refs.phone.current.value;
-        // const comments = refs.comments.current.value;
-        // const dateRef = refs.dateRef.current.value;
-        // const frontDoorRef = refs.frontDoorRef.current.value;
-        // const inDoorRef = refs.inDoorRef.current.value;
-try {
-        await fetch(`/api/edit/${orderId}`, {
-        method: 'PATCH',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-            fullName: fullname,
 
+        const payload = {
+            fullName: refs.fullname.current.value,
+            address: refs.address.current.value,
+            phone: refs.phone.current.value,
+            messageSeller: refs.comments.current.value,
+            dateOrder: refs.dateRef.current.value,
+            frontDoorQuantity: Number(refs.frontDoorRef.current.value) || 0,
+            inDoorQuantity: Number(refs.inDoorRef.current.value) || 0,
+        };
 
-        })
-    })
-}catch (error) {
-    console.log(error.message);
-}
-    }
+        try {
+            const response = await fetch(`/api/edit/${orderId}`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload),
+            });
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || `Ошибка HTTP ${response.status}`);
+            }
+            navigate('/orders');
+        } catch (err) {
+            console.error('Ошибка PATCH:', err);
+        }
+    };
 
     return (
         <div className="sellerCreatePage">
@@ -281,9 +286,9 @@ try {
                           />
                       </div>
                   </div>
+                <button onClick={()=> navigate(-1)}>Отмена</button>
+                <button id="submitButton" onClick={handleSubmit} type="submit" className="submit-btn">Подтвердить</button>
             </form>
-            <button onClick={()=> navigate(-1)}>Отмена</button>
-            <button id="submitButton" onClick={patchApi} type="submit" className="submit-btn">Подтвердить</button>
 
         </div>
     );
