@@ -21,7 +21,8 @@ export const PatchOrderPage = () => {
         inDoorRef: useRef(null),
     };
 
-    const getApi = async () => {
+    const getApi = async (e) => {
+        e.preventDefault();
         console.log('Fetching data for orderId:', orderId);
         try {
             const response = await fetch(`/api/edit/41`, {
