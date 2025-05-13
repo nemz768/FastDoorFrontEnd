@@ -22,7 +22,7 @@ export const PatchOrderPage = () => {
 
 
     const sendResultsCreate = async () => {
-        await fetch(`/api/edit/1`, {
+        await fetch(`/api/edit/`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'

@@ -61,7 +61,7 @@ export const SellerAllOrdersPage = () => {
 
     const openModal = (orderId) => {
         console.log('Открытие модального окна с orderId:', orderId); // Логирование
-        setSelectedOrderId(String(orderId)); // Приведение к строке
+        setSelectedOrderId(orderId); // Приведение к строке
         setActiveModal(true);
     };
 
