@@ -10,8 +10,26 @@ export const PatchOrderPage = () => {
         availabilityMap[day.date] = day.frontDoorQuantity;
     });
     const navigate = useNavigate();
+
+
+    const [getOrdersToChange, setOrdersToChange] = useState([]);
+    const URL = `/api/edit/${getOrdersToChange.id}};
+
+
+
+
+
+
+
+
+
+
+
+
+
     const numbers = '1234567890';
     // const [getOrderById, setGetOrderById] = useState(null);
+    const getOrderById = 0;
 
     const refs = {
         frontDoorRef: useRef(null),
