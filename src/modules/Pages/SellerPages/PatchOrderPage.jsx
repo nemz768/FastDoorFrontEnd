@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Pikaday from 'pikaday';
+import 'pikaday/css/pikaday.css'; // Импортируйте CSS, если требуется
 
 export const PatchOrderPage = () => {
     const { orderId } = useParams();
@@ -21,6 +22,7 @@ export const PatchOrderPage = () => {
     };
 
     const getApi = async () => {
+        console.log('Fetching data for orderId:', orderId);
         try {
             const response = await fetch(`/api/edit/${orderId}`, {
                 method: 'GET',
@@ -28,19 +30,22 @@ export const PatchOrderPage = () => {
                     'Content-Type': 'application/json',
                 },
             });
+            console.log('Response status:', response.status);
             if (!response.ok) {
                 throw new Error(`Ошибка HTTP! Статус: ${response.status}`);
             }
             const data = await response.json();
+            console.log('API data:', data);
             setGetOrderById(data);
             setError(null);
         } catch (err) {
-            console.log(err);
+            console.error('API error:', err);
             setError(err.message);
         }
     };
 
     useEffect(() => {
+        console.log('orderId:', orderId);
         if (orderId) {
             getApi();
         }
@@ -175,6 +180,10 @@ export const PatchOrderPage = () => {
     return (
         <div className="sellerCreatePage">
             {error && <div className="error-message">{error}</div>}
+            <div>
+                <h2>Отладка данных:</h2>
+                <pre>{JSON.stringify(getOrderById, null, 2)}</pre>
+            </div>
             {!error && (
                 <form className="form-container" onSubmit={handleSubmit}>
                     <h1>Заполните данные о заказе</h1>
