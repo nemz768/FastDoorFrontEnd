@@ -22,6 +22,10 @@ export const PatchOrderPage = () => {
     };
 
     const getApi = async () => {
+        if (!orderId || orderId === 'undefined') {
+            setError('ID заказа не указан');
+            return;
+        }
         console.log('Fetching data for orderId:', orderId);
         console.log('API URL:', `/api/edit/${orderId}`);
         try {
@@ -48,9 +52,11 @@ export const PatchOrderPage = () => {
 
     useEffect(() => {
         console.log('orderId:', orderId);
-        if (orderId) {
-            getApi();
+        if (!orderId || orderId === 'undefined') {
+            setError('Неверный ID заказа');
+            return;
         }
+        getApi();
     }, [orderId]);
 
     useEffect(() => {
@@ -147,6 +153,10 @@ export const PatchOrderPage = () => {
 
     const HandleSubmit = async (e) => {
         e.preventDefault();
+        if (!orderId || orderId === 'undefined') {
+            setError('ID заказа не указан');
+            return;
+        }
         const formData = {
             fullName: e.target.fullName.value,
             address: e.target.address.value,
