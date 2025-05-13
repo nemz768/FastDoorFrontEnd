@@ -27,6 +27,7 @@ export const PatchOrderPage = () => {
                 const response = await fetch('/api/availability');
                 if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
                 const data = await response.json();
+                console.log('Availability data:', data); // Для отладки
                 setAvailabilityData(data);
             } catch (err) {
                 console.error("Ошибка при загрузке доступности:", err.message);
@@ -53,6 +54,7 @@ export const PatchOrderPage = () => {
             });
             if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
             const data = await response.json();
+            console.log('Order data:', data); // Для отладки
             setGetOrderById(data);
         } catch (err) {
             console.error("Ошибка при загрузке данных:", err.message);
@@ -78,6 +80,7 @@ export const PatchOrderPage = () => {
                 }),
             });
             if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+            console.log('Order updated successfully'); // Для отладки
             navigate('/home/seller/listOrdersSeller');
         } catch (err) {
             console.error("Ошибка при обновлении:", err.message);
@@ -297,12 +300,15 @@ export const PatchOrderPage = () => {
                     />
                 </div>
 
-                <button id="submitButton"  className="submit-btn">
+                <button id="submitButton" type="submit" className="submit-btn">
                     Подтвердить
                 </button>
                 <button
                     type="button"
-                    onClick={() => navigate('/home/seller/listOrdersSeller')}
+                    onClick={() => {
+                        console.log('Navigating to /home/seller/listOrdersSeller');
+                        navigate('/home/seller/listOrdersSeller');
+                    }}
                     className="submit-btn"
                 >
                     Отмена
