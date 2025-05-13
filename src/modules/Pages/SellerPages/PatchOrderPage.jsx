@@ -14,14 +14,14 @@ export const PatchOrderPage = () => {
     // const [getOrderById, setGetOrderById] = useState(null);
 
     const refs = {
+        dateRef: useRef(null),
         frontDoorRef: useRef(null),
         inDoorRef: useRef(null),
     };
 
 
 
-    const sendResultsCreate = async (e) => {
-        e.preventDefault();
+    const sendResultsCreate = async () => {
         await fetch(`/api/edit/`, {
             method: 'GET',
             headers: {
@@ -33,7 +33,6 @@ export const PatchOrderPage = () => {
             })
             .then((data) => {
                 console.log('Server response: ', data);
-                navigate("../");
             })
             .catch((err) => console.error(err));
     };
@@ -199,7 +198,7 @@ export const PatchOrderPage = () => {
                 </div>
 
                 <button id="submitButton" type="submit" className="submit-btn">Подтвердить</button>
-                <button onClick={()=> navigate(-1)} className="submit-btn">Подтвердить заказ</button>
+                <button onClick={()=> navigate(-1)} className="submit-btn">Отмена</button>
             </form>
         </div>
     );
