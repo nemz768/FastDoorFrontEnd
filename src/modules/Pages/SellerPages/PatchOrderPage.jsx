@@ -62,43 +62,6 @@ export const PatchOrderPage = () => {
     }, [])
 
 
-
-    const sendResultsCreate = async (e) => {
-        e.preventDefault();
-        console.log(refs.fullname.current.value);
-        const fullname = refs.fullname.current.value;
-        const address = refs.address.current.value;
-        const phone = refs.phone.current.value;
-        const comments = refs.comments.current.value;
-        const dateRef = refs.dateRef.current.value;
-        const frontDoorRef = refs.frontDoorRef.current.value;
-        const inDoorRef = refs.inDoorRef.current.value;
-
-        await fetch("/api/orders/create", {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                fullName: fullname,
-                address: address,
-                phone: phone,
-                messageSeller: comments,
-                dateOrder: dateRef,
-                frontDoorQuantity: frontDoorRef,
-                inDoorQuantity: inDoorRef
-            })
-        })
-            .then((res) => {
-                res.json();
-            })
-            .then((data) => {
-                console.log('Server response: ', data);
-                navigate("./done");
-            })
-            .catch((err) => console.error(err));
-    };
-
     useEffect(() => {
         const frontInput = refs.frontDoorRef.current;
         const inInput = refs.inDoorRef.current;
@@ -188,11 +151,38 @@ export const PatchOrderPage = () => {
         }
     }, [availabilityMap]);
 
+
+    const patchApi = async (e) => {
+        e.preventDefault();
+        const fullname = refs.fullname.current.value;
+        const address = refs.address.current.value;
+        const phone = refs.phone.current.value;
+        const comments = refs.comments.current.value;
+        const dateRef = refs.dateRef.current.value;
+        const frontDoorRef = refs.frontDoorRef.current.value;
+        const inDoorRef = refs.inDoorRef.current.value;
+try {
+        await fetch(`/api/edit/${orderId}`, {
+        method: 'PATCH',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            fullName: fullname,
+            address: address,
+            phone: phone,
+            messageSeller: comments,
+            dateOrder: dateRef,
+            frontDoorQuantity: frontDoorRef,
+            inDoorQuantity: inDoorRef
+        })
+    })
+}catch (error) {
+    console.log(error.message);
+}
+    }
+
     return (
         <div className="sellerCreatePage">
-            <form onSubmit={(e) => {
-                sendResultsCreate(e);
-            }} className="form-container">
+            <form onSubmit={(e) => patchApi(e)} className="form-container">
                 <h1>Заполните данные о заказе</h1>
                 <h3 className='subtitleInput'>Укажите данные заказчика</h3>
                   <div>
@@ -291,7 +281,7 @@ export const PatchOrderPage = () => {
 
                           />
                       </div>
-
+                      <button onClick={()=> navigate(-1)}>Отмена</button>
                       <button id="submitButton" type="submit" className="submit-btn">Подтвердить заказ</button>
                   </div>
 
