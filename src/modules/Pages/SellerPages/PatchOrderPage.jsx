@@ -282,13 +282,12 @@ try {
                               defaultValue={inputValue.inDoorQuantity}
 
                           />
-                          <button onClick={()=> navigate(-1)}>Отмена</button>
-                          <button id="submitButton" onClick={patchApi} type="submit" className="submit-btn">Подтвердить</button>
                       </div>
                   </div>
-
-
             </form>
+            <button onClick={()=> navigate("")}>Отмена</button>
+            <button id="submitButton" onClick={patchApi} type="submit" className="submit-btn">Подтвердить</button>
+
         </div>
     );
 };
