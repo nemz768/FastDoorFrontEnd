@@ -1,7 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Pikaday from 'pikaday';
-import 'pikaday/css/pikaday.css'; // Импортируйте CSS, если требуется
+import 'pikaday/css/pikaday.css';
+
+
 
 export const PatchOrderPage = () => {
     const { orderId } = useParams();
@@ -21,11 +23,10 @@ export const PatchOrderPage = () => {
         inDoorRef: useRef(null),
     };
 
-    const getApi = async (e) => {
-        e.preventDefault();
+    const getApi = async () => {
         console.log('Fetching data for orderId:', orderId);
         try {
-            const response = await fetch(`/api/edit/41`, {
+            const response = await fetch(`/api/edit/${orderId}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -150,7 +151,6 @@ export const PatchOrderPage = () => {
 
     return (
         <div className="sellerCreatePage">
-            {error && <div className="error-message">{error}</div>}
             <div>
                 <h2>Отладка данных:</h2>
                 <pre>{JSON.stringify(getOrderById, null, 2)}</pre>
@@ -168,7 +168,7 @@ export const PatchOrderPage = () => {
                             id="fullName"
                             required
                             placeholder="ФИО"
-                           value={getOrderById?.fullName || ''}
+                           defaultvalue={getOrderById?.fullName || ''}
                         />
                     </div>
 
@@ -180,7 +180,7 @@ export const PatchOrderPage = () => {
                             id="address"
                             required
                             placeholder="Адрес"
-                            value={getOrderById?.address || ''}
+                            defaultvalue={getOrderById?.address || ''}
                         />
                     </div>
 
