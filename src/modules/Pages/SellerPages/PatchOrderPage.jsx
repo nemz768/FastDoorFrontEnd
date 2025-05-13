@@ -47,10 +47,16 @@ export const PatchOrderPage = () => {
                         }
                     ))
                 )
-                // setInputValue({
-                //     ...data.orderAttribute,
-                //     fullName: data.orderAttribute.fullName
-                // });
+                setInputValue({
+                    ...data.orderAttribute,
+                    fullName: data.orderAttribute.fullName,
+                    address: data.orderAttribute.address,
+                    phone: data.orderAttribute.phone,
+                    commentSeller: data.orderAttribute.commentSeller,
+                    dateOrder: data.orderAttribute.dateOrder,
+                    frontDoorRef: data.orderAttribute.frontDoorRef,
+                    inDoorRef: data.orderAttribute.inDoorRef,
+                });
 
             }
 
@@ -178,99 +184,102 @@ export const PatchOrderPage = () => {
                 <h1>Заполните данные о заказе</h1>
                 <h3 className='subtitleInput'>Укажите данные заказчика</h3>
                   <div>
-                      {inputValue.map((val)=> (
-                       <div>
-                           <div className="input-group">
-                               <label htmlFor="fullName">ФИО: </label>
-                               <input
-                                   type="text"
-                                   className="input_SellerPage"
-                                   id="fullName"
-                                   required
-                                   ref={refs.fullname}
-                                   placeholder="ФИО"
-                                   defaultValue={val.fullName}
-                               />
-                           </div>
+                      <div className="input-group">
+                          <label htmlFor="fullName">ФИО: </label>
+                          <input
+                              type="text"
+                              className="input_SellerPage"
+                              id="fullName"
+                              required
+                              ref={refs.fullname}
+                              placeholder="ФИО"
+                              defaultValue={inputValue.fullName}
+                          />
+                      </div>
 
-                           <div className="input-group">
-                               <label htmlFor="address">Адрес: </label>
-                               <input
-                                   type="text"
-                                   className="input_SellerPage"
-                                   id="address"
-                                   required
-                                   ref={refs.address}
-                                   placeholder="Адрес"
-                               />
-                           </div>
+                      <div className="input-group">
+                          <label htmlFor="address">Адрес: </label>
+                          <input
+                              type="text"
+                              className="input_SellerPage"
+                              id="address"
+                              required
+                              ref={refs.address}
+                              placeholder="Адрес"
+                              defaultValue={inputValue.address}
+                          />
+                      </div>
 
-                           <div className="input-group">
-                               <label htmlFor="phoneDelivery">Номер телефона: </label>
-                               <input
-                                   type="text"
-                                   className="input_SellerPage"
-                                   id="phoneDelivery"
-                                   required
-                                   ref={refs.phone}
-                                   placeholder="Номер телефона"
-                               />
-                           </div>
+                      <div className="input-group">
+                          <label htmlFor="phoneDelivery">Номер телефона: </label>
+                          <input
+                              type="text"
+                              className="input_SellerPage"
+                              id="phoneDelivery"
+                              required
+                              ref={refs.phone}
+                              placeholder="Номер телефона"
+                              defaultValue={inputValue.phone}
 
-                           <div className="input-group">
-                               <label htmlFor="messageSeller">Комментарий: </label>
-                               <input
-                                   type="text"
-                                   className="input_SellerPage"
-                                   id="messageSeller"
-                                   required
-                                   ref={refs.comments}
-                                   placeholder="Комментарий"
-                               />
-                           </div>
+                          />
+                      </div>
 
-                           <h3 className='subtitleInput'>Укажите прочие данные</h3>
+                      <div className="input-group">
+                          <label htmlFor="messageSeller">Комментарий: </label>
+                          <input
+                              type="text"
+                              className="input_SellerPage"
+                              id="messageSeller"
+                              required
+                              ref={refs.comments}
+                              placeholder="Комментарий"
+                              defaultValue={inputValue.commentSeller}
+                          />
+                      </div>
 
-                           <div className="input-group">
-                               <label htmlFor="dateOrdered">Дата доставки: </label>
-                               <input
-                                   readOnly
-                                   required
-                                   className="input_SellerPage"
-                                   type="text"
-                                   id="dateOrdered"
-                                   ref={refs.dateRef}
-                                   placeholder="Выбрать дату"
-                               />
-                           </div>
+                      <h3 className='subtitleInput'>Укажите прочие данные</h3>
 
-                           <div className="input-group">
-                               <label htmlFor="frontDoorQuantity">Количество входных дверей</label>
-                               <input
-                                   type="text"
-                                   className="input_SellerPage"
-                                   id="frontDoorQuantity"
-                                   ref={refs.frontDoorRef}
-                                   required
-                                   placeholder="Количество входных дверей"
-                               />
-                           </div>
+                      <div className="input-group">
+                          <label htmlFor="dateOrdered">Дата доставки: </label>
+                          <input
+                              readOnly
+                              required
+                              className="input_SellerPage"
+                              type="text"
+                              id="dateOrdered"
+                              ref={refs.dateRef}
+                              placeholder="Выбрать дату"
+                              defaultValue={inputValue.dateOrder}
+                          />
+                      </div>
 
-                           <div className="input-group">
-                               <label htmlFor="inDoorQuantity">Количество межкомнатных дверей</label>
-                               <input
-                                   type="text"
-                                   className="input_SellerPage"
-                                   id="inDoorQuantity"
-                                   ref={refs.inDoorRef}
-                                   required
-                                   placeholder="Количество межк-х дверей"
-                               />
-                           </div>
+                      <div className="input-group">
+                          <label htmlFor="frontDoorQuantity">Количество входных дверей</label>
+                          <input
+                              type="text"
+                              className="input_SellerPage"
+                              id="frontDoorQuantity"
+                              ref={refs.frontDoorRef}
+                              required
+                              placeholder="Количество входных дверей"
+                              defaultValue={inputValue.frontDoorRef}
+                          />
+                      </div>
 
-                           <button id="submitButton" type="submit" className="submit-btn">Подтвердить заказ</button>
-                       </div>
-                      ))}
+                      <div className="input-group">
+                          <label htmlFor="inDoorQuantity">Количество межкомнатных дверей</label>
+                          <input
+                              type="text"
+                              className="input_SellerPage"
+                              id="inDoorQuantity"
+                              ref={refs.inDoorRef}
+                              required
+                              placeholder="Количество межк-х дверей"
+                              defaultValue={inputValue.inDoorRef}
+                          />
+                      </div>
+
+                      <button id="submitButton" type="submit" className="submit-btn">Подтвердить заказ</button>
                   </div>
 
 
