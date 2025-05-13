@@ -6,7 +6,7 @@ import 'pikaday/css/pikaday.css';
 export const PatchOrderPage = () => {
 
     const {orderId} = useParams();
-    const [getData, setGetData] = useState(null);
+   const [inputValue, setInputValue] = useState('');
 
     const availabilityData = /*[[${availabilityList}]]*/ [];
     const availabilityMap = {};
@@ -38,7 +38,7 @@ export const PatchOrderPage = () => {
                 })
                 const data = await response.json();
                 console.log(data);
-                setGetData(data)
+                setInputValue(data.fullName.target.value)
             }
 
             catch (err) {
@@ -174,7 +174,7 @@ export const PatchOrderPage = () => {
                         required
                         ref={refs.fullname}
                         placeholder="ФИО"
-                        value={getData.fullname || ''}
+                        value={inputValue}
                     />
                 </div>
 
