@@ -66,23 +66,24 @@ export const PatchOrderPage = () => {
 
 
     useEffect(() => {
+        const handleInput = (el) => {
+            const value = el.value;
+            if (!/^\d*$/.test(value) || (value.startsWith('0') && value.length > 1)) {
+                el.value = value.slice(0, -1);
+            }
+            setInputValue(prev => ({ ...prev, [el.id]: el.value }));
+        };
+
         const frontInput = refs.frontDoorRef.current;
         const inInput = refs.inDoorRef.current;
-
-        const handleInput = (el) => {
-            const inputArray = el.value.split('');
-            const currentVal = el.value;
-            const onlyNumbers = inputArray.every(char => numbers.includes(char));
-            if (!onlyNumbers || (currentVal.startsWith('0') && currentVal.length > 1)) {
-                el.value = currentVal.slice(0, -1);
-            }
-        };
-        frontInput.addEventListener('input', () => handleInput(frontInput));
-        inInput.addEventListener('input', () => handleInput(inInput));
+        if (frontInput && inInput) {
+            frontInput.addEventListener('input', () => handleInput(frontInput));
+            inInput.addEventListener('input', () => handleInput(inInput));
+        }
 
         return () => {
-            frontInput.removeEventListener('input', () => handleInput(frontInput));
-            inInput.removeEventListener('input', () => handleInput(inInput));
+            if (frontInput) frontInput.removeEventListener('input', () => handleInput(frontInput));
+            if (inInput) inInput.removeEventListener('input', () => handleInput(inInput));
         };
     }, []);
 
