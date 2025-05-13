@@ -4,7 +4,7 @@ import Pikaday from 'pikaday';
 import 'pikaday/css/pikaday.css';
 
 export const PatchOrderPage = () => {
-    const { orderId } = useParams();
+    // const { orderId } = useParams();
     const availabilityData = /*[[${availabilityList}]]*/ [];
     const availabilityMap = {};
     availabilityData.forEach((day) => {
@@ -12,7 +12,7 @@ export const PatchOrderPage = () => {
     });
     const navigate = useNavigate();
     const numbers = '1234567890';
-   const [getOrderById, setGetOrderById] = useState(null);
+   // const [getOrderById, setGetOrderById] = useState(null);
 
     const refs = {
         dateRef: useRef(null),
@@ -151,7 +151,7 @@ export const PatchOrderPage = () => {
                             id="fullName"
                             required
                             placeholder="ФИО"
-                            defaultValue={getOrderById?.fullName || ''}
+                            // defaultValue={getOrderById?.fullName || ''}
                         />
                     </div>
 
@@ -163,7 +163,7 @@ export const PatchOrderPage = () => {
                             id="address"
                             required
                             placeholder="Адрес"
-                            defaultValue={getOrderById?.address || ''}
+                            // defaultValue={getOrderById?.address || ''}
                         />
                     </div>
 
@@ -175,7 +175,7 @@ export const PatchOrderPage = () => {
                             id="phone"
                             required
                             placeholder="Номер телефона"
-                            defaultValue={getOrderById?.phone || ''}
+                            // defaultValue={getOrderById?.phone || ''}
                         />
                     </div>
 
@@ -187,7 +187,7 @@ export const PatchOrderPage = () => {
                             id="messageSeller"
                             required
                             placeholder="Комментарий"
-                            defaultValue={getOrderById?.messageSeller || ''}
+                            // defaultValue={getOrderById?.messageSeller || ''}
                         />
                     </div>
 
@@ -203,7 +203,7 @@ export const PatchOrderPage = () => {
                             id="dateOrder"
                             ref={refs.dateRef}
                             placeholder="Выбрать дату"
-                            defaultValue={getOrderById?.dateOrder || ''}
+                            // defaultValue={getOrderById?.dateOrder || ''}
                         />
                     </div>
 
@@ -216,7 +216,7 @@ export const PatchOrderPage = () => {
                             ref={refs.frontDoorRef}
                             required
                             placeholder="Количество входных дверей"
-                            defaultValue={getOrderById?.frontDoorQuantity || ''}
+                            // defaultValue={getOrderById?.frontDoorQuantity || ''}
                         />
                     </div>
 
@@ -229,7 +229,7 @@ export const PatchOrderPage = () => {
                             ref={refs.inDoorRef}
                             required
                             placeholder="Количество межк-х дверей"
-                            defaultValue={getOrderById?.inDoorQuantity || ''}
+                            // defaultValue={getOrderById?.inDoorQuantity || ''}
                         />
                     </div>
 
