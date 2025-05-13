@@ -41,7 +41,7 @@ export const PatchOrderPage = () => {
                 console.log(data.fullName);
 
                 setInputValue(
-                    data.map((order) => (
+                    data.orders.map((order) => (
                         {
                             ...order,
                             fullName: data.fullName,
