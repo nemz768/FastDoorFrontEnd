@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
-import {useNavigate, useParams} from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Pikaday from 'pikaday';
 import 'pikaday/css/pikaday.css';
 
 export const PatchOrderPage = () => {
-    const {orderId} = useParams();
+    const { orderId } = useParams();
     const availabilityData = /*[[${availabilityList}]]*/ [];
     const availabilityMap = {};
     availabilityData.forEach((day) => {
@@ -12,31 +12,57 @@ export const PatchOrderPage = () => {
     });
     const navigate = useNavigate();
     const numbers = '1234567890';
-    const [getOrderById, setGetOrderById] = useState(null);
+    const [formData, setFormData] = useState({
+        fullName: '',
+        address: '',
+        phone: '',
+        messageSeller: '',
+        dateOrder: '',
+        frontDoorQuantity: '',
+        inDoorQuantity: '',
+    });
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState(null);
 
     const refs = {
         dateRef: useRef(null),
         frontDoorRef: useRef(null),
         inDoorRef: useRef(null),
-        fullNameRef: useRef(null),
-        addressRef: useRef(null),
-        phoneRef: useRef(null),
-        messageSellerRef: useRef(null),
     };
 
     const getApi = async () => {
+        if (!orderId) {
+            setError('ID заказа не указан');
+            navigate('/home/seller/listOrdersSeller');
+            return;
+        }
+        setIsLoading(true);
         try {
             const response = await fetch(`/api/edit/${orderId}`, {
-                method: "GET",
+                method: 'GET',
                 headers: {
-                    "Content-Type": "application/json",
+                    'Content-Type': 'application/json',
                 },
             });
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
             const data = await response.json();
-            setGetOrderById(data);
-            console.log(data);
+            setFormData({
+                fullName: data.fullName || '',
+                address: data.address || '',
+                phone: data.phone || '',
+                messageSeller: data.messageSeller || '',
+                dateOrder: data.dateOrder || '',
+                frontDoorQuantity: data.frontDoorQuantity || '',
+                inDoorQuantity: data.inDoorQuantity || '',
+            });
+            console.log('Данные с сервера:', data);
         } catch (err) {
-            console.log(err.message);
+            console.error('Ошибка при загрузке данных:', err.message);
+            setError('Не удалось загрузить данные заказа');
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -44,31 +70,32 @@ export const PatchOrderPage = () => {
         e.preventDefault();
         try {
             const response = await fetch(`/api/edit/${orderId}`, {
-                method: "PATCH",
+                method: 'PATCH',
                 headers: {
-                    "Content-Type": "application/json",
+                    'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                    fullName: refs.fullNameRef.current.value,
-                    address: refs.addressRef.current.value,
-                    phone: refs.phoneRef.current.value,
-                    messageSeller: refs.messageSellerRef.current.value,
-                    dateOrder: refs.dateRef.current.value,
-                    frontDoorQuantity: refs.frontDoorRef.current.value,
-                    inDoorQuantity: refs.inDoorRef.current.value,
-                }),
+                body: JSON.stringify(formData),
             });
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
             const data = await response.json();
-            console.log("Данные успешно обновлены:", data);
-            navigate(-1);
+            console.log('Данные успешно обновлены:', data);
+            navigate('/home/seller/listOrdersSeller');
         } catch (err) {
-            console.log("Ошибка при обновлении:", err.message);
+            console.error('Ошибка при обновлении:', err.message);
+            setError('Не удалось обновить заказ');
         }
+    };
+
+    const handleInputChange = (e) => {
+        const { id, value } = e.target;
+        setFormData((prev) => ({ ...prev, [id]: value }));
     };
 
     useEffect(() => {
         getApi();
-    }, []);
+    }, [orderId]);
 
     useEffect(() => {
         const frontInput = refs.frontDoorRef.current;
@@ -80,6 +107,7 @@ export const PatchOrderPage = () => {
             const onlyNumbers = inputArray.every((char) => numbers.includes(char));
             if (!onlyNumbers || (currentVal.startsWith('0') && currentVal.length > 1)) {
                 el.value = currentVal.slice(0, -1);
+                setFormData((prev) => ({ ...prev, [el.id]: el.value }));
             }
         };
         frontInput.addEventListener('input', () => handleInput(frontInput));
@@ -93,7 +121,7 @@ export const PatchOrderPage = () => {
 
     useEffect(() => {
         if (refs.dateRef.current) {
-            new Pikaday({
+            const picker = new Pikaday({
                 field: refs.dateRef.current,
                 format: 'YYYY-MM-DD',
                 firstDay: 1,
@@ -132,7 +160,9 @@ export const PatchOrderPage = () => {
                     const year = date.getFullYear();
                     const month = String(date.getMonth() + 1).padStart(2, '0');
                     const day = String(date.getDate()).padStart(2, '0');
-                    refs.dateRef.current.value = `${year}-${month}-${day}`;
+                    const formattedDate = `${year}-${month}-${day}`;
+                    refs.dateRef.current.value = formattedDate;
+                    setFormData((prev) => ({ ...prev, dateOrder: formattedDate }));
                 },
                 onDraw: function () {
                     const days = document.querySelectorAll('.pika-day');
@@ -159,12 +189,25 @@ export const PatchOrderPage = () => {
                     return availabilityMap[dateStr] === 0;
                 },
             });
+
+            // Set initial date if available
+            if (formData.dateOrder) {
+                picker.setDate(formData.dateOrder);
+            }
         }
-    }, [availabilityMap]);
+    }, [availabilityMap, formData.dateOrder]);
+
+    if (isLoading) {
+        return <div className="loading">Загрузка...</div>;
+    }
+
+    if (error) {
+        return <div className="error">Ошибка: {error}</div>;
+    }
 
     return (
         <div className="sellerCreatePage">
-            <form className="form-container">
+            <form className="form-container" onSubmit={handleSubmit}>
                 <h1>Заполните данные о заказе</h1>
                 <h3 className="subtitleInput">Укажите данные заказчика</h3>
 
@@ -176,8 +219,8 @@ export const PatchOrderPage = () => {
                         id="fullName"
                         required
                         placeholder="ФИО"
-                        ref={refs.fullNameRef}
-                        defaultValue={getOrderById?.fullName || ''}
+                        value={formData.fullName}
+                        onChange={handleInputChange}
                     />
                 </div>
 
@@ -189,8 +232,8 @@ export const PatchOrderPage = () => {
                         id="address"
                         required
                         placeholder="Адрес"
-                        ref={refs.addressRef}
-                        defaultValue={getOrderById?.address || ''}
+                        value={formData.address}
+                        onChange={handleInputChange}
                     />
                 </div>
 
@@ -202,8 +245,8 @@ export const PatchOrderPage = () => {
                         id="phone"
                         required
                         placeholder="Номер телефона"
-                        ref={refs.phoneRef}
-                        defaultValue={getOrderById?.phone || ''}
+                        value={formData.phone}
+                        onChange={handleInputChange}
                     />
                 </div>
 
@@ -215,8 +258,8 @@ export const PatchOrderPage = () => {
                         id="messageSeller"
                         required
                         placeholder="Комментарий"
-                        ref={refs.messageSellerRef}
-                        defaultValue={getOrderById?.messageSeller || ''}
+                        value={formData.messageSeller}
+                        onChange={handleInputChange}
                     />
                 </div>
 
@@ -232,7 +275,7 @@ export const PatchOrderPage = () => {
                         id="dateOrder"
                         ref={refs.dateRef}
                         placeholder="Выбрать дату"
-                        defaultValue={getOrderById?.dateOrder || ''}
+                        value={formData.dateOrder}
                     />
                 </div>
 
@@ -245,7 +288,8 @@ export const PatchOrderPage = () => {
                         ref={refs.frontDoorRef}
                         required
                         placeholder="Количество входных дверей"
-                        defaultValue={getOrderById?.frontDoorQuantity || ''}
+                        value={formData.frontDoorQuantity}
+                        onChange={handleInputChange}
                     />
                 </div>
 
@@ -258,16 +302,17 @@ export const PatchOrderPage = () => {
                         ref={refs.inDoorRef}
                         required
                         placeholder="Количество межк-х дверей"
-                        defaultValue={getOrderById?.inDoorQuantity || ''}
+                        value={formData.inDoorQuantity}
+                        onChange={handleInputChange}
                     />
                 </div>
 
-                <button id="submitButton" onClick={handleSubmit} className="submit-btn">
+                <button type="submit" className="submit-btn">
                     Подтвердить
                 </button>
                 <button
                     type="button"
-                    onClick={() => navigate(-1)}
+                    onClick={() => navigate('/home/seller/listOrdersSeller')}
                     className="submit-btn"
                 >
                     Отмена

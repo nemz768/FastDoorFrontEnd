@@ -1,9 +1,8 @@
 import React from 'react';
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-export const SellerOrdersTablePc = ({isLoading, error, orders, openModal, handlePageChange, currentPage, totalPages}) => {
-  const navigate = useNavigate(null);
-
+export const SellerOrdersTablePc = ({ isLoading, error, orders, openModal, handlePageChange, currentPage, totalPages }) => {
+    const navigate = useNavigate();
 
     return (
         <main className="SellerAllOrdersPage">
@@ -43,9 +42,14 @@ export const SellerOrdersTablePc = ({isLoading, error, orders, openModal, handle
                                     <td>{order.installerName || 'Не назначен'}</td>
                                     <td>
                                         <div className="action-buttons">
-                                            <button onClick={()=> navigate(`./edit/:orderId`)} className="edit-button">Изменить</button>
                                             <button
-                                                onClick={() => openModal(order.id)} // Исправлено
+                                                onClick={() => navigate(`/home/seller/listOrdersSeller/edit/${order.id}`)}
+                                                className="edit-button"
+                                            >
+                                                Изменить
+                                            </button>
+                                            <button
+                                                onClick={() => openModal(order.id)}
                                                 className="delete-button"
                                             >
                                                 Удалить
@@ -66,8 +70,8 @@ export const SellerOrdersTablePc = ({isLoading, error, orders, openModal, handle
                             Предыдущая
                         </button>
                         <span className="pagination-info">
-                Страница {currentPage + 1} из {totalPages}
-              </span>
+              Страница {currentPage + 1} из {totalPages}
+            </span>
                         <button
                             onClick={() => handlePageChange(currentPage + 1)}
                             disabled={currentPage >= totalPages - 1}
