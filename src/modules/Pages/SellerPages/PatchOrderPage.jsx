@@ -39,11 +39,15 @@ export const PatchOrderPage = () => {
                 const data = await response.json();
                 console.log(data);
                 console.log(data.fullName);
-                if (data.fullName === undefined) {
-                    setInputValue("123")
-                }else {
-                    setInputValue(data.fullname)
-                }
+
+                setInputValue(
+                    data.orderAttribute.map((order) => (
+                        {
+                            ...order,
+                            fullName: data.fullName,
+                        }
+                    )) || "123"
+                );
 
             }
 
@@ -180,7 +184,7 @@ export const PatchOrderPage = () => {
                         required
                         ref={refs.fullname}
                         placeholder="ФИО"
-                        defaultValue={inputValue}
+                        defaultValue={inputValue.fullName}
                     />
                 </div>
 
