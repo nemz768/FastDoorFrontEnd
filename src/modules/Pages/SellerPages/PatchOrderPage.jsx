@@ -1,4 +1,4 @@
-import React, {use, useEffect, useRef, useState} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Pikaday from 'pikaday';
 import 'pikaday/css/pikaday.css';
@@ -11,30 +11,59 @@ export const PatchOrderPage = () => {
     });
     const navigate = useNavigate();
     const numbers = '1234567890';
-   const [getOrderById, setGetOrderById] = useState(null);
+    const [getOrderById, setGetOrderById] = useState(null);
 
     const refs = {
         dateRef: useRef(null),
         frontDoorRef: useRef(null),
         inDoorRef: useRef(null),
+        fullNameRef: useRef(null),
+        addressRef: useRef(null),
+        phoneRef: useRef(null),
+        messageSellerRef: useRef(null),
     };
 
     const getApi = async () => {
         try {
             const response = await fetch("/api/edit/41", {
-               method: "GET",
-               headers: {
-                   ContentType: "application/json",
-               }
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
             });
             const data = await response.json();
             setGetOrderById(data);
             console.log(data);
-
-        }catch(err) {
+        } catch (err) {
             console.log(err.message);
         }
-    }
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await fetch("/api/edit/41", {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    fullName: refs.fullNameRef.current.value,
+                    address: refs.addressRef.current.value,
+                    phone: refs.phoneRef.current.value,
+                    messageSeller: refs.messageSellerRef.current.value,
+                    dateOrder: refs.dateRef.current.value,
+                    frontDoorQuantity: refs.frontDoorRef.current.value,
+                    inDoorQuantity: refs.inDoorRef.current.value,
+                }),
+            });
+            const data = await response.json();
+            console.log("Данные успешно обновлены:", data);
+            navigate(-1);
+        } catch (err) {
+            console.log("Ошибка при обновлении:", err.message);
+        }
+    };
 
     useEffect(() => {
         getApi();
@@ -132,114 +161,117 @@ export const PatchOrderPage = () => {
         }
     }, [availabilityMap]);
 
-
     return (
         <div className="sellerCreatePage">
-                <form className="form-container">
-                    <h1>Заполните данные о заказе</h1>
-                    <h3 className="subtitleInput">Укажите данные заказчика</h3>
+            <form className="form-container">
+                <h1>Заполните данные о заказе</h1>
+                <h3 className="subtitleInput">Укажите данные заказчика</h3>
 
-                    <div className="input-group">
-                        <label htmlFor="fullName">ФИО: </label>
-                        <input
-                            type="text"
-                            className="input_SellerPage"
-                            id="fullName"
-                            required
-                            placeholder="ФИО"
-                            defaultValue={getOrderById?.fullName || ''}
-                        />
-                    </div>
+                <div className="input-group">
+                    <label htmlFor="fullName">ФИО: </label>
+                    <input
+                        type="text"
+                        className="input_SellerPage"
+                        id="fullName"
+                        required
+                        placeholder="ФИО"
+                        ref={refs.fullNameRef}
+                        defaultValue={getOrderById?.fullName || ''}
+                    />
+                </div>
 
-                    <div className="input-group">
-                        <label htmlFor="address">Адрес: </label>
-                        <input
-                            type="text"
-                            className="input_SellerPage"
-                            id="address"
-                            required
-                            placeholder="Адрес"
-                            defaultValue={getOrderById?.address || ''}
-                        />
-                    </div>
+                <div className="input-group">
+                    <label htmlFor="address">Адрес: </label>
+                    <input
+                        type="text"
+                        className="input_SellerPage"
+                        id="address"
+                        required
+                        placeholder="Адрес"
+                        ref={refs.addressRef}
+                        defaultValue={getOrderById?.address || ''}
+                    />
+                </div>
 
-                    <div className="input-group">
-                        <label htmlFor="phone">Номер телефона: </label>
-                        <input
-                            type="text"
-                            className="input_SellerPage"
-                            id="phone"
-                            required
-                            placeholder="Номер телефона"
-                            defaultValue={getOrderById?.phone || ''}
-                        />
-                    </div>
+                <div className="input-group">
+                    <label htmlFor="phone">Номер телефона: </label>
+                    <input
+                        type="text"
+                        className="input_SellerPage"
+                        id="phone"
+                        required
+                        placeholder="Номер телефона"
+                        ref={refs.phoneRef}
+                        defaultValue={getOrderById?.phone || ''}
+                    />
+                </div>
 
-                    <div className="input-group">
-                        <label htmlFor="messageSeller">Комментарий: </label>
-                        <input
-                            type="text"
-                            className="input_SellerPage"
-                            id="messageSeller"
-                            required
-                            placeholder="Комментарий"
-                            defaultValue={getOrderById?.messageSeller || ''}
-                        />
-                    </div>
+                <div className="input-group">
+                    <label htmlFor="messageSeller">Комментарий: </label>
+                    <input
+                        type="text"
+                        className="input_SellerPage"
+                        id="messageSeller"
+                        required
+                        placeholder="Комментарий"
+                        ref={refs.messageSellerRef}
+                        defaultValue={getOrderById?.messageSeller || ''}
+                    />
+                </div>
 
-                    <h3 className="subtitleInput">Укажите прочие данные</h3>
+                <h3 className="subtitleInput">Укажите прочие данные</h3>
 
-                    <div className="input-group">
-                        <label htmlFor="dateOrder">Дата доставки: </label>
-                        <input
-                            readOnly
-                            required
-                            className="input_SellerPage"
-                            type="text"
-                            id="dateOrder"
-                            ref={refs.dateRef}
-                            placeholder="Выбрать дату"
-                            defaultValue={getOrderById?.dateOrder || ''}
-                        />
-                    </div>
+                <div className="input-group">
+                    <label htmlFor="dateOrder">Дата доставки: </label>
+                    <input
+                        readOnly
+                        required
+                        className="input_SellerPage"
+                        type="text"
+                        id="dateOrder"
+                        ref={refs.dateRef}
+                        placeholder="Выбрать дату"
+                        defaultValue={getOrderById?.dateOrder || ''}
+                    />
+                </div>
 
-                    <div className="input-group">
-                        <label htmlFor="frontDoorQuantity">Количество входных дверей</label>
-                        <input
-                            type="text"
-                            className="input_SellerPage"
-                            id="frontDoorQuantity"
-                            ref={refs.frontDoorRef}
-                            required
-                            placeholder="Количество входных дверей"
-                            defaultValue={getOrderById?.frontDoorQuantity || ''}
-                        />
-                    </div>
+                <div className="input-group">
+                    <label htmlFor="frontDoorQuantity">Количество входных дверей</label>
+                    <input
+                        type="text"
+                        className="input_SellerPage"
+                        id="frontDoorQuantity"
+                        ref={refs.frontDoorRef}
+                        required
+                        placeholder="Количество входных дверей"
+                        defaultValue={getOrderById?.frontDoorQuantity || ''}
+                    />
+                </div>
 
-                    <div className="input-group">
-                        <label htmlFor="inDoorQuantity">Количество межкомнатных дверей</label>
-                        <input
-                            type="text"
-                            className="input_SellerPage"
-                            id="inDoorQuantity"
-                            ref={refs.inDoorRef}
-                            required
-                            placeholder="Количество межк-х дверей"
-                            defaultValue={getOrderById?.inDoorQuantity || ''}
-                        />
-                    </div>
+                <div className="input-group">
+                    <label htmlFor="inDoorQuantity">Количество межкомнатных дверей</label>
+                    <input
+                        type="text"
+                        className="input_SellerPage"
+                        id="inDoorQuantity"
+                        ref={refs.inDoorRef}
+                        required
+                        placeholder="Количество межк-х дверей"
+                        defaultValue={getOrderById?.inDoorQuantity || ''}
+                    />
+                </div>
 
-                    <button id="submitButton" className="submit-btn">
-                        Подтвердить
-                    </button>
-                    <button
-                        type="button"
-                        onClick={() => navigate(-1)}
-                        className="submit-btn"
-                    >
-                        Отмена
-                    </button>
-                </form>
+                <button id="submitButton" onClick={handleSubmit} className="submit-btn">
+                    Подтвердить
+                </button>
+                <button
+                    type="button"
+                    onClick={() => navigate(-1)}
+                    className="submit-btn"
+                >
+                    Отмена
+                </button>
+            </form>
         </div>
     );
 };
