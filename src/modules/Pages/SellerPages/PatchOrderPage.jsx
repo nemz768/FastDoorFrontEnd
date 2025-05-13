@@ -17,7 +17,7 @@ export const PatchOrderPage = () => {
         address: '',
         phone: '',
         messageSeller: '',
-        dateOrder: '', // Added dateOrder
+        dateOrder: '',
         frontDoorQuantity: '',
         inDoorQuantity: '',
     });
@@ -54,6 +54,8 @@ export const PatchOrderPage = () => {
                 const parsedDate = new Date(data.dateOrder);
                 if (!isNaN(parsedDate)) {
                     formattedDateOrder = parsedDate.toISOString().split('T')[0];
+                } else {
+                    console.warn('Invalid date format from API:', data.dateOrder);
                 }
             }
             setFormData({
@@ -170,8 +172,10 @@ export const PatchOrderPage = () => {
                     const month = String(date.getMonth() + 1).padStart(2, '0');
                     const day = String(date.getDate()).padStart(2, '0');
                     const formattedDate = `${year}-${month}-${day}`;
-                    refs.dateRef.current.value = formattedDate;
-                    setFormData((prev) => ({ ...prev, dateOrder: formattedDate }));
+                    setFormData((prev) => {
+                        console.log('Selected date:', formattedDate); // Debug log
+                        return { ...prev, dateOrder: formattedDate };
+                    });
                 },
                 onDraw: function () {
                     const days = document.querySelectorAll('.pika-day');
@@ -204,6 +208,9 @@ export const PatchOrderPage = () => {
                 const parsedDate = new Date(formData.dateOrder);
                 if (!isNaN(parsedDate)) {
                     picker.setDate(formData.dateOrder);
+                    console.log('Initial date set:', formData.dateOrder); // Debug log
+                } else {
+                    console.warn('Invalid initial date:', formData.dateOrder);
                 }
             }
         }
