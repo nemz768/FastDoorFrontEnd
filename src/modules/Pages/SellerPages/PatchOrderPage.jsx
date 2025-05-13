@@ -14,7 +14,6 @@ export const PatchOrderPage = () => {
         availabilityMap[day.date] = day.frontDoorQuantity;
     });
     const navigate = useNavigate();
-    const numbers = '1234567890';
 
     const refs = {
         fullname: useRef(null),
@@ -161,12 +160,12 @@ export const PatchOrderPage = () => {
 
         const payload = {
             fullName: refs.fullname.current.value,
-            address: refs.address.current.value,
-            phone: refs.phone.current.value,
-            messageSeller: refs.comments.current.value,
-            dateOrder: refs.dateRef.current.value,
-            frontDoorQuantity: Number(refs.frontDoorRef.current.value) || 0,
-            inDoorQuantity: Number(refs.inDoorRef.current.value) || 0,
+            // address: refs.address.current.value,
+            // phone: refs.phone.current.value,
+            // messageSeller: refs.comments.current.value,
+            // dateOrder: refs.dateRef.current.value,
+            // frontDoorQuantity: Number(refs.frontDoorRef.current.value) || 0,
+            // inDoorQuantity: Number(refs.inDoorRef.current.value) || 0,
         };
 
         try {
