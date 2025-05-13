@@ -138,7 +138,7 @@ export const PatchOrderPage = () => {
                         id="fullName"
                         required
                         placeholder="ФИО"
-                        defaultValue={orderId.fullName || ''}
+                        value={orderId.fullName}
                     />
                 </div>
 
