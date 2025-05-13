@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Pikaday from 'pikaday';
 import 'pikaday/css/pikaday.css';
@@ -6,9 +6,7 @@ import 'pikaday/css/pikaday.css';
 export const PatchOrderPage = () => {
 
     const {orderId} = useParams();
-
-
-
+    const [getData, setGetData] = useState(null);
 
     const availabilityData = /*[[${availabilityList}]]*/ [];
     const availabilityMap = {};
@@ -28,7 +26,6 @@ export const PatchOrderPage = () => {
         inDoorRef: useRef(null),
     };
 
-
     useEffect(() => {
         const getData = async () => {
 
@@ -41,6 +38,7 @@ export const PatchOrderPage = () => {
                 })
                 const data = await response.json();
                 console.log(data);
+                setGetData(data)
             }
 
             catch (err) {
@@ -176,6 +174,7 @@ export const PatchOrderPage = () => {
                         required
                         ref={refs.fullname}
                         placeholder="ФИО"
+                        value={getData.fullname}
                     />
                 </div>
 
