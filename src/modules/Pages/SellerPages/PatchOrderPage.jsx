@@ -38,7 +38,6 @@ export const PatchOrderPage = () => {
                 })
                 const data = await response.json();
                 console.log(data);
-                console.log(data.fullName);
                 console.log(data.orderAttribute.fullName);
 
                 setInputValue({
@@ -51,7 +50,13 @@ export const PatchOrderPage = () => {
                     frontDoorQuantity: data.orderAttribute.frontDoorQuantity,
                     inDoorQuantity: data.orderAttribute.inDoorQuantity,
                 });
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || `PATCH request failed: ${response.status}`);
+                }
 
+                // On success, navigate back or to a confirmation page
+                navigate('/orders'); // Adjust the route as needed
             }
 
             catch (err) {
