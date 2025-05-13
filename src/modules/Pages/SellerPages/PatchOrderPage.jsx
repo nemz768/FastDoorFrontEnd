@@ -233,9 +233,7 @@ export const PatchOrderPage = () => {
                         />
                     </div>
 
-                    <button id="submitButton" onClick={getApi} className="submit-btn">
-                        Подтвердить
-                    </button>
+
                     <button
                         type="button"
                         onClick={() => navigate(-1)}
@@ -244,6 +242,9 @@ export const PatchOrderPage = () => {
                         Отмена
                     </button>
                 </form>
+            <button id="submitButton" onClick={getApi} className="submit-btn">
+                Подтвердить
+            </button>
         </div>
     );
 };
