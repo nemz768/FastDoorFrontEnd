@@ -18,11 +18,11 @@ export const PatchOrderPage = () => {
         inDoorRef: useRef(null),
     };
 
+
+
     const sendResultsCreate = async (e) => {
         e.preventDefault();
-        console.log(refs.fullname.current.value);
-
-        await fetch(`/api/edit/${getOrderById.id}`, {
+        await fetch(`/api/edit/`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -37,6 +37,7 @@ export const PatchOrderPage = () => {
             })
             .catch((err) => console.error(err));
     };
+    sendResultsCreate();
 
     useEffect(() => {
         const frontInput = refs.frontDoorRef.current;
@@ -111,9 +112,7 @@ export const PatchOrderPage = () => {
 
     return (
         <div className="sellerCreatePage">
-            <form onSubmit={(e) => {
-                sendResultsCreate(e);
-            }} className="form-container">
+            <form className="form-container">
                 <h1>Заполните данные о заказе</h1>
                 <h3 className='subtitleInput'>Укажите данные заказчика</h3>
 
@@ -124,7 +123,6 @@ export const PatchOrderPage = () => {
                         className="input_SellerPage"
                         id="fullName"
                         required
-                        ref={refs.fullname}
                         placeholder="ФИО"
                     />
                 </div>
@@ -136,7 +134,6 @@ export const PatchOrderPage = () => {
                         className="input_SellerPage"
                         id="address"
                         required
-                        ref={refs.address}
                         placeholder="Адрес"
                     />
                 </div>
@@ -148,7 +145,6 @@ export const PatchOrderPage = () => {
                         className="input_SellerPage"
                         id="phoneDelivery"
                         required
-                        ref={refs.phone}
                         placeholder="Номер телефона"
                     />
                 </div>
@@ -160,7 +156,6 @@ export const PatchOrderPage = () => {
                         className="input_SellerPage"
                         id="messageSeller"
                         required
-                        ref={refs.comments}
                         placeholder="Комментарий"
                     />
                 </div>
@@ -175,7 +170,6 @@ export const PatchOrderPage = () => {
                         className="input_SellerPage"
                         type="text"
                         id="dateOrdered"
-                        ref={refs.dateRef}
                         placeholder="Выбрать дату"
                     />
                 </div>
@@ -204,7 +198,8 @@ export const PatchOrderPage = () => {
                     />
                 </div>
 
-                <button id="submitButton" type="submit" className="submit-btn">Подтвердить заказ</button>
+                <button id="submitButton" type="submit" className="submit-btn">Подтвердить</button>
+                <button onClick={()=> navigate(-1)} className="submit-btn">Подтвердить заказ</button>
             </form>
         </div>
     );
