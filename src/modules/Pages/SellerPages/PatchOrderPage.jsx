@@ -46,10 +46,10 @@ export const PatchOrderPage = () => {
                     fullName: data.orderAttribute.fullName,
                     address: data.orderAttribute.address,
                     phone: data.orderAttribute.phone,
-                    commentSeller: data.orderAttribute.commentSeller,
+                    messageSeller: data.orderAttribute.messageSeller,
                     dateOrder: data.orderAttribute.dateOrder,
-                    frontDoorRef: data.orderAttribute.frontDoorRef,
-                    inDoorRef: data.orderAttribute.inDoorRef,
+                    frontDoorQuantity: data.orderAttribute.frontDoorQuantity,
+                    inDoorQuantity: data.orderAttribute.inDoorQuantity,
                 });
 
             }
@@ -227,7 +227,7 @@ export const PatchOrderPage = () => {
                               required
                               ref={refs.comments}
                               placeholder="Комментарий"
-                              defaultValue={inputValue.commentSeller}
+                              defaultValue={inputValue.messageSeller}
                           />
                       </div>
 
@@ -243,7 +243,7 @@ export const PatchOrderPage = () => {
                               id="dateOrdered"
                               ref={refs.dateRef}
                               placeholder="Выбрать дату"
-                              defaultValue={inputValue.dateOrder}
+                              value={inputValue.dateOrder}
                           />
                       </div>
 
@@ -256,7 +256,7 @@ export const PatchOrderPage = () => {
                               ref={refs.frontDoorRef}
                               required
                               placeholder="Количество входных дверей"
-                              defaultValue={inputValue.frontDoorRef}
+                              defaultValue={inputValue.frontDoorQuantity}
                           />
                       </div>
 
@@ -269,7 +269,8 @@ export const PatchOrderPage = () => {
                               ref={refs.inDoorRef}
                               required
                               placeholder="Количество межк-х дверей"
-                              defaultValue={inputValue.inDoorRef}
+                              defaultValue={inputValue.inDoorQuantity}
+
                           />
                       </div>
 
