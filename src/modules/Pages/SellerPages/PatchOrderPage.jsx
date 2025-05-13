@@ -186,7 +186,7 @@ export const PatchOrderPage = () => {
 
     return (
         <div className="sellerCreatePage">
-            <form  className="form-container">
+            <form onSubmit={handleSubmit}  className="form-container">
                 <h1>Заполните данные о заказе</h1>
                 <h3 className='subtitleInput'>Укажите данные заказчика</h3>
                   <div>
@@ -285,10 +285,10 @@ export const PatchOrderPage = () => {
 
                           />
                       </div>
+                      <button onClick={()=> navigate(-1)}>Отмена</button>
+                      <button id="submitButton" type="submit" className="submit-btn">Подтвердить</button>
                   </div>
-                <button onClick={()=> navigate(-1)}>Отмена</button>
-                <button id="submitButton" onClick={handleSubmit} type="submit" className="submit-btn">Подтвердить</button>
-            </form>
+              </form>
 
         </div>
     );
