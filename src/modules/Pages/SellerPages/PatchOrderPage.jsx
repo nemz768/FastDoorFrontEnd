@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import Pikaday from 'pikaday';
 import 'pikaday/css/pikaday.css';
 
 export const PatchOrderPage = () => {
+    const {orderId} = useParams();
     const availabilityData = /*[[${availabilityList}]]*/ [];
     const availabilityMap = {};
     availabilityData.forEach((day) => {
@@ -25,7 +26,7 @@ export const PatchOrderPage = () => {
 
     const getApi = async () => {
         try {
-            const response = await fetch("/api/edit/41", {
+            const response = await fetch(`/api/edit/${orderId}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -42,7 +43,7 @@ export const PatchOrderPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch("/api/edit/41", {
+            const response = await fetch(`/api/edit/${orderId}`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
