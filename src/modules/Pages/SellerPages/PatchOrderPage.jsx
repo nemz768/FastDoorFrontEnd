@@ -12,6 +12,7 @@ export const PatchOrderPage = () => {
     const navigate = useNavigate();
     const numbers = '1234567890';
     // const [getOrderById, setGetOrderById] = useState(null);
+    const getOrderById = 0;
 
     const refs = {
         frontDoorRef: useRef(null),
