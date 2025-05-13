@@ -23,7 +23,7 @@ export const SiteRoutes = () => {
                     <Route path="/home/seller"  element={<SellerPage/>}></Route>
                     <Route path="/home/seller/create"  element={<SellerCreatePage/>}></Route>
                     <Route path="/home/seller/listOrdersSeller" element={<SellerAllOrdersPage/>}></Route>
-                    <Route path="/home/seller/listOrdersSeller/edit" element={<PatchOrderPage/>}/>
+                    <Route path="/home/seller/listOrdersSeller/edit/:orderId" element={<PatchOrderPage/>}/>
                     <Route path="/403"  element={<PageNotEnoughRules/>}></Route>
                     <Route path="/check" element={<Check/>}></Route>
                     <Route path="/reg" element={<RegisterPage/>}></Route>
