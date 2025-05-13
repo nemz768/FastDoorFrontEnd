@@ -17,6 +17,7 @@ export const PatchOrderPage = () => {
         address: '',
         phone: '',
         messageSeller: '',
+        dateOrder: '', // Added dateOrder
         frontDoorQuantity: '',
         inDoorQuantity: '',
     });
@@ -47,12 +48,20 @@ export const PatchOrderPage = () => {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
             const data = await response.json();
+            // Validate and format dateOrder
+            let formattedDateOrder = '';
+            if (data.dateOrder) {
+                const parsedDate = new Date(data.dateOrder);
+                if (!isNaN(parsedDate)) {
+                    formattedDateOrder = parsedDate.toISOString().split('T')[0];
+                }
+            }
             setFormData({
                 fullName: data.fullName || '',
                 address: data.address || '',
                 phone: data.phone || '',
                 messageSeller: data.messageSeller || '',
-                dateOrder: data.dateOrder || '',
+                dateOrder: formattedDateOrder,
                 frontDoorQuantity: data.frontDoorQuantity || '',
                 inDoorQuantity: data.inDoorQuantity || '',
             });
@@ -119,8 +128,9 @@ export const PatchOrderPage = () => {
     }, []);
 
     useEffect(() => {
+        let picker;
         if (refs.dateRef.current) {
-            const picker = new Pikaday({
+            picker = new Pikaday({
                 field: refs.dateRef.current,
                 format: 'YYYY-MM-DD',
                 firstDay: 1,
@@ -189,12 +199,22 @@ export const PatchOrderPage = () => {
                 },
             });
 
-            // Set initial date if available
+            // Set initial date if available and valid
             if (formData.dateOrder) {
-                picker.setDate(formData.dateOrder);
+                const parsedDate = new Date(formData.dateOrder);
+                if (!isNaN(parsedDate)) {
+                    picker.setDate(formData.dateOrder);
+                }
             }
         }
-    }, [availabilityMap, formData.dateOrder]);
+
+        // Cleanup Pikaday instance
+        return () => {
+            if (picker) {
+                picker.destroy();
+            }
+        };
+    }, [availabilityMap]); // Removed formData.dateOrder from dependencies
 
     if (isLoading) {
         return <div className="loading">Загрузка...</div>;
