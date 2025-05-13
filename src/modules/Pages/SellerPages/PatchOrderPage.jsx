@@ -12,8 +12,7 @@ export const PatchOrderPage = () => {
     });
     const navigate = useNavigate();
     const numbers = '1234567890';
-    const [error, setError] = useState(null);
-    const [getOrderById, setGetOrderById] = useState(null);
+   const [getOrderById, setGetOrderById] = useState(null);
 
     const refs = {
         dateRef: useRef(null),
@@ -21,43 +20,24 @@ export const PatchOrderPage = () => {
         inDoorRef: useRef(null),
     };
 
-    const getApi = async () => {
-        if (!orderId || orderId === 'undefined') {
-            setError('ID заказа не указан');
-            return;
-        }
-        console.log('Fetching data for orderId:', orderId);
-        console.log('API URL:', `/api/edit/${orderId}`);
-        try {
-            const response = await fetch(`/api/edit/${orderId}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-            console.log('Response status:', response.status);
-            if (!response.ok) {
-                const errorData = await response.text();
-                throw new Error(`Ошибка HTTP! Статус: ${response.status}, Сообщение: ${errorData}`);
-            }
-            const data = await response.json();
-            console.log('API data:', data);
-            setGetOrderById(data);
-            setError(null);
-        } catch (err) {
-            console.error('API error:', err.message);
-            setError(err.message);
-        }
-    };
 
-    useEffect(() => {
-        console.log('orderId:', orderId);
-        if (!orderId || orderId === 'undefined') {
-            setError('Неверный ID заказа');
-            return;
+
+    const getApi = async () => {
+        try {
+            const response = await fetch("/api/edit/41", {
+               method: "GET",
+               headers: {
+                   ContentType: "application/json",
+               }
+            });
+            const data = await response.json();
+            console.log(data);
+
+        }catch(err) {
+            console.log(err.message);
         }
-        getApi();
-    }, [orderId]);
+    }
+
 
     useEffect(() => {
         const frontInput = refs.frontDoorRef.current;
@@ -151,60 +131,15 @@ export const PatchOrderPage = () => {
         }
     }, [availabilityMap]);
 
-    const HandleSubmit = async (e) => {
-        e.preventDefault();
-        if (!orderId || orderId === 'undefined') {
-            setError('ID заказа не указан');
-            return;
-        }
-        const formData = {
-            fullName: e.target.fullName.value,
-            address: e.target.address.value,
-            phoneDelivery: e.target.phone.value,
-            messageSeller: e.target.messageSeller.value,
-            dateOrdered: refs.dateRef.current.value,
-            frontDoorQuantity: refs.frontDoorRef.current.value,
-            inDoorQuantity: refs.inDoorRef.current.value,
-        };
-
-        try {
-            const response = await fetch(`/api/edit/${orderId}`, {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData),
-            });
-
-            if (!response.ok) {
-                const errorData = await response.text();
-                throw new Error(`Ошибка HTTP! Статус: ${response.status}, Сообщение: ${errorData}`);
-            }
-
-            const data = await response.json();
-            console.log('Заказ обновлен:', data);
-            navigate(-1);
-        } catch (err) {
-            console.error('Submit error:', err.message);
-            setError(err.message);
-        }
-    };
 
     return (
         <div className="sellerCreatePage">
-            <div>
-                <h2>Отладка данных:</h2>
-                <pre>{JSON.stringify(getOrderById, null, 2)}</pre>
-            </div>
-            {error ? (
                 <div className="error-message">
-                    <p>Ошибка: {error}</p>
                     <button onClick={() => navigate(-1)} className="submit-btn">
                         Назад
                     </button>
                 </div>
-            ) : (
-                <form className="form-container" onSubmit={HandleSubmit}>
+                <form className="form-container">
                     <h1>Заполните данные о заказе</h1>
                     <h3 className="subtitleInput">Укажите данные заказчика</h3>
 
@@ -298,7 +233,7 @@ export const PatchOrderPage = () => {
                         />
                     </div>
 
-                    <button id="submitButton" type="submit" className="submit-btn">
+                    <button id="submitButton" onClick={getApi} className="submit-btn">
                         Подтвердить
                     </button>
                     <button
@@ -309,7 +244,6 @@ export const PatchOrderPage = () => {
                         Отмена
                     </button>
                 </form>
-            )}
         </div>
     );
 };
