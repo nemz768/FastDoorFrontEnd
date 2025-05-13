@@ -197,7 +197,7 @@ export const PatchOrderPage = () => {
                             id="fullName"
                             required
                             placeholder="ФИО"
-                            defaultValue={getOrderById?.fullName || ''}
+                            defaultValue={getOrderById.fullName || ''}
                         />
                     </div>
 
@@ -209,7 +209,7 @@ export const PatchOrderPage = () => {
                             id="address"
                             required
                             placeholder="Адрес"
-                            defaultValue={getOrderById?.address || ''}
+                            value={getOrderById?.address || ''}
                         />
                     </div>
 
