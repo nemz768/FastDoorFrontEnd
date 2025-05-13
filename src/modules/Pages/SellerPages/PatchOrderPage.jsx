@@ -55,8 +55,6 @@ export const PatchOrderPage = () => {
                     throw new Error(errorData.message || `PATCH request failed: ${response.status}`);
                 }
 
-                // On success, navigate back or to a confirmation page
-                navigate('/orders'); // Adjust the route as needed
             }
 
             catch (err) {
