@@ -181,7 +181,7 @@ export const PatchOrderPage = () => {
                               required
                               ref={refs.fullname}
                               placeholder="ФИО"
-                              defaultValue={inputValue.orderAttribute.fullName}
+                              defaultValue={inputValue.fullName}
                           />
                       </div>
 
