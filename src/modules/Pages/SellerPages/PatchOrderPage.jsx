@@ -24,7 +24,7 @@ export const PatchOrderPage = () => {
     const getApi = async () => {
         console.log('Fetching data for orderId:', orderId);
         try {
-            const response = await fetch(`/api/edit/${orderId}`, {
+            const response = await fetch(`/api/edit/${orderId + 40}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
