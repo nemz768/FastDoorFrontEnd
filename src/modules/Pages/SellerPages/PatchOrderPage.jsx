@@ -38,7 +38,7 @@ export const PatchOrderPage = () => {
                 })
                 const data = await response.json();
                 console.log(data);
-                setInputValue(data.fullName.target.value)
+                setInputValue(data.fullName)
             }
 
             catch (err) {
