@@ -17,7 +17,6 @@ export const PatchOrderPage = () => {
         address: '',
         phone: '',
         messageSeller: '',
-        dateOrder: '',
         frontDoorQuantity: '',
         inDoorQuantity: '',
     });
