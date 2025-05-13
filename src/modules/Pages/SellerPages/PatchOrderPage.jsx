@@ -149,6 +149,41 @@ export const PatchOrderPage = () => {
     }, [availabilityMap]);
 
 
+    const HandleSubmit = async (e) => {
+        e.preventDefault();
+        const formData = {
+            fullName: e.target.fullName.value,
+            address: e.target.address.value,
+            phoneDelivery: e.target.phoneDelivery.value,
+            messageSeller: e.target.messageSeller.value,
+            dateOrdered: refs.dateRef.current.value,
+            frontDoorQuantity: refs.frontDoorRef.current.value,
+            inDoorQuantity: refs.inDoorRef.current.value,
+        };
+
+        try {
+            const response = await fetch(`/api/edit/${orderId}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+
+            if (!response.ok) {
+                throw new Error(`Ошибка HTTP! Статус: ${response.status}`);
+            }
+
+
+           const data = await response.json();
+            console.log('Заказ обновлен:', data);
+            navigate(-1);
+        }catch(err) {
+            setError(err.message);
+            console.log(err.message);
+        }
+    }
+
     return (
         <div className="sellerCreatePage">
             <div>
@@ -156,7 +191,7 @@ export const PatchOrderPage = () => {
                 <pre>{JSON.stringify(getOrderById, null, 2)}</pre>
             </div>
             {!error && (
-                <form className="form-container">
+                <form className="form-container" onSubmit={(e)=> HandleSubmit(e)}>
                     <h1>Заполните данные о заказе</h1>
                     <h3 className="subtitleInput">Укажите данные заказчика</h3>
 
