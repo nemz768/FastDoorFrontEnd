@@ -174,7 +174,7 @@ export const PatchOrderPage = () => {
                         required
                         ref={refs.fullname}
                         placeholder="ФИО"
-                        value={getData.fullname}
+                        value={getData.fullname || ''}
                     />
                 </div>
 
