@@ -3,8 +3,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Pikaday from 'pikaday';
 import 'pikaday/css/pikaday.css';
 
-
-
 export const PatchOrderPage = () => {
     const { orderId } = useParams();
     const availabilityData = /*[[${availabilityList}]]*/ [];
@@ -25,6 +23,7 @@ export const PatchOrderPage = () => {
 
     const getApi = async () => {
         console.log('Fetching data for orderId:', orderId);
+        console.log('API URL:', `/api/edit/${orderId}`);
         try {
             const response = await fetch(`/api/edit/${orderId}`, {
                 method: 'GET',
@@ -34,14 +33,15 @@ export const PatchOrderPage = () => {
             });
             console.log('Response status:', response.status);
             if (!response.ok) {
-                throw new Error(`Ошибка HTTP! Статус: ${response.status}`);
+                const errorData = await response.text();
+                throw new Error(`Ошибка HTTP! Статус: ${response.status}, Сообщение: ${errorData}`);
             }
             const data = await response.json();
             console.log('API data:', data);
             setGetOrderById(data);
             setError(null);
         } catch (err) {
-            console.error('API error:', err);
+            console.error('API error:', err.message);
             setError(err.message);
         }
     };
@@ -124,10 +124,7 @@ export const PatchOrderPage = () => {
                         const month = String(
                             Number(dayElement.getAttribute('data-pika-month')) + 1
                         ).padStart(2, '0');
-                        const day = String(dayElement.getAttribute('data-pika-day')).padStart(
-                            2,
-                            '0'
-                        );
+                        const day = String(dayElement.getAttribute('data-pika-day')).padStart(2, '0');
                         const dateStr = `${year}-${month}-${day}`;
                         if (availabilityMap[dateStr] !== undefined) {
                             const availableDoors = availabilityMap[dateStr];
@@ -148,15 +145,14 @@ export const PatchOrderPage = () => {
         }
     }, [availabilityMap]);
 
-
     const HandleSubmit = async (e) => {
         e.preventDefault();
         const formData = {
             fullName: e.target.fullName.value,
             address: e.target.address.value,
-            phone: e.target.phone.value,
+            phoneDelivery: e.target.phone.value,
             messageSeller: e.target.messageSeller.value,
-            dateOrder: refs.dateRef.current.value,
+            dateOrdered: refs.dateRef.current.value,
             frontDoorQuantity: refs.frontDoorRef.current.value,
             inDoorQuantity: refs.inDoorRef.current.value,
         };
@@ -171,23 +167,34 @@ export const PatchOrderPage = () => {
             });
 
             if (!response.ok) {
-                throw new Error(`Ошибка HTTP! Статус: ${response.status}`);
+                const errorData = await response.text();
+                throw new Error(`Ошибка HTTP! Статус: ${response.status}, Сообщение: ${errorData}`);
             }
 
-
-           const data = await response.json();
+            const data = await response.json();
             console.log('Заказ обновлен:', data);
             navigate(-1);
-        }catch(err) {
+        } catch (err) {
+            console.error('Submit error:', err.message);
             setError(err.message);
-            console.log(err.message);
         }
-    }
+    };
 
     return (
         <div className="sellerCreatePage">
-            {!error && (
-                <form className="form-container" onSubmit={(e)=> HandleSubmit(e)}>
+            <div>
+                <h2>Отладка данных:</h2>
+                <pre>{JSON.stringify(getOrderById, null, 2)}</pre>
+            </div>
+            {error ? (
+                <div className="error-message">
+                    <p>Ошибка: {error}</p>
+                    <button onClick={() => navigate(-1)} className="submit-btn">
+                        Назад
+                    </button>
+                </div>
+            ) : (
+                <form className="form-container" onSubmit={HandleSubmit}>
                     <h1>Заполните данные о заказе</h1>
                     <h3 className="subtitleInput">Укажите данные заказчика</h3>
 
@@ -199,7 +206,7 @@ export const PatchOrderPage = () => {
                             id="fullName"
                             required
                             placeholder="ФИО"
-                           defaultvalue={getOrderById?.fullName || ''}
+                            defaultValue={getOrderById?.fullName || ''}
                         />
                     </div>
 
@@ -211,7 +218,7 @@ export const PatchOrderPage = () => {
                             id="address"
                             required
                             placeholder="Адрес"
-                            defaultvalue={getOrderById?.address || ''}
+                            defaultValue={getOrderById?.address || ''}
                         />
                     </div>
 
@@ -251,7 +258,7 @@ export const PatchOrderPage = () => {
                             id="dateOrder"
                             ref={refs.dateRef}
                             placeholder="Выбрать дату"
-                            defaultValue={getOrderById?.dateOrdered || ''}
+                            defaultValue={getOrderById?.dateOrder || ''}
                         />
                     </div>
 
