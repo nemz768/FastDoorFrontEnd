@@ -41,7 +41,11 @@ export const PatchOrderPage = () => {
             setError(err);
         }
     }
-    getApi();
+    useEffect(()=> {
+     if (orderId){
+         getApi();
+     }
+    }, [orderId])
 
     useEffect(() => {
         const frontInput = refs.frontDoorRef.current;
