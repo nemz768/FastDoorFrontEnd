@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {useNavigate} from "react-router-dom";
 import Pikaday from "pikaday";
 
@@ -11,6 +11,9 @@ export const PatchOrderPage = () => {
     });
     const navigate = useNavigate();
     const numbers = '1234567890';
+    const [error, setError] = useState(null);
+    const [orderId, setOrderId] = useState(null);
+
     // const [getOrderById, setGetOrderById] = useState(null);
 
     const refs = {
@@ -20,23 +23,25 @@ export const PatchOrderPage = () => {
     };
 
 
+    const getApi = async () => {
 
-    const sendResultsCreate = async () => {
-        await fetch(`/api/edit/`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-        })
-            .then((res) => {
-                res.json();
-            })
-            .then((data) => {
-                console.log('Server response: ', data);
-            })
-            .catch((err) => console.error(err));
-    };
-    sendResultsCreate();
+        try {
+            const response = await fetch(`/api/edit/${orderId}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+            const data = await response.json();
+            console.log(data);
+        }
+        catch(err) {
+            setOrderId(null);
+            console.log(err)
+            setError(err);
+        }
+    }
+    getApi();
 
     useEffect(() => {
         const frontInput = refs.frontDoorRef.current;
@@ -111,7 +116,7 @@ export const PatchOrderPage = () => {
 
     return (
         <div className="sellerCreatePage">
-            <form className="form-container">
+            {!error && <form className="form-container">
                 <h1>Заполните данные о заказе</h1>
                 <h3 className='subtitleInput'>Укажите данные заказчика</h3>
 
@@ -199,7 +204,7 @@ export const PatchOrderPage = () => {
 
                 <button id="submitButton" type="submit" className="submit-btn">Подтвердить</button>
                 <button onClick={()=> navigate(-1)} className="submit-btn">Отмена</button>
-            </form>
+            </form>}
         </div>
     );
 };
