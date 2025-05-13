@@ -39,7 +39,12 @@ export const PatchOrderPage = () => {
                 const data = await response.json();
                 console.log(data);
                 console.log(data.fullName);
-                setInputValue(data.fullname)
+                if (data.fullName === undefined) {
+                    setInputValue("123")
+                }else {
+                    setInputValue(data.fullname)
+                }
+
             }
 
             catch (err) {
