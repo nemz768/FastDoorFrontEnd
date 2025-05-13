@@ -297,7 +297,7 @@ export const PatchOrderPage = () => {
                     />
                 </div>
 
-                <button id="submitButton" type="submit" className="submit-btn">
+                <button id="submitButton"  className="submit-btn">
                     Подтвердить
                 </button>
                 <button
