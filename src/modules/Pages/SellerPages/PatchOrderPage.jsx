@@ -158,24 +158,18 @@ export const PatchOrderPage = () => {
     const patchApi = async (e) => {
         e.preventDefault();
         const fullname = refs.fullname.current.value;
-        const address = refs.address.current.value;
-        const phone = refs.phone.current.value;
-        const comments = refs.comments.current.value;
-        const dateRef = refs.dateRef.current.value;
-        const frontDoorRef = refs.frontDoorRef.current.value;
-        const inDoorRef = refs.inDoorRef.current.value;
+        // const address = refs.address.current.value;
+        // const phone = refs.phone.current.value;
+        // const comments = refs.comments.current.value;
+        // const dateRef = refs.dateRef.current.value;
+        // const frontDoorRef = refs.frontDoorRef.current.value;
+        // const inDoorRef = refs.inDoorRef.current.value;
 try {
         await fetch(`/api/edit/${orderId}`, {
         method: 'PATCH',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
             fullName: fullname,
-            address: address,
-            phone: phone,
-            messageSeller: comments,
-            dateOrder: dateRef,
-            frontDoorQuantity: frontDoorRef,
-            inDoorQuantity: inDoorRef
 
 
         })
@@ -288,7 +282,7 @@ try {
                       </div>
                   </div>
             </form>
-            <button onClick={()=> navigate("")}>Отмена</button>
+            <button onClick={()=> navigate(-1)}>Отмена</button>
             <button id="submitButton" onClick={patchApi} type="submit" className="submit-btn">Подтвердить</button>
 
         </div>
