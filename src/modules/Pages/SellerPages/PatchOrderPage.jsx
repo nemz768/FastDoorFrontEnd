@@ -186,10 +186,6 @@ export const PatchOrderPage = () => {
 
     return (
         <div className="sellerCreatePage">
-            <div>
-                <h2>Отладка данных:</h2>
-                <pre>{JSON.stringify(getOrderById, null, 2)}</pre>
-            </div>
             {!error && (
                 <form className="form-container" onSubmit={(e)=> HandleSubmit(e)}>
                     <h1>Заполните данные о заказе</h1>
