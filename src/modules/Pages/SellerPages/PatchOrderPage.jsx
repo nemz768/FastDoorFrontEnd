@@ -40,6 +40,7 @@ export const PatchOrderPage = () => {
                 console.log(data);
                 console.log(data.fullName);
                 console.log(data.orderAttribute.fullName);
+
                 setInputValue({
                     ...data.orderAttribute,
                     fullName: data.orderAttribute.fullName
@@ -170,7 +171,6 @@ export const PatchOrderPage = () => {
             }} className="form-container">
                 <h1>Заполните данные о заказе</h1>
                 <h3 className='subtitleInput'>Укажите данные заказчика</h3>
-                {inputValue.map((value) => (
                   <div>
                       <div className="input-group">
                           <label htmlFor="fullName">ФИО: </label>
@@ -181,7 +181,7 @@ export const PatchOrderPage = () => {
                               required
                               ref={refs.fullname}
                               placeholder="ФИО"
-                              defaultValue={value.fullName}
+                              defaultValue={inputValue.orderAttribute.fullName}
                           />
                       </div>
 
@@ -262,7 +262,7 @@ export const PatchOrderPage = () => {
 
                       <button id="submitButton" type="submit" className="submit-btn">Подтвердить заказ</button>
                   </div>
-                ))}
+
 
             </form>
         </div>
