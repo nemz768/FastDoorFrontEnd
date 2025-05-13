@@ -173,6 +173,8 @@ try {
             dateOrder: dateRef,
             frontDoorQuantity: frontDoorRef,
             inDoorQuantity: inDoorRef
+
+
         })
     })
 }catch (error) {
@@ -182,7 +184,7 @@ try {
 
     return (
         <div className="sellerCreatePage">
-            <form onSubmit={(e) => patchApi(e)} className="form-container">
+            <form  className="form-container">
                 <h1>Заполните данные о заказе</h1>
                 <h3 className='subtitleInput'>Укажите данные заказчика</h3>
                   <div>
@@ -280,9 +282,9 @@ try {
                               defaultValue={inputValue.inDoorQuantity}
 
                           />
+                          <button onClick={()=> navigate(-1)}>Отмена</button>
+                          <button id="submitButton" onClick={patchApi} type="submit" className="submit-btn">Подтвердить</button>
                       </div>
-                      <button onClick={()=> navigate(-1)}>Отмена</button>
-                      <button id="submitButton" type="submit" className="submit-btn">Подтвердить заказ</button>
                   </div>
 
 
