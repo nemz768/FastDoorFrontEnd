@@ -1,122 +1,105 @@
-import React, { useEffect, useRef, useState, useMemo } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Pikaday from 'pikaday';
 import 'pikaday/css/pikaday.css';
 
 export const PatchOrderPage = () => {
-    const { orderId } = useParams();
+
+    const {orderId} = useParams();
+
+
+
+
+    const availabilityData = /*[[${availabilityList}]]*/ [];
+    const availabilityMap = {};
+    availabilityData.forEach(day => {
+        availabilityMap[day.date] = day.frontDoorQuantity;
+    });
     const navigate = useNavigate();
-    const [getOrderById, setGetOrderById] = useState(null);
-    const [availabilityData, setAvailabilityData] = useState([]);
+    const numbers = '1234567890';
 
     const refs = {
+        fullname: useRef(null),
+        address: useRef(null),
+        phone: useRef(null),
+        comments: useRef(null),
         dateRef: useRef(null),
         frontDoorRef: useRef(null),
         inDoorRef: useRef(null),
-        fullNameRef: useRef(null),
-        addressRef: useRef(null),
-        phoneRef: useRef(null),
-        messageSellerRef: useRef(null),
     };
 
-    const isProgrammaticUpdate = useRef(false);
 
     useEffect(() => {
-        const fetchAvailability = async () => {
+        const getData = async () => {
+
             try {
-                const response = await fetch('/api/availability');
-                if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+                const response = await fetch(`/api/edit/${orderId}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
                 const data = await response.json();
-                console.log('Availability data:', data); // Для отладки
-                setAvailabilityData(data);
-            } catch (err) {
-                console.error("Ошибка при загрузке доступности:", err.message);
+                console.log(data);
             }
-        };
-        fetchAvailability();
-    }, []);
 
-    const availabilityMap = useMemo(() => {
-        const map = {};
-        availabilityData.forEach((day) => {
-            map[day.date] = day.frontDoorQuantity;
-        });
-        return map;
-    }, [availabilityData]);
-
-    const getApi = async () => {
-        try {
-            const response = await fetch(`/api/edit/${orderId}`, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            });
-            if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-            const data = await response.json();
-            console.log('Order data:', data); // Для отладки
-            setGetOrderById(data);
-        } catch (err) {
-            console.error("Ошибка при загрузке данных:", err.message);
+            catch (err) {
+                console.log(err);
+            }
         }
-    };
+        getData();
+    }, [])
 
-    const handleSubmit = async (e) => {
+
+
+    const sendResultsCreate = async (e) => {
         e.preventDefault();
-        try {
-            const response = await fetch(`/api/edit/${orderId}`, {
-                method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    fullName: refs.fullNameRef.current.value,
-                    address: refs.addressRef.current.value,
-                    phone: refs.phoneRef.current.value,
-                    messageSeller: refs.messageSellerRef.current.value,
-                    dateOrder: refs.dateRef.current.value,
-                    frontDoorQuantity: refs.frontDoorRef.current.value,
-                    inDoorQuantity: refs.inDoorRef.current.value,
-                }),
-            });
-            if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-            console.log('Order updated successfully'); // Для отладки
-            navigate('/home/seller/listOrdersSeller');
-        } catch (err) {
-            console.error("Ошибка при обновлении:", err.message);
-            alert("Ошибка при обновлении заказа. Пожалуйста, попробуйте снова.");
-        }
+        console.log(refs.fullname.current.value);
+        const fullname = refs.fullname.current.value;
+        const address = refs.address.current.value;
+        const phone = refs.phone.current.value;
+        const comments = refs.comments.current.value;
+        const dateRef = refs.dateRef.current.value;
+        const frontDoorRef = refs.frontDoorRef.current.value;
+        const inDoorRef = refs.inDoorRef.current.value;
+
+        await fetch("/api/orders/create", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                fullName: fullname,
+                address: address,
+                phone: phone,
+                messageSeller: comments,
+                dateOrder: dateRef,
+                frontDoorQuantity: frontDoorRef,
+                inDoorQuantity: inDoorRef
+            })
+        })
+            .then((res) => {
+                res.json();
+            })
+            .then((data) => {
+                console.log('Server response: ', data);
+                navigate("./done");
+            })
+            .catch((err) => console.error(err));
     };
-
-    useEffect(() => {
-        getApi();
-    }, []);
-
-    useEffect(() => {
-        if (getOrderById && refs.dateRef.current) {
-            isProgrammaticUpdate.current = true;
-            refs.fullNameRef.current.value = getOrderById.fullName || '';
-            refs.addressRef.current.value = getOrderById.address || '';
-            refs.phoneRef.current.value = getOrderById.phone || '';
-            refs.messageSellerRef.current.value = getOrderById.messageSeller || '';
-            refs.dateRef.current.value = getOrderById.dateOrder || '';
-            refs.frontDoorRef.current.value = getOrderById.frontDoorQuantity || '';
-            refs.inDoorRef.current.value = getOrderById.inDoorQuantity || '';
-            isProgrammaticUpdate.current = false;
-        }
-    }, [getOrderById]);
 
     useEffect(() => {
         const frontInput = refs.frontDoorRef.current;
         const inInput = refs.inDoorRef.current;
 
         const handleInput = (el) => {
-            const value = el.value;
-            if (!/^\d*$/.test(value) || value.startsWith('0') || Number(value) > 100) {
-                el.value = value.slice(0, -1);
+            const inputArray = el.value.split('');
+            const currentVal = el.value;
+            const onlyNumbers = inputArray.every(char => numbers.includes(char));
+            if (!onlyNumbers || (currentVal.startsWith('0') && currentVal.length > 1)) {
+                el.value = currentVal.slice(0, -1);
             }
         };
-
         frontInput.addEventListener('input', () => handleInput(frontInput));
         inInput.addEventListener('input', () => handleInput(inInput));
 
@@ -127,45 +110,36 @@ export const PatchOrderPage = () => {
     }, []);
 
     useEffect(() => {
-        let picker;
         if (refs.dateRef.current) {
-            picker = new Pikaday({
+            new Pikaday({
                 field: refs.dateRef.current,
-                format: 'YYYY-MM-DD',
+                format: "YYYY-MM-DD",
                 firstDay: 1,
                 minDate: new Date(2024, 0, 1),
                 maxDate: new Date(2025, 11, 31),
                 yearRange: [2023, 2030],
                 i18n: {
-                    previousMonth: 'Предыдущий',
-                    nextMonth: 'Следующий',
-                    months: [
-                        'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
-                        'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь',
-                    ],
-                    weekdays: [
-                        'Воскресенье', 'Понедельник', 'Вторник', 'Среда',
-                        'Четверг', 'Пятница', 'Суббота',
-                    ],
-                    weekdaysShort: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
+                    previousMonth: "Предыдущий",
+                    nextMonth: "Следующий",
+                    months: ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"],
+                    weekdays: ["Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"],
+                    weekdaysShort: ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"]
                 },
                 onSelect: function (date) {
-                    isProgrammaticUpdate.current = true;
                     const year = date.getFullYear();
                     const month = String(date.getMonth() + 1).padStart(2, '0');
                     const day = String(date.getDate()).padStart(2, '0');
                     refs.dateRef.current.value = `${year}-${month}-${day}`;
-                    isProgrammaticUpdate.current = false;
                 },
                 onDraw: function () {
                     const days = document.querySelectorAll('.pika-day');
-                    days.forEach((dayElement) => {
+
+                    days.forEach(dayElement => {
                         const year = dayElement.getAttribute('data-pika-year');
-                        const month = String(
-                            Number(dayElement.getAttribute('data-pika-month')) + 1
-                        ).padStart(2, '0');
+                        const month = String(Number(dayElement.getAttribute('data-pika-month')) + 1).padStart(2, '0');
                         const day = String(dayElement.getAttribute('data-pika-day')).padStart(2, '0');
                         const dateStr = `${year}-${month}-${day}`;
+
                         if (availabilityMap[dateStr] !== undefined) {
                             const availableDoors = availabilityMap[dateStr];
                             dayElement.setAttribute('title', `${availableDoors} дверей доступно`);
@@ -180,38 +154,18 @@ export const PatchOrderPage = () => {
                     const day = String(date.getDate()).padStart(2, '0');
                     const dateStr = `${year}-${month}-${day}`;
                     return availabilityMap[dateStr] === 0;
-                },
+                }
             });
-
-            if (getOrderById?.dateOrder) {
-                isProgrammaticUpdate.current = true;
-                refs.dateRef.current.value = getOrderById.dateOrder;
-                picker.setDate(getOrderById.dateOrder, true);
-                isProgrammaticUpdate.current = false;
-            }
-
-            const handleInput = () => {
-                if (!isProgrammaticUpdate.current) {
-                    picker.setDate(refs.dateRef.current.value, true);
-                }
-            };
-
-            refs.dateRef.current.addEventListener('input', handleInput);
-
-            return () => {
-                refs.dateRef.current.removeEventListener('input', handleInput);
-                if (picker) {
-                    picker.destroy();
-                }
-            };
         }
-    }, [availabilityMap, getOrderById]);
+    }, [availabilityMap]);
 
     return (
         <div className="sellerCreatePage">
-            <form onSubmit={handleSubmit} className="form-container">
+            <form onSubmit={(e) => {
+                sendResultsCreate(e);
+            }} className="form-container">
                 <h1>Заполните данные о заказе</h1>
-                <h3 className="subtitleInput">Укажите данные заказчика</h3>
+                <h3 className='subtitleInput'>Укажите данные заказчика</h3>
 
                 <div className="input-group">
                     <label htmlFor="fullName">ФИО: </label>
@@ -220,8 +174,8 @@ export const PatchOrderPage = () => {
                         className="input_SellerPage"
                         id="fullName"
                         required
+                        ref={refs.fullname}
                         placeholder="ФИО"
-                        ref={refs.fullNameRef}
                     />
                 </div>
 
@@ -232,20 +186,20 @@ export const PatchOrderPage = () => {
                         className="input_SellerPage"
                         id="address"
                         required
+                        ref={refs.address}
                         placeholder="Адрес"
-                        ref={refs.addressRef}
                     />
                 </div>
 
                 <div className="input-group">
-                    <label htmlFor="phone">Номер телефона: </label>
+                    <label htmlFor="phoneDelivery">Номер телефона: </label>
                     <input
                         type="text"
                         className="input_SellerPage"
-                        id="phone"
+                        id="phoneDelivery"
                         required
+                        ref={refs.phone}
                         placeholder="Номер телефона"
-                        ref={refs.phoneRef}
                     />
                 </div>
 
@@ -256,21 +210,21 @@ export const PatchOrderPage = () => {
                         className="input_SellerPage"
                         id="messageSeller"
                         required
+                        ref={refs.comments}
                         placeholder="Комментарий"
-                        ref={refs.messageSellerRef}
                     />
                 </div>
 
-                <h3 className="subtitleInput">Укажите прочие данные</h3>
+                <h3 className='subtitleInput'>Укажите прочие данные</h3>
 
                 <div className="input-group">
-                    <label htmlFor="dateOrder">Дата доставки: </label>
+                    <label htmlFor="dateOrdered">Дата доставки: </label>
                     <input
                         readOnly
                         required
                         className="input_SellerPage"
                         type="text"
-                        id="dateOrder"
+                        id="dateOrdered"
                         ref={refs.dateRef}
                         placeholder="Выбрать дату"
                     />
@@ -300,19 +254,7 @@ export const PatchOrderPage = () => {
                     />
                 </div>
 
-                <button id="submitButton" type="submit" className="submit-btn">
-                    Подтвердить
-                </button>
-                <button
-                    type="button"
-                    onClick={() => {
-                        console.log('Navigating to /home/seller/listOrdersSeller');
-                        navigate('/home/seller/listOrdersSeller');
-                    }}
-                    className="submit-btn"
-                >
-                    Отмена
-                </button>
+                <button id="submitButton" type="submit" className="submit-btn">Подтвердить заказ</button>
             </form>
         </div>
     );
