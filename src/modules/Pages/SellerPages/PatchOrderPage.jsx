@@ -154,9 +154,9 @@ export const PatchOrderPage = () => {
         const formData = {
             fullName: e.target.fullName.value,
             address: e.target.address.value,
-            phoneDelivery: e.target.phoneDelivery.value,
+            phone: e.target.phone.value,
             messageSeller: e.target.messageSeller.value,
-            dateOrdered: refs.dateRef.current.value,
+            dateOrder: refs.dateRef.current.value,
             frontDoorQuantity: refs.frontDoorRef.current.value,
             inDoorQuantity: refs.inDoorRef.current.value,
         };
@@ -220,14 +220,14 @@ export const PatchOrderPage = () => {
                     </div>
 
                     <div className="input-group">
-                        <label htmlFor="phoneDelivery">Номер телефона: </label>
+                        <label htmlFor="phone">Номер телефона: </label>
                         <input
                             type="text"
                             className="input_SellerPage"
-                            id="phoneDelivery"
+                            id="phone"
                             required
                             placeholder="Номер телефона"
-                            defaultValue={getOrderById?.phoneDelivery || ''}
+                            defaultValue={getOrderById?.phone || ''}
                         />
                     </div>
 
@@ -246,13 +246,13 @@ export const PatchOrderPage = () => {
                     <h3 className="subtitleInput">Укажите прочие данные</h3>
 
                     <div className="input-group">
-                        <label htmlFor="dateOrdered">Дата доставки: </label>
+                        <label htmlFor="dateOrder">Дата доставки: </label>
                         <input
                             readOnly
                             required
                             className="input_SellerPage"
                             type="text"
-                            id="dateOrdered"
+                            id="dateOrder"
                             ref={refs.dateRef}
                             placeholder="Выбрать дату"
                             defaultValue={getOrderById?.dateOrdered || ''}
