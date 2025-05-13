@@ -3,7 +3,6 @@ import {useNavigate} from "react-router-dom";
 import Pikaday from "pikaday";
 
 export const PatchOrderPage = () => {
-
     const availabilityData = /*[[${availabilityList}]]*/ [];
     const availabilityMap = {};
     availabilityData.forEach(day => {
@@ -12,50 +11,30 @@ export const PatchOrderPage = () => {
     const navigate = useNavigate();
 
 
-    const [getOrdersToChange, setOrdersToChange] = useState([]);
-    const URL = `/api/edit/${getOrdersToChange.id}};
+    // const [getOrdersToChange, setOrdersToChange] = useState(null);
+    const URL = `/api/edit/`;
 
 
+    const getApi = async () => {
+        const response = await fetch(URL, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+            }
+        });
+
+        const data = await response.json();
+        console.log(data);
 
 
-
-
-
-
-
-
-
-
+    }
+    getApi();
 
     const numbers = '1234567890';
-    // const [getOrderById, setGetOrderById] = useState(null);
-    const getOrderById = 0;
-
     const refs = {
         frontDoorRef: useRef(null),
         inDoorRef: useRef(null),
     };
-
-    const sendResultsCreate = async (e) => {
-        e.preventDefault();
-        console.log(refs.fullname.current.value);
-
-        await fetch(`/api/edit/${getOrderById.id}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-        })
-            .then((res) => {
-                res.json();
-            })
-            .then((data) => {
-                console.log('Server response: ', data);
-                navigate("../");
-            })
-            .catch((err) => console.error(err));
-    };
-
     useEffect(() => {
         const frontInput = refs.frontDoorRef.current;
         const inInput = refs.inDoorRef.current;
@@ -127,11 +106,11 @@ export const PatchOrderPage = () => {
         }
     }, [availabilityMap]);
 
+
+
     return (
         <div className="sellerCreatePage">
-            <form onSubmit={(e) => {
-                sendResultsCreate(e);
-            }} className="form-container">
+            <form className="form-container">
                 <h1>Заполните данные о заказе</h1>
                 <h3 className='subtitleInput'>Укажите данные заказчика</h3>
 
@@ -142,7 +121,6 @@ export const PatchOrderPage = () => {
                         className="input_SellerPage"
                         id="fullName"
                         required
-                        ref={refs.fullname}
                         placeholder="ФИО"
                     />
                 </div>
@@ -154,7 +132,6 @@ export const PatchOrderPage = () => {
                         className="input_SellerPage"
                         id="address"
                         required
-                        ref={refs.address}
                         placeholder="Адрес"
                     />
                 </div>
@@ -166,7 +143,6 @@ export const PatchOrderPage = () => {
                         className="input_SellerPage"
                         id="phoneDelivery"
                         required
-                        ref={refs.phone}
                         placeholder="Номер телефона"
                     />
                 </div>
@@ -178,7 +154,6 @@ export const PatchOrderPage = () => {
                         className="input_SellerPage"
                         id="messageSeller"
                         required
-                        ref={refs.comments}
                         placeholder="Комментарий"
                     />
                 </div>
@@ -193,8 +168,7 @@ export const PatchOrderPage = () => {
                         className="input_SellerPage"
                         type="text"
                         id="dateOrdered"
-                        ref={refs.dateRef}
-                        placeholder="Выбрать дату"
+                       placeholder="Выбрать дату"
                     />
                 </div>
 
@@ -222,7 +196,8 @@ export const PatchOrderPage = () => {
                     />
                 </div>
 
-                <button id="submitButton" type="submit" className="submit-btn">Подтвердить заказ</button>
+                <button id="submitButton" onClick={()=> navigate(-1)} className="submit-btn">Отмена</button>
+                <button type="submit" className="submit-btn">Подтвердить</button>
             </form>
         </div>
     );

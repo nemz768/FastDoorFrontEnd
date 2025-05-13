@@ -1,6 +1,10 @@
 import React from 'react';
+import {useNavigate} from 'react-router-dom';
 
 export const SellerOrdersTablePc = ({isLoading, error, orders, openModal, handlePageChange, currentPage, totalPages}) => {
+  const navigate = useNavigate(null);
+
+
     return (
         <main className="SellerAllOrdersPage">
             <h2>Заказы продавца</h2>
@@ -39,7 +43,7 @@ export const SellerOrdersTablePc = ({isLoading, error, orders, openModal, handle
                                     <td>{order.installerName || 'Не назначен'}</td>
                                     <td>
                                         <div className="action-buttons">
-                                            <button className="edit-button">Изменить</button>
+                                            <button onClick={()=> navigate("./edit")} className="edit-button">Изменить</button>
                                             <button
                                                 onClick={() => openModal(order.id)} // Исправлено
                                                 className="delete-button"
