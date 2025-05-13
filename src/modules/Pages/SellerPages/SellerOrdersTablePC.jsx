@@ -43,7 +43,7 @@ export const SellerOrdersTablePc = ({isLoading, error, orders, openModal, handle
                                     <td>{order.installerName || 'Не назначен'}</td>
                                     <td>
                                         <div className="action-buttons">
-                                            <button onClick={()=> navigate("./edit")} className="edit-button">Изменить</button>
+                                            <button onClick={()=> navigate(`./edit/:orderId`)} className="edit-button">Изменить</button>
                                             <button
                                                 onClick={() => openModal(order.id)} // Исправлено
                                                 className="delete-button"
