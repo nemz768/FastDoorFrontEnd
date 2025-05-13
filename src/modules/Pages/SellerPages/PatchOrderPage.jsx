@@ -1,18 +1,14 @@
-import React, { useEffect, useRef, useState } from 'react';
-import {useNavigate, useParams} from 'react-router-dom';
+import React, { useEffect, useRef, useState, useMemo } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import Pikaday from 'pikaday';
 import 'pikaday/css/pikaday.css';
 
 export const PatchOrderPage = () => {
-    const {orderId} = useParams();
-    const availabilityData = /*[[${availabilityList}]]*/ [];
-    const availabilityMap = {};
-    availabilityData.forEach((day) => {
-        availabilityMap[day.date] = day.frontDoorQuantity;
-    });
+    const { orderId } = useParams();
     const navigate = useNavigate();
     const numbers = '1234567890';
     const [getOrderById, setGetOrderById] = useState(null);
+    const [availabilityData, setAvailabilityData] = useState([]); // Загрузка данных
 
     const refs = {
         dateRef: useRef(null),
@@ -24,6 +20,28 @@ export const PatchOrderPage = () => {
         messageSellerRef: useRef(null),
     };
 
+    // Загрузка данных о доступности
+    useEffect(() => {
+        const fetchAvailability = async () => {
+            try {
+                const response = await fetch('/api/availability'); // Замените на ваш API
+                const data = await response.json();
+                setAvailabilityData(data);
+            } catch (err) {
+                console.error("Ошибка при загрузке доступности:", err.message);
+            }
+        };
+        fetchAvailability();
+    }, []);
+
+    const availabilityMap = useMemo(() => {
+        const map = {};
+        availabilityData.forEach((day) => {
+            map[day.date] = day.frontDoorQuantity;
+        });
+        return map;
+    }, [availabilityData]);
+
     const getApi = async () => {
         try {
             const response = await fetch(`/api/edit/${orderId}`, {
@@ -34,9 +52,8 @@ export const PatchOrderPage = () => {
             });
             const data = await response.json();
             setGetOrderById(data);
-            console.log(data);
         } catch (err) {
-            console.log(err.message);
+            console.error("Ошибка при загрузке данных:", err.message);
         }
     };
 
@@ -59,10 +76,9 @@ export const PatchOrderPage = () => {
                 }),
             });
             const data = await response.json();
-            console.log("Данные успешно обновлены:", data);
             navigate(-1);
         } catch (err) {
-            console.log("Ошибка при обновлении:", err.message);
+            console.error("Ошибка при обновлении:", err.message);
         }
     };
 
@@ -71,17 +87,28 @@ export const PatchOrderPage = () => {
     }, []);
 
     useEffect(() => {
+        if (getOrderById) {
+            refs.fullNameRef.current.value = getOrderById.fullName || '';
+            refs.addressRef.current.value = getOrderById.address || '';
+            refs.phoneRef.current.value = getOrderById.phone || '';
+            refs.messageSellerRef.current.value = getOrderById.messageSeller || '';
+            refs.dateRef.current.value = getOrderById.dateOrder || '';
+            refs.frontDoorRef.current.value = getOrderById.frontDoorQuantity || '';
+            refs.inDoorRef.current.value = getOrderById.inDoorQuantity || '';
+        }
+    }, [getOrderById]);
+
+    useEffect(() => {
         const frontInput = refs.frontDoorRef.current;
         const inInput = refs.inDoorRef.current;
 
         const handleInput = (el) => {
-            const inputArray = el.value.split('');
-            const currentVal = el.value;
-            const onlyNumbers = inputArray.every((char) => numbers.includes(char));
-            if (!onlyNumbers || (currentVal.startsWith('0') && currentVal.length > 1)) {
-                el.value = currentVal.slice(0, -1);
+            const value = el.value;
+            if (!/^\d*$/.test(value) || value.startsWith('0') || Number(value) > 100) {
+                el.value = value.slice(0, -1);
             }
         };
+
         frontInput.addEventListener('input', () => handleInput(frontInput));
         inInput.addEventListener('input', () => handleInput(inInput));
 
@@ -92,8 +119,9 @@ export const PatchOrderPage = () => {
     }, []);
 
     useEffect(() => {
+        let picker;
         if (refs.dateRef.current) {
-            new Pikaday({
+            picker = new Pikaday({
                 field: refs.dateRef.current,
                 format: 'YYYY-MM-DD',
                 firstDay: 1,
@@ -104,27 +132,12 @@ export const PatchOrderPage = () => {
                     previousMonth: 'Предыдущий',
                     nextMonth: 'Следующий',
                     months: [
-                        'Январь',
-                        'Февраль',
-                        'Март',
-                        'Апрель',
-                        'Май',
-                        'Июнь',
-                        'Июль',
-                        'Август',
-                        'Сентябрь',
-                        'Октябрь',
-                        'Ноябрь',
-                        'Декабрь',
+                        'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
+                        'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь',
                     ],
                     weekdays: [
-                        'Воскресенье',
-                        'Понедельник',
-                        'Вторник',
-                        'Среда',
-                        'Четверг',
-                        'Пятница',
-                        'Суббота',
+                        'Воскресенье', 'Понедельник', 'Вторник', 'Среда',
+                        'Четверг', 'Пятница', 'Суббота',
                     ],
                     weekdaysShort: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
                 },
@@ -159,8 +172,18 @@ export const PatchOrderPage = () => {
                     return availabilityMap[dateStr] === 0;
                 },
             });
+
+            if (getOrderById?.dateOrder) {
+                refs.dateRef.current.value = getOrderById.dateOrder;
+            }
         }
-    }, [availabilityMap]);
+
+        return () => {
+            if (picker) {
+                picker.destroy();
+            }
+        };
+    }, [availabilityMap, getOrderById]);
 
     return (
         <div className="sellerCreatePage">
@@ -177,7 +200,6 @@ export const PatchOrderPage = () => {
                         required
                         placeholder="ФИО"
                         ref={refs.fullNameRef}
-                        defaultValue={getOrderById?.fullName || ''}
                     />
                 </div>
 
@@ -190,7 +212,6 @@ export const PatchOrderPage = () => {
                         required
                         placeholder="Адрес"
                         ref={refs.addressRef}
-                        defaultValue={getOrderById?.address || ''}
                     />
                 </div>
 
@@ -203,7 +224,6 @@ export const PatchOrderPage = () => {
                         required
                         placeholder="Номер телефона"
                         ref={refs.phoneRef}
-                        defaultValue={getOrderById?.phone || ''}
                     />
                 </div>
 
@@ -216,7 +236,6 @@ export const PatchOrderPage = () => {
                         required
                         placeholder="Комментарий"
                         ref={refs.messageSellerRef}
-                        defaultValue={getOrderById?.messageSeller || ''}
                     />
                 </div>
 
@@ -232,7 +251,6 @@ export const PatchOrderPage = () => {
                         id="dateOrder"
                         ref={refs.dateRef}
                         placeholder="Выбрать дату"
-                        defaultValue={getOrderById?.dateOrder || ''}
                     />
                 </div>
 
@@ -245,7 +263,6 @@ export const PatchOrderPage = () => {
                         ref={refs.frontDoorRef}
                         required
                         placeholder="Количество входных дверей"
-                        defaultValue={getOrderById?.frontDoorQuantity || ''}
                     />
                 </div>
 
@@ -258,7 +275,6 @@ export const PatchOrderPage = () => {
                         ref={refs.inDoorRef}
                         required
                         placeholder="Количество межк-х дверей"
-                        defaultValue={getOrderById?.inDoorQuantity || ''}
                     />
                 </div>
 
