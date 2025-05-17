@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import 'pikaday/css/pikaday.css';
-import './PatchOrderPage.css';
+import '../../../styles/stylePages/PatchOrderPage.css';
 
 const CustomCalendar = ({ availabilityData, onDateSelected, selectedDate }) => {
     const today = new Date();
