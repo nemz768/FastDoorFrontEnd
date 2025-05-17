@@ -45,7 +45,7 @@ export const SellerCreatePage = () => {
                 address: address,
                 phone: phone,
                 messageSeller: comments,
-                dateOrder: dateRef,
+                // dateOrder: dateRef,
                 frontDoorQuantity: frontDoorRef,
                 inDoorQuantity: inDoorRef,
                 doorLimits: {
