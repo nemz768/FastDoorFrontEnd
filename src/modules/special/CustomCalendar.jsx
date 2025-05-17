@@ -14,8 +14,8 @@ export const CustomCalendar = ({ availabilityList, onDateSelected, selectedDate 
                 });
                 const data = await res.json();
                 // Ensure data is an array; fallback to empty array if not
-                setFetchedAvailability(data);
-                console.log("Fetched availability:", data);
+                setFetchedAvailability(data.availabilityList);
+                console.log("Fetched availability:", data.availabilityList);
             } catch (err) {
                 console.error("Error fetching availability:", err);
                 setFetchedAvailability([]); // Fallback to empty array on error
