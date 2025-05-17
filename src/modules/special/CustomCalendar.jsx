@@ -1,6 +1,7 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 
-export const CustomCalendar = ({ availabilityData, onDateSelected, selectedDate }) => {
+export const CustomCalendar = ({ availabilityList, onDateSelected, selectedDate }) => {
+    const [fetchedAvailability, setFetchedAvailability] = useState(availabilityList);
 
     useEffect(() => {
         const showCountOfDoors = async () => {
@@ -9,21 +10,17 @@ export const CustomCalendar = ({ availabilityData, onDateSelected, selectedDate 
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
-                    }
-                })
-
+                    },
+                });
                 const data = await res.json();
+                setFetchedAvailability(data); // Assuming data is an array of { date, frontDoorQuantity, inDoorQuantity }
                 console.log(data);
+            } catch (err) {
+                console.log(err);
             }
-            catch(err) {
-                console.log(err)
-            }
-
-
-        }
-        showCountOfDoors()
-    }, [])
-
+        };
+        showCountOfDoors();
+    }, []);
 
     const today = new Date();
     const [currentYearMonth, setCurrentYearMonth] = useState({
@@ -33,7 +30,7 @@ export const CustomCalendar = ({ availabilityData, onDateSelected, selectedDate 
 
     const monthNames = [
         'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
-        'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'
+        'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь',
     ];
     const dayNames = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
 
@@ -41,7 +38,7 @@ export const CustomCalendar = ({ availabilityData, onDateSelected, selectedDate 
     const firstDayOfWeek = (new Date(currentYearMonth.year, currentYearMonth.month, 1).getDay() || 7) % 7;
 
     const availabilityMap = {};
-    availabilityData.forEach(day => {
+    fetchedAvailability.forEach(day => {
         availabilityMap[day.date] = {
             frontDoorQuantity: day.frontDoorQuantity,
             inDoorQuantity: day.inDoorQuantity,
@@ -80,7 +77,7 @@ export const CustomCalendar = ({ availabilityData, onDateSelected, selectedDate 
                     const isSelected = selectedDate === dateStr;
                     const isToday = dateStr === todayStr;
                     const isPast = date < today && !isToday;
-                    const availabilityList = availabilityMap[dateStr];
+                    const availability = availabilityMap[dateStr];
 
                     weekDays.push(
                         <div
@@ -88,11 +85,11 @@ export const CustomCalendar = ({ availabilityData, onDateSelected, selectedDate 
                             className={`calendar-day ${isSelected ? 'selected' : ''} ${isToday ? 'today' : ''} ${isPast ? 'past' : ''}`}
                             onClick={isPast ? undefined : () => onDateSelected(dateStr)}
                         >
-                            <div>{day}</div>
-                            {availabilityList && (
-                                <div className="availability">
-                                    <span>В: {availabilityList.frontDoorQuantity}</span>
-                                    <span>М: {availabilityList.inDoorQuantity}</span>
+                            <div className="day-number">{day}</div>
+                            {availability && (
+                                <div className={`availability ${isPast ? 'past' : ''}`}>
+                                    <span>В: {availability.frontDoorQuantity}</span>
+                                    <span>М: {availability.inDoorQuantity}</span>
                                 </div>
                             )}
                         </div>

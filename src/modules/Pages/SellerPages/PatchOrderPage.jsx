@@ -10,7 +10,7 @@ export const PatchOrderPage = () => {
     const [selectedDate, setSelectedDate] = useState(null);
     const [isCalendarOpen, setIsCalendarOpen] = useState(false);
 
-    const availabilityData = /*[[${availabilityList}]]*/ [];
+    const availabilityList = /*[[${availabilityList}]]*/ [];
     const navigate = useNavigate();
     const calendarRef = useRef(null);
 
@@ -218,7 +218,7 @@ export const PatchOrderPage = () => {
                         {isCalendarOpen && (
                             <div ref={calendarRef} className="calendar-container">
                                 <CustomCalendar
-                                    availabilityData={availabilityData}
+                                    availabilityList={availabilityList}
                                     onDateSelected={handleDateSelected}
                                     selectedDate={selectedDate}
                                 />
