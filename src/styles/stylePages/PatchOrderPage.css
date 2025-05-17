@@ -1,0 +1,84 @@
+.custom-calendar {
+    width: 100%;
+    max-width: 350px;
+    margin: 10px 0;
+    font-family: Arial, sans-serif;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.nav-arrow {
+    cursor: pointer;
+    padding: 5px 10px;
+    user-select: none;
+}
+
+.nav-arrow:hover {
+    background-color: #f0f0f0;
+    border-radius: 5px;
+}
+
+.calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+.weekday {
+    padding: 5px;
+}
+
+.calendar-days {
+    display: flex;
+    flex-direction: column;
+}
+
+.calendar-week {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+}
+
+.calendar-day {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 60px;
+    padding: 5px;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: background-color 0.2s;
+}
+
+.calendar-day:hover {
+    background-color: #f0f0f0;
+}
+
+.calendar-day.selected {
+    background-color: #b5a88f;
+    color: white;
+}
+
+.calendar-day.empty {
+    background-color: transparent;
+    cursor: default;
+}
+
+.availability {
+    font-size: 12px;
+    color: #555;
+    text-align: center;
+}
+
+.availability span {
+    display: block;
+}

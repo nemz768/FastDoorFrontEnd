@@ -1,17 +1,109 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import 'pikaday/css/pikaday.css';
+import '../../../styles/stylePages/PatchOrderPage.css'; // Assuming you'll add CSS for styling
 
-export const PatchOrderPage = () => {
+const CustomCalendar = ({ availabilityData, onDateSelected, selectedDate }) => {
+    const today = new Date();
+    const [currentYearMonth, setCurrentYearMonth] = useState({
+        year: today.getFullYear(),
+        month: today.getMonth(),
+    });
 
-    const {orderId} = useParams();
-    const [inputValue, setInputValue] = useState('');
+    const monthNames = [
+        'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
+        'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'
+    ];
+    const dayNames = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
 
-    const availabilityData = /*[[${availabilityList}]]*/ [];
+    const daysInMonth = new Date(currentYearMonth.year, currentYearMonth.month + 1, 0).getDate();
+    const firstDayOfWeek = (new Date(currentYearMonth.year, currentYearMonth.month, 1).getDay() || 7) % 7;
+
     const availabilityMap = {};
     availabilityData.forEach(day => {
-        availabilityMap[day.date] = day.frontDoorQuantity;
+        availabilityMap[day.date] = {
+            frontDoorQuantity: day.frontDoorQuantity,
+            inDoorQuantity: day.inDoorQuantity,
+        };
     });
+
+    const handlePrevMonth = () => {
+        setCurrentYearMonth(prev => ({
+            year: prev.month === 0 ? prev.year - 1 : prev.year,
+            month: prev.month === 0 ? 11 : prev.month - 1,
+        }));
+    };
+
+    const handleNextMonth = () => {
+        setCurrentYearMonth(prev => ({
+            year: prev.month === 11 ? prev.year + 1 : prev.year,
+            month: prev.month === 11 ? 0 : prev.month + 1,
+        }));
+    };
+
+    const renderDays = () => {
+        const weeks = Math.ceil((firstDayOfWeek + daysInMonth) / 7);
+        const days = [];
+        let day = 1;
+
+        for (let week = 0; week < weeks; week++) {
+            const weekDays = [];
+            for (let dow = 0; dow < 7; dow++) {
+                const index = week * 7 + dow;
+                if (index < firstDayOfWeek || day > daysInMonth) {
+                    weekDays.push(<div key={`empty-${index}`} className="calendar-day empty" />);
+                } else {
+                    const date = new Date(currentYearMonth.year, currentYearMonth.month, day);
+                    const dateStr = date.toISOString().split('T')[0];
+                    const isSelected = selectedDate === dateStr;
+                    const availability = availabilityMap[dateStr];
+
+                    weekDays.push(
+                        <div
+                            key={dateStr}
+                            className={`calendar-day ${isSelected ? 'selected' : ''}`}
+                            onClick={() => onDateSelected(dateStr)}
+                        >
+                            <div>{day}</div>
+                            {availability && (
+                                <div className="availability">
+                                    <span>В: {availability.frontDoorQuantity}</span>
+                                    <span>М: {availability.inDoorQuantity}</span>
+                                </div>
+                            )}
+                        </div>
+                    );
+                    day++;
+                }
+            }
+            days.push(<div key={`week-${week}`} className="calendar-week">{weekDays}</div>);
+        }
+        return days;
+    };
+
+    return (
+        <div className="custom-calendar">
+            <div className="calendar-header">
+                <span onClick={handlePrevMonth} className="nav-arrow">{'<'}</span>
+                <span>{`${monthNames[currentYearMonth.month]} ${currentYearMonth.year}`}</span>
+                <span onClick={handleNextMonth} className="nav-arrow">{'>'}</span>
+            </div>
+            <div className="calendar-weekdays">
+                {dayNames.map((day, index) => (
+                    <div key={index} className="weekday">{day}</div>
+                ))}
+            </div>
+            <div className="calendar-days">{renderDays()}</div>
+        </div>
+    );
+};
+
+export const PatchOrderPage = () => {
+    const { orderId } = useParams();
+    const [inputValue, setInputValue] = useState({});
+    const [selectedDate, setSelectedDate] = useState(null);
+
+    const availabilityData = /*[[${availabilityList}]]*/ [];
     const navigate = useNavigate();
 
     const refs = {
@@ -19,27 +111,19 @@ export const PatchOrderPage = () => {
         address: useRef(null),
         phone: useRef(null),
         comments: useRef(null),
-        dateRef: useRef(null),
         frontDoorRef: useRef(null),
         inDoorRef: useRef(null),
     };
 
     useEffect(() => {
         const getData = async () => {
-
             try {
                 const response = await fetch(`/api/edit/${orderId}`, {
                     method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
+                    headers: { 'Content-Type': 'application/json' },
+                });
                 const data = await response.json();
-                console.log(data);
-                console.log(data.orderAttribute.fullName);
-
                 setInputValue({
-                    ...data.orderAttribute,
                     fullName: data.orderAttribute.fullName,
                     address: data.orderAttribute.address,
                     phone: data.orderAttribute.phone,
@@ -48,20 +132,17 @@ export const PatchOrderPage = () => {
                     frontDoorQuantity: data.orderAttribute.frontDoorQuantity,
                     inDoorQuantity: data.orderAttribute.inDoorQuantity,
                 });
+                setSelectedDate(data.orderAttribute.dateOrder);
                 if (!response.ok) {
                     const errorData = await response.json();
                     throw new Error(errorData.message || `PATCH request failed: ${response.status}`);
                 }
-
-            }
-
-            catch (err) {
+            } catch (err) {
                 console.log(err);
             }
-        }
+        };
         getData();
-    }, [])
-
+    }, [orderId]);
 
     useEffect(() => {
         const handleInput = (el) => {
@@ -85,6 +166,11 @@ export const PatchOrderPage = () => {
         };
     }, []);
 
+    const handleDateSelected = (dateStr) => {
+        setSelectedDate(dateStr);
+        setInputValue(prev => ({ ...prev, dateOrder: dateStr }));
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -93,12 +179,11 @@ export const PatchOrderPage = () => {
             return;
         }
 
-        // Safeguard ref access
         const fullName = refs.fullname.current?.value || '';
         const address = refs.address.current?.value || '';
         const phone = refs.phone.current?.value || '';
-        const messageSeller = refs.comments.current?.value || ''; // Fixed: Use comments instead of messageSeller
-        const dateOrder = refs.dateRef.current?.value || '';
+        const messageSeller = refs.comments.current?.value || '';
+        const dateOrder = selectedDate || '';
         const frontDoorQuantity = Number(refs.frontDoorRef.current?.value) || 0;
         const inDoorQuantity = Number(refs.inDoorRef.current?.value) || 0;
 
@@ -111,7 +196,6 @@ export const PatchOrderPage = () => {
             frontDoorQuantity,
             inDoorQuantity,
         };
-        console.log('Sending PATCH request:', { orderId, payload });
 
         try {
             const response = await fetch(`/api/edit/${orderId}`, {
@@ -134,14 +218,14 @@ export const PatchOrderPage = () => {
             navigate(-1);
         } catch (err) {
             console.error('PATCH Error:', err.message);
-            // Optionally display error to user (e.g., show a toast notification)
         }
     };
+
     return (
         <div className="sellerCreatePage">
-            <form onSubmit={handleSubmit}  className="form-container">
+            <form onSubmit={handleSubmit} className="form-container">
                 <h1>Заполните данные о заказе</h1>
-                <h3 className='subtitleInput'>Укажите данные заказчика</h3>
+                <h3 className="subtitleInput">Укажите данные заказчика</h3>
                 <div>
                     <div className="input-group">
                         <label htmlFor="fullName">ФИО: </label>
@@ -179,7 +263,6 @@ export const PatchOrderPage = () => {
                             ref={refs.phone}
                             placeholder="Номер телефона"
                             defaultValue={inputValue.phone}
-
                         />
                     </div>
 
@@ -196,18 +279,14 @@ export const PatchOrderPage = () => {
                         />
                     </div>
 
-                    <h3 className='subtitleInput'>Укажите прочие данные</h3>
+                    <h3 className="subtitleInput">Укажите прочие данные</h3>
 
                     <div className="input-group">
-                        <label htmlFor="dateOrdered">Дата доставки: </label>
-                        <input
-                            required
-                            className="input_SellerPage"
-                            type="text"
-                            id="dateOrdered"
-                            ref={refs.dateRef}
-                            placeholder="Выбрать дату"
-                            defaultValue={inputValue.dateOrder}
+                        <label>Дата доставки: </label>
+                        <CustomCalendar
+                            availabilityData={availabilityData}
+                            onDateSelected={handleDateSelected}
+                            selectedDate={selectedDate}
                         />
                     </div>
 
@@ -234,14 +313,12 @@ export const PatchOrderPage = () => {
                             required
                             placeholder="Количество межк-х дверей"
                             defaultValue={inputValue.inDoorQuantity}
-
                         />
                     </div>
-                    <button onClick={()=> navigate(-1)}>Отмена</button>
+                    <button type="button" onClick={() => navigate(-1)}>Отмена</button>
                     <button id="submitButton" type="submit" className="submit-btn">Подтвердить</button>
                 </div>
             </form>
-
         </div>
     );
 };
