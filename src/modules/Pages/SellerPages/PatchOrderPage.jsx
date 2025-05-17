@@ -136,7 +136,7 @@ export const PatchOrderPage = () => {
                 throw new Error(errorMessage);
             }
 
-            navigate(-1);
+            navigate('/home/seller/listOrdersSeller/');
         } catch (err) {
             console.error('PATCH Error:', err.message);
         }
@@ -147,7 +147,7 @@ export const PatchOrderPage = () => {
             <form onSubmit={handleSubmit} className="form-container">
                 <h1>Заполните данные о заказе</h1>
                 <h3 className="subtitleInput">Укажите данные заказчика</h3>
-                <div>
+                <div className="sellerCreatePage_elements">
                     <div className="input-group">
                         <label htmlFor="fullName">ФИО: </label>
                         <input
@@ -251,8 +251,11 @@ export const PatchOrderPage = () => {
                             defaultValue={inputValue.inDoorQuantity}
                         />
                     </div>
-                    <button type="button" onClick={() => navigate(-1)}>Отмена</button>
-                    <button id="submitButton" type="submit" className="submit-btn">Подтвердить</button>
+
+                    <div className="buttons-group">
+                        <button type="button" className="submit-btn" onClick={() => navigate('/home/seller/listOrdersSeller/')}>Отмена</button>
+                        <button id="submitButton" type="submit" className="submit-btn">Подтвердить</button>
+                    </div>
                 </div>
             </form>
         </div>
