@@ -167,7 +167,7 @@ export const PatchOrderPage = () => {
             // frontDoorQuantity: refs.frontDoorRef.current.value || 0,
             // inDoorQuantity: refs.inDoorRef.current.value || 0,
         };
-
+        console.log(payload.fullName);
         try {
             const response = await fetch(`/api/edit/${orderId}`, {
                 method: 'PATCH',
@@ -178,7 +178,6 @@ export const PatchOrderPage = () => {
                 const errorData = await response.json();
                 throw new Error(errorData.message || `Ошибка HTTP ${response.status}`);
             }
-            console.log(payload.fullName);
         } catch (err) {
             console.error('Ошибка PATCH:', err);
         }
