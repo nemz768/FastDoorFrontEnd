@@ -178,7 +178,7 @@ export const PatchOrderPage = () => {
                 const errorData = await response.json();
                 throw new Error(errorData.message || `Ошибка HTTP ${response.status}`);
             }
-            navigate('/orders');
+            console.log(payload.fullName);
         } catch (err) {
             console.error('Ошибка PATCH:', err);
         }
