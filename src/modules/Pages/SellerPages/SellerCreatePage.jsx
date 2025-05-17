@@ -49,7 +49,7 @@ export const SellerCreatePage = () => {
                 frontDoorQuantity: frontDoorRef,
                 inDoorQuantity: inDoorRef,
                 doorLimits: {
-                    limit: limitDate,
+                    limitDate: limitDate,
                 }
             })
         })
