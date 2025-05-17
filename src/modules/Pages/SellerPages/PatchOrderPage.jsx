@@ -146,12 +146,15 @@ export const PatchOrderPage = () => {
         }
 
         const fullName = refs.fullname.current.value;
-        if (!fullName || typeof fullName !== 'string' || fullName.trim() === '') {
-            console.error('Error: Invalid fullName');
-            return;
-        }
+        const address = refs.address.current.value;
+        const phone = refs.phone.current.value;
+        const messageSeller = refs.messageSeller.current.value;
+        const dateOrder = refs.dateRef.current.value;
+        const frontDoorRef = refs.frontDoorRef.current.value;
+        const inDoorRef = refs.frontDoorRef.current.value;
 
-        const payload = { fullName };
+        const payload = { fullName, address, phone, messageSeller, dateOrder, frontDoorRef, inDoorRef };
+
         console.log('Sending PATCH request:', { orderId, payload });
 
         try {
