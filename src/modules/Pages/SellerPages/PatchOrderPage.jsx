@@ -147,7 +147,7 @@ export const PatchOrderPage = () => {
         const formData = {
             fullName: e.target.fullName.value,
             address: e.target.address.value,
-            phone: e.target.phoneDelivery.value,
+            phone: e.target.phone.value,
             messageSeller: e.target.messageSeller.value,
             dateOrder: refs.dateRef.current.value,
             frontDoorQuantity: refs.frontDoorRef.current.value,
@@ -206,14 +206,14 @@ export const PatchOrderPage = () => {
                     </div>
 
                     <div className="input-group">
-                        <label htmlFor="phoneDelivery">Номер телефона: </label>
+                        <label htmlFor="phone">Номер телефона: </label>
                         <input
                             type="text"
                             className="input_SellerPage"
-                            id="phoneDelivery"
+                            id="phone"
                             required
                             placeholder="Номер телефона"
-                            defaultValue={getOrderById?.phoneDelivery || ''}
+                            defaultValue={getOrderById?.phone || ''}
                         />
                     </div>
 
@@ -241,7 +241,7 @@ export const PatchOrderPage = () => {
                             id="dateOrdered"
                             ref={refs.dateRef}
                             placeholder="Выбрать дату"
-                            defaultValue={getOrderById?.dateOrdered || ''}
+                            defaultValue={getOrderById?.dateOrder || ''}
                         />
                     </div>
 
