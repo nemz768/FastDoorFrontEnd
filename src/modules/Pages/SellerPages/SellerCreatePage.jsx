@@ -42,15 +42,15 @@ export const SellerCreatePage = () => {
             },
             body: JSON.stringify({
                 fullName: fullname,
-                address: address,
-                phone: phone,
-                messageSeller: comments,
-                // dateOrder: dateRef,
-                frontDoorQuantity: frontDoorRef,
-                inDoorQuantity: inDoorRef,
-                doorLimits: {
-                    limitDate: limitDate,
-                }
+                // address: address,
+                // phone: phone,
+                // messageSeller: comments,
+                // // dateOrder: dateRef,
+                // frontDoorQuantity: frontDoorRef,
+                // inDoorQuantity: inDoorRef,
+                // doorLimits: {
+                //     limitDate: limitDate,
+                // }
             })
         })
             .then((res) => {
