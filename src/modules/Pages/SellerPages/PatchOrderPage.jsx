@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import 'pikaday/css/pikaday.css';
-import '../../../styles/stylePages/PatchOrderPage.css';
+import './PatchOrderPage.css';
 
 const CustomCalendar = ({ availabilityData, onDateSelected, selectedDate }) => {
     const today = new Date();
@@ -58,13 +58,14 @@ const CustomCalendar = ({ availabilityData, onDateSelected, selectedDate }) => {
                     const dateStr = date.toISOString().split('T')[0];
                     const isSelected = selectedDate === dateStr;
                     const isToday = dateStr === todayStr;
+                    const isPast = date < today && !isToday;
                     const availability = availabilityMap[dateStr];
 
                     weekDays.push(
                         <div
                             key={dateStr}
-                            className={`calendar-day ${isSelected ? 'selected' : ''} ${isToday ? 'today' : ''}`}
-                            onClick={() => onDateSelected(dateStr)}
+                            className={`calendar-day ${isSelected ? 'selected' : ''} ${isToday ? 'today' : ''} ${isPast ? 'past' : ''}`}
+                            onClick={isPast ? undefined : () => onDateSelected(dateStr)}
                         >
                             <div>{day}</div>
                             {availability && (

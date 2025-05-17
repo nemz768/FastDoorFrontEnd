@@ -1,12 +1,12 @@
 .custom-calendar {
-    width: 350px;
-    height: 320px;
+    width: 280px;
+    height: 260px;
     font-family: Arial, sans-serif;
     background-color: #fff;
     border: 1px solid #ccc;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    padding: 10px;
+    padding: 8px;
     box-sizing: border-box;
     overflow: hidden;
 }
@@ -21,18 +21,18 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px;
-    font-size: 18px;
+    padding: 8px;
+    font-size: 16px;
     font-weight: bold;
-    height: 40px;
+    height: 36px;
     box-sizing: border-box;
 }
 
 .nav-arrow {
     cursor: pointer;
-    padding: 5px 10px;
+    padding: 4px 8px;
     user-select: none;
-    width: 40px;
+    width: 32px;
     text-align: center;
 }
 
@@ -43,31 +43,32 @@
 
 .calendar-weekdays {
     display: grid;
-    grid-template-columns: repeat(7, 50px);
+    grid-template-columns: repeat(7, 40px);
     text-align: center;
     font-weight: bold;
-    padding: 5px 0;
-    height: 30px;
+    padding: 4px 0;
+    height: 24px;
     box-sizing: border-box;
 }
 
 .weekday {
-    padding: 5px;
-    height: 20px;
-    line-height: 20px;
+    padding: 4px;
+    height: 16px;
+    line-height: 16px;
+    font-size: 12px;
 }
 
 .calendar-days {
     display: flex;
     flex-direction: column;
-    height: 240px;
+    height: 192px;
     box-sizing: border-box;
 }
 
 .calendar-week {
     display: grid;
-    grid-template-columns: repeat(7, 50px);
-    height: 48px;
+    grid-template-columns: repeat(7, 40px);
+    height: 38.4px;
 }
 
 .calendar-day {
@@ -75,15 +76,18 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 48px;
-    padding: 5px;
-    cursor: pointer;
-    border-radius: 10px;
+    height: 38.4px;
+    padding: 4px;
+    border-radius: 8px;
     transition: background-color 0.2s;
     box-sizing: border-box;
 }
 
-.calendar-day:hover {
+.calendar-day:not(.past):not(.empty) {
+    cursor: pointer;
+}
+
+.calendar-day:not(.past):not(.empty):hover {
     background-color: #f0f0f0;
 }
 
@@ -97,20 +101,30 @@
     box-sizing: border-box;
 }
 
+.calendar-day.past {
+    background-color: #e0e0e0;
+    color: #888;
+    cursor: not-allowed;
+}
+
 .calendar-day.empty {
     background-color: transparent;
     cursor: default;
 }
 
 .availability {
-    font-size: 10px;
+    font-size: 8px;
     color: #555;
     text-align: center;
-    line-height: 12px;
+    line-height: 10px;
 }
 
 .availability span {
     display: block;
+}
+
+.availability.past {
+    color: #888;
 }
 
 .input_SellerPage[readonly] {
