@@ -1,128 +1,124 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Pikaday from 'pikaday';
+import 'pikaday/css/pikaday.css';
 
 export const PatchOrderPage = () => {
-    const { orderId } = useParams(); // Get orderId from URL
+
+    const {orderId} = useParams();
+    const [inputValue, setInputValue] = useState('');
+
     const availabilityData = /*[[${availabilityList}]]*/ [];
     const availabilityMap = {};
-    availabilityData.forEach((day) => {
+    availabilityData.forEach(day => {
         availabilityMap[day.date] = day.frontDoorQuantity;
     });
     const navigate = useNavigate();
-    const numbers = '1234567890';
-    const [error, setError] = useState(null);
-    const [getOrderById, setGetOrderById] = useState(null);
 
     const refs = {
+        fullname: useRef(null),
+        address: useRef(null),
+        phone: useRef(null),
+        comments: useRef(null),
         dateRef: useRef(null),
         frontDoorRef: useRef(null),
         inDoorRef: useRef(null),
     };
 
-    const getApi = async () => {
-        try {
-            const response = await fetch(`/api/edit/${orderId}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
+    useEffect(() => {
+        const getData = async () => {
+
+            try {
+                const response = await fetch(`/api/edit/${orderId}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                const data = await response.json();
+                console.log(data);
+                console.log(data.orderAttribute.fullName);
+
+                setInputValue({
+                    ...data.orderAttribute,
+                    fullName: data.orderAttribute.fullName,
+                    address: data.orderAttribute.address,
+                    phone: data.orderAttribute.phone,
+                    messageSeller: data.orderAttribute.messageSeller,
+                    dateOrder: data.orderAttribute.dateOrder,
+                    frontDoorQuantity: data.orderAttribute.frontDoorQuantity,
+                    inDoorQuantity: data.orderAttribute.inDoorQuantity,
+                });
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || `PATCH request failed: ${response.status}`);
+                }
+
             }
-            const data = await response.json();
-            setGetOrderById(data);
-            setError(null);
-        } catch (err) {
-            setError(err.message);
+
+            catch (err) {
+                console.log(err);
+            }
         }
-    };
+        getData();
+    }, [])
+
 
     useEffect(() => {
-        if (orderId) {
-            getApi();
-        }
-    }, [orderId]);
+        const handleInput = (el) => {
+            const value = el.value;
+            if (!/^\d*$/.test(value) || (value.startsWith('0') && value.length > 1)) {
+                el.value = value.slice(0, -1);
+            }
+            setInputValue(prev => ({ ...prev, [el.id]: el.value }));
+        };
 
-    useEffect(() => {
         const frontInput = refs.frontDoorRef.current;
         const inInput = refs.inDoorRef.current;
-
-        const handleInput = (el) => {
-            const inputArray = el.value.split('');
-            const currentVal = el.value;
-            const onlyNumbers = inputArray.every((char) => numbers.includes(char));
-            if (!onlyNumbers || (currentVal.startsWith('0') && currentVal.length > 1)) {
-                el.value = currentVal.slice(0, -1);
-            }
-        };
-        frontInput.addEventListener('input', () => handleInput(frontInput));
-        inInput.addEventListener('input', () => handleInput(inInput));
+        if (frontInput && inInput) {
+            frontInput.addEventListener('input', () => handleInput(frontInput));
+            inInput.addEventListener('input', () => handleInput(inInput));
+        }
 
         return () => {
-            frontInput.removeEventListener('input', () => handleInput(frontInput));
-            inInput.removeEventListener('input', () => handleInput(inInput));
+            if (frontInput) frontInput.removeEventListener('input', () => handleInput(frontInput));
+            if (inInput) inInput.removeEventListener('input', () => handleInput(inInput));
         };
     }, []);
 
     useEffect(() => {
         if (refs.dateRef.current) {
-            new Pikaday({
+            const picker = new Pikaday({
                 field: refs.dateRef.current,
-                format: 'YYYY-MM-DD',
+                format: "YYYY-MM-DD",
                 firstDay: 1,
                 minDate: new Date(2024, 0, 1),
                 maxDate: new Date(2025, 11, 31),
                 yearRange: [2023, 2030],
                 i18n: {
-                    previousMonth: 'Предыдущий',
-                    nextMonth: 'Следующий',
-                    months: [
-                        'Январь',
-                        'Февраль',
-                        'Март',
-                        'Апрель',
-                        'Май',
-                        'Июнь',
-                        'Июль',
-                        'Август',
-                        'Сентябрь',
-                        'Октябрь',
-                        'Ноябрь',
-                        'Декабрь',
-                    ],
-                    weekdays: [
-                        'Воскресенье',
-                        'Понедельник',
-                        'Вторник',
-                        'Среда',
-                        'Четверг',
-                        'Пятница',
-                        'Суббота',
-                    ],
-                    weekdaysShort: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
+                    previousMonth: "Предыдущий",
+                    nextMonth: "Следующий",
+                    months: ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"],
+                    weekdays: ["Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"],
+                    weekdaysShort: ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"]
                 },
                 onSelect: function (date) {
                     const year = date.getFullYear();
                     const month = String(date.getMonth() + 1).padStart(2, '0');
                     const day = String(date.getDate()).padStart(2, '0');
                     refs.dateRef.current.value = `${year}-${month}-${day}`;
+                    setInputValue(prev => ({
+                        ...prev,
+                        dateOrder: `${year}-${month}-${day}`
+                    }));
                 },
                 onDraw: function () {
                     const days = document.querySelectorAll('.pika-day');
-
-                    days.forEach((dayElement) => {
+                    days.forEach(dayElement => {
                         const year = dayElement.getAttribute('data-pika-year');
-                        const month = String(
-                            Number(dayElement.getAttribute('data-pika-month')) + 1
-                        ).padStart(2, '0');
-                        const day = String(dayElement.getAttribute('data-pika-day')).padStart(
-                            2,
-                            '0'
-                        );
+                        const month = String(Number(dayElement.getAttribute('data-pika-month')) + 1).padStart(2, '0');
+                        const day = String(dayElement.getAttribute('data-pika-day')).padStart(2, '0');
                         const dateStr = `${year}-${month}-${day}`;
-
                         if (availabilityMap[dateStr] !== undefined) {
                             const availableDoors = availabilityMap[dateStr];
                             dayElement.setAttribute('title', `${availableDoors} дверей доступно`);
@@ -138,49 +134,74 @@ export const PatchOrderPage = () => {
                     const dateStr = `${year}-${month}-${day}`;
                     return availabilityMap[dateStr] === 0;
                 },
+                // Отключить автоматическое открытие при фокусе
+                showOnFocus: false, // Отключаем открытие при фокусе
+                trigger: refs.dateRef.current // Указываем, что календарь открывается только по клику
             });
+
+            // Явно управляем открытием календаря по клику
+            const handleClick = () => {
+                picker.show();
+            };
+
+            refs.dateRef.current.addEventListener('click', handleClick);
+
+            // Очистка слушателя событий
+            return () => {
+                refs.dateRef.current.removeEventListener('click', handleClick);
+                picker.destroy();
+            };
         }
     }, [availabilityMap]);
 
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const formData = {
-            fullName: e.target.fullName.value,
-            address: e.target.address.value,
-            phone: e.target.phone.value,
-            messageSeller: e.target.messageSeller.value,
-            dateOrder: refs.dateRef.current.value,
-            frontDoorQuantity: refs.frontDoorRef.current.value,
-            inDoorQuantity: refs.inDoorRef.current.value,
-        };
+
+        if (!orderId) {
+            console.error('Error: orderId is undefined');
+            return;
+        }
+
+        const fullName = refs.fullname.current.value;
+        if (!fullName || typeof fullName !== 'string' || fullName.trim() === '') {
+            console.error('Error: Invalid fullName');
+            return;
+        }
+
+        const payload = { fullName };
+        console.log('Sending PATCH request:', { orderId, payload });
 
         try {
             const response = await fetch(`/api/edit/${orderId}`, {
                 method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData),
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload),
             });
+
             if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
+                let errorMessage = `HTTP Error ${response.status}: ${response.statusText}`;
+                try {
+                    const errorData = await response.json();
+                    errorMessage = errorData.message || errorMessage;
+                } catch (jsonError) {
+                    console.warn('Failed to parse error response:', jsonError);
+                }
+                throw new Error(errorMessage);
             }
-            const data = await response.json();
-            console.log('Order updated:', data);
-            navigate(-1);
+
+            navigate('/orders');
         } catch (err) {
-            setError(err.message);
+            console.error('PATCH Error:', err.message);
+            // Optionally display error to user (e.g., show a toast notification)
         }
     };
-
     return (
         <div className="sellerCreatePage">
-            {error && <div className="error-message">{error}</div>}
-            {!error && (
-                <form className="form-container" onSubmit={handleSubmit}>
-                    <h1>Заполните данные о заказе</h1>
-                    <h3 className="subtitleInput">Укажите данные заказчика</h3>
-
+            <form onSubmit={handleSubmit}  className="form-container">
+                <h1>Заполните данные о заказе</h1>
+                <h3 className='subtitleInput'>Укажите данные заказчика</h3>
+                <div>
                     <div className="input-group">
                         <label htmlFor="fullName">ФИО: </label>
                         <input
@@ -188,8 +209,9 @@ export const PatchOrderPage = () => {
                             className="input_SellerPage"
                             id="fullName"
                             required
+                            ref={refs.fullname}
                             placeholder="ФИО"
-                            defaultValue={getOrderById?.fullName || ''}
+                            defaultValue={inputValue.fullName}
                         />
                     </div>
 
@@ -200,20 +222,23 @@ export const PatchOrderPage = () => {
                             className="input_SellerPage"
                             id="address"
                             required
+                            ref={refs.address}
                             placeholder="Адрес"
-                            defaultValue={getOrderById?.address || ''}
+                            defaultValue={inputValue.address}
                         />
                     </div>
 
                     <div className="input-group">
-                        <label htmlFor="phone">Номер телефона: </label>
+                        <label htmlFor="phoneDelivery">Номер телефона: </label>
                         <input
                             type="text"
                             className="input_SellerPage"
-                            id="phone"
+                            id="phoneDelivery"
                             required
+                            ref={refs.phone}
                             placeholder="Номер телефона"
-                            defaultValue={getOrderById?.phone || ''}
+                            defaultValue={inputValue.phone}
+
                         />
                     </div>
 
@@ -224,12 +249,13 @@ export const PatchOrderPage = () => {
                             className="input_SellerPage"
                             id="messageSeller"
                             required
+                            ref={refs.comments}
                             placeholder="Комментарий"
-                            defaultValue={getOrderById?.messageSeller || ''}
+                            defaultValue={inputValue.messageSeller}
                         />
                     </div>
 
-                    <h3 className="subtitleInput">Укажите прочие данные</h3>
+                    <h3 className='subtitleInput'>Укажите прочие данные</h3>
 
                     <div className="input-group">
                         <label htmlFor="dateOrdered">Дата доставки: </label>
@@ -241,7 +267,7 @@ export const PatchOrderPage = () => {
                             id="dateOrdered"
                             ref={refs.dateRef}
                             placeholder="Выбрать дату"
-                            defaultValue={getOrderById?.dateOrder || ''}
+                            defaultValue={inputValue.dateOrder}
                         />
                     </div>
 
@@ -254,7 +280,7 @@ export const PatchOrderPage = () => {
                             ref={refs.frontDoorRef}
                             required
                             placeholder="Количество входных дверей"
-                            defaultValue={getOrderById?.frontDoorQuantity || ''}
+                            defaultValue={inputValue.frontDoorQuantity}
                         />
                     </div>
 
@@ -267,22 +293,15 @@ export const PatchOrderPage = () => {
                             ref={refs.inDoorRef}
                             required
                             placeholder="Количество межк-х дверей"
-                            defaultValue={getOrderById?.inDoorQuantity || ''}
+                            defaultValue={inputValue.inDoorQuantity}
+
                         />
                     </div>
+                    <button onClick={()=> navigate(-1)}>Отмена</button>
+                    <button id="submitButton" type="submit" className="submit-btn">Подтвердить</button>
+                </div>
+            </form>
 
-                    <button id="submitButton" type="submit" className="submit-btn">
-                        Подтвердить
-                    </button>
-                    <button
-                        type="button"
-                        onClick={() => navigate(-1)}
-                        className="submit-btn"
-                    >
-                        Отмена
-                    </button>
-                </form>
-            )}
         </div>
     );
 };
