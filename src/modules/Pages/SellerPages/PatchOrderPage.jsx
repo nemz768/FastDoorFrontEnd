@@ -16,7 +16,6 @@ export const PatchOrderPage = () => {
     const navigate = useNavigate();
 
     const refs = {
-        fullname: useRef(null),
         address: useRef(null),
         phone: useRef(null),
         comments: useRef(null),
@@ -204,7 +203,6 @@ export const PatchOrderPage = () => {
                               className="input_SellerPage"
                               id="fullName"
                               required
-                              ref={refs.fullname}
                               placeholder="ФИО"
                               defaultValue={inputValue.fullName}
                           />
