@@ -21,7 +21,6 @@ export const SellerCreatePage = () => {
         dateRef: useRef(null),
         frontDoorRef: useRef(null),
         inDoorRef: useRef(null),
-        doorLimit: useRef(null),
     };
 
     const sendResultsCreate = async (e) => {
@@ -49,7 +48,9 @@ export const SellerCreatePage = () => {
                 dateOrder: dateRef,
                 frontDoorQuantity: frontDoorRef,
                 inDoorQuantity: inDoorRef,
-                limitDate: limitDate
+                doorLimits: {
+                    limit: limitDate,
+                }
             })
         })
             .then((res) => {
