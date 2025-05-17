@@ -139,16 +139,8 @@ export const PatchOrderPage = () => {
                 trigger: refs.dateRef.current // Указываем, что календарь открывается только по клику
             });
 
-            // Явно управляем открытием календаря по клику
-            const handleClick = () => {
-                picker.show();
-            };
 
-            refs.dateRef.current.addEventListener('click', handleClick);
-
-            // Очистка слушателя событий
             return () => {
-                refs.dateRef.current.removeEventListener('click', handleClick);
                 picker.destroy();
             };
         }
@@ -260,8 +252,7 @@ export const PatchOrderPage = () => {
                     <div className="input-group">
                         <label htmlFor="dateOrdered">Дата доставки: </label>
                         <input
-                            readOnly
-                            required
+                           required
                             className="input_SellerPage"
                             type="text"
                             id="dateOrdered"
