@@ -107,16 +107,18 @@ export const PatchOrderPage = () => {
                     const month = String(date.getMonth() + 1).padStart(2, '0');
                     const day = String(date.getDate()).padStart(2, '0');
                     refs.dateRef.current.value = `${year}-${month}-${day}`;
+                    setInputValue(prev => ({
+                        ...prev,
+                        dateOrder: `${year}-${month}-${day}`
+                    }));
                 },
                 onDraw: function () {
                     const days = document.querySelectorAll('.pika-day');
-
                     days.forEach(dayElement => {
                         const year = dayElement.getAttribute('data-pika-year');
                         const month = String(Number(dayElement.getAttribute('data-pika-month')) + 1).padStart(2, '0');
                         const day = String(dayElement.getAttribute('data-pika-day')).padStart(2, '0');
                         const dateStr = `${year}-${month}-${day}`;
-
                         if (availabilityMap[dateStr] !== undefined) {
                             const availableDoors = availabilityMap[dateStr];
                             dayElement.setAttribute('title', `${availableDoors} дверей доступно`);
@@ -131,7 +133,10 @@ export const PatchOrderPage = () => {
                     const day = String(date.getDate()).padStart(2, '0');
                     const dateStr = `${year}-${month}-${day}`;
                     return availabilityMap[dateStr] === 0;
-                }
+                },
+                // Отключить автоматическое открытие при фокусе
+                showOnFocus: false, // Отключаем открытие при фокусе
+                trigger: refs.dateRef.current // Указываем, что календарь открывается только по клику
             });
         }
     }, [availabilityMap]);
@@ -145,7 +150,7 @@ export const PatchOrderPage = () => {
             address: refs.address.current.value,
             phone: refs.phone.current.value,
             messageSeller: refs.comments.current.value,
-            dateOrder: refs.dateRef.current.value,
+            // dateOrder: refs.dateRef.current.value,
             frontDoorQuantity: refs.frontDoorRef.current.value || 0,
             inDoorQuantity: refs.inDoorRef.current.value || 0,
         };
