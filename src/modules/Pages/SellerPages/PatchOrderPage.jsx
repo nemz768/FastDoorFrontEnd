@@ -164,8 +164,8 @@ export const PatchOrderPage = () => {
             phone: refs.phone.current.value,
             messageSeller: refs.comments.current.value,
             dateOrder: refs.dateRef.current.value,
-            frontDoorQuantity: refs.frontDoorRef.current.value || 0,
-            inDoorQuantity: refs.inDoorRef.current.value || 0,
+            // frontDoorQuantity: refs.frontDoorRef.current.value || 0,
+            // inDoorQuantity: refs.inDoorRef.current.value || 0,
         };
 
         try {
