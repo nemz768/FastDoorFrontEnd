@@ -88,7 +88,7 @@ export const PatchOrderPage = () => {
 
     useEffect(() => {
         if (refs.dateRef.current) {
-            const picker = new Pikaday({
+            new Pikaday({
                 field: refs.dateRef.current,
                 format: "YYYY-MM-DD",
                 firstDay: 1,
@@ -134,15 +134,7 @@ export const PatchOrderPage = () => {
                     const dateStr = `${year}-${month}-${day}`;
                     return availabilityMap[dateStr] === 0;
                 },
-                // Отключить автоматическое открытие при фокусе
-                showOnFocus: false, // Отключаем открытие при фокусе
-                trigger: refs.dateRef.current // Указываем, что календарь открывается только по клику
             });
-
-
-            return () => {
-                picker.destroy();
-            };
         }
     }, [availabilityMap]);
 
