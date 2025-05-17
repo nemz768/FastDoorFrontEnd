@@ -160,14 +160,14 @@ export const PatchOrderPage = () => {
 
         const payload = {
             fullName: refs.fullname.current.value,
-            // address: refs.address.current.value,
-            // phone: refs.phone.current.value,
-            // messageSeller: refs.comments.current.value,
-            // dateOrder: refs.dateRef.current.value,
-            // frontDoorQuantity: refs.frontDoorRef.current.value || 0,
-            // inDoorQuantity: refs.inDoorRef.current.value || 0,
+            address: refs.address.current.value,
+            phone: refs.phone.current.value,
+            messageSeller: refs.comments.current.value,
+            dateOrder: refs.dateRef.current.value,
+            frontDoorQuantity: refs.frontDoorRef.current.value || 0,
+            inDoorQuantity: refs.inDoorRef.current.value || 0,
         };
-        console.log(payload.fullName);
+        console.log(payload);
         try {
             const response = await fetch(`/api/edit/${orderId}`, {
                 method: 'PATCH',
