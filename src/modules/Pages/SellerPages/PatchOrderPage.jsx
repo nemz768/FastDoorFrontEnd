@@ -86,57 +86,6 @@ export const PatchOrderPage = () => {
         };
     }, []);
 
-    useEffect(() => {
-        if (refs.dateRef.current) {
-            new Pikaday({
-                field: refs.dateRef.current,
-                format: "YYYY-MM-DD",
-                firstDay: 1,
-                minDate: new Date(2024, 0, 1),
-                maxDate: new Date(2025, 11, 31),
-                yearRange: [2023, 2030],
-                i18n: {
-                    previousMonth: "Предыдущий",
-                    nextMonth: "Следующий",
-                    months: ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"],
-                    weekdays: ["Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"],
-                    weekdaysShort: ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"]
-                },
-                onSelect: function (date) {
-                    const year = date.getFullYear();
-                    const month = String(date.getMonth() + 1).padStart(2, '0');
-                    const day = String(date.getDate()).padStart(2, '0');
-                    refs.dateRef.current.value = `${year}-${month}-${day}`;
-                },
-                onDraw: function () {
-                    const days = document.querySelectorAll('.pika-day');
-
-                    days.forEach(dayElement => {
-                        const year = dayElement.getAttribute('data-pika-year');
-                        const month = String(Number(dayElement.getAttribute('data-pika-month')) + 1).padStart(2, '0');
-                        const day = String(dayElement.getAttribute('data-pika-day')).padStart(2, '0');
-                        const dateStr = `${year}-${month}-${day}`;
-
-                        if (availabilityMap[dateStr] !== undefined) {
-                            const availableDoors = availabilityMap[dateStr];
-                            dayElement.setAttribute('title', `${availableDoors} дверей доступно`);
-                        } else {
-                            dayElement.removeAttribute('title');
-                        }
-                    });
-                },
-                disableDayFn: function (date) {
-                    const year = date.getFullYear();
-                    const month = String(date.getMonth() + 1).padStart(2, '0');
-                    const day = String(date.getDate()).padStart(2, '0');
-                    const dateStr = `${year}-${month}-${day}`;
-                    return availabilityMap[dateStr] === 0;
-                }
-            });
-        }
-    }, [availabilityMap]);
-
-
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -175,7 +124,7 @@ export const PatchOrderPage = () => {
                 throw new Error(errorMessage);
             }
 
-            navigate('/orders');
+            navigate(-1);
         } catch (err) {
             console.error('PATCH Error:', err.message);
             // Optionally display error to user (e.g., show a toast notification)
@@ -245,7 +194,7 @@ export const PatchOrderPage = () => {
                     <div className="input-group">
                         <label htmlFor="dateOrdered">Дата доставки: </label>
                         <input
-                           required
+                            required
                             className="input_SellerPage"
                             type="text"
                             id="dateOrdered"
