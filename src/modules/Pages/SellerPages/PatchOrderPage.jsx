@@ -1,6 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import Pikaday from 'pikaday';
 import 'pikaday/css/pikaday.css';
 
 export const PatchOrderPage = () => {
@@ -94,16 +93,24 @@ export const PatchOrderPage = () => {
             return;
         }
 
-        const fullName = refs.fullname.current.value;
-        const address = refs.address.current.value;
-        const phone = refs.phone.current.value;
-        const messageSeller = refs.messageSeller.current.value;
-        const dateOrder = refs.dateRef.current.value;
-        const frontDoorRef = refs.frontDoorRef.current.value;
-        const inDoorRef = refs.frontDoorRef.current.value;
+        // Safeguard ref access
+        const fullName = refs.fullname.current?.value || '';
+        const address = refs.address.current?.value || '';
+        const phone = refs.phone.current?.value || '';
+        const messageSeller = refs.comments.current?.value || ''; // Fixed: Use comments instead of messageSeller
+        const dateOrder = refs.dateRef.current?.value || '';
+        const frontDoorQuantity = Number(refs.frontDoorRef.current?.value) || 0;
+        const inDoorQuantity = Number(refs.inDoorRef.current?.value) || 0;
 
-        const payload = { fullName, address, phone, messageSeller, dateOrder, frontDoorRef, inDoorRef };
-
+        const payload = {
+            fullName,
+            address,
+            phone,
+            messageSeller,
+            dateOrder,
+            frontDoorQuantity,
+            inDoorQuantity,
+        };
         console.log('Sending PATCH request:', { orderId, payload });
 
         try {
