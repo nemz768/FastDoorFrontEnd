@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 export const CustomCalendar = ({ availabilityList, onDateSelected, selectedDate }) => {
-    const [fetchedAvailability, setFetchedAvailability] = useState(availabilityList);
+    const [fetchedAvailability, setFetchedAvailability] = useState(availabilityList || []);
 
     useEffect(() => {
         const showCountOfDoors = async () => {
@@ -13,10 +13,13 @@ export const CustomCalendar = ({ availabilityList, onDateSelected, selectedDate 
                     },
                 });
                 const data = await res.json();
-                setFetchedAvailability(data); // Assuming data is an array of { date, frontDoorQuantity, inDoorQuantity }
-                console.log(data);
+                // Ensure data is an array; fallback to empty array if not
+                const availabilityData = Array.isArray(data) ? data : [];
+                setFetchedAvailability(availabilityData);
+                console.log("Fetched availability:", availabilityData);
             } catch (err) {
-                console.log(err);
+                console.error("Error fetching availability:", err);
+                setFetchedAvailability([]); // Fallback to empty array on error
             }
         };
         showCountOfDoors();
@@ -38,11 +41,15 @@ export const CustomCalendar = ({ availabilityList, onDateSelected, selectedDate 
     const firstDayOfWeek = (new Date(currentYearMonth.year, currentYearMonth.month, 1).getDay() || 7) % 7;
 
     const availabilityMap = {};
-    fetchedAvailability.forEach(day => {
-        availabilityMap[day.date] = {
-            frontDoorQuantity: day.frontDoorQuantity,
-            inDoorQuantity: day.inDoorQuantity,
-        };
+    // Use fetchedAvailability if available, otherwise fallback to availabilityList
+    const dataSource = fetchedAvailability.length > 0 ? fetchedAvailability : (availabilityList || []);
+    dataSource.forEach(day => {
+        if (day && day.date) { // Ensure day and day.date exist
+            availabilityMap[day.date] = {
+                frontDoorQuantity: day.frontDoorQuantity || 0,
+                inDoorQuantity: day.inDoorQuantity || 0,
+            };
+        }
     });
 
     const handlePrevMonth = () => {
