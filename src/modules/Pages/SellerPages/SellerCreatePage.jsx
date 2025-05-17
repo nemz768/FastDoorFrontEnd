@@ -21,6 +21,7 @@ export const SellerCreatePage = () => {
         dateRef: useRef(null),
         frontDoorRef: useRef(null),
         inDoorRef: useRef(null),
+        doorLimit: useRef(null),
     };
 
     const sendResultsCreate = async (e) => {
@@ -33,6 +34,7 @@ export const SellerCreatePage = () => {
         const dateRef = refs.dateRef.current.value;
         const frontDoorRef = refs.frontDoorRef.current.value;
         const inDoorRef = refs.inDoorRef.current.value;
+        const limitDate = '123';
 
         await fetch("/api/orders/create", {
             method: 'POST',
@@ -46,7 +48,8 @@ export const SellerCreatePage = () => {
                 messageSeller: comments,
                 dateOrder: dateRef,
                 frontDoorQuantity: frontDoorRef,
-                inDoorQuantity: inDoorRef
+                inDoorQuantity: inDoorRef,
+                limitDate: limitDate
             })
         })
             .then((res) => {
