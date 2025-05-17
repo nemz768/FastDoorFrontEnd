@@ -1,6 +1,30 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 
 export const CustomCalendar = ({ availabilityData, onDateSelected, selectedDate }) => {
+
+    useEffect(() => {
+        const showCountOfDoors = async () => {
+            try {
+                const res = await fetch("/api/orders/create", {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    }
+                })
+
+                const data = await res.json();
+                console.log(data);
+            }
+            catch(err) {
+                console.log(err)
+            }
+
+
+        }
+        showCountOfDoors()
+    }, [])
+
+
     const today = new Date();
     const [currentYearMonth, setCurrentYearMonth] = useState({
         year: today.getFullYear(),
@@ -56,7 +80,7 @@ export const CustomCalendar = ({ availabilityData, onDateSelected, selectedDate 
                     const isSelected = selectedDate === dateStr;
                     const isToday = dateStr === todayStr;
                     const isPast = date < today && !isToday;
-                    const availability = availabilityMap[dateStr];
+                    const availabilityList = availabilityMap[dateStr];
 
                     weekDays.push(
                         <div
@@ -65,10 +89,10 @@ export const CustomCalendar = ({ availabilityData, onDateSelected, selectedDate 
                             onClick={isPast ? undefined : () => onDateSelected(dateStr)}
                         >
                             <div>{day}</div>
-                            {availability && (
+                            {availabilityList && (
                                 <div className="availability">
-                                    <span>В: {availability.frontDoorQuantity}</span>
-                                    <span>М: {availability.inDoorQuantity}</span>
+                                    <span>В: {availabilityList.frontDoorQuantity}</span>
+                                    <span>М: {availabilityList.inDoorQuantity}</span>
                                 </div>
                             )}
                         </div>
