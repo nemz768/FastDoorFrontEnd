@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import 'pikaday/css/pikaday.css';
-import '../../../styles/stylePages/PatchOrderPage.css'; // Assuming you'll add CSS for styling
+import './PatchOrderPage.css';
 
 const CustomCalendar = ({ availabilityData, onDateSelected, selectedDate }) => {
     const today = new Date();
@@ -45,6 +45,7 @@ const CustomCalendar = ({ availabilityData, onDateSelected, selectedDate }) => {
         const weeks = Math.ceil((firstDayOfWeek + daysInMonth) / 7);
         const days = [];
         let day = 1;
+        const todayStr = today.toISOString().split('T')[0];
 
         for (let week = 0; week < weeks; week++) {
             const weekDays = [];
@@ -56,12 +57,13 @@ const CustomCalendar = ({ availabilityData, onDateSelected, selectedDate }) => {
                     const date = new Date(currentYearMonth.year, currentYearMonth.month, day);
                     const dateStr = date.toISOString().split('T')[0];
                     const isSelected = selectedDate === dateStr;
+                    const isToday = dateStr === todayStr;
                     const availability = availabilityMap[dateStr];
 
                     weekDays.push(
                         <div
                             key={dateStr}
-                            className={`calendar-day ${isSelected ? 'selected' : ''}`}
+                            className={`calendar-day ${isSelected ? 'selected' : ''} ${isToday ? 'today' : ''}`}
                             onClick={() => onDateSelected(dateStr)}
                         >
                             <div>{day}</div>
@@ -102,15 +104,18 @@ export const PatchOrderPage = () => {
     const { orderId } = useParams();
     const [inputValue, setInputValue] = useState({});
     const [selectedDate, setSelectedDate] = useState(null);
+    const [isCalendarOpen, setIsCalendarOpen] = useState(false);
 
     const availabilityData = /*[[${availabilityList}]]*/ [];
     const navigate = useNavigate();
+    const calendarRef = useRef(null);
 
     const refs = {
         fullname: useRef(null),
         address: useRef(null),
         phone: useRef(null),
         comments: useRef(null),
+        dateRef: useRef(null),
         frontDoorRef: useRef(null),
         inDoorRef: useRef(null),
     };
@@ -166,9 +171,21 @@ export const PatchOrderPage = () => {
         };
     }, []);
 
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (calendarRef.current && !calendarRef.current.contains(event.target) && !refs.dateRef.current.contains(event.target)) {
+                setIsCalendarOpen(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
+
     const handleDateSelected = (dateStr) => {
         setSelectedDate(dateStr);
         setInputValue(prev => ({ ...prev, dateOrder: dateStr }));
+        setIsCalendarOpen(false);
     };
 
     const handleSubmit = async (e) => {
@@ -282,12 +299,27 @@ export const PatchOrderPage = () => {
                     <h3 className="subtitleInput">Укажите прочие данные</h3>
 
                     <div className="input-group">
-                        <label>Дата доставки: </label>
-                        <CustomCalendar
-                            availabilityData={availabilityData}
-                            onDateSelected={handleDateSelected}
-                            selectedDate={selectedDate}
+                        <label htmlFor="dateOrdered">Дата доставки: </label>
+                        <input
+                            required
+                            className="input_SellerPage"
+                            type="text"
+                            id="dateOrdered"
+                            ref={refs.dateRef}
+                            placeholder="Выбрать дату"
+                            value={inputValue.dateOrder || ''}
+                            onClick={() => setIsCalendarOpen(prev => !prev)}
+                            readOnly
                         />
+                        {isCalendarOpen && (
+                            <div ref={calendarRef} className="calendar-container">
+                                <CustomCalendar
+                                    availabilityData={availabilityData}
+                                    onDateSelected={handleDateSelected}
+                                    selectedDate={selectedDate}
+                                />
+                            </div>
+                        )}
                     </div>
 
                     <div className="input-group">

@@ -1,8 +1,18 @@
 .custom-calendar {
     width: 100%;
     max-width: 350px;
-    margin: 10px 0;
     font-family: Arial, sans-serif;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+}
+
+.calendar-container {
+    position: absolute;
+    z-index: 1000;
+    margin-top: 5px;
 }
 
 .calendar-header {
@@ -68,6 +78,11 @@
     color: white;
 }
 
+.calendar-day.today {
+    border: 2px solid #007bff;
+    box-sizing: border-box;
+}
+
 .calendar-day.empty {
     background-color: transparent;
     cursor: default;
@@ -81,4 +96,9 @@
 
 .availability span {
     display: block;
+}
+
+.input_SellerPage[readonly] {
+    cursor: pointer;
+    background-color: #fff;
 }
