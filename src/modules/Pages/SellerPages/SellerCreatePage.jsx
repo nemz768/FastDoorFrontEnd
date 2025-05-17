@@ -32,7 +32,6 @@ export const SellerCreatePage = () => {
         const dateRef = refs.dateRef.current.value;
         const frontDoorRef = Number(refs.frontDoorRef.current.value); // Convert to number
         const inDoorRef = Number(refs.inDoorRef.current.value); // Convert to number
-        const limitDate = "2025-05-17T07:21:09.005Z"; // Generate valid ISO 8601 date-time
 
         try {
             const response = await fetch("/api/orders/create", {
@@ -49,7 +48,7 @@ export const SellerCreatePage = () => {
                     frontDoorQuantity: frontDoorRef,
                     inDoorQuantity: inDoorRef,
                     doorLimits: {
-                        limitDate: limitDate,
+                        limitDate: dateRef,
                     }
                 })
             });
