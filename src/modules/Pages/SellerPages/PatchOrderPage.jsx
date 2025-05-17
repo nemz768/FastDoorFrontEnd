@@ -107,18 +107,16 @@ export const PatchOrderPage = () => {
                     const month = String(date.getMonth() + 1).padStart(2, '0');
                     const day = String(date.getDate()).padStart(2, '0');
                     refs.dateRef.current.value = `${year}-${month}-${day}`;
-                    setInputValue(prev => ({
-                        ...prev,
-                        dateOrder: `${year}-${month}-${day}`
-                    }));
                 },
                 onDraw: function () {
                     const days = document.querySelectorAll('.pika-day');
+
                     days.forEach(dayElement => {
                         const year = dayElement.getAttribute('data-pika-year');
                         const month = String(Number(dayElement.getAttribute('data-pika-month')) + 1).padStart(2, '0');
                         const day = String(dayElement.getAttribute('data-pika-day')).padStart(2, '0');
                         const dateStr = `${year}-${month}-${day}`;
+
                         if (availabilityMap[dateStr] !== undefined) {
                             const availableDoors = availabilityMap[dateStr];
                             dayElement.setAttribute('title', `${availableDoors} дверей доступно`);
@@ -133,7 +131,7 @@ export const PatchOrderPage = () => {
                     const day = String(date.getDate()).padStart(2, '0');
                     const dateStr = `${year}-${month}-${day}`;
                     return availabilityMap[dateStr] === 0;
-                },
+                }
             });
         }
     }, [availabilityMap]);
