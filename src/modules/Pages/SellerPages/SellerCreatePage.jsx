@@ -50,8 +50,8 @@ export const SellerCreatePage = () => {
                     inDoorQuantity: inDoorRef,
                     doorLimits: {
                         limitDate: limitDate,
-                        frontDoorQuantity: frontDoorRef, // Include if required by server
-                        inDoorQuantity: inDoorRef, // Include if required by server
+                        // frontDoorQuantity: frontDoorRef, // Include if required by server
+                        // inDoorQuantity: inDoorRef, // Include if required by server
                     }
                 })
             });
