@@ -1,19 +1,12 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Pikaday from 'pikaday';
 import 'pikaday/css/pikaday.css';
 
 export const PatchOrderPage = () => {
-    const { orderId } = useParams();
-    const [inputValue, setInputValue] = useState({
-        fullName: '',
-        address: '',
-        phone: '',
-        messageSeller: '',
-        dateOrder: '',
-        frontDoorQuantity: '',
-        inDoorQuantity: '',
-    });
+
+    const {orderId} = useParams();
+   const [inputValue, setInputValue] = useState('');
 
     const availabilityData = /*[[${availabilityList}]]*/ [];
     const availabilityMap = {};
@@ -32,46 +25,44 @@ export const PatchOrderPage = () => {
         inDoorRef: useRef(null),
     };
 
-    // Форматирование даты в YYYY-MM-DD
-    const formatDate = (date) => {
-        if (!date) return '';
-        const d = new Date(date);
-        const year = d.getFullYear();
-        const month = String(d.getMonth() + 1).padStart(2, '0');
-        const day = String(d.getDate()).padStart(2, '0');
-        return `${year}-${month}-${day}`;
-    };
-
     useEffect(() => {
         const getData = async () => {
+
             try {
                 const response = await fetch(`/api/edit/${orderId}`, {
                     method: 'GET',
                     headers: {
-                        'Content-Type': 'application/json',
-                    },
-                });
-
-                if (!response.ok) {
-                    throw new Error(`Ошибка загрузки данных: ${response.status}`);
-                }
-
+                        'Content-Type': 'application/json'
+                    }
+                })
                 const data = await response.json();
+                console.log(data);
+                console.log(data.orderAttribute.fullName);
+
                 setInputValue({
+                    ...data.orderAttribute,
                     fullName: data.orderAttribute.fullName,
                     address: data.orderAttribute.address,
                     phone: data.orderAttribute.phone,
                     messageSeller: data.orderAttribute.messageSeller,
-                    dateOrder: formatDate(data.orderAttribute.dateOrder),
+                    dateOrder: data.orderAttribute.dateOrder,
                     frontDoorQuantity: data.orderAttribute.frontDoorQuantity,
                     inDoorQuantity: data.orderAttribute.inDoorQuantity,
                 });
-            } catch (err) {
-                console.error('Ошибка загрузки данных:', err);
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || `PATCH request failed: ${response.status}`);
+                }
+
             }
-        };
+
+            catch (err) {
+                console.log(err);
+            }
+        }
         getData();
-    }, [orderId]);
+    }, [])
+
 
     useEffect(() => {
         const handleInput = (el) => {
@@ -97,7 +88,7 @@ export const PatchOrderPage = () => {
 
     useEffect(() => {
         if (refs.dateRef.current) {
-            const picker = new Pikaday({
+            new Pikaday({
                 field: refs.dateRef.current,
                 format: 'YYYY-MM-DD',
                 firstDay: 1,
@@ -107,25 +98,51 @@ export const PatchOrderPage = () => {
                 i18n: {
                     previousMonth: 'Предыдущий',
                     nextMonth: 'Следующий',
-                    months: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
-                    weekdays: ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'],
+                    months: [
+                        'Январь',
+                        'Февраль',
+                        'Март',
+                        'Апрель',
+                        'Май',
+                        'Июнь',
+                        'Июль',
+                        'Август',
+                        'Сентябрь',
+                        'Октябрь',
+                        'Ноябрь',
+                        'Декабрь',
+                    ],
+                    weekdays: [
+                        'Воскресенье',
+                        'Понедельник',
+                        'Вторник',
+                        'Среда',
+                        'Четверг',
+                        'Пятница',
+                        'Суббота',
+                    ],
                     weekdaysShort: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
                 },
                 onSelect: function (date) {
-                    const formattedDate = formatDate(date); // YYYY-MM-DD
-                    refs.dateRef.current.value = formattedDate;
-                    setInputValue(prev => ({
-                        ...prev,
-                        dateOrder: formattedDate,
-                    }));
+                    const year = date.getFullYear();
+                    const month = String(date.getMonth() + 1).padStart(2, '0');
+                    const day = String(date.getDate()).padStart(2, '0');
+                    refs.dateRef.current.value = `${year}-${month}-${day}`;
                 },
                 onDraw: function () {
                     const days = document.querySelectorAll('.pika-day');
-                    days.forEach(dayElement => {
+
+                    days.forEach((dayElement) => {
                         const year = dayElement.getAttribute('data-pika-year');
-                        const month = String(Number(dayElement.getAttribute('data-pika-month')) + 1).padStart(2, '0');
-                        const day = String(dayElement.getAttribute('data-pika-day')).padStart(2, '0');
+                        const month = String(
+                            Number(dayElement.getAttribute('data-pika-month')) + 1
+                        ).padStart(2, '0');
+                        const day = String(dayElement.getAttribute('data-pika-day')).padStart(
+                            2,
+                            '0'
+                        );
                         const dateStr = `${year}-${month}-${day}`;
+
                         if (availabilityMap[dateStr] !== undefined) {
                             const availableDoors = availabilityMap[dateStr];
                             dayElement.setAttribute('title', `${availableDoors} дверей доступно`);
@@ -141,159 +158,145 @@ export const PatchOrderPage = () => {
                     const dateStr = `${year}-${month}-${day}`;
                     return availabilityMap[dateStr] === 0;
                 },
-                showOnFocus: false,
-                trigger: refs.dateRef.current,
             });
-
-            const handleClick = () => {
-                picker.show();
-            };
-
-            refs.dateRef.current.addEventListener('click', handleClick);
-
-            return () => {
-                refs.dateRef.current.removeEventListener('click', handleClick);
-                picker.destroy();
-            };
         }
     }, [availabilityMap]);
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         const payload = {
-            fullName: refs.fullname.current.value,
-            address: refs.address.current.value,
-            phone: refs.phone.current.value,
-            messageSeller: refs.comments.current.value,
-            dateOrder: refs.dateRef.current.value,
-            frontDoorQuantity: refs.frontDoorRef.current.value || '0',
-            inDoorQuantity: refs.inDoorRef.current.value || '0',
+            fullName: e.target.fullname.value,
+            // address: refs.address.current.value,
+            // phone: refs.phone.current.value,
+            // messageSeller: refs.comments.current.value,
+            // dateOrder: refs.dateRef.current.value,
+            // frontDoorQuantity: refs.frontDoorRef.current.value || 0,
+            // inDoorQuantity: refs.inDoorRef.current.value || 0,
         };
-
+        console.log(payload);
         try {
             const response = await fetch(`/api/edit/${orderId}`, {
                 method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload),
             });
-
             if (!response.ok) {
                 const errorData = await response.json();
-                throw new Error(errorData.message || `Ошибка обновления заказа: ${response.status}`);
+                throw new Error(errorData.message || `Ошибка HTTP ${response.status}`);
             }
-
-            navigate('/orders');
         } catch (err) {
-            console.error('Ошибка при обновлении заказа:', err);
-            alert(`Не удалось обновить заказ: ${err.message}`);
+            console.error('Ошибка PATCH:', err);
         }
     };
 
     return (
         <div className="sellerCreatePage">
-            <form onSubmit={handleSubmit} className="form-container">
-                <h1>Редактировать заказ</h1>
-                <h3 className="subtitleInput">Данные заказчика</h3>
-                <div>
-                    <div className="input-group">
-                        <label htmlFor="fullName">ФИО: </label>
-                        <input
-                            type="text"
-                            className="input_SellerPage"
-                            id="fullName"
-                            required
-                            ref={refs.fullname}
-                            placeholder="ФИО"
-                            defaultValue={inputValue.fullName}
-                        />
-                    </div>
+            <form onSubmit={handleSubmit}  className="form-container">
+                <h1>Заполните данные о заказе</h1>
+                <h3 className='subtitleInput'>Укажите данные заказчика</h3>
+                  <div>
+                      <div className="input-group">
+                          <label htmlFor="fullName">ФИО: </label>
+                          <input
+                              type="text"
+                              className="input_SellerPage"
+                              id="fullName"
+                              required
+                              ref={refs.fullname}
+                              placeholder="ФИО"
+                              defaultValue={inputValue.fullName}
+                          />
+                      </div>
 
-                    <div className="input-group">
-                        <label htmlFor="address">Адрес: </label>
-                        <input
-                            type="text"
-                            className="input_SellerPage"
-                            id="address"
-                            required
-                            ref={refs.address}
-                            placeholder="Адрес"
-                            defaultValue={inputValue.address}
-                        />
-                    </div>
+                      <div className="input-group">
+                          <label htmlFor="address">Адрес: </label>
+                          <input
+                              type="text"
+                              className="input_SellerPage"
+                              id="address"
+                              required
+                              ref={refs.address}
+                              placeholder="Адрес"
+                              defaultValue={inputValue.address}
+                          />
+                      </div>
 
-                    <div className="input-group">
-                        <label htmlFor="phoneDelivery">Номер телефона: </label>
-                        <input
-                            type="text"
-                            className="input_SellerPage"
-                            id="phoneDelivery"
-                            required
-                            ref={refs.phone}
-                            placeholder="Номер телефона"
-                            defaultValue={inputValue.phone}
-                        />
-                    </div>
+                      <div className="input-group">
+                          <label htmlFor="phoneDelivery">Номер телефона: </label>
+                          <input
+                              type="text"
+                              className="input_SellerPage"
+                              id="phoneDelivery"
+                              required
+                              ref={refs.phone}
+                              placeholder="Номер телефона"
+                              defaultValue={inputValue.phone}
 
-                    <div className="input-group">
-                        <label htmlFor="messageSeller">Комментарий: </label>
-                        <input
-                            type="text"
-                            className="input_SellerPage"
-                            id="messageSeller"
-                            ref={refs.comments}
-                            placeholder="Комментарий"
-                            defaultValue={inputValue.messageSeller}
-                        />
-                    </div>
+                          />
+                      </div>
 
-                    <h3 className="subtitleInput">Прочие данные</h3>
+                      <div className="input-group">
+                          <label htmlFor="messageSeller">Комментарий: </label>
+                          <input
+                              type="text"
+                              className="input_SellerPage"
+                              id="messageSeller"
+                              required
+                              ref={refs.comments}
+                              placeholder="Комментарий"
+                              defaultValue={inputValue.messageSeller}
+                          />
+                      </div>
 
-                    <div className="input-group">
-                        <label htmlFor="dateOrdered">Дата доставки: </label>
-                        <input
-                            readOnly
-                            required
-                            className="input_SellerPage"
-                            type="text"
-                            id="dateOrdered"
-                            ref={refs.dateRef}
-                            placeholder="Выбрать дату"
-                            defaultValue={formatDate(inputValue.dateOrder)}
-                        />
-                    </div>
+                      <h3 className='subtitleInput'>Укажите прочие данные</h3>
 
-                    <div className="input-group">
-                        <label htmlFor="frontDoorQuantity">Количество входных дверей</label>
-                        <input
-                            type="text"
-                            className="input_SellerPage"
-                            id="frontDoorQuantity"
-                            ref={refs.frontDoorRef}
-                            required
-                            placeholder="Количество входных дверей"
-                            defaultValue={inputValue.frontDoorQuantity}
-                        />
-                    </div>
+                      <div className="input-group">
+                          <label htmlFor="dateOrdered">Дата доставки: </label>
+                          <input
+                              readOnly
+                              required
+                              className="input_SellerPage"
+                              type="text"
+                              id="dateOrdered"
+                              ref={refs.dateRef}
+                              placeholder="Выбрать дату"
+                              defaultValue={inputValue.dateOrder}
+                          />
+                      </div>
 
-                    <div className="input-group">
-                        <label htmlFor="inDoorQuantity">Количество межкомнатных дверей</label>
-                        <input
-                            type="text"
-                            className="input_SellerPage"
-                            id="inDoorQuantity"
-                            ref={refs.inDoorRef}
-                            required
-                            placeholder="Количество межк-х дверей"
-                            defaultValue={inputValue.inDoorQuantity}
-                        />
-                    </div>
-                    <button type="button" onClick={() => navigate(-1)}>Отмена</button>
-                    <button id="submitButton" type="submit" className="submit-btn">Подтвердить</button>
-                </div>
-            </form>
+                      <div className="input-group">
+                          <label htmlFor="frontDoorQuantity">Количество входных дверей</label>
+                          <input
+                              type="text"
+                              className="input_SellerPage"
+                              id="frontDoorQuantity"
+                              ref={refs.frontDoorRef}
+                              required
+                              placeholder="Количество входных дверей"
+                              defaultValue={inputValue.frontDoorQuantity}
+                          />
+                      </div>
+
+                      <div className="input-group">
+                          <label htmlFor="inDoorQuantity">Количество межкомнатных дверей</label>
+                          <input
+                              type="text"
+                              className="input_SellerPage"
+                              id="inDoorQuantity"
+                              ref={refs.inDoorRef}
+                              required
+                              placeholder="Количество межк-х дверей"
+                              defaultValue={inputValue.inDoorQuantity}
+
+                          />
+                      </div>
+                      <button onClick={()=> navigate(-1)}>Отмена</button>
+                      <button id="submitButton" type="submit" className="submit-btn">Подтвердить</button>
+                  </div>
+              </form>
+
         </div>
     );
 };
