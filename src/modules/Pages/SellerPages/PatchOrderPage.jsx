@@ -158,19 +158,15 @@ export const PatchOrderPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!orderId) {
-            console.error('Error: orderId is undefined');
-            return;
-        }
-
-        const fullName = refs.fullname.current.value;
-        if (!fullName || typeof fullName !== 'string' || fullName.trim() === '') {
-            console.error('Error: Invalid fullName');
-            return;
-        }
-
-        const payload = { fullName };
-        console.log('Sending PATCH request:', { orderId, payload });
+        const payload = {
+            fullName: refs.fullname.current.value,
+            address: refs.address.current.value,
+            phone: refs.phone.current.value,
+            messageSeller: refs.comments.current.value,
+            dateOrder: refs.dateRef.current.value,
+            frontDoorQuantity: Number(refs.frontDoorRef.current.value) || 0,
+            inDoorQuantity: Number(refs.inDoorRef.current.value) || 0,
+        };
 
         try {
             const response = await fetch(`/api/edit/${orderId}`, {
@@ -178,24 +174,16 @@ export const PatchOrderPage = () => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload),
             });
-
             if (!response.ok) {
-                let errorMessage = `HTTP Error ${response.status}: ${response.statusText}`;
-                try {
-                    const errorData = await response.json();
-                    errorMessage = errorData.message || errorMessage;
-                } catch (jsonError) {
-                    console.warn('Failed to parse error response:', jsonError);
-                }
-                throw new Error(errorMessage);
+                const errorData = await response.json();
+                throw new Error(errorData.message || `Ошибка HTTP ${response.status}`);
             }
-
             navigate('/orders');
         } catch (err) {
-            console.error('PATCH Error:', err.message);
-            // Optionally display error to user (e.g., show a toast notification)
+            console.error('Ошибка PATCH:', err);
         }
     };
+
     return (
         <div className="sellerCreatePage">
             <form onSubmit={handleSubmit}  className="form-container">
