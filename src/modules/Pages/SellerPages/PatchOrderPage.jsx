@@ -147,9 +147,9 @@ export const PatchOrderPage = () => {
         const formData = {
             fullName: e.target.fullName.value,
             address: e.target.address.value,
-            phoneDelivery: e.target.phoneDelivery.value,
+            phone: e.target.phoneDelivery.value,
             messageSeller: e.target.messageSeller.value,
-            dateOrdered: refs.dateRef.current.value,
+            dateOrder: refs.dateRef.current.value,
             frontDoorQuantity: refs.frontDoorRef.current.value,
             inDoorQuantity: refs.inDoorRef.current.value,
         };
