@@ -13,16 +13,17 @@ export const CustomCalendar = ({ availabilityList, onDateSelected, selectedDate 
                     },
                 });
                 const data = await res.json();
-                // Ensure data is an array; fallback to empty array if not
-                setFetchedAvailability(data.availabilityList);
-                console.log("Fetched availability:", data.availabilityList);
+                // Ensure data.availabilityList is an array; fallback to empty array if not
+                const availabilityData = Array.isArray(data.availabilityList) ? data.availabilityList : [];
+                setFetchedAvailability(availabilityData);
+                console.log("Fetched availability:", availabilityData);
             } catch (err) {
                 console.error("Error fetching availability:", err);
-                setFetchedAvailability([]); // Fallback to empty array on error
+                setFetchedAvailability(availabilityList || []); // Fallback to prop data on error
             }
         };
         showCountOfDoors();
-    }, []);
+    }, [availabilityList]); // Add availabilityList as dependency to re-fetch if prop changes
 
     const today = new Date();
     const [currentYearMonth, setCurrentYearMonth] = useState({
