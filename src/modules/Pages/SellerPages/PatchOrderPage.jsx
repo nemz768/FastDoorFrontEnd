@@ -17,7 +17,7 @@ export const PatchOrderPage = () => {
     const refs = {
         fullName: useRef(null), // Match input id="fullName"
         address: useRef(null),
-        phoneDelivery: useRef(null), // Match input id="phoneDelivery"
+        phone: useRef(null), // Match input id="phoneDelivery"
         messageSeller: useRef(null), // Match input id="messageSeller"
         dateOrder: useRef(null), // Match input id="dateOrdered"
         frontDoorQuantity: useRef(null), // Match input id="frontDoorQuantity"
@@ -164,7 +164,7 @@ export const PatchOrderPage = () => {
         const payload = {
             fullName: refs.fullName.current.value,
             address: refs.address.current.value,
-            phone: refs.phoneDelivery.current.value,
+            phone: refs.phone.current.value,
             messageSeller: refs.messageSeller.current.value,
             dateOrder: refs.dateOrder.current.value,
             frontDoorQuantity: refs.frontDoorQuantity.current.value || '0',
@@ -236,13 +236,13 @@ export const PatchOrderPage = () => {
                     </div>
 
                     <div className="input-group">
-                        <label htmlFor="phoneDelivery">Номер телефона: </label>
+                        <label htmlFor="phone">Номер телефона: </label>
                         <input
                             type="text"
                             className="input_SellerPage"
-                            id="phoneDelivery"
+                            id="phone"
                             required
-                            ref={refs.phoneDelivery}
+                            ref={refs.phone}
                             placeholder="Номер телефона"
                             defaultValue={inputValue.phone || ''}
                         />
