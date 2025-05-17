@@ -88,7 +88,7 @@ export const PatchOrderPage = () => {
 
     useEffect(() => {
         if (refs.dateRef.current) {
-            new Pikaday({
+            const picker = new Pikaday({
                 field: refs.dateRef.current,
                 format: "YYYY-MM-DD",
                 firstDay: 1,
@@ -138,6 +138,19 @@ export const PatchOrderPage = () => {
                 showOnFocus: false, // Отключаем открытие при фокусе
                 trigger: refs.dateRef.current // Указываем, что календарь открывается только по клику
             });
+
+            // Явно управляем открытием календаря по клику
+            const handleClick = () => {
+                picker.show();
+            };
+
+            refs.dateRef.current.addEventListener('click', handleClick);
+
+            // Очистка слушателя событий
+            return () => {
+                refs.dateRef.current.removeEventListener('click', handleClick);
+                picker.destroy();
+            };
         }
     }, [availabilityMap]);
 
@@ -150,7 +163,7 @@ export const PatchOrderPage = () => {
             address: refs.address.current.value,
             phone: refs.phone.current.value,
             messageSeller: refs.comments.current.value,
-            // dateOrder: refs.dateRef.current.value,
+            dateOrder: refs.dateRef.current.value,
             frontDoorQuantity: refs.frontDoorRef.current.value || 0,
             inDoorQuantity: refs.inDoorRef.current.value || 0,
         };
