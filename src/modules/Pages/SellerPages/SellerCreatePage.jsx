@@ -25,44 +25,48 @@ export const SellerCreatePage = () => {
 
     const sendResultsCreate = async (e) => {
         e.preventDefault();
-        console.log(refs.fullname.current.value);
         const fullname = refs.fullname.current.value;
         const address = refs.address.current.value;
         const phone = refs.phone.current.value;
         const comments = refs.comments.current.value;
         const dateRef = refs.dateRef.current.value;
-        const frontDoorRef = refs.frontDoorRef.current.value;
-        const inDoorRef = refs.inDoorRef.current.value;
-        const limitDate = '123';
+        const frontDoorRef = Number(refs.frontDoorRef.current.value); // Convert to number
+        const inDoorRef = Number(refs.inDoorRef.current.value); // Convert to number
+        const limitDate = new Date().toISOString(); // Generate valid ISO 8601 date-time
 
-        await fetch("/api/orders/create", {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                fullName: fullname,
-                // address: address,
-                // phone: phone,
-                // messageSeller: comments,
-                // // dateOrder: dateRef,
-                // frontDoorQuantity: frontDoorRef,
-                // inDoorQuantity: inDoorRef,
-                // doorLimits: {
-                //     limitDate: limitDate,
-                // }
-            })
-        })
-            .then((res) => {
-                res.json();
-            })
-            .then((data) => {
-                console.log('Server response: ', data);
-                navigate("./done");
-            })
-            .catch((err) => console.error(err));
+        try {
+            const response = await fetch("/api/orders/create", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    fullName: fullname,
+                    address: address,
+                    phone: phone,
+                    messageSeller: comments,
+                    dateOrder: dateRef,
+                    frontDoorQuantity: frontDoorRef,
+                    inDoorQuantity: inDoorRef,
+                    doorLimits: {
+                        limitDate: limitDate,
+                        frontDoorQuantity: frontDoorRef, // Include if required by server
+                        inDoorQuantity: inDoorRef, // Include if required by server
+                    }
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            console.log('Server response: ', data);
+            navigate("./done");
+        } catch (err) {
+            console.error('Error creating order:', err);
+        }
     };
-
     useEffect(() => {
         const frontInput = refs.frontDoorRef.current;
         const inInput = refs.inDoorRef.current;
