@@ -5,7 +5,6 @@ import 'pikaday/css/pikaday.css';
 import { CustomCalendar } from "../../special/CustomCalendar.jsx";
 
 export const SellerCreatePage = () => {
-    const [inputValue, setInputValue] = useState({});
     const [selectedDate, setSelectedDate] = useState(null);
     const [isCalendarOpen, setIsCalendarOpen] = useState(false);
 
@@ -87,7 +86,6 @@ export const SellerCreatePage = () => {
             if (!onlyNumbers || (currentVal.startsWith('0') && currentVal.length > 1)) {
                 el.value = currentVal.slice(0, -1);
             }
-            setInputValue(prev => ({ ...prev, [el.id]: el.value }));
         };
 
         if (frontInput && inInput) {
@@ -103,7 +101,6 @@ export const SellerCreatePage = () => {
 
     const handleDateSelected = (dateStr) => {
         setSelectedDate(dateStr);
-        setInputValue(prev => ({ ...prev, dateOrder: dateStr }));
         refs.dateRef.current.value = dateStr; // Update input field
         setIsCalendarOpen(false);
     };
