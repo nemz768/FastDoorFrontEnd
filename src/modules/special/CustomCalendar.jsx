@@ -13,17 +13,16 @@ export const CustomCalendar = ({ availabilityList, onDateSelected, selectedDate 
                     },
                 });
                 const data = await res.json();
-                // Ensure data.availabilityList is an array; fallback to empty array if not
                 const availabilityData = Array.isArray(data.availabilityList) ? data.availabilityList : [];
                 setFetchedAvailability(availabilityData);
                 console.log("Fetched availability:", availabilityData);
             } catch (err) {
                 console.error("Error fetching availability:", err);
-                setFetchedAvailability(availabilityList || []); // Fallback to prop data on error
+                setFetchedAvailability(availabilityList || []);
             }
         };
         showCountOfDoors();
-    }, [availabilityList]); // Add availabilityList as dependency to re-fetch if prop changes
+    }, [availabilityList]);
 
     const today = new Date();
     const [currentYearMonth, setCurrentYearMonth] = useState({
@@ -41,10 +40,9 @@ export const CustomCalendar = ({ availabilityList, onDateSelected, selectedDate 
     const firstDayOfWeek = (new Date(currentYearMonth.year, currentYearMonth.month, 1).getDay() || 7) % 7;
 
     const availabilityMap = {};
-    // Use fetchedAvailability if available, otherwise fallback to availabilityList
     const dataSource = fetchedAvailability.length > 0 ? fetchedAvailability : (availabilityList || []);
     dataSource.forEach(day => {
-        if (day && day.date) { // Ensure day and day.date exist
+        if (day && day.date) {
             availabilityMap[day.date] = {
                 frontDoorQuantity: day.frontDoorQuantity || 0,
                 inDoorQuantity: day.inDoorQuantity || 0,
@@ -70,7 +68,7 @@ export const CustomCalendar = ({ availabilityList, onDateSelected, selectedDate 
         const weeks = Math.ceil((firstDayOfWeek + daysInMonth) / 7);
         const days = [];
         let day = 1;
-        const todayStr = today.toISOString().split('T')[0];
+        const todayStr = formatLocalDate(today);
 
         for (let week = 0; week < weeks; week++) {
             const weekDays = [];
@@ -80,7 +78,7 @@ export const CustomCalendar = ({ availabilityList, onDateSelected, selectedDate 
                     weekDays.push(<div key={`empty-${index}`} className="calendar-day empty" />);
                 } else {
                     const date = new Date(currentYearMonth.year, currentYearMonth.month, day);
-                    const dateStr = date.toISOString().split('T')[0];
+                    const dateStr = formatLocalDate(date);
                     const isSelected = selectedDate === dateStr;
                     const isToday = dateStr === todayStr;
                     const isPast = date < today && !isToday;
@@ -107,6 +105,14 @@ export const CustomCalendar = ({ availabilityList, onDateSelected, selectedDate 
             days.push(<div key={`week-${week}`} className="calendar-week">{weekDays}</div>);
         }
         return days;
+    };
+
+    // Format date to YYYY-MM-DD in local timezone
+    const formatLocalDate = (date) => {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
     };
 
     return (

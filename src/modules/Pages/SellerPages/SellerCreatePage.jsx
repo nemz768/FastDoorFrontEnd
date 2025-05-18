@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import '../../../styles/stylePages/createSellerPage.css';
-import 'pikaday/css/pikaday.css';
 import { CustomCalendar } from "../../special/CustomCalendar.jsx";
 
 export const SellerCreatePage = () => {
