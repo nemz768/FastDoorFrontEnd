@@ -1,15 +1,16 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import '../../../styles/stylePages/createSellerPage.css';
-import Pikaday from 'pikaday';
 import 'pikaday/css/pikaday.css';
+import { CustomCalendar } from "../../special/CustomCalendar.jsx";
 
 export const SellerCreatePage = () => {
-    const availabilityData = /*[[${availabilityList}]]*/ [];
-    const availabilityMap = {};
-    availabilityData.forEach(day => {
-        availabilityMap[day.date] = day.frontDoorQuantity;
-    });
+    const [inputValue, setInputValue] = useState({});
+    const [selectedDate, setSelectedDate] = useState(null);
+    const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+
+    const availabilityList = /*[[${availabilityList}]]*/ [];
+    const calendarRef = useRef(null);
     const navigate = useNavigate();
     const numbers = '1234567890';
 
@@ -23,34 +24,44 @@ export const SellerCreatePage = () => {
         inDoorRef: useRef(null),
     };
 
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (calendarRef.current && !calendarRef.current.contains(event.target) && !refs.dateRef.current.contains(event.target)) {
+                setIsCalendarOpen(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
+
     const sendResultsCreate = async (e) => {
         e.preventDefault();
-        const fullname = refs.fullname.current.value;
-        const address = refs.address.current.value;
-        const phone = refs.phone.current.value;
-        const comments = refs.comments.current.value;
-        const dateRef = refs.dateRef.current.value;
-        const frontDoorRef = Number(refs.frontDoorRef.current.value); // Convert to number
-        const inDoorRef = Number(refs.inDoorRef.current.value); // Convert to number
+        const fullname = refs.fullname.current?.value || '';
+        const address = refs.address.current?.value || '';
+        const phone = refs.phone.current?.value || '';
+        const comments = refs.comments.current?.value || '';
+        const dateOrder = selectedDate || '';
+        const frontDoorQuantity = Number(refs.frontDoorRef.current?.value) || 0;
+        const inDoorQuantity = Number(refs.inDoorRef.current?.value) || 0;
 
         try {
             const response = await fetch("/api/orders/create", {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
                     fullName: fullname,
                     address: address,
                     phone: phone,
                     messageSeller: comments,
-                    dateOrder: dateRef,
-                    frontDoorQuantity: frontDoorRef,
-                    inDoorQuantity: inDoorRef,
+                    dateOrder: dateOrder,
+                    frontDoorQuantity: frontDoorQuantity,
+                    inDoorQuantity: inDoorQuantity,
                     doorLimits: {
-                        limitDate: dateRef,
-                    }
-                })
+                        limitDate: dateOrder,
+                    },
+                }),
             });
 
             if (!response.ok) {
@@ -58,12 +69,13 @@ export const SellerCreatePage = () => {
             }
 
             const data = await response.json();
-            console.log('Server response: ', data);
+            console.log('Server response:', data);
             navigate("./done");
         } catch (err) {
             console.error('Error creating order:', err);
         }
     };
+
     useEffect(() => {
         const frontInput = refs.frontDoorRef.current;
         const inInput = refs.inDoorRef.current;
@@ -75,73 +87,32 @@ export const SellerCreatePage = () => {
             if (!onlyNumbers || (currentVal.startsWith('0') && currentVal.length > 1)) {
                 el.value = currentVal.slice(0, -1);
             }
+            setInputValue(prev => ({ ...prev, [el.id]: el.value }));
         };
-        frontInput.addEventListener('input', () => handleInput(frontInput));
-        inInput.addEventListener('input', () => handleInput(inInput));
+
+        if (frontInput && inInput) {
+            frontInput.addEventListener('input', () => handleInput(frontInput));
+            inInput.addEventListener('input', () => handleInput(inInput));
+        }
 
         return () => {
-            frontInput.removeEventListener('input', () => handleInput(frontInput));
-            inInput.removeEventListener('input', () => handleInput(inInput));
+            if (frontInput) frontInput.removeEventListener('input', () => handleInput(frontInput));
+            if (inInput) inInput.removeEventListener('input', () => handleInput(inInput));
         };
     }, []);
 
-    useEffect(() => {
-        if (refs.dateRef.current) {
-            new Pikaday({
-                field: refs.dateRef.current,
-                format: "YYYY-MM-DD",
-                firstDay: 1,
-                minDate: new Date(2024, 0, 1),
-                maxDate: new Date(2025, 11, 31),
-                yearRange: [2023, 2030],
-                i18n: {
-                    previousMonth: "Предыдущий",
-                    nextMonth: "Следующий",
-                    months: ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"],
-                    weekdays: ["Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"],
-                    weekdaysShort: ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"]
-                },
-                onSelect: function (date) {
-                    const year = date.getFullYear();
-                    const month = String(date.getMonth() + 1).padStart(2, '0');
-                    const day = String(date.getDate()).padStart(2, '0');
-                    refs.dateRef.current.value = `${year}-${month}-${day}`;
-                },
-                onDraw: function () {
-                    const days = document.querySelectorAll('.pika-day');
-
-                    days.forEach(dayElement => {
-                        const year = dayElement.getAttribute('data-pika-year');
-                        const month = String(Number(dayElement.getAttribute('data-pika-month')) + 1).padStart(2, '0');
-                        const day = String(dayElement.getAttribute('data-pika-day')).padStart(2, '0');
-                        const dateStr = `${year}-${month}-${day}`;
-
-                        if (availabilityMap[dateStr] !== undefined) {
-                            const availableDoors = availabilityMap[dateStr];
-                            dayElement.setAttribute('title', `${availableDoors} дверей доступно`);
-                        } else {
-                            dayElement.removeAttribute('title');
-                        }
-                    });
-                },
-                disableDayFn: function (date) {
-                    const year = date.getFullYear();
-                    const month = String(date.getMonth() + 1).padStart(2, '0');
-                    const day = String(date.getDate()).padStart(2, '0');
-                    const dateStr = `${year}-${month}-${day}`;
-                    return availabilityMap[dateStr] === 0;
-                }
-            });
-        }
-    }, [availabilityMap]);
+    const handleDateSelected = (dateStr) => {
+        setSelectedDate(dateStr);
+        setInputValue(prev => ({ ...prev, dateOrder: dateStr }));
+        refs.dateRef.current.value = dateStr; // Update input field
+        setIsCalendarOpen(false);
+    };
 
     return (
         <div className="sellerCreatePage">
-            <form onSubmit={(e) => {
-                sendResultsCreate(e);
-            }} className="form-container">
+            <form onSubmit={sendResultsCreate} className="form-container">
                 <h1>Заполните данные о заказе</h1>
-                <h3 className='subtitleInput'>Укажите данные заказчика</h3>
+                <h3 className="subtitleInput">Укажите данные заказчика</h3>
 
                 <div className="input-group">
                     <label htmlFor="fullName">ФИО: </label>
@@ -191,7 +162,7 @@ export const SellerCreatePage = () => {
                     />
                 </div>
 
-                <h3 className='subtitleInput'>Укажите прочие данные</h3>
+                <h3 className="subtitleInput">Укажите прочие данные</h3>
 
                 <div className="input-group">
                     <label htmlFor="dateOrdered">Дата доставки: </label>
@@ -203,7 +174,17 @@ export const SellerCreatePage = () => {
                         id="dateOrdered"
                         ref={refs.dateRef}
                         placeholder="Выбрать дату"
+                        onClick={() => setIsCalendarOpen(prev => !prev)}
                     />
+                    {isCalendarOpen && (
+                        <div ref={calendarRef} className="calendar-container">
+                            <CustomCalendar
+                                availabilityList={availabilityList}
+                                onDateSelected={handleDateSelected}
+                                selectedDate={selectedDate}
+                            />
+                        </div>
+                    )}
                 </div>
 
                 <div className="input-group">
