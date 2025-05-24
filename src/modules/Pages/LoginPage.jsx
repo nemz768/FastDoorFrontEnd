@@ -43,7 +43,7 @@ const LoginPage = () => {
                 if (data.roles === 'main') {
                     navigate('/home/mainInstaller');
                 } else if (data.roles === 'administrator') {
-                    navigate('/404');
+                    navigate('/home/admin');
                 } else if (data.roles === 'salespeople') {
                     navigate('/home/seller');
                 } else {

@@ -56,7 +56,7 @@ export const AdminPanelPage = () => {
         <div className="admin-panel">
             <Header />
             <main className="SellerAllOrdersPage">
-                <h2>Заказы продавца</h2>
+                <h2>Панель администратора</h2>
                 {isLoading && <div className="loading">Загрузка...</div>}
                 {error && (
                     <div className="error">
@@ -83,6 +83,7 @@ export const AdminPanelPage = () => {
                                     <th>Количество межкомнатных дверей</th>
                                     <th>Ваш комментарий</th>
                                     <th>Установщик</th>
+                                    <th>Филиалы</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -96,6 +97,7 @@ export const AdminPanelPage = () => {
                                         <td>{order.inDoorQuantity}</td>
                                         <td>{order.messageSeller}</td>
                                         <td>{order.installerName || 'Не назначен'}</td>
+                                        <td>{order.nickname}</td>
                                     </tr>
                                 ))}
                                 </tbody>
