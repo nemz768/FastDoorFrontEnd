@@ -31,7 +31,7 @@ export const Header = () => {
                 }
             })
 
-            const data = await response.json();
+            const data = await response;
 
             console.log(data)
             localStorage.removeItem('userRoles'); // Очищаем роль при выходе
