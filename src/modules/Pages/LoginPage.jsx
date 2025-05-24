@@ -93,7 +93,7 @@ const LoginPage = () => {
                         <Link style={{ color: 'black' }} to="/reg">
                             Нажми
                         </Link>
-                        для регистрации
+                           для регистрации
                     </p>
                     <div className="checkbox_div">
                         <input className="checkbox" type="checkbox" name="rememberMe" />
