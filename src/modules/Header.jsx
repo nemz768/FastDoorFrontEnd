@@ -5,7 +5,7 @@ import {useAuth} from "./Auth/AuthContext.jsx";
 
 export const Header = () => {
 
-    const [isLoggedIn] = useAuth();
+    const {isLoggedIn} = useAuth();
 
 
     return (

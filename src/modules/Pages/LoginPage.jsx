@@ -4,7 +4,7 @@ import {Link, useNavigate} from "react-router-dom";
 import {useAuth} from "../Auth/AuthContext.jsx";
 
 const LoginPage = () => {
-    const [setIsLoggedIn] = useAuth();
+    const {setIsLoggedIn} = useAuth();
     const UsernameRef = useRef(null);
     const PasswordRef = useRef(null);
     const navigate = useNavigate();
