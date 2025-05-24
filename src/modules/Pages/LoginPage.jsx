@@ -4,7 +4,7 @@ import {Link, useNavigate} from "react-router-dom";
 import {useAuth} from "../Auth/AuthContext.jsx";
 
 const LoginPage = () => {
-    const {setIsLoggedIn} = useAuth();
+    const {setIsLoggedIn, setGetRoles} = useAuth();
     const UsernameRef = useRef(null);
     const PasswordRef = useRef(null);
     const navigate = useNavigate();
@@ -35,10 +35,13 @@ const LoginPage = () => {
 
             console.log('Server response: ', data.roles)
             if (data.roles === 'main') {
+                setGetRoles("main");
                 navigate('/home/mainInstaller')
             } else if (data.roles === 'administrator') {
+                setGetRoles("administrator");
                 navigate('/404')
             } else if (data.roles === 'salespeople') {
+               setGetRoles("salespeople");
                 navigate('/home/seller')
             } else {
                 navigate('/')

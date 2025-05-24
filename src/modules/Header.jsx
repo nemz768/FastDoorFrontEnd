@@ -1,12 +1,18 @@
 import '../styles/header.css';
 import logo from '../assets/logo.svg';
-import {Link} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 import {useAuth} from "./Auth/AuthContext.jsx";
 
 export const Header = () => {
+    const navigate = useNavigate();
+    const {isLoggedIn, getRoles} = useAuth();
 
-    const {isLoggedIn} = useAuth();
 
+    const toNeededNavigate = ()=> {
+        if (getRoles === "salespeople") {
+            navigate('/home/seller/listOrdersSeller')
+        }
+    }
 
     return (
         <header className="header">
@@ -15,7 +21,7 @@ export const Header = () => {
             {isLoggedIn ? (
                 <nav className="header-nav">
                     <button>Выйти</button>
-                    <Link to='/reg'>toMainPage</Link>
+                    <a onClick={toNeededNavigate}>toMainPage</a>
                 </nav>
             ) : (
                 <nav className="header-nav">
