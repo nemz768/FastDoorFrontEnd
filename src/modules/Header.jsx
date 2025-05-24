@@ -1,7 +1,7 @@
 import '../styles/header.css';
 import logo from '../assets/logo.svg';
 import {Link, useLocation, useNavigate} from 'react-router-dom';
-import { useEffect } from 'react';
+import {useEffect} from 'react';
 import { useAuth } from './Auth/AuthContext.jsx';
 
 export const Header = () => {
@@ -18,9 +18,31 @@ export const Header = () => {
         }
     }, [location.pathname, setIsLoggedIn]);
 
-    const handleLogout = () => {
-        localStorage.removeItem('userRoles'); // Очищаем роль при выходе
-        setIsLoggedIn(false);
+
+
+
+    const handleLogout = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await fetch("/api/logout", {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+
+
+            console.log(response)
+            localStorage.removeItem('userRoles'); // Очищаем роль при выходе
+            setIsLoggedIn(false);
+            navigate('/');
+
+        }catch (error) {
+            console.log(error);
+        }
+
+
+
     };
 
     const controlRedirect = () => {
