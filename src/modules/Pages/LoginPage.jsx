@@ -1,8 +1,10 @@
 import React, {useRef} from 'react';
 import '../../styles/stylePages/loginPage.css'
 import {Link, useNavigate} from "react-router-dom";
+import {useAuth} from "../Auth/AuthContext.jsx";
 
 const LoginPage = () => {
+    const [setIsLoggedIn] = useAuth();
     const UsernameRef = useRef(null);
     const PasswordRef = useRef(null);
     const navigate = useNavigate();
@@ -44,12 +46,21 @@ const LoginPage = () => {
 
             UsernameRef.current.value = '';
             PasswordRef.current.value = '';
-
+            if (data.roles === "administrator" || data.roles === "salespeople") {
+                setIsLoggedIn(true);
+            } else {
+                setIsLoggedIn(false);
+            }
            // /api/logout
     }catch (err){
             console.error('Ошибка при запросе:', err);
         }
     };
+
+
+
+
+
     return (
         <div className="login-page">
             <div className="login-section">
@@ -73,4 +84,5 @@ const LoginPage = () => {
         </div>
     );
 }
+
 export default LoginPage;

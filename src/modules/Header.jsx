@@ -1,39 +1,11 @@
 import '../styles/header.css';
 import logo from '../assets/logo.svg';
 import {Link} from 'react-router-dom'
-import {useEffect, useState} from "react";
+import {useAuth} from "./Auth/AuthContext.jsx";
 
 export const Header = () => {
 
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-    useEffect(() => {
-        const getHeader = async () => {
-            try {
-                const response = await fetch("/api/login", {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
-                const data = await response.json();
-
-                if (data.roles === "administrator" || data.roles === "salespeople") {
-                    setIsLoggedIn(true);
-                } else {
-                    setIsLoggedIn(false);
-                }
-            }
-            catch(err) {
-                console.error(err);
-                setIsLoggedIn(false);
-            }
-        }
-        getHeader();
-
-    }, [])
-
-
+    const [isLoggedIn] = useAuth();
 
 
     return (
