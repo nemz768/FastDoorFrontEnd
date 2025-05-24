@@ -42,7 +42,7 @@ export const Header = () => {
             {isLoggedIn ? (
                 <nav className="header-nav">
                     <a href="#" onClick={handleLogout}>Выйти</a>
-                    <a href="#" onClick={}>К своей странице</a>
+                    <a href="#" onClick={controlRedirect}>К своей странице</a>
                 </nav>
                     ) : (
                     <nav className="header-nav">
