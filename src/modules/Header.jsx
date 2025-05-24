@@ -25,7 +25,7 @@ export const Header = () => {
 
     const controlRedirect = () => {
         if (localStorage.getItem('userRoles') === "administrator") {
-            navigate('/403');
+            navigate('/404');
         }else if (localStorage.getItem('userRoles') === "salespeople") {
             navigate('/home/seller');
         }else {
@@ -53,5 +53,3 @@ export const Header = () => {
         </header>
     );
 };
-
-export default Header;

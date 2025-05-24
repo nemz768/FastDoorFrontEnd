@@ -11,6 +11,7 @@ import {DonePage} from "../modules/Pages/DonePage.jsx";
 import {MainInstallerPage} from "../modules/Pages/MainInstallerPage.jsx";
 import {SellerAllOrdersPage} from "../modules/Pages/SellerPages/SellerAllOrdersPage.jsx";
 import {PatchOrderPage} from "../modules/Pages/SellerPages/PatchOrderPage.jsx";
+import {AdminPanelPage} from "../modules/Pages/adminPanelPage.jsx";
 
 
 
@@ -29,6 +30,7 @@ export const SiteRoutes = () => {
                     <Route path="/reg" element={<RegisterPage/>}></Route>
                     <Route path="/home/seller/create/done" element={<DonePage/>}></Route>
                     <Route path="/home/mainInstaller" element={<MainInstallerPage/>}></Route>
+                    <Route path="/home/admin" element={<AdminPanelPage/>}></Route>
                     <Route path="*"  element={<PageNotFound/>}></Route>
                  </Routes>
         </>
