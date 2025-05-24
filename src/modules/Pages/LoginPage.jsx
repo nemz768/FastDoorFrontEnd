@@ -13,9 +13,6 @@ const LoginPage = () => {
         console.log(PasswordRef.current.value)
         const login = UsernameRef.current.value;
         const password = PasswordRef.current.value;
-
-
-
         try {
             const response = await fetch("/api/login", {
                 method: 'POST',
