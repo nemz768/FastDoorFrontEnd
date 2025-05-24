@@ -15,6 +15,7 @@ export const SellerAllOrdersPage = () => {
     const [selectedOrderId, setSelectedOrderId] = useState(null);
 
     useEffect(() => {
+
         const fetchOrders = async () => {
             setIsLoading(true);
             setError(null);
