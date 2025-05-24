@@ -8,9 +8,7 @@ export const Header = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     useEffect(() => {
-        const getHeader = async (e) => {
-            e.preventDefault();
-
+        const getHeader = async () => {
             try {
                 const response = await fetch("/api/login", {
                     method: 'GET',
