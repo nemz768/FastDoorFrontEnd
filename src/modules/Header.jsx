@@ -11,7 +11,7 @@ export const Header = () => {
         const getHeader = async () => {
             try {
                 const response = await fetch("/api/login", {
-                    method: 'GET',
+                    method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     }
