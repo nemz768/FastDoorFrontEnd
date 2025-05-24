@@ -1,13 +1,22 @@
-// AuthContext.js
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [getRoles, setGetRoles] = useState(null);
+
+    // Проверяем авторизацию при монтировании
+    useEffect(() => {
+        const storedRoles = localStorage.getItem('userRoles');
+        if (storedRoles && (storedRoles === 'administrator' || storedRoles === 'salespeople')) {
+            setIsLoggedIn(true);
+        } else {
+            setIsLoggedIn(false);
+        }
+    }, []);
+
     return (
-        <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn, getRoles, setGetRoles }}>
+        <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn }}>
             {children}
         </AuthContext.Provider>
     );
