@@ -5,6 +5,7 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+
     // Проверяем авторизацию при монтировании
     useEffect(() => {
         const storedRoles = localStorage.getItem('userRoles');
