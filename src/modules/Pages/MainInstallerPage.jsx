@@ -4,6 +4,8 @@ import {Footer} from "../Footer.jsx";
 import '../../styles/stylePages/mainInstallerPage.css'
 
 export const MainInstallerPage = () => {
+
+    // 1
     const [orders, setOrders] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(1);
