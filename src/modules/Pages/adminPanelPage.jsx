@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Header } from '../Header.jsx';
 import { Footer } from '../Footer.jsx';
+import {debounce} from "lodash";
 import '../../styles/stylePages/adminPanelPage.css';
 
 
@@ -63,12 +64,11 @@ export const AdminPanelPage = () => {
         }
     };
 
-    const handleSearch = (e) => {
-      const val = e.target.value;
-        setShowButtonClear(val !== '');
-        setNickName(val);
+    const handleSearch = debounce((value) => {
+        setShowButtonClear(value !== '');
+        setNickName(value);
         setCurrentPage(0);
-    }
+    }, 300)
 
     const handleClearSearch = () => {
         setShowButtonClear(false);
@@ -85,7 +85,7 @@ export const AdminPanelPage = () => {
                     <div className="InputBlock">
                         <input
                             className="inputFind"
-                            onChange={handleSearch}
+                            onChange={(e)=> handleSearch(e.target.value)}
                             type="search"
                             value={nickName}
                             placeholder="Поиск по филиалу..."
