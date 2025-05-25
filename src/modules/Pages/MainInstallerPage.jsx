@@ -4,7 +4,7 @@ import {Footer} from "../Footer.jsx";
 import '../../styles/stylePages/mainInstallerPage.css'
 
 export const MainInstallerPage = () => {
-    
+
     const [orders, setOrders] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(1);
@@ -13,9 +13,7 @@ export const MainInstallerPage = () => {
     const [nickName, setNickName] = useState('');
     const [showButtonClear, setShowButtonClear] = useState(false);
 
-    const urls = nickName
-        ? `/api/list/sort?nickname=${nickName}&page=${currentPage}`
-        : `/api/list/adminList?page=${currentPage}`;
+    const url = `/api/mainInstaller?page=${currentPage}`;
 
 
     useEffect(() => {
@@ -23,7 +21,7 @@ export const MainInstallerPage = () => {
             setIsLoading(true);
             setError(null);
             try {
-                const response = await fetch(urls, {
+                const response = await fetch(url, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -61,11 +59,11 @@ export const MainInstallerPage = () => {
     // debounce, чтобы предотвратить постоянные запросы к apis
 
 
-    const handleSearch = (value) => {
-        setShowButtonClear(value !== '');
-        setNickName(value);
-        setCurrentPage(0);
-    }
+    // const handleSearch = (value) => {
+    //     setShowButtonClear(value !== '');
+    //     setNickName(value);
+    //     setCurrentPage(0);
+    // }
 
     const handleClearSearch = () => {
         setShowButtonClear(false);
@@ -78,23 +76,24 @@ export const MainInstallerPage = () => {
             <Header/>
             <main className="SellerAllOrdersPage">
                 <div>
-                    <h2>Панель администратора</h2>
-                    <div className="InputBlock">
-                        <input
-                            className="inputFind"
-                            onChange={(e)=> handleSearch(e.target.value)}
-                            type="search"
-                            value={nickName}
-                            placeholder="Поиск по филиалу..."
-                        />
-                        {showButtonClear && (
-                            <button id="CleanButton" onClick={handleClearSearch} className='cleanInputSvg'>
-                                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="17" height="17" viewBox="0 0 50 50">
-                                    <path d="M 40.783203 7.2714844 A 2.0002 2.0002 0 0 0 39.386719 7.8867188 L 25.050781 22.222656 L 10.714844 7.8867188 A 2.0002 2.0002 0 0 0 9.2792969 7.2792969 A 2.0002 2.0002 0 0 0 7.8867188 10.714844 L 22.222656 25.050781 L 7.8867188 39.386719 A 2.0002 2.0002 0 1 0 10.714844 42.214844 L 25.050781 27.878906 L 39.386719 42.214844 A 2.0002 2.0002 0 1 0 42.214844 39.386719 L 27.878906 25.050781 L 42.214844 10.714844 A 2.0002 2.0002 0 0 0 40.783203 7.2714844 z"></path>
-                                </svg>
-                            </button>
-                        )}
-                    </div>
+                    <h2>Панель установщика</h2>
+                    {/*<div className="InputBlock">*/}
+                    {/*    <input*/}
+                    {/*        className="inputFind"*/}
+                    {/*        onChange={(e)=> handleSearch(e.target.value)}*/}
+                    {/*        type="search"*/}
+                    {/*        value={nickName}*/}
+                    {/*        placeholder="Поиск по филиалу..."*/}
+                    {/*    />*/}
+                    {/*    */}
+                    {/*    {showButtonClear && (*/}
+                    {/*        <button id="CleanButton" onClick={handleClearSearch} className='cleanInputSvg'>*/}
+                    {/*            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="17" height="17" viewBox="0 0 50 50">*/}
+                    {/*                <path d="M 40.783203 7.2714844 A 2.0002 2.0002 0 0 0 39.386719 7.8867188 L 25.050781 22.222656 L 10.714844 7.8867188 A 2.0002 2.0002 0 0 0 9.2792969 7.2792969 A 2.0002 2.0002 0 0 0 7.8867188 10.714844 L 22.222656 25.050781 L 7.8867188 39.386719 A 2.0002 2.0002 0 1 0 10.714844 42.214844 L 25.050781 27.878906 L 39.386719 42.214844 A 2.0002 2.0002 0 1 0 42.214844 39.386719 L 27.878906 25.050781 L 42.214844 10.714844 A 2.0002 2.0002 0 0 0 40.783203 7.2714844 z"></path>*/}
+                    {/*            </svg>*/}
+                    {/*        </button>*/}
+                    {/*    )}*/}
+                    {/*</div>*/}
                 </div>
                 {isLoading && <div className="loading">Загрузка...</div>}
                 {error && (
@@ -114,29 +113,31 @@ export const MainInstallerPage = () => {
                             <table className="orders-table">
                                 <thead>
                                 <tr>
-                                    <th>ФИО</th>
                                     <th>Адрес доставки</th>
-                                    <th>Номер</th>
+                                    <th>Филиалы</th>
                                     <th>Дата</th>
+                                    <th>Номер телефона</th>
                                     <th>Количество входных дверей</th>
                                     <th>Количество межкомнатных дверей</th>
+                                    <th>Комментарий продавца</th>
                                     <th>Ваш комментарий</th>
                                     <th>Установщик</th>
-                                    <th>Филиалы</th>
+                                    <th>Действие</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 {orders.map((order) => (
                                     <tr key={order.id}>
-                                        <td>{order.fullName}</td>
                                         <td>{order.address}</td>
-                                        <td>{order.phone}</td>
+                                        <td>{order.nickname}</td>
                                         <td>{order.dateOrder}</td>
+                                        <td>{order.phone}</td>
                                         <td>{order.frontDoorQuantity}</td>
                                         <td>{order.inDoorQuantity}</td>
                                         <td>{order.messageSeller}</td>
-                                        <td>{order.installerName || 'Не назначен'}</td>
-                                        <td>{order.nickname}</td>
+                                        <td>{order.messageMainInstaller}</td>
+                                        <td>test</td>
+
                                     </tr>
                                 ))}
                                 </tbody>
