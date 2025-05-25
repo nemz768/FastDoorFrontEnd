@@ -10,8 +10,8 @@ export const MainInstallerPage = () => {
     const [totalPages, setTotalPages] = useState(1);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
-    const [nickName, setNickName] = useState('');
-    const [showButtonClear, setShowButtonClear] = useState(false);
+    // const [nickName, setNickName] = useState('');
+    // const [showButtonClear, setShowButtonClear] = useState(false);
 
     const url = `/api/mainInstaller?page=${currentPage}`;
 
@@ -27,9 +27,9 @@ export const MainInstallerPage = () => {
                         'Content-Type': 'application/json',
                     },
                 });
-                if (!response.ok) {
-                    throw new Error(`Не удалось загрузить заказы либо филиала ${nickName} не существует!`);
-                }
+                // if (!response.ok) {
+                //     throw new Error(`Не удалось загрузить заказы либо филиала ${nickName} не существует!`);
+                // }
                 const data = await response.json();
                 console.log('API data:', data);
                 setOrders(
@@ -49,7 +49,7 @@ export const MainInstallerPage = () => {
         };
 
         fetchOrders();
-    }, [currentPage, nickName]);
+    }, [currentPage]);
 
     const handlePageChange = (newPage) => {
         if (newPage >= 0 && newPage < totalPages) {
@@ -65,11 +65,11 @@ export const MainInstallerPage = () => {
     //     setCurrentPage(0);
     // }
 
-    const handleClearSearch = () => {
-        setShowButtonClear(false);
-        setNickName('');
-        setCurrentPage(0);
-    }
+    // const handleClearSearch = () => {
+    //     setShowButtonClear(false);
+    //     setNickName('');
+    //     setCurrentPage(0);
+    // }
 
     return (
         <div className='admin-panel'>
