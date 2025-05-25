@@ -3,7 +3,6 @@ import { Header } from '../Header.jsx';
 import { Footer } from '../Footer.jsx';
 import {debounce} from "lodash";
 import '../../styles/stylePages/adminPanelPage.css';
-import loginPage from "./LoginPage.jsx";
 
 
 export const AdminPanelPage = () => {
@@ -62,7 +61,6 @@ export const AdminPanelPage = () => {
     };
     // debounce, чтобы предотвратить постоянные запросы к apis
     const handleSearch = debounce((value) => {
-        console.log("АБВГДЕЁЖЗИКЛМНОПРСТ")
         setShowButtonClear(value !== '');
         setNickName(value);
         setCurrentPage(0);
