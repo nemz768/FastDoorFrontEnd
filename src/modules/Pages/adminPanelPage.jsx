@@ -59,7 +59,7 @@ export const AdminPanelPage = () => {
             setCurrentPage(newPage);
         }
     };
-    // debounce, чтобы предотвратить постоянные запросы к api
+    // debounce, чтобы предотвратить постоянные запросы к apis
     const handleSearch = debounce((value) => {
         setShowButtonClear(value !== '');
         setNickName(value);
