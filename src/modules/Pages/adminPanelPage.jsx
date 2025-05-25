@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, { useState, useEffect } from 'react';
 import { Header } from '../Header.jsx';
 import { Footer } from '../Footer.jsx';
 import {debounce} from "lodash";
@@ -62,7 +62,7 @@ export const AdminPanelPage = () => {
     // debounce, чтобы предотвратить постоянные запросы к apis
 
 
-    const handleSearch = useCallback((value) => {
+    const handleSearch = debounce((value) => {
         console.log("Кирюша," + value + " " + 1000 + "ms");
         setShowButtonClear(value !== '');
         setNickName(value);
