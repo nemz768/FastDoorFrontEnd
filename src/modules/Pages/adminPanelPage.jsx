@@ -11,6 +11,7 @@ export const AdminPanelPage = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
     const [nickName, setNickName] = useState('');
+    const [showButtonClear, setShowButtonClear] = useState(false);
 
     const urls = nickName
         ? `/api/list/sort?nickname=${nickName}&page=${currentPage}`
@@ -63,22 +64,17 @@ export const AdminPanelPage = () => {
     };
 
     const handleSearch = (e) => {
-        if (!e.target.value === '') {
-            cleanBtn.style.display = 'flex';
-        }else {
-            cleanBtn.style.display = 'none';
-        }
-
-        setNickName(e.target.value);
+      const val = e.target.value;
+        setShowButtonClear(val !== '');
+        setNickName(val);
         setCurrentPage(0);
     }
 
-    const handleError = () => {
+    const handleClearSearch = () => {
+        setShowButtonClear(false);
         setNickName('');
-        setCurrentPage(currentPage);
+        setCurrentPage(0);
     }
-
-    const cleanBtn = document.querySelector('#cleanBtn');
 
     return (
         <div className="admin-panel">
@@ -94,18 +90,20 @@ export const AdminPanelPage = () => {
                             value={nickName}
                             placeholder="Поиск по филиалу..."
                         />
-                        <button id="CleanButton" onClick={handleError} className='cleanInputSvg'>
-                            <svg className="crestSvg" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 50 50">
-                                <path d="M 40.783203 7.2714844 A 2.0002 2.0002 0 0 0 39.386719 7.8867188 L 25.050781 22.222656 L 10.714844 7.8867188 A 2.0002 2.0002 0 0 0 9.2792969 7.2792969 A 2.0002 2.0002 0 0 0 7.8867188 10.714844 L 22.222656 25.050781 L 7.8867188 39.386719 A 2.0002 2.0002 0 1 0 10.714844 42.214844 L 25.050781 27.878906 L 39.386719 42.214844 A 2.0002 2.0002 0 1 0 42.214844 39.386719 L 27.878906 25.050781 L 42.214844 10.714844 A 2.0002 2.0002 0 0 0 40.783203 7.2714844 z"></path>
-                            </svg>
-                        </button>
+                        {showButtonClear && (
+                            <button id="CleanButton" onClick={handleClearSearch} className='cleanInputSvg'>
+                                <svg className="crestSvg" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 50 50">
+                                    <path d="M 40.783203 7.2714844 A 2.0002 2.0002 0 0 0 39.386719 7.8867188 L 25.050781 22.222656 L 10.714844 7.8867188 A 2.0002 2.0002 0 0 0 9.2792969 7.2792969 A 2.0002 2.0002 0 0 0 7.8867188 10.714844 L 22.222656 25.050781 L 7.8867188 39.386719 A 2.0002 2.0002 0 1 0 10.714844 42.214844 L 25.050781 27.878906 L 39.386719 42.214844 A 2.0002 2.0002 0 1 0 42.214844 39.386719 L 27.878906 25.050781 L 42.214844 10.714844 A 2.0002 2.0002 0 0 0 40.783203 7.2714844 z"></path>
+                                </svg>
+                            </button>
+                        )}
                     </div>
                 </div>
                 {isLoading && <div className="loading">Загрузка...</div>}
                 {error && (
                     <div className="error">
                         <h3>Ошибка: {error}</h3>
-                        <button onClick={handleError} className="retry-button">
+                        <button onClick={handleClearSearch} className="retry-button">
                             Повторить
                         </button>
                     </div>
