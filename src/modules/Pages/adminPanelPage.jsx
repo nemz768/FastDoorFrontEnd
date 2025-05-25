@@ -3,7 +3,6 @@ import { Header } from '../Header.jsx';
 import { Footer } from '../Footer.jsx';
 import '../../styles/stylePages/adminPanelPage.css';
 import {debounce} from "lodash";
-import {value} from "lodash/seq.js";
 
 
 export const AdminPanelPage = () => {
