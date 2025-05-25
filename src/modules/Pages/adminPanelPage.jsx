@@ -34,7 +34,7 @@ export const AdminPanelPage = () => {
                     },
                 });
                 if (!response.ok) {
-                    throw new Error(`Не удалось загрузить заказы либо не существует!`);
+                    throw new Error(`Не удалось загрузить заказы либо филиала ${nickName} не существует!`);
                 }
                 const data = await response.json();
                 console.log('API data:', data);

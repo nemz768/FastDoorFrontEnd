@@ -26,6 +26,7 @@
 .InputBlock {
     display: flex;
     column-gap: 5px;
+    margin-bottom: 16px;
 }
 
 .cleanInputSvg {
@@ -36,10 +37,15 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: 0.6s ease-in-out;
+}
+.cleanInputSvg:hover {
+    background-color: black;
+    fill: white;
+    transition: 0.6s ease-in-out;
 }
 
 
-
-.crestSvg {
-
+.inputFind {
+    outline: none;
 }
