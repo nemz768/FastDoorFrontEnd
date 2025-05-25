@@ -153,7 +153,7 @@ export const MainInstallerPage = () => {
                                         <td>{order.messageSeller}</td>
                                         <td><input type="text"/></td>
                                         <td>
-                                            <select value={selectedTag} onChange={handleChange}>
+                                            <select key={installers.id} value={selectedTag} onChange={handleChange}>
                                                 <option disabled>Select an option</option>
                                                 {installers.map((option) => (
                                                     <option key={option.id} value={option.value}>
