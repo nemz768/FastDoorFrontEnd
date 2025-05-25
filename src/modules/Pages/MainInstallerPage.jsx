@@ -152,11 +152,16 @@ export const MainInstallerPage = () => {
                                         <td>{order.inDoorQuantity}</td>
                                         <td>{order.messageSeller}</td>
                                         <td><input type="text"/></td>
-                                        <td key={installers.id}>
-                                            <select value={selectedTag} onChange={handleChange}>
-                                                <option disabled>Select an option</option>
+                                        <td>
+                                            <select
+                                                value={selectedTag[order.id] || ''} // Use a state object to track selections per order
+                                                onChange={(event) => handleChange(event, order.id)} // Pass order.id to handleChange
+                                            >
+                                                <option value="" disabled>
+                                                    Select an option
+                                                </option>
                                                 {installers.map((option) => (
-                                                    <option key={option.id} value={option.value}>
+                                                    <option key={option.id} value={option.id}>
                                                         {option.fullName}
                                                     </option>
                                                 ))}
