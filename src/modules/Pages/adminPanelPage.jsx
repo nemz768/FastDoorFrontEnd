@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Header } from '../Header.jsx';
 import { Footer } from '../Footer.jsx';
 import '../../styles/stylePages/adminPanelPage.css';
+import {debounce} from "lodash";
+import {value} from "lodash/seq.js";
 
 
 export const AdminPanelPage = () => {
@@ -61,11 +63,11 @@ export const AdminPanelPage = () => {
     // debounce, чтобы предотвратить постоянные запросы к apis
 
 
-    const handleSearch = (value) => {
+    const handleSearch = debounce(() => {
         setShowButtonClear(value !== '');
         setNickName(value);
         setCurrentPage(0);
-    }
+    }, 100)
 
     const handleClearSearch = () => {
         setShowButtonClear(false);
