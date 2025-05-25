@@ -59,18 +59,15 @@ export const AdminPanelPage = () => {
             setCurrentPage(newPage);
         }
     };
-    // debounce, чтобы предотвратить постоянные запросы к apiss
+    // debounce, чтобы предотвратить постоянные запросы к apis
 
 
-    const handleSearch = useCallback(
-        debounce((value)=> {
-            console.log("Кирюша," + value + " " + 1000 + "ms");
-            setShowButtonClear(value !== '');
-            setNickName(value);
-            setCurrentPage(0);
-        }, 1000),
-        []
-    )
+    const handleSearch = useCallback((value) => {
+        console.log("Кирюша," + value + " " + 1000 + "ms");
+        setShowButtonClear(value !== '');
+        setNickName(value);
+        setCurrentPage(0);
+    }, 1000)
 
     const handleClearSearch = () => {
         setShowButtonClear(false);
