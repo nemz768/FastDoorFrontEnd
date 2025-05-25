@@ -4,3 +4,42 @@
     min-height: 100vh;
     background-color: #E9D6C7;
 }
+
+
+.error {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    row-gap: 20px;
+}
+
+
+.retry-button {
+    width: 100px;
+    height: 50px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+
+}
+
+.InputBlock {
+    display: flex;
+    column-gap: 5px;
+}
+
+.cleanInputSvg {
+    background-color: white;
+    border: black;
+    cursor: pointer;
+    height: 25px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+.crestSvg {
+
+}
