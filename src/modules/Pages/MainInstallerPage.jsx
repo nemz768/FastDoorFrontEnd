@@ -11,10 +11,14 @@ export const MainInstallerPage = () => {
     const [totalPages, setTotalPages] = useState(1);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
-    const [selectedTag, setSelectedTag] = useState('');
+    const [selectedTag, setSelectedTag] = useState({});
 
-    const handleChange = (event) => {
-        setSelectedTag(event.target.value);
+
+    const handleChange = (event, orderId) => {
+        setSelectedTag((prev) => ({
+            ...prev,
+            [orderId]: event.target.value,
+        }));
     };
 
     // const [nickName, setNickName] = useState('');
