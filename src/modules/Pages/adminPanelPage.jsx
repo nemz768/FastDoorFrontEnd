@@ -64,7 +64,7 @@ export const AdminPanelPage = () => {
         setShowButtonClear(value !== '');
         setNickName(value);
         setCurrentPage(0);
-    }, 1000)
+    }, 30000)
 
     const handleClearSearch = () => {
         setShowButtonClear(false);
