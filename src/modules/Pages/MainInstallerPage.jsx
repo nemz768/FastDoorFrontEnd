@@ -137,7 +137,7 @@ export const MainInstallerPage = () => {
                                         <td>{order.messageSeller}</td>
                                         <td>{order.messageMainInstaller}</td>
                                         <td>test</td>
-
+                                        <td><button disabled>Подтвердить</button></td>
                                     </tr>
                                 ))}
                                 </tbody>
