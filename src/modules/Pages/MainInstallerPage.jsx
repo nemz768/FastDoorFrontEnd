@@ -6,10 +6,17 @@ import '../../styles/stylePages/mainInstallerPage.css'
 export const MainInstallerPage = () => {
 
     const [orders, setOrders] = useState([]);
+    const [installers, setInstallers] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(1);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [selectedTag, setSelectedTag] = useState('');
+
+    const handleChange = (event) => {
+        setSelectedTag(event.target.value);
+    };
+
     // const [nickName, setNickName] = useState('');
     // const [showButtonClear, setShowButtonClear] = useState(false);
 
@@ -38,6 +45,15 @@ export const MainInstallerPage = () => {
                         id: String(order.id),
                     })) || []
                 );
+                setInstallers(
+                    data.installers.map((inst) => (
+                        {
+                            ...inst,
+                            id: String(inst.id),
+                        }
+                    ))
+                )
+
                 setTotalPages(data.totalPages || 1);
                 setCurrentPage(data.currentPage || 0);
             } catch (err) {
@@ -135,8 +151,17 @@ export const MainInstallerPage = () => {
                                         <td>{order.frontDoorQuantity}</td>
                                         <td>{order.inDoorQuantity}</td>
                                         <td>{order.messageSeller}</td>
-                                        <td>{order.messageMainInstaller}</td>
-                                        <td>test</td>
+                                        <td><input type="text"/></td>
+                                        <td>
+                                            <select value={selectedTag} onChange={handleChange}>
+                                                <option disabled>Select an option</option>
+                                                {installers.map((option) => (
+                                                    <option key={option.id} value={option.value}>
+                                                        {option.fullName}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                        </td>
                                         <td><button disabled>Подтвердить</button></td>
                                     </tr>
                                 ))}
