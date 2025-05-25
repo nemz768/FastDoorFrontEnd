@@ -16,7 +16,12 @@ export const AdminPanelPage = () => {
         ? `/api/list/sort?nickname=${nickName}&page=${currentPage}`
         : `/api/list/adminList?page=${currentPage}`;
 
+
+
     useEffect(() => {
+
+
+
         const fetchOrders = async () => {
             setIsLoading(true);
             setError(null);
@@ -62,6 +67,11 @@ export const AdminPanelPage = () => {
         setCurrentPage(0);
     }
 
+    const handleError = () => {
+        setNickName('');
+        setCurrentPage(currentPage);
+    }
+
     return (
         <div className="admin-panel">
             <Header />
@@ -79,7 +89,7 @@ export const AdminPanelPage = () => {
                 {error && (
                     <div className="error">
                         Ошибка: {error}
-                        <button onClick={() => setCurrentPage(currentPage)} className="retry-button">
+                        <button onClick={handleError} className="retry-button">
                             Повторить
                         </button>
                     </div>
