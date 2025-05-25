@@ -5,18 +5,23 @@ import '../../styles/stylePages/adminPanelPage.css';
 
 
 export const AdminPanelPage = () => {
-      const [orders, setOrders] = useState([]);
+    const [orders, setOrders] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(1);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [nickName, setNickName] = useState('');
+
+    const urls = nickName
+        ? `/api/list/sort?nickname=${nickName}&page=${currentPage}`
+        : `/api/list/adminList?page=${currentPage}`;
 
     useEffect(() => {
         const fetchOrders = async () => {
             setIsLoading(true);
             setError(null);
             try {
-                const response = await fetch(`/api/list/adminList?page=${currentPage}`, {
+                const response = await fetch(urls, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -44,7 +49,7 @@ export const AdminPanelPage = () => {
         };
 
         fetchOrders();
-    }, [currentPage]);
+    }, [currentPage, nickName]);
 
     const handlePageChange = (newPage) => {
         if (newPage >= 0 && newPage < totalPages) {
@@ -52,11 +57,24 @@ export const AdminPanelPage = () => {
         }
     };
 
+    const handleSearch = (e) => {
+        setNickName(e.target.value);
+        setCurrentPage(0);
+    }
+
     return (
         <div className="admin-panel">
             <Header />
             <main className="SellerAllOrdersPage">
-                <h2>Панель администратора</h2>
+                <div>
+                    <h2>Панель администратора</h2>
+                    <input
+                        onChange={handleSearch}
+                        type="search"
+                        value={nickName}
+                        placeholder="Поиск по филиалу..."
+                    />
+                </div>
                 {isLoading && <div className="loading">Загрузка...</div>}
                 {error && (
                     <div className="error">
