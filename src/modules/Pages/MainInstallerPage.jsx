@@ -99,7 +99,7 @@ export const MainInstallerPage = () => {
                 {error && (
                     <div className="error">
                         <h3>Ошибка: {error}</h3>
-                        <button onClick={handleClearSearch} className="retry-button">
+                        <button className="retry-button">
                             Повторить
                         </button>
                     </div>
