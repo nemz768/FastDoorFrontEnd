@@ -33,7 +33,7 @@
     border: black;
     cursor: pointer;
     height: 25px;
-    display: none;
+    display: flex;
     align-items: center;
     justify-content: center;
 }
