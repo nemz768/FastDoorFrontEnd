@@ -19,11 +19,7 @@ export const AdminPanelPage = () => {
         : `/api/list/adminList?page=${currentPage}`;
 
 
-
     useEffect(() => {
-
-
-
         const fetchOrders = async () => {
             setIsLoading(true);
             setError(null);
@@ -68,7 +64,7 @@ export const AdminPanelPage = () => {
         setShowButtonClear(value !== '');
         setNickName(value);
         setCurrentPage(0);
-    }, 30000)
+    }, 1000)
 
     const handleClearSearch = () => {
         setShowButtonClear(false);
