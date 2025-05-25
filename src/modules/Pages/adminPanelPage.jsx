@@ -63,6 +63,12 @@ export const AdminPanelPage = () => {
     };
 
     const handleSearch = (e) => {
+        if (!e.target.value === '') {
+            cleanBtn.style.display = 'flex';
+        }else {
+            cleanBtn.style.display = 'none';
+        }
+
         setNickName(e.target.value);
         setCurrentPage(0);
     }
@@ -74,12 +80,6 @@ export const AdminPanelPage = () => {
 
     const cleanBtn = document.querySelector('#cleanBtn');
 
-    if (!nickName === '') {
-        cleanBtn.style.display = 'flex';
-    }else {
-        cleanBtn.style.display = 'none';
-    }
-
     return (
         <div className="admin-panel">
             <Header />
@@ -88,6 +88,7 @@ export const AdminPanelPage = () => {
                     <h2>Панель администратора</h2>
                     <div className="InputBlock">
                         <input
+                            className="inputFind"
                             onChange={handleSearch}
                             type="search"
                             value={nickName}
