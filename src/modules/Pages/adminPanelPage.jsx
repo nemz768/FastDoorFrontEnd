@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback, use} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import { Header } from '../Header.jsx';
 import { Footer } from '../Footer.jsx';
 import {debounce} from "lodash";
