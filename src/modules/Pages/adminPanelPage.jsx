@@ -63,12 +63,12 @@ export const AdminPanelPage = () => {
             setCurrentPage(newPage);
         }
     };
-
+    // debounce, чтобы предотвратить постоянные запросы к api
     const handleSearch = debounce((value) => {
         setShowButtonClear(value !== '');
         setNickName(value);
         setCurrentPage(0);
-    }, 300)
+    }, 30000)
 
     const handleClearSearch = () => {
         setShowButtonClear(false);
