@@ -89,7 +89,7 @@ export const MainInstallerPage = () => {
                     installerFullName: selectedTag[orderId] || '',
                 })
             })
-            const data = await response.json();
+            const data = await response;
             console.log('POST res: ', data);
         }
 
