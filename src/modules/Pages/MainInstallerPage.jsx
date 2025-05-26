@@ -76,7 +76,8 @@ export const MainInstallerPage = () => {
     }, [currentPage]);
 
     const postData = async (orderId) => {
-     const order = orders.find((o) => o.id === orderId);
+        console.log('postData called with orderId:', orderId, 'orders:', orders); // Debug log
+        const order = orders.find((o) => o.id === orderId);
         try {
             const response = await fetch(urlPost, {
                 method: 'POST',
