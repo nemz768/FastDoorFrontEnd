@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {Header} from "../Header.jsx";
 import {Footer} from "../Footer.jsx";
 import '../../styles/stylePages/mainInstallerPage.css'
@@ -20,10 +20,27 @@ export const MainInstallerPage = () => {
         }));
     };
 
+    const refs = {
+        id: useRef(null),
+        address: useRef(null),
+        nickname: useRef(null),
+        dateOrder: useRef(null),
+        phone: useRef(null),
+        frontDoorQuantity : useRef(null),
+        inDoorQuantity: useRef(null),
+        messageSeller: useRef(null),
+        message: useRef(null),
+        installer: useRef(null)
+    }
+
+
     // const [nickName, setNickName] = useState('');
     // const [showButtonClear, setShowButtonClear] = useState(false);
 
     const url = `/api/mainInstaller?page=${currentPage}`;
+    const urlPost = `/api/mainInstaller`;
+
+
 
 
     useEffect(() => {
@@ -70,7 +87,48 @@ export const MainInstallerPage = () => {
         fetchOrders();
     }, [currentPage]);
 
+    const postData = async () => {
+        const id = refs.id.current.value;
+        const address = refs.address.current.value;
+        const nickname = refs.nickname.current.value;
+        const dateOrder = refs.dateOrder.current.value;
+        const phone = refs.phone.current.value;
+        const frontDoorQuantity = refs.frontDoorQuantity.current.value;
+        const inDoorQuantity = refs.inDoorQuantity.current.value;
+        const messageSeller = refs.messageSeller.current.value;
+        const message = refs.message.current.value;
+        const installer = refs.installer.current.value;
 
+        try {
+            const response = await fetch(urlPost, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    id: id,
+                    address: address,
+                    nickname: nickname,
+                    dateOrder: dateOrder,
+                    phone: phone,
+                    frontDoorQuantity: frontDoorQuantity,
+                    inDoorQuantity: inDoorQuantity,
+                    messageSeller: messageSeller,
+                    message: message,
+                    installer: installer
+                })
+            })
+            const data = await response.json();
+            console.log(data)
+        }
+
+        catch (err) {
+            console.log(err)
+        }
+
+
+
+    }
 
     const handlePageChange = (newPage) => {
         if (newPage >= 0 && newPage < totalPages) {
@@ -148,17 +206,17 @@ export const MainInstallerPage = () => {
                                 </thead>
                                 <tbody>
                                 {orders.map((order) => (
-                                    <tr key={order.id}>
-                                        <td>{order.address}</td>
-                                        <td>{order.nickname}</td>
-                                        <td>{order.dateOrder}</td>
-                                        <td>{order.phone}</td>
-                                        <td>{order.frontDoorQuantity}</td>
-                                        <td>{order.inDoorQuantity}</td>
-                                        <td>{order.messageSeller}</td>
-                                        <td><input type="text"/></td>
+                                    <tr ref={refs.id} key={order.id}>
+                                        <td ref={refs.address} >{order.address}</td>
+                                        <td ref={refs.nickname} >{order.nickname}</td>
+                                        <td ref={refs.dateOrder} >{order.dateOrder}</td>
+                                        <td ref={refs.phone} >{order.phone}</td>
+                                        <td ref={refs.frontDoorQuantity} >{order.frontDoorQuantity}</td>
+                                        <td ref={refs.inDoorQuantity} >{order.inDoorQuantity}</td>
+                                        <td ref={refs.messageSeller} >{order.messageSeller}</td>
+                                        <td><input ref={refs.message} type="text"/></td>
                                         <td>
-                                            <select
+                                            <select ref={refs.installer}
                                                 value={selectedTag[order.id] || ''}
                                                 onChange={(event) => handleChange(event, order.id)}
                                             >
@@ -173,7 +231,7 @@ export const MainInstallerPage = () => {
                                             </select>
                                         </td>
                                         <td>
-                                                <button disabled={!selectedTag[order.id]} id="ConfirmBtn">Подтвердить</button>
+                                                <button onClick={postData} disabled={!selectedTag[order.id]} id="ConfirmBtn">Подтвердить</button>
                                         </td>
                                     </tr>
                                 ))}
