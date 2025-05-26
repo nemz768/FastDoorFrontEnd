@@ -87,6 +87,7 @@ export const MainInstallerPage = () => {
                 body: JSON.stringify({
                     id: order.id,
                     address: order.address,
+                    fullName: order.fullName,
                     nickname: order.nickname,
                     dateOrder: order.dateOrder,
                     phone: order.phone,
