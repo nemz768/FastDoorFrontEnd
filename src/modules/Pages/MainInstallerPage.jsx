@@ -84,7 +84,7 @@ export const MainInstallerPage = () => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    orderId: orders.id,
+                    orderId: orderId,
                     installerComment: comments[orderId] || '',
                     installerFullName: selectedTag[orderId] || '',
                 })
@@ -207,7 +207,7 @@ export const MainInstallerPage = () => {
                                             </select>
                                         </td>
                                         <td>
-                                                <button onClick={()=> postData(orders.id)} disabled={!selectedTag[order.id]} id="ConfirmBtn">Подтвердить</button>
+                                                <button onClick={()=> postData(order.id)} disabled={!selectedTag[order.id]} id="ConfirmBtn">Подтвердить</button>
                                         </td>
                                     </tr>
                                 ))}
