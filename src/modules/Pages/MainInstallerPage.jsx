@@ -3,7 +3,7 @@ import { Header } from "../Header.jsx";
 import { Footer } from "../Footer.jsx";
 import '../../styles/stylePages/mainInstallerPage.css';
 
-export const MainInstaller = () => {
+export const MainInstallerPage = () => {
     const [orders, setOrders] = useState([]);
     const [installers, setInstallers] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
