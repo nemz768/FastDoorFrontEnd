@@ -84,17 +84,9 @@ export const MainInstallerPage = () => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    id: orders.id,
-                    fullName: orders.fullName,
-                    address: orders.address,
-                    nickname: orders.nickname,
-                    dateOrder: orders.dateOrder,
-                    phone: orders.phone,
-                    frontDoorQuantity: orders.frontDoorQuantity,
-                    inDoorQuantity: orders.inDoorQuantity,
-                    messageSeller: orders.messageSeller,
-                    messageMainInstaller: comments[orderId] || '',
-                    installerName: selectedTag[orderId] || '',
+                    orderId: orders.id,
+                    installerComment: comments[orderId] || '',
+                    installerFullName: selectedTag[orderId] || '',
                 })
             })
             const data = await response.json();
