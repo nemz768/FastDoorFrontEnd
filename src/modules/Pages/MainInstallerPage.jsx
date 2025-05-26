@@ -3,7 +3,7 @@ import { Header } from "../Header.jsx";
 import { Footer } from "../Footer.jsx";
 import '../../styles/stylePages/mainInstallerPage.css';
 
-export const MainInstallerPage = () => {
+export const MainInstaller = () => {
     const [orders, setOrders] = useState([]);
     const [installers, setInstallers] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
@@ -78,9 +78,15 @@ export const MainInstallerPage = () => {
         }
 
         const installer = installers.find((inst) => inst.id === selectedTag[orderId]);
+        if (!installer) {
+            setPostError('Установщик не найден');
+            console.error('Installer not found for ID:', selectedTag[orderId]);
+            return;
+        }
+
         const payload = {
             id: order.id,
-            installerName: installer ? installer.fullName : '',
+            installerName: installer.fullName,
             messageMainInstaller: comments[orderId] || '',
         };
         console.log('Sending POST payload:', payload);
@@ -111,7 +117,7 @@ export const MainInstallerPage = () => {
             setOrders((prev) =>
                 prev.map((o) =>
                     o.id === orderId
-                        ? { ...o, installerName: installer ? installer.fullName : '', messageMainInstaller: comments[orderId] }
+                        ? { ...o, installerName: installer.fullName, messageMainInstaller: comments[orderId] }
                         : o
                 )
             );
