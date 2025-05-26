@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Header} from "../Header.jsx";
 import {Footer} from "../Footer.jsx";
 import '../../styles/stylePages/mainInstallerPage.css'
@@ -12,6 +12,7 @@ export const MainInstallerPage = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
     const [selectedTag, setSelectedTag] = useState({});
+    const [comments, setComments] = useState({}); // Controlled input for comments
 
     const handleChange = (event, orderId) => {
         setSelectedTag((prev) => ({
@@ -19,19 +20,6 @@ export const MainInstallerPage = () => {
             [orderId]: event.target.value,
         }));
     };
-
-    const refs = {
-        id: useRef(null),
-        address: useRef(null),
-        nickname: useRef(null),
-        dateOrder: useRef(null),
-        phone: useRef(null),
-        frontDoorQuantity : useRef(null),
-        inDoorQuantity: useRef(null),
-        messageSeller: useRef(null),
-        message: useRef(null),
-        installer: useRef(null)
-    }
 
 
     // const [nickName, setNickName] = useState('');
@@ -87,18 +75,8 @@ export const MainInstallerPage = () => {
         fetchOrders();
     }, [currentPage]);
 
-    const postData = async () => {
-        const id = refs.id.current.value;
-        const address = refs.address.current.value;
-        const nickname = refs.nickname.current.value;
-        const dateOrder = refs.dateOrder.current.value;
-        const phone = refs.phone.current.value;
-        const frontDoorQuantity = refs.frontDoorQuantity.current.value;
-        const inDoorQuantity = refs.inDoorQuantity.current.value;
-        const messageSeller = refs.messageSeller.current.value;
-        const message = refs.message.current.value;
-        const installer = refs.installer.current.value;
-
+    const postData = async (orderId) => {
+     const order = orders.find((o) => o.id === orderId);
         try {
             const response = await fetch(urlPost, {
                 method: 'POST',
@@ -106,20 +84,28 @@ export const MainInstallerPage = () => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    id: id,
-                    address: address,
-                    nickname: nickname,
-                    dateOrder: dateOrder,
-                    phone: phone,
-                    frontDoorQuantity: frontDoorQuantity,
-                    inDoorQuantity: inDoorQuantity,
-                    messageSeller: messageSeller,
-                    message: message,
-                    installer: installer
+                    id: order.id,
+                    address: order.address,
+                    nickname: order.nickname,
+                    dateOrder: order.dateOrder,
+                    phone: order.phone,
+                    frontDoorQuantity: order.frontDoorQuantity,
+                    inDoorQuantity: order.inDoorQuantity,
+                    messageSeller: order.messageSeller,
+                    message: comments[orderId] || '',
+                    installer: selectedTag[orderId] || '',
                 })
             })
             const data = await response.json();
-            console.log(data)
+
+            console.log('POST res: ', data);
+            setOrders((prev) =>
+                prev.map((o) =>
+                    o.id === orderId
+                        ? { ...o, installer: selectedTag[orderId], message: comments[orderId] }
+                        : o
+                )
+            );
         }
 
         catch (err) {
@@ -129,6 +115,14 @@ export const MainInstallerPage = () => {
 
 
     }
+
+    const handleCommentChange = (event, orderId) => {
+        setComments((prev) => ({
+            ...prev,
+            [orderId]: event.target.value,
+        }));
+    };
+
 
     const handlePageChange = (newPage) => {
         if (newPage >= 0 && newPage < totalPages) {
@@ -206,17 +200,17 @@ export const MainInstallerPage = () => {
                                 </thead>
                                 <tbody>
                                 {orders.map((order) => (
-                                    <tr ref={refs.id} key={order.id}>
-                                        <td ref={refs.address} >{order.address}</td>
-                                        <td ref={refs.nickname} >{order.nickname}</td>
-                                        <td ref={refs.dateOrder} >{order.dateOrder}</td>
-                                        <td ref={refs.phone} >{order.phone}</td>
-                                        <td ref={refs.frontDoorQuantity} >{order.frontDoorQuantity}</td>
-                                        <td ref={refs.inDoorQuantity} >{order.inDoorQuantity}</td>
-                                        <td ref={refs.messageSeller} >{order.messageSeller}</td>
-                                        <td><input ref={refs.message} type="text"/></td>
+                                    <tr key={order.id}>
+                                        <td>{order.address}</td>
+                                        <td>{order.nickname}</td>
+                                        <td>{order.dateOrder}</td>
+                                        <td>{order.phone}</td>
+                                        <td>{order.frontDoorQuantity}</td>
+                                        <td>{order.inDoorQuantity}</td>
+                                        <td>{order.messageSeller}</td>
+                                        <td><input onChange={(event)=> handleCommentChange(event, order.id)} type="text"/></td>
                                         <td>
-                                            <select ref={refs.installer}
+                                            <select
                                                 value={selectedTag[order.id] || ''}
                                                 onChange={(event) => handleChange(event, order.id)}
                                             >
