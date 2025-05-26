@@ -13,7 +13,6 @@ export const MainInstallerPage = () => {
     const [error, setError] = useState(null);
     const [selectedTag, setSelectedTag] = useState({});
 
-
     const handleChange = (event, orderId) => {
         setSelectedTag((prev) => ({
             ...prev,
@@ -71,12 +70,14 @@ export const MainInstallerPage = () => {
         fetchOrders();
     }, [currentPage]);
 
+
+
     const handlePageChange = (newPage) => {
         if (newPage >= 0 && newPage < totalPages) {
             setCurrentPage(newPage);
         }
     };
-    // debounce, чтобы предотвратить постоянные запросы к apis
+    // debounce, чтобы предотвратить постоянные запросы к api
 
 
     // const handleSearch = (value) => {
@@ -158,12 +159,12 @@ export const MainInstallerPage = () => {
                                         <td><input type="text"/></td>
                                         <td>
                                             <select
-                                                value={selectedTag[order.id] || ''} // Use a state object to track selections per order
-                                                onChange={(event) => handleChange(event, order.id)} // Pass order.id to handleChange
+                                                value={selectedTag[order.id] || ''}
+                                                onChange={(event) => handleChange(event, order.id)}
                                             >
-                                                <option value="" disabled>
-                                                    Select an option
-                                                </option>
+                                                    <option id="optionDefault" value="">
+                                                        Выбрать установщика
+                                                    </option>
                                                 {installers.map((option) => (
                                                     <option key={option.id} value={option.id}>
                                                         {option.fullName}
@@ -171,7 +172,9 @@ export const MainInstallerPage = () => {
                                                 ))}
                                             </select>
                                         </td>
-                                        <td><button disabled>Подтвердить</button></td>
+                                        <td>
+                                                <button disabled={!selectedTag[order.id]} id="ConfirmBtn">Подтвердить</button>
+                                        </td>
                                     </tr>
                                 ))}
                                 </tbody>
