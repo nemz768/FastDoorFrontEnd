@@ -226,7 +226,7 @@ export const MainInstallerPage = () => {
                                             </select>
                                         </td>
                                         <td>
-                                                <button onClick={postData} disabled={!selectedTag[order.id]} id="ConfirmBtn">Подтвердить</button>
+                                                <button onClick={()=> postData(order.id)} disabled={!selectedTag[order.id]} id="ConfirmBtn">Подтвердить</button>
                                         </td>
                                     </tr>
                                 ))}
