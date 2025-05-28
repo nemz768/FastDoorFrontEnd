@@ -1,15 +1,2 @@
 
 
-
-
-.block {
-    min-height: 65vh;
-    display: flex;
-    flex-direction: column;
-}
-
-.table-calendar-block{
-    display: flex;
-    flex-direction: column;
-    row-gap: 30px;
-}

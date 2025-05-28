@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Header } from '../Header.jsx';
 import { Footer } from '../Footer.jsx';
-import '../../styles/stylePages/mainInstallerPage.css';
 import '../../styles/stylePages/MainInstaller.scss'
 import {CustomCalendar} from "../special/CustomCalendar.jsx";
 
@@ -132,9 +131,8 @@ export const MainInstallerPage = () => {
         <div className="">
             <Header />
 
-
-            <div className="block">
-                <div className="table-calendar-block">
+            <div className="MainInstallerPage__block">
+                <div className="table-calendar__block">
                     <main className="SellerAllOrdersPage">
                         <div>
                             <h2>Панель установщика</h2>
