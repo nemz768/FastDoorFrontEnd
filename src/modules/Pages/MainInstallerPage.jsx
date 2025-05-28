@@ -115,7 +115,7 @@ export const MainInstallerPage = () => {
             setSuccess(`Order ${orderId} successfully updated!`);
             setComments((prev) => ({ ...prev, [orderId]: '' }));
             setSelectedTag((prev) => ({ ...prev, [orderId]: '' }));
-
+            console.log(orderId + comments[orderId] + selectedInstaller);
             // Optionally refetch orders to reflect changes
             const fetchOrders = async () => {
                 setIsLoading(true);
