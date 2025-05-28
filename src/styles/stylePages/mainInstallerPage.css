@@ -10,5 +10,6 @@
 
 .table-calendar-block{
     display: flex;
-    column-gap: 40px;
+    flex-direction: column;
+    row-gap: 30px;
 }
