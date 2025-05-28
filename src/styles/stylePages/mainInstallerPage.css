@@ -6,3 +6,10 @@
     flex-direction: column;
     justify-content: center;
 }
+
+
+
+.table-calendar-block{
+    display: flex;
+
+}
