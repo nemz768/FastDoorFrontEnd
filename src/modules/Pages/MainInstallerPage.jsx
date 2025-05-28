@@ -233,7 +233,7 @@ export const MainInstallerPage = () => {
                             </>
                         )}
                     </main>
-                    <div className="">
+                    <div className="MainInstallerPage__calendar-dateTable-block">
                         <div>
                             <CustomCalendar/>
                             <button>Закрыть день!</button>
