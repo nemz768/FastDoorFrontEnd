@@ -126,7 +126,7 @@ export const MainInstallerPage = () => {
             setCurrentPage(newPage);
         }
     };
-
+//12
     return (
         <div>
             <Header />
@@ -235,9 +235,9 @@ export const MainInstallerPage = () => {
                     </main>
                     <div className="MainInstallerPage__calendar-dateTable-block">
                         <div>
-                            <CustomCalendar/>
-                            <button>Закрыть день!</button>
-                        </div>
+                        <CustomCalendar/>
+                        <button>Закрыть день!</button>
+                    </div>
                         <div>
                             <h1>ТАБЛИЦА ДАТ</h1>
 
