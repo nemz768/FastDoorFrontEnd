@@ -110,6 +110,8 @@ export const MainInstallerPage = () => {
                 throw new Error('Failed to submit data.');
             }
 
+            const data = await response.json();
+            console.log('POST response:', data);
             setSuccess(`Order ${orderId} successfully updated!`);
             setComments((prev) => ({ ...prev, [orderId]: '' }));
             setSelectedTag((prev) => ({ ...prev, [orderId]: '' }));
