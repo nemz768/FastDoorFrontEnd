@@ -14,6 +14,13 @@ export const MainInstallerPage = () => {
     const [selectedTag, setSelectedTag] = useState({});
     const [comments, setComments] = useState({}); // Controlled input for comments
 
+    const handleChange = (event, orderId) => {
+        setSelectedTag((prev) => ({
+            ...prev,
+            [orderId]: event.target.value,
+        }));
+    };
+
 
     // const [nickName, setNickName] = useState('');
     // const [showButtonClear, setShowButtonClear] = useState(false);
@@ -106,17 +113,6 @@ export const MainInstallerPage = () => {
             setCurrentPage(newPage);
         }
     };
-
-
-
-
-    const handleChange = (event, orderId) => {
-        setSelectedTag((prev) => ({
-            ...prev,
-            [orderId]: event.target.value,
-        }));
-    };
-
     // debounce, чтобы предотвратить постоянные запросы к api
 
 
@@ -138,6 +134,23 @@ export const MainInstallerPage = () => {
             <main className="SellerAllOrdersPage">
                 <div>
                     <h2>Панель установщика</h2>
+                    {/*<div className="InputBlock">*/}
+                    {/*    <input*/}
+                    {/*        className="inputFind"*/}
+                    {/*        onChange={(e)=> handleSearch(e.target.value)}*/}
+                    {/*        type="search"*/}
+                    {/*        value={nickName}*/}
+                    {/*        placeholder="Поиск по филиалу..."*/}
+                    {/*    />*/}
+                    {/*    */}
+                    {/*    {showButtonClear && (*/}
+                    {/*        <button id="CleanButton" onClick={handleClearSearch} className='cleanInputSvg'>*/}
+                    {/*            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="17" height="17" viewBox="0 0 50 50">*/}
+                    {/*                <path d="M 40.783203 7.2714844 A 2.0002 2.0002 0 0 0 39.386719 7.8867188 L 25.050781 22.222656 L 10.714844 7.8867188 A 2.0002 2.0002 0 0 0 9.2792969 7.2792969 A 2.0002 2.0002 0 0 0 7.8867188 10.714844 L 22.222656 25.050781 L 7.8867188 39.386719 A 2.0002 2.0002 0 1 0 10.714844 42.214844 L 25.050781 27.878906 L 39.386719 42.214844 A 2.0002 2.0002 0 1 0 42.214844 39.386719 L 27.878906 25.050781 L 42.214844 10.714844 A 2.0002 2.0002 0 0 0 40.783203 7.2714844 z"></path>*/}
+                    {/*            </svg>*/}
+                    {/*        </button>*/}
+                    {/*    )}*/}
+                    {/*</div>*/}
                 </div>
                 {isLoading && <div className="loading">Загрузка...</div>}
                 {error && (
@@ -185,9 +198,9 @@ export const MainInstallerPage = () => {
                                                 value={selectedTag[order.id] || ''}
                                                 onChange={(event) => handleChange(event, order.id)}
                                             >
-                                                    <option id="optionDefault" value="">
-                                                        Выбрать установщика
-                                                    </option>
+                                                <option id="optionDefault" value="">
+                                                    Выбрать установщика
+                                                </option>
                                                 {installers.map((option) => (
                                                     <option key={option.id} value={option.id}>
                                                         {option.fullName}
@@ -196,7 +209,7 @@ export const MainInstallerPage = () => {
                                             </select>
                                         </td>
                                         <td>
-                                                <button onClick={()=> postData(order.id)} disabled={!selectedTag[order.id]} id="ConfirmBtn">Подтвердить</button>
+                                            <button onClick={()=> postData(order.id)} disabled={!selectedTag[order.id]} id="ConfirmBtn">Подтвердить</button>
                                         </td>
                                     </tr>
                                 ))}
