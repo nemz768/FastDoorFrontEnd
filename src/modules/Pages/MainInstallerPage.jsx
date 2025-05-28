@@ -77,7 +77,7 @@ export const MainInstallerPage = () => {
 
     const postData = async (orderId) => {
 
-        console.log(selectedTag);
+        console.log(selectedTag[orderId].value);
 
         try {
             const response = await fetch(urlPost, {
@@ -88,7 +88,7 @@ export const MainInstallerPage = () => {
                 body: JSON.stringify({
                     orderId: orderId,
                     installerComment: comments[orderId] || '',
-                    installerFullName: selectedTag || '',
+                    installerFullName: selectedTag[orderId].value || '',
                 })
             })
             const data = await response;
