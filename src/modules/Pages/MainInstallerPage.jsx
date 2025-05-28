@@ -128,11 +128,11 @@ export const MainInstallerPage = () => {
     };
 
     return (
-        <div className="">
+        <div>
             <Header />
 
             <div className="MainInstallerPage__block">
-                <div className="table-calendar__block">
+                <div className="MainInstallerPage__table-calendar-block">
                     <main className="SellerAllOrdersPage">
                         <div>
                             <h2>Панель установщика</h2>
@@ -233,11 +233,16 @@ export const MainInstallerPage = () => {
                             </>
                         )}
                     </main>
-                    <div>
-                        <CustomCalendar/>
-                        <button>Закрыть день!</button>
-                    </div>
+                    <div className="">
+                        <div>
+                            <CustomCalendar/>
+                            <button>Закрыть день!</button>
+                        </div>
+                        <div>
+                            <h1>ТАБЛИЦА ДАТ</h1>
 
+                        </div>
+                    </div>
                 </div>
 
             </div>

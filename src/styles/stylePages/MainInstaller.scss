@@ -5,8 +5,11 @@
 }
 
 
-table-calendar__block {
+.MainInstallerPage__table-calendar-block {
   display: flex;
   flex-direction: column;
   row-gap: 30px;
+  align-items: center;
+  justify-content: center;
+
 }
