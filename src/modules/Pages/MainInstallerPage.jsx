@@ -237,8 +237,11 @@ export const MainInstallerPage = () => {
                             </>
                         )}
                     </main>
+                    <div>
+                        <CustomCalendar/>
+                        <button>Закрыть день</button>
+                    </div>
 
-                    <CustomCalendar/>
                 </div>
 
             </div>

@@ -3,7 +3,7 @@
 
 
 .block {
-    min-height: 100vh;
+    min-height: 64vh;
     display: flex;
     flex-direction: column;
 }
