@@ -2,12 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Header } from '../Header.jsx';
 import { Footer } from '../Footer.jsx';
 import '../../styles/stylePages/mainInstallerPage.css';
+import '../../styles/stylePages/MainInstaller.scss'
 import {CustomCalendar} from "../special/CustomCalendar.jsx";
 
 export const MainInstallerPage = () => {
-
-
-
 
     const [orders, setOrders] = useState([]);
     const [installers, setInstallers] = useState([]);
@@ -131,7 +129,7 @@ export const MainInstallerPage = () => {
     };
 
     return (
-        <div className="admin-panel">
+        <div className="">
             <Header />
 
 
