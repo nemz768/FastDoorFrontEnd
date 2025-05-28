@@ -88,17 +88,9 @@ export const MainInstallerPage = () => {
     // Submit order data to the API
     const postData = async (orderId) => {
 
-
+        console.log(selectedTag[orderId]);
 
         try {
-            // Find the installer object based on the selectedTag[orderId] (installer id)
-            const selectedInstaller = installers.find(
-                (installer) => installer.id === selectedTag[orderId]
-            );
-            const installerFullName = selectedInstaller ? selectedInstaller.fullName : '';
-
-            console.log(installerFullName)
-
             const response = await fetch(urlPost, {
                 method: 'POST',
                 headers: {
@@ -107,7 +99,7 @@ export const MainInstallerPage = () => {
                 body: JSON.stringify({
                     orderId: orderId,
                     installerComment: comments[orderId] || '',
-                    installerFullName: installerFullName,
+                    installerFullName: selectedTag[orderId] || '',
                 }),
             });
 
@@ -115,8 +107,9 @@ export const MainInstallerPage = () => {
                 throw new Error(`Failed to post data: ${response.status} ${response.statusText}`);
             }
 
-
-            // Refresh orders after successful POST
+            // const data = await response.json();
+            // console.log('POST response:', data);
+            // Optionally refresh orders after successful POST
             fetchOrders();
         } catch (err) {
             console.error('Error posting data:', err);
