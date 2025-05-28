@@ -87,10 +87,13 @@ export const MainInstallerPage = () => {
 
     // Submit order data to the API
     const postData = async (orderId) => {
-
-        console.log(selectedTag[orderId]);
-
         try {
+            // Find the installer object based on the selectedTag[orderId] (installer id)
+            const selectedInstaller = installers.find(
+                (installer) => installer.id === selectedTag[orderId]
+            );
+            const installerFullName = selectedInstaller ? selectedInstaller.fullName : '';
+
             const response = await fetch(urlPost, {
                 method: 'POST',
                 headers: {
@@ -99,7 +102,7 @@ export const MainInstallerPage = () => {
                 body: JSON.stringify({
                     orderId: orderId,
                     installerComment: comments[orderId] || '',
-                    installerFullName: selectedTag[orderId] || '',
+                    installerFullName: installerFullName,
                 }),
             });
 
@@ -109,7 +112,7 @@ export const MainInstallerPage = () => {
 
             const data = await response.json();
             console.log('POST response:', data);
-            // Optionally refresh orders after successful POST
+            // Refresh orders after successful POST
             fetchOrders();
         } catch (err) {
             console.error('Error posting data:', err);
