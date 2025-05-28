@@ -78,7 +78,7 @@ export const MainInstallerPage = () => {
     const postData = async (orderId) => {
 
         console.log(selectedTag[orderId]);
-        console.log(comments[orderId]);
+
         try {
             const response = await fetch(urlPost, {
                 method: 'POST',
