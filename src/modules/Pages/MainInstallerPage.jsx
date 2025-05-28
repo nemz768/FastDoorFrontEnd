@@ -239,7 +239,7 @@ export const MainInstallerPage = () => {
                         <button>Закрыть день!</button>
                     </div>
                         <div>
-                            <h1>ТАБЛИЦА ДАТ</h1>
+                            <h1>ТАБЛИЦА ДАТS</h1>
 
                         </div>
                     </div>
