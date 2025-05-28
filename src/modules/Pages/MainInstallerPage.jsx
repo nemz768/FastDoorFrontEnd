@@ -202,7 +202,7 @@ export const MainInstallerPage = () => {
                                                         Выбрать установщика
                                                     </option>
                                                 {installers.map((option) => (
-                                                    <option key={option.id} value={option.id}>
+                                                    <option key={option.id} value={option.fullName}>
                                                         {option.fullName}
                                                     </option>
                                                 ))}
