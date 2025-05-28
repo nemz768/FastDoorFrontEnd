@@ -87,6 +87,9 @@ export const MainInstallerPage = () => {
 
     // Submit order data to the API
     const postData = async (orderId) => {
+
+        console.log(selectedTag[orderId]);
+
         try {
             const response = await fetch(urlPost, {
                 method: 'POST',
