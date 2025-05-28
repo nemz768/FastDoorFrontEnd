@@ -18,7 +18,7 @@ export const MainInstallerPage = () => {
     const url = `/api/mainInstaller?page=${currentPage}`;
     const urlPost = `/api/mainInstaller`;
 
-    // Fetch orders and installers from the API
+    // Fetch orders and installers from the API cacaca
     const fetchOrders = async () => {
         setIsLoading(true);
         setError(null);
@@ -126,7 +126,7 @@ export const MainInstallerPage = () => {
             setCurrentPage(newPage);
         }
     };
-//12
+//123
     return (
         <div>
             <Header />
