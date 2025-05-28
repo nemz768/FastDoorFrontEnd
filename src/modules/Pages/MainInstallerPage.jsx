@@ -87,12 +87,17 @@ export const MainInstallerPage = () => {
 
     // Submit order data to the API
     const postData = async (orderId) => {
+
+
+
         try {
             // Find the installer object based on the selectedTag[orderId] (installer id)
             const selectedInstaller = installers.find(
                 (installer) => installer.id === selectedTag[orderId]
             );
             const installerFullName = selectedInstaller ? selectedInstaller.fullName : '';
+
+            console.log(installerFullName)
 
             const response = await fetch(urlPost, {
                 method: 'POST',
