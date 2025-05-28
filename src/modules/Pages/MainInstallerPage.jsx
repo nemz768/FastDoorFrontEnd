@@ -110,8 +110,7 @@ export const MainInstallerPage = () => {
                 throw new Error(`Failed to post data: ${response.status} ${response.statusText}`);
             }
 
-            const data = await response.json();
-            console.log('POST response:', data);
+
             // Refresh orders after successful POST
             fetchOrders();
         } catch (err) {
