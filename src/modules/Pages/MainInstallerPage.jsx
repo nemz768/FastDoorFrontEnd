@@ -23,7 +23,7 @@ export const MainInstallerPage = () => {
 
 
     const reversedDate = (dateString) => {
-        const [day, month, year] = dateString.split('.');
+        const [year, month, day] = dateString.split('.');
         const newDate = `${day}. ${month}. ${year}`;
         return newDate;
     }
