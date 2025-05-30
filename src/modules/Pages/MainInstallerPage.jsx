@@ -88,7 +88,7 @@ export const MainInstallerPage = () => {
         fetchOrders();
     }, [currentPage]);
 
-    // Handle comment input changes
+
     const handleCommentChange = (event, orderId) => {
         setComments((prev) => ({
             ...prev,
@@ -96,7 +96,7 @@ export const MainInstallerPage = () => {
         }));
     };
 
-    // Handle installer selection changes
+
     const handleChange = (event, orderId) => {
         setSelectedTag((prev) => ({
             ...prev,
@@ -104,7 +104,7 @@ export const MainInstallerPage = () => {
         }));
     };
 
-    // Submit order data to the API
+
     const postData = async (orderId) => {
         try {
             const selectedInstaller = installers.find(
@@ -135,21 +135,20 @@ export const MainInstallerPage = () => {
         }
     };
 
-    // Handle pagination for orders
+
     const handlePageChange = (newPage) => {
         if (newPage >= 0 && newPage < totalPages) {
             setCurrentPage(newPage);
         }
     };
 
-    // Handle pagination for availability
+
     const handleAvailabilityPageChange = (newPage) => {
         if (newPage >= 0 && newPage < Math.ceil(availabilityList.length / recordsPerPage)) {
             setCurrentAvailabilityPage(newPage);
         }
     };
 
-    // Calculate paginated availability data
     const totalAvailabilityPages = Math.ceil(availabilityList.length / recordsPerPage);
     const paginatedAvailabilityList = availabilityList.slice(
         currentAvailabilityPage * recordsPerPage,
@@ -267,7 +266,7 @@ export const MainInstallerPage = () => {
                             <button>Закрыть день!</button>
                         </div>
                         <div>
-                            <table border="1">
+                            <table className='orders-table' border="1">
                                 <thead>
                                 <tr>
                                     <th>Дата</th>
