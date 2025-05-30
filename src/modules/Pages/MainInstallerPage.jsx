@@ -16,11 +16,19 @@ export const MainInstallerPage = () => {
     const [availabilityList, setAvailabilityList] = useState([]);
     const [currentAvailabilityPage, setCurrentAvailabilityPage] = useState(0);
     const recordsPerPage = 10;
-    const [reverseDate, setReverseDate] = useState('');
 
 
     const url = `/api/mainInstaller?page=${currentPage}`;
     const urlPost = `/api/mainInstaller`;
+
+
+    const reversedDate = (dateString) => {
+        const [day, month, year] = dateString.split('.');
+        const newDate = `${day} ${month} ${year}`;
+        return newDate;
+    }
+
+
 
     // Fetch orders and installers from the API
     const fetchOrders = async () => {
@@ -50,20 +58,12 @@ export const MainInstallerPage = () => {
             );
 
             setAvailabilityList(
-                Array.isArray(data.availabilityList)
-                    ? data.availabilityList.map((order) => ({
-                        ...order,
+                     data.availabilityList.map((list) => ({
+                        ...list,
+                        formattedDate: reversedDate(list.date),
                     }))
-                    : []
             );
 
-            const date = availabilityList.map((item) => {
-                item.date;
-            })
-            const [day, month, year] = date.split('.');
-
-            const newDate = `${day} ${month} ${year}`;
-            setReverseDate(newDate);
 
             setInstallers(
                 Array.isArray(data.installers)
@@ -278,7 +278,7 @@ export const MainInstallerPage = () => {
                                 <tbody>
                                 {paginatedAvailabilityList.map((availability, index) => (
                                     <tr key={index}>
-                                        <td>{reverseDate}</td>
+                                        <td>{availability.formattedDate}</td>
                                         <td>{availability.frontDoorQuantity}</td>
                                         <td>{availability.inDoorQuantity}</td>
                                     </tr>
