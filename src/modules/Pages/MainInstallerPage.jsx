@@ -1,11 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { Header } from '../Header.jsx';
 import { Footer } from '../Footer.jsx';
-import '../../styles/stylePages/MainInstaller.scss'
-import {CustomCalendar} from "../special/CustomCalendar.jsx";
+import '../../styles/stylePages/MainInstaller.scss';
+import { CustomCalendar } from '../special/CustomCalendar.jsx';
 
 export const MainInstallerPage = () => {
-
     const [orders, setOrders] = useState([]);
     const [installers, setInstallers] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
@@ -15,6 +14,8 @@ export const MainInstallerPage = () => {
     const [selectedTag, setSelectedTag] = useState({});
     const [comments, setComments] = useState({});
     const [availabilityList, setAvailabilityList] = useState([]);
+    const [currentAvailabilityPage, setCurrentAvailabilityPage] = useState(0);
+    const recordsPerPage = 10;
 
     const url = `/api/mainInstaller?page=${currentPage}`;
     const urlPost = `/api/mainInstaller`;
@@ -37,7 +38,6 @@ export const MainInstallerPage = () => {
 
             const data = await response.json();
 
-            // Safely set orders, default to empty array if undefined or not an array
             setOrders(
                 Array.isArray(data.orders)
                     ? data.orders.map((order) => ({
@@ -48,12 +48,13 @@ export const MainInstallerPage = () => {
             );
 
             setAvailabilityList(
-                data.availabilityList.map((order) => ({
-                    ...order,
-                }))
-            )
+                Array.isArray(data.availabilityList)
+                    ? data.availabilityList.map((order) => ({
+                        ...order,
+                    }))
+                    : []
+            );
 
-            // Safely set installers, default to empty array if undefined or not an array
             setInstallers(
                 Array.isArray(data.installers)
                     ? data.installers.map((inst) => ({
@@ -62,8 +63,6 @@ export const MainInstallerPage = () => {
                     }))
                     : []
             );
-
-
 
             setTotalPages(data.totalPages || 1);
             setCurrentPage(data.currentPage || 0);
@@ -98,7 +97,6 @@ export const MainInstallerPage = () => {
     // Submit order data to the API
     const postData = async (orderId) => {
         try {
-            // Find the installer object based on the selectedTag[orderId] (installer id)
             const selectedInstaller = installers.find(
                 (installer) => installer.id === selectedTag[orderId]
             );
@@ -120,8 +118,6 @@ export const MainInstallerPage = () => {
                 throw new Error(`Failed to post data: ${response.status} ${response.statusText}`);
             }
 
-
-            // Refresh orders after successful POST
             fetchOrders();
         } catch (err) {
             console.error('Error posting data:', err);
@@ -129,17 +125,30 @@ export const MainInstallerPage = () => {
         }
     };
 
-    // Handle pagination
+    // Handle pagination for orders
     const handlePageChange = (newPage) => {
         if (newPage >= 0 && newPage < totalPages) {
             setCurrentPage(newPage);
         }
     };
-//123
+
+    // Handle pagination for availability
+    const handleAvailabilityPageChange = (newPage) => {
+        if (newPage >= 0 && newPage < Math.ceil(availabilityList.length / recordsPerPage)) {
+            setCurrentAvailabilityPage(newPage);
+        }
+    };
+
+    // Calculate paginated availability data
+    const totalAvailabilityPages = Math.ceil(availabilityList.length / recordsPerPage);
+    const paginatedAvailabilityList = availabilityList.slice(
+        currentAvailabilityPage * recordsPerPage,
+        (currentAvailabilityPage + 1) * recordsPerPage
+    );
+
     return (
         <div>
             <Header />
-
             <div className="MainInstallerPage__block">
                 <div className="MainInstallerPage__table-calendar-block">
                     <main className="SellerAllOrdersPage">
@@ -229,8 +238,8 @@ export const MainInstallerPage = () => {
                                         Предыдущая
                                     </button>
                                     <span className="pagination-info">
-                Страница {currentPage + 1} из {totalPages}
-              </span>
+                    Страница {currentPage + 1} из {totalPages}
+                  </span>
                                     <button
                                         onClick={() => handlePageChange(currentPage + 1)}
                                         disabled={currentPage >= totalPages - 1}
@@ -244,9 +253,9 @@ export const MainInstallerPage = () => {
                     </main>
                     <div className="MainInstallerPage__calendar-dateTable-block">
                         <div>
-                        <CustomCalendar/>
-                        <button>Закрыть день!</button>
-                    </div>
+                            <CustomCalendar />
+                            <button>Закрыть день!</button>
+                        </div>
                         <div>
                             <table border="1">
                                 <thead>
@@ -257,8 +266,8 @@ export const MainInstallerPage = () => {
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {availabilityList.map((availability) => (
-                                    <tr>
+                                {paginatedAvailabilityList.map((availability, index) => (
+                                    <tr key={index}>
                                         <td>{availability.date}</td>
                                         <td>{availability.frontDoorQuantity}</td>
                                         <td>{availability.inDoorQuantity}</td>
@@ -266,13 +275,29 @@ export const MainInstallerPage = () => {
                                 ))}
                                 </tbody>
                             </table>
+                            <div className="pagination">
+                                <button
+                                    onClick={() => handleAvailabilityPageChange(currentAvailabilityPage - 1)}
+                                    disabled={currentAvailabilityPage === 0}
+                                    className="pagination-button"
+                                >
+                                    Предыдущая
+                                </button>
+                                <span className="pagination-info">
+                  Страница {currentAvailabilityPage + 1} из {totalAvailabilityPages}
+                </span>
+                                <button
+                                    onClick={() => handleAvailabilityPageChange(currentAvailabilityPage + 1)}
+                                    disabled={currentAvailabilityPage >= totalAvailabilityPages - 1}
+                                    className="pagination-button"
+                                >
+                                    Следующая
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
-
             </div>
-
-
             <Footer />
         </div>
     );
