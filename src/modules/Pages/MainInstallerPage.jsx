@@ -257,11 +257,13 @@ export const MainInstallerPage = () => {
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td>{availabilityList.date}</td>
-                                    <td>{availabilityList.frontDoorQuantity}</td>
-                                    <td>{availabilityList.inDoorQuantity}</td>
-                                </tr>
+                                {availabilityList.map((availability) => (
+                                    <tr>
+                                        <td>{availability.date}</td>
+                                        <td>{availability.frontDoorQuantity}</td>
+                                        <td>{availability.inDoorQuantity}</td>
+                                    </tr>
+                                ))}
                                 </tbody>
                             </table>
                         </div>
