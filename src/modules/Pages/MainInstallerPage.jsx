@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { Header } from '../Header.jsx';
 import { Footer } from '../Footer.jsx';
 import '../../styles/stylePages/MainInstaller.scss'
@@ -14,11 +14,12 @@ export const MainInstallerPage = () => {
     const [error, setError] = useState(null);
     const [selectedTag, setSelectedTag] = useState({});
     const [comments, setComments] = useState({});
+    const [availabilityList, setAvailabilityList] = useState([]);
 
     const url = `/api/mainInstaller?page=${currentPage}`;
     const urlPost = `/api/mainInstaller`;
 
-    // Fetch orders and installers from the API cacaca
+    // Fetch orders and installers from the API
     const fetchOrders = async () => {
         setIsLoading(true);
         setError(null);
@@ -46,6 +47,12 @@ export const MainInstallerPage = () => {
                     : []
             );
 
+            setAvailabilityList(
+                data.availabilityList.map((order) => ({
+                    ...order,
+                }))
+            )
+
             // Safely set installers, default to empty array if undefined or not an array
             setInstallers(
                 Array.isArray(data.installers)
@@ -55,6 +62,8 @@ export const MainInstallerPage = () => {
                     }))
                     : []
             );
+
+
 
             setTotalPages(data.totalPages || 1);
             setCurrentPage(data.currentPage || 0);
@@ -239,8 +248,22 @@ export const MainInstallerPage = () => {
                         <button>Закрыть день!</button>
                     </div>
                         <div>
-                            <h1>ТАБЛИЦА ДАТSSSSSSSS</h1>
-
+                            <table border="1">
+                                <thead>
+                                <tr>
+                                    <th>Дата</th>
+                                    <th>Доступные входные двери</th>
+                                    <th>Доступные межкомнатные двери</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>{availabilityList.date}</td>
+                                    <td>{availabilityList.frontDoorQuantity}</td>
+                                    <td>{availabilityList.inDoorQuantity}</td>
+                                </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
