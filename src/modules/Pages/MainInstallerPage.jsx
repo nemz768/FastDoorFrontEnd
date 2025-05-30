@@ -17,18 +17,16 @@ export const MainInstallerPage = () => {
     const [currentAvailabilityPage, setCurrentAvailabilityPage] = useState(0);
     const recordsPerPage = 10;
 
-
     const url = `/api/mainInstaller?page=${currentPage}`;
     const urlPost = `/api/mainInstaller`;
 
-
+    // Функция для переформатирования даты с валидацией
     const reversedDate = (dateString) => {
-        const [day, month, year] = dateString.split('.');
-        const newDate = `${day} ${month} ${year}`;
-        return newDate;
-    }
-
-
+        if (!dateString || typeof dateString !== 'string') return 'Неверная дата';
+        const datePattern = /^(\d{2})\.(\d{2})\.(\d{4})$/;
+        const match = dateString.match(datePattern);
+        return match ? `${match[1]} ${match[2]} ${match[3]}` : 'Неверный формат';
+    };
 
     // Fetch orders and installers from the API
     const fetchOrders = async () => {
@@ -58,12 +56,13 @@ export const MainInstallerPage = () => {
             );
 
             setAvailabilityList(
-                     data.availabilityList.map((list) => ({
+                Array.isArray(data.availabilityList)
+                    ? data.availabilityList.map((list) => ({
                         ...list,
                         formattedDate: reversedDate(list.date),
                     }))
+                    : []
             );
-
 
             setInstallers(
                 Array.isArray(data.installers)
@@ -248,8 +247,8 @@ export const MainInstallerPage = () => {
                                         Предыдущая
                                     </button>
                                     <span className="pagination-info">
-                    Страница {currentPage + 1} из {totalPages}
-                  </span>
+                                        Страница {currentPage + 1} из {totalPages}
+                                    </span>
                                     <button
                                         onClick={() => handlePageChange(currentPage + 1)}
                                         disabled={currentPage >= totalPages - 1}
@@ -276,8 +275,8 @@ export const MainInstallerPage = () => {
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {paginatedAvailabilityList.map((availability, index) => (
-                                    <tr key={index}>
+                                {paginatedAvailabilityList.map((availability) => (
+                                    <tr key={availability.id || availability.formattedDate}>
                                         <td>{availability.formattedDate}</td>
                                         <td>{availability.frontDoorQuantity}</td>
                                         <td>{availability.inDoorQuantity}</td>
@@ -294,8 +293,8 @@ export const MainInstallerPage = () => {
                                     Предыдущая
                                 </button>
                                 <span className="pagination-info">
-                  Страница {currentAvailabilityPage + 1} из {totalAvailabilityPages}
-                </span>
+                                    Страница {currentAvailabilityPage + 1} из {totalAvailabilityPages}
+                                </span>
                                 <button
                                     onClick={() => handleAvailabilityPageChange(currentAvailabilityPage + 1)}
                                     disabled={currentAvailabilityPage >= totalAvailabilityPages - 1}
