@@ -16,6 +16,8 @@ export const MainInstallerPage = () => {
     const [availabilityList, setAvailabilityList] = useState([]);
     const [currentAvailabilityPage, setCurrentAvailabilityPage] = useState(0);
     const recordsPerPage = 10;
+    const [reverseDate, setReverseDate] = useState('');
+
 
     const url = `/api/mainInstaller?page=${currentPage}`;
     const urlPost = `/api/mainInstaller`;
@@ -54,6 +56,14 @@ export const MainInstallerPage = () => {
                     }))
                     : []
             );
+
+            const date = availabilityList.map((item) => {
+                item.date;
+            })
+            const [day, month, year] = date.split('.');
+
+            const newDate = `${day} ${month} ${year}`;
+            setReverseDate(newDate);
 
             setInstallers(
                 Array.isArray(data.installers)
@@ -268,7 +278,7 @@ export const MainInstallerPage = () => {
                                 <tbody>
                                 {paginatedAvailabilityList.map((availability, index) => (
                                     <tr key={index}>
-                                        <td>{availability.date}</td>
+                                        <td>{reverseDate}</td>
                                         <td>{availability.frontDoorQuantity}</td>
                                         <td>{availability.inDoorQuantity}</td>
                                     </tr>
