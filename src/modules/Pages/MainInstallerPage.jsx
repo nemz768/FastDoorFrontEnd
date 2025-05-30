@@ -23,14 +23,13 @@ export const MainInstallerPage = () => {
 
 
     const reversedDate = (dateString) => {
-        const [year, month, day] = dateString.split('.');
+        // 2025-05-28
+        const day = dateString.slice(8)
+        const [year, month] = dateString.split('.');
         const newDate = `${day}. ${month}. ${year}`;
         return newDate;
     }
 
-
-
-    // Fetch orders and installers from the API
     const fetchOrders = async () => {
         setIsLoading(true);
         setError(null);
