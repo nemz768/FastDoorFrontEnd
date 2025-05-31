@@ -17,13 +17,9 @@ export const MainInstallerCreate = () => {
         const phone = refs.phone.current.value;
 
         try {
-            await fetch('/api/listInstallers/create', {
+            await fetch(`/api/listInstallers/create?fullName=${encodeURIComponent(fullName)}&phone=${encodeURIComponent(phone)}`, {
                 method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({
-                    fullName: fullName,
-                    phone: phone,
-                })
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
             })
 
             navigate("/home/mainInstaller")
