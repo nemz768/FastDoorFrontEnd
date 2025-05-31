@@ -1,8 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Header} from "../../Header.jsx";
 import {Footer} from "../../Footer.jsx";
-import '../../../styles/stylePages/MainInstaller.scss';
-
+import '../../../styles/styleMainInstaller/installers.css'
 
 
 
@@ -44,7 +43,7 @@ export const InstallersList = () => {
         <div>
             <Header navItems={navItems} />
             <div className="admin-panel">
-                <table className="orders-table">
+                <table className="installers-table">
                     <thead>
                     <tr>
                         <th>Фио Установщика</th>
