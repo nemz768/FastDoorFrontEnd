@@ -43,7 +43,7 @@ export const InstallersList = () => {
                 console.log(error);
                 setError(error.message);
             }finally {
-                setIsLoading(true);
+                setIsLoading(false);
             }
         }
         getInstallers()
