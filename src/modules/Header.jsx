@@ -2,7 +2,6 @@ import '../styles/header.css';
 import logo from '../assets/logo.svg';
 import {Link, useNavigate} from 'react-router-dom';
 import {useEffect} from "react";
-// import { useEffect } from 'react';
 
 export const Header = ({navItems = []}) => {
 
@@ -58,13 +57,13 @@ export const Header = ({navItems = []}) => {
             <Link to="/">
                 <img src={logo} alt="dverka" style={{ height: '50px' }} />
             </Link>
-            <div>
+            <div className="navbar-block">
                 {navItems.map((item) => (
                     <Link className="orders_address" to={item.route}>
                         {item.label}
                     </Link>
                 ))}
-                <a href="#" onClick={handleLogout}>Выйти</a>
+                <a className="orders_address" href="#" onClick={handleLogout}>Выйти</a>
             </div>
         </header>
     );

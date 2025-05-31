@@ -34,7 +34,6 @@ export const SellerAllOrdersPage = () => {
                 }
                 const data = await response.json();
                 console.log('API data:', data);
-                // Приведение id к строке, если это необходимо
                 setOrders(
                     data.orders.map((order) => ({
                         ...order,

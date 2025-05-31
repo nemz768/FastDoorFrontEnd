@@ -12,20 +12,20 @@
     margin-bottom: 10px;
 }
 
-.header-nav {
+
+.navbar-block {
     display: flex;
-    justify-content: center;
-    gap: 20px;
+    flex-direction: row;
+    column-gap: 30px;
+    align-items: center;
+
 }
 
-.header-nav a {
+.navbar_address {
     color: #E9D6C7;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 16px;
 }
 
-.header-nav a:hover {
+.navbar_address {
     color: #C0A28E;
 }
 
