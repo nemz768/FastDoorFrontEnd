@@ -8,7 +8,6 @@ export const Header = () => {
     const { isLoggedIn, setIsLoggedIn } = useAuth();
     const location = useLocation();
     const navigate = useNavigate();
-    const [link, setLink] = useState(false);
 
     // Проверяем авторизацию при изменении маршрута
     useEffect(() => {
