@@ -1,5 +1,4 @@
 import React, { useRef } from 'react';
-import '../../../styles/stylePages/createSellerPage.css';
 import { useNavigate } from 'react-router-dom';
 
 export const MainInstallerCreate = () => {
