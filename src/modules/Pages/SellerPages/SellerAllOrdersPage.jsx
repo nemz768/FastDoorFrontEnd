@@ -13,9 +13,11 @@ export const SellerAllOrdersPage = () => {
     const [error, setError] = useState(null);
     const [activeModal, setActiveModal] = useState(false); // Исправлено isActiveModal на setActiveModal
     const [selectedOrderId, setSelectedOrderId] = useState(null);
-
+    const navItems = [
+        { label: 'Главная продавца', route: '/home/seller' },
+        { label: 'Создать заказ', route: '/home/seller/create' },
+    ];
     useEffect(() => {
-
         const fetchOrders = async () => {
             setIsLoading(true);
             setError(null);
@@ -78,7 +80,7 @@ export const SellerAllOrdersPage = () => {
 
     return (
         <div className="page-wrapper">
-            <Header />
+            <Header navItems={navItems}/>
             <SellerOrdersTablePc isLoading={isLoading} error={error} orders={orders} currentPage={currentPage} totalPages={totalPages} handlePageChange={handlePageChange} openModal={openModal} />
             {activeModal && (
                 <ConfirmPopup

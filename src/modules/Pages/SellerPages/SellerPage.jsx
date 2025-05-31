@@ -6,6 +6,12 @@ import '../../../styles/stylePages/sellerPage.css'
 import {Popup} from "../../special/Popup.jsx";
 
 export const SellerPage = () => {
+
+    const navItems = [
+        { label: 'Создать заказ', route: '/home/seller/create' },
+        {label: 'Список заказов', route: '/home/seller/listOrdersSeller' },
+    ];
+
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -28,7 +34,7 @@ export const SellerPage = () => {
 
     return (
         <>
-            <Header />
+            <Header navItems={navItems} />
             <div className="sellerPage_block">
                 <section className="orders">
                     <h2>Действия</h2>

@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Header } from '../Header.jsx';
-import { Footer } from '../Footer.jsx';
-import '../../styles/stylePages/adminPanelPage.css';
+import { Header } from '../../Header.jsx';
+import { Footer } from '../../Footer.jsx';
+import '../../../styles/stylePages/adminPanelPage.css';
 
 
 export const AdminPanelPage = () => {
+
     const [orders, setOrders] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(1);

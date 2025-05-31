@@ -1,24 +1,37 @@
 import '../styles/header.css';
 import logo from '../assets/logo.svg';
-import {Link, useLocation, useNavigate} from 'react-router-dom';
-import {useEffect} from 'react';
-import { useAuth } from './Auth/AuthContext.jsx';
+import {Link, useNavigate} from 'react-router-dom';
+import {useEffect} from "react";
+// import { useEffect } from 'react';
 
-export const Header = () => {
-    const { isLoggedIn, setIsLoggedIn } = useAuth();
-    const location = useLocation();
+export const Header = ({navItems = []}) => {
+
     const navigate = useNavigate();
 
-     useEffect(() => {
-         const storedRoles = localStorage.getItem('userRoles');
-        if (storedRoles && (storedRoles === 'administrator' || storedRoles === 'salespeople' || storedRoles === "main")) {
-            setIsLoggedIn(true);
-        } else {
-            setIsLoggedIn(false);
+
+    useEffect(() => {
+        const getSession = async () => {
+            try {
+                const response = await fetch('/api/check-session', {
+                    method: 'GET',
+                    headers: {
+                        "Content-Type": "application/json",
+                    }
+                });
+
+                const data = await response.json();
+                console.log(data)
+                if (data.status === 401) {
+                    navigate('/login');
+                }
+            }
+            catch(err) {
+                console.log(err)
+                    navigate('/login');
+            }
         }
-    }, [location.pathname, setIsLoggedIn]);
-
-
+        getSession()
+    }, [])
 
 
     const handleLogout = async (e) => {
@@ -30,97 +43,29 @@ export const Header = () => {
                     'Content-Type': 'application/json',
                 }
             })
-
             const data = await response;
 
             console.log(data)
             localStorage.removeItem('userRoles'); // Очищаем роль при выходе
-            setIsLoggedIn(false);
             navigate('/');
-
         }catch (error) {
             console.log(error);
         }
-
-
-
     };
-
-    const controlRedirect = () => {
-        if (localStorage.getItem('userRoles') === "administrator") {
-            navigate('/home/admin');
-
-        }else if (localStorage.getItem('userRoles') === "salespeople") {
-            navigate('/home/seller');
-
-        }
-        else if (localStorage.getItem('userRoles') === "main") {
-            navigate('/home/mainInstaller');
-        }
-        else {
-            alert("Error redirect");
-            window.location.reload();
-        }
-    }
-
-
-    const getHeader = () => {
-        if (!isLoggedIn) {
-            return (
-                <nav className="header-nav">
-                    <Link to="/login">Войти</Link>
-                    <Link to="/reg">Регистрация</Link>
-                </nav>
-            )
-        }
-
-
-        const role = localStorage.getItem('userRoles');
-
-        switch (role) {
-            case 'administrator':
-                return (
-                    <nav className="header-nav">
-                        <a href="#" onClick={controlRedirect}>К своей странице</a>
-                        <a href="#" onClick={handleLogout}>Выйти</a>
-                    </nav>
-                );
-                case 'salespeople':
-                    return (
-                        <nav className="header-nav">
-                            <a href="#" onClick={controlRedirect}>К своей странице</a>
-                            <Link to='/home/seller/create'>Создать заказ</Link>
-                            <Link to='/home/seller/listOrdersSeller'>Все заказы</Link>
-                            <a href="#" onClick={handleLogout}>Выйти</a>
-                        </nav>
-                    )
-            case 'main':
-                return (
-                    <nav className="header-nav">
-                        <a href="#" onClick={controlRedirect}>К своей странице</a>
-                        <Link to="/home/mainInstaller/create">Добавить установщика</Link>
-                        <a href="#" onClick={handleLogout}>Выйти</a>
-                    </nav>
-                )
-            default:
-                return (
-                    <nav className="header-nav">
-                        <Link to="/login">Войти</Link>
-                        <Link to="/reg">Регистрация</Link>
-                    </nav>
-                )
-        }
-    }
-
 
     return (
         <header className="header">
             <Link to="/">
-                <img src={logo} alt="dverka" />
+                <img src={logo} alt="dverka" style={{ height: '50px' }} />
             </Link>
-
-
-            {getHeader()}
+            <div>
+                {navItems.map((item) => (
+                    <Link className="orders_address" to={item.route}>
+                        {item.label}
+                    </Link>
+                ))}
+                <a href="#" onClick={handleLogout}>Выйти</a>
+            </div>
         </header>
     );
 };

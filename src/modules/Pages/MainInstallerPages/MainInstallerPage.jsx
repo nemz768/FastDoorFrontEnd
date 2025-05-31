@@ -17,10 +17,14 @@ export const MainInstallerPage = () => {
     const [currentAvailabilityPage, setCurrentAvailabilityPage] = useState(0);
     const recordsPerPage = 10;
 
-
     const url = `/api/mainInstaller?page=${currentPage}`;
     const urlPost = `/api/mainInstaller`;
 
+    const navItems = [
+        { label: 'Список установщиков', route: '/home/mainInstaller/InstallersList' },
+        { label: 'Добавить установщика', route: '/home/mainInstaller/create' },
+        { label: 'Список заказов', route: '/404' },
+    ];
 
     const reversedDate = (dateString) => {
         // 2025-05-28
@@ -157,7 +161,7 @@ export const MainInstallerPage = () => {
 
     return (
         <div>
-            <Header />
+            <Header navItems={navItems}/>
             <div className="MainInstallerPage__block">
                 <div className="MainInstallerPage__table-calendar-block">
                     <main className="SellerAllOrdersPage">

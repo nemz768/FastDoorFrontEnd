@@ -11,7 +11,7 @@ import {DonePage} from "../modules/Pages/DonePage.jsx";
 import {MainInstallerPage} from "../modules/Pages/MainInstallerPages/MainInstallerPage.jsx";
 import {SellerAllOrdersPage} from "../modules/Pages/SellerPages/SellerAllOrdersPage.jsx";
 import {PatchOrderPage} from "../modules/Pages/SellerPages/PatchOrderPage.jsx";
-import {AdminPanelPage} from "../modules/Pages/adminPanelPage.jsx";
+import {AdminPanelPage} from "../modules/Pages/Administrator/adminPanelPage.jsx";
 import {MainInstallerCreate} from "../modules/Pages/MainInstallerPages/MainInstallerCreate.jsx";
 import {InstallersList} from "../modules/Pages/MainInstallerPages/InstallersList.jsx";
 
