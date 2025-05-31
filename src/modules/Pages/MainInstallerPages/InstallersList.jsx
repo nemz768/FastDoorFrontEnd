@@ -137,7 +137,6 @@ export const InstallersList = () => {
                     handleDeleteSuccess={handleDeleteSuccess}
                     installerId={selectedInstallerId}
                     closeModal={closeModal}
-                    installers={installers}
                 />
             )}
             <Footer className="footer-installer" />

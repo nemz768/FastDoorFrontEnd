@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import '../../../styles/specialStyles/ConfirmPopup.css';
-export const ConfirmPopupMainInstaller = ({installers, handleDeleteSuccess, installerId, closeModal}) => {
+export const ConfirmPopupMainInstaller = ({handleDeleteSuccess, installerId, closeModal}) => {
     const [isDeleting, setIsDeleting] = useState(false);
     const [error, setError] = useState(null);
 
@@ -32,7 +32,7 @@ export const ConfirmPopupMainInstaller = ({installers, handleDeleteSuccess, inst
     return (
         <div className="confirm-popup">
             <div className="confirm-popup_block">
-                <h1>Вы уверены, что хотите удалить установщика {installers.fullName}?</h1>
+                <h1>Вы уверены, что хотите удалить установщика?</h1>
                 {error && <div className="error">Ошибка: {error}</div>}
                 <div className="confirm-popup_content">
                     <button
