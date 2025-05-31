@@ -1,7 +1,9 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Header} from "../../Header.jsx";
+import {Footer} from "../../Footer.jsx";
 
 export const InstallersList = () => {
+    const [installers, setInstallers] = useState([]);
 
 
     const navItems = [
@@ -10,6 +12,27 @@ export const InstallersList = () => {
         { label: 'Список заказов', route: '/404' },
      ];
 
+    useEffect(()=> {
+        const getInstallers = async () => {
+            try {
+                const response = await fetch("/api/Installers", {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    }
+                })
+
+                const data = await response.json();
+                setInstallers(data.installers);
+                console.log(data)
+
+            }
+            catch (error) {
+                console.log(error);
+            }
+        }
+        getInstallers()
+    }, [])
 
     return (
         <div>
@@ -24,21 +47,22 @@ export const InstallersList = () => {
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>
-                            <p></p>
-                        </td>
-                        <td>
-                            <p></p>
-                        </td>
-                        <td>
-                            <button>Изменить</button>
-                            <button>Удалить</button>
-                        </td>
-                    </tr>
+                    {installers.map((item) => (
+                        <tr key={item.id}>
+                            <td>{item.fullName}</td>
+                            <td>{item.phone}</td>
+                            <td>
+                                <button>Изменить</button>
+                                <button>Удалить</button>
+                            </td>
+                        </tr>
+                    ))}
                     </tbody>
                 </table>
             </div>
+
+
+            <Footer />
         </div>
 
     );
