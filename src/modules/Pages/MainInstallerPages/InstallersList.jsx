@@ -35,7 +35,11 @@ export const InstallersList = () => {
 
                 const data = await response.json();
                 console.log('Полученные данные:', data);
-                setInstallers(data.installers.map((item) => ({ ...item })));
+                setInstallers(data.installers.map((item) => ({
+                    ...item,
+                    fullName: item.fullName,
+
+                })));
                 setTotalPages(data.totalPages || 1);
                 setCurrentPage(data.currentPage || 0);
             } catch (error) {
@@ -133,6 +137,7 @@ export const InstallersList = () => {
                     handleDeleteSuccess={handleDeleteSuccess}
                     installerId={selectedInstallerId}
                     closeModal={closeModal}
+                    installers={installers}
                 />
             )}
             <Footer className="footer-installer" />
