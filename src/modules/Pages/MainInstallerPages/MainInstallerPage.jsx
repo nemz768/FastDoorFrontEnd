@@ -266,7 +266,7 @@ export const MainInstallerPage = () => {
                             <button>Закрыть день!</button>
                         </div>
                         <div>
-                            <table className='orders-table' border="1">
+                            <table border="1">
                                 <thead>
                                 <tr>
                                     <th>Дата</th>

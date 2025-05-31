@@ -1,16 +1,19 @@
 import React, {useRef} from 'react';
 import '../../../styles/stylePages/createSellerPage.css';
+import {useNavigate} from "react-router-dom";
 export const MainInstallerCreate = () => {
 
+    const navigate = useNavigate();
 
     const refs = {
         fullName: useRef(null),
         phone: useRef(null),
     }
 
-    const sendDataInstaller = async () => {
+    const sendDataInstaller = async (e) => {
+        e.preventDefault()
         try {
-          await fetch('', {
+          await fetch('/api/listInstallers/create', {
              method: 'POST',
              headers: {'Content-Type': 'application/json'},
              body: JSON.stringify({
@@ -18,12 +21,13 @@ export const MainInstallerCreate = () => {
                     phone: refs.phone,
              })
          })
+
+            navigate("/home/mainInstaller")
         }
         catch(err) {
            console.log(err);
         }
     }
-
 
     return (
         <div className="sellerCreatePage">
