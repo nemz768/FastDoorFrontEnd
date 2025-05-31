@@ -59,59 +59,61 @@ export const InstallersList = () => {
     return (
         <div>
             <Header navItems={navItems} />
+            <div className="Installers-content">
+                {isLoading && <div className="loading">Загрузка...</div>}
+                {error && <div className="error">Ошибка: {error}</div>}
+                {!isLoading && !error && installers.length === 0 && (
+                    <div className="no-orders">Заказы не найдены</div>
+                )}
+                {!isLoading && !error && installers.length > 0 && (
 
-            {isLoading && <div className="loading">Загрузка...</div>}
-            {error && <div className="error">Ошибка: {error}</div>}
-            {!isLoading && !error && installers.length === 0 && (
-                <div className="no-orders">Заказы не найдены</div>
-            )}
-            {!isLoading && !error && installers.length > 0 && (
-
-                <div className="admin-panel">
-                    <table className="installers-table">
-                        <thead>
-                        <tr>
-                            <th>Фио Установщика</th>
-                            <th>Номер телефона</th>
-                            <th>Действие</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {installers.map((item) => (
-                            <tr key={item.id}>
-                                <td>{item.fullName}</td>
-                                <td>{item.phone}</td>
-                                <td>
-                                    <button>Изменить</button>
-                                    <button>Удалить</button>
-                                </td>
+                    <div className="admin-panel">
+                        <table className="installers-table">
+                            <thead>
+                            <tr>
+                                <th>Фио Установщика</th>
+                                <th>Номер телефона</th>
+                                <th>Действие</th>
                             </tr>
-                        ))}
-                        </tbody>
-                    </table>
-                    <div className="pagination">
-                        <button
-                            onClick={() => handlePageChange(currentPage - 1)}
-                            disabled={currentPage === 0}
-                            className="pagination-button"
-                        >
-                            Предыдущая
-                        </button>
-                        <span className="pagination-info">
+                            </thead>
+                            <tbody>
+                            {installers.map((item) => (
+                                <tr key={item.id}>
+                                    <td>{item.fullName}</td>
+                                    <td>{item.phone}</td>
+                                    <td>
+                                        <button>Изменить</button>
+                                        <button>Удалить</button>
+                                    </td>
+                                </tr>
+                            ))}
+                            </tbody>
+                        </table>
+                        <div className="pagination">
+                            <button
+                                onClick={() => handlePageChange(currentPage - 1)}
+                                disabled={currentPage === 0}
+                                className="pagination-button"
+                            >
+                                Предыдущая
+                            </button>
+                            <span className="pagination-info">
               Страница {currentPage + 1} из {totalPages}
             </span>
-                        <button
-                            onClick={() => handlePageChange(currentPage + 1)}
-                            disabled={currentPage >= totalPages - 1}
-                            className="pagination-button"
-                        >
-                            Следующая
-                        </button>
+                            <button
+                                onClick={() => handlePageChange(currentPage + 1)}
+                                disabled={currentPage >= totalPages - 1}
+                                className="pagination-button"
+                            >
+                                Следующая
+                            </button>
+                        </div>
                     </div>
-                </div>
                 )}
-            <button onClick={()=> navigate('/home/mainInstaller/create')}>Добавить установщика</button>
-            <Footer />
+                <button onClick={()=> navigate('/home/mainInstaller/create')}>Добавить установщика</button>
+            </div>
+
+           <Footer />
         </div>
 
     );

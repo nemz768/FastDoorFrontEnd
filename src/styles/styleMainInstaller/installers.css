@@ -64,6 +64,13 @@
   background-color: #3a281f; /* Same hover color for consistency */
 }
 
+.Installers-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 /* Responsive design */
 @media (max-width: 768px) {
   .installers-table {
