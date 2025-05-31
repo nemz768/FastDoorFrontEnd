@@ -11,7 +11,7 @@ export const Header = () => {
 
      useEffect(() => {
          const storedRoles = localStorage.getItem('userRoles');
-        if (storedRoles && (storedRoles === 'administrator' || storedRoles === 'salespeople')) {
+        if (storedRoles && (storedRoles === 'administrator' || storedRoles === 'salespeople' || storedRoles === "main")) {
             setIsLoggedIn(true);
         } else {
             setIsLoggedIn(false);
