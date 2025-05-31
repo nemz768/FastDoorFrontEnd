@@ -17,7 +17,7 @@ export const MainInstallerCreate = () => {
         const phone = refs.phone.current?.value;
 
         try {
-         const response = await fetch('/api/listInstallers', {
+         const response = await fetch('/api/listInstallers/create', {
              method: 'POST',
              headers: {
                  'Content-Type': 'application/json'
