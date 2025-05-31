@@ -126,9 +126,9 @@ export const InstallersList = () => {
                                 Следующая
                             </button>
                         </div>
+                        <button className="add-installer-button" onClick={()=> navigate('/home/mainInstaller/create')}>Добавить установщика</button>
                     </div>
                 )}
-                <button className="add-installer-button" onClick={()=> navigate('/home/mainInstaller/create')}>Добавить установщика</button>
             {activeModal && (
                 <ConfirmPopupMainInstaller
                     handleDeleteSuccess={handleDeleteSuccess}

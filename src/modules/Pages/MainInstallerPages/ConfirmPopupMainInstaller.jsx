@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import '../../styles/specialStyles/ConfirmPopup.css';
+import '../../../styles/specialStyles/ConfirmPopup.css';
 export const ConfirmPopupMainInstaller = ({handleDeleteSuccess, installerId, closeModal}) => {
     const [isDeleting, setIsDeleting] = useState(false);
     const [error, setError] = useState(null);
@@ -8,10 +8,7 @@ export const ConfirmPopupMainInstaller = ({handleDeleteSuccess, installerId, clo
 
     const deleteInstaller = async () => {
 
-
         setError(null);
-
-
         try {
             const response = await fetch(`/api/listInstallers/delete/${installerId}`, {
                 method: "DELETE",
