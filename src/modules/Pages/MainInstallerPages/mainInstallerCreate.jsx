@@ -51,7 +51,7 @@ export const MainInstallerCreate = () => {
                         className="input_SellerPage"
                         id="fullName"
                         required
-                        ref={refs.fullname}
+                        ref={refs.fullName}
                         placeholder="ФИО"
                     />
                 </div>
