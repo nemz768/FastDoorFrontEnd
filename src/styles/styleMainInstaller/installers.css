@@ -1,16 +1,17 @@
 .installers-table {
-  width: 100%;
+  width: 90%; /* Reduced table width */
+  max-width: 800px; /* Added max-width for smaller appearance */
+  margin: 15px auto; /* Centered with reduced margin */
   border-collapse: collapse;
   background-color: #ffffff;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  border-radius: 8px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
   overflow: hidden;
-  margin: 20px 0;
   font-family: 'Arial', sans-serif;
 }
 
 .installers-table thead {
-  background-color: #f8f9fa;
+  background-color: #e9ecef;
   color: #333;
   font-weight: 600;
   text-transform: uppercase;
@@ -19,17 +20,17 @@
 
 .installers-table th,
 .installers-table td {
-  padding: 16px 20px;
+  padding: 10px 12px; /* Reduced padding for smaller table */
   text-align: left;
-  border-bottom: 1px solid #e9ecef;
+  border-bottom: 1px solid #dee2e6;
 }
 
 .installers-table th {
-  font-size: 14px;
+  font-size: 12px; /* Smaller font size for headers */
 }
 
 .installers-table td {
-  font-size: 15px;
+  font-size: 13px; /* Smaller font size for content */
   color: #495057;
 }
 
@@ -42,48 +43,49 @@
 }
 
 .installers-table button {
-  padding: 8px 16px;
-  margin-right: 8px;
+  padding: 6px 12px; /* Smaller button padding */
+  margin-right: 6px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 12px; /* Smaller font size for buttons */
   font-weight: 500;
   transition: all 0.3s ease;
+  background-color: #007bff; /* Unified button color */
+  color: #ffffff;
 }
 
 .installers-table button:first-child {
-  background-color: #007bff;
-  color: #ffffff;
+  opacity: 1; /* Edit button with full opacity */
 }
 
 .installers-table button:first-child:hover {
-  background-color: #0056b3;
+  background-color: #0056b3; /* Darker shade on hover */
 }
 
 .installers-table button:last-child {
-  background-color: #dc3545;
-  color: #ffffff;
+  opacity: 0.85; /* Delete button slightly faded for distinction */
 }
 
 .installers-table button:last-child:hover {
-  background-color: #b02a37;
+  background-color: #0056b3; /* Same hover color for consistency */
 }
 
 /* Responsive design */
 @media (max-width: 768px) {
   .installers-table {
-    font-size: 14px;
+    width: 95%;
+    font-size: 12px;
   }
 
   .installers-table th,
   .installers-table td {
-    padding: 12px 10px;
+    padding: 8px 10px;
   }
 
   .installers-table button {
-    padding: 6px 12px;
-    font-size: 13px;
+    padding: 5px 10px;
+    font-size: 11px;
   }
 }
 
@@ -102,13 +104,13 @@
 
   .installers-table th,
   .installers-table td {
-    min-width: 120px;
+    min-width: 100px;
     display: inline-block;
   }
 
   .installers-table td button {
     display: block;
-    margin: 5px 0;
+    margin: 4px 0;
     width: 100%;
   }
 }
