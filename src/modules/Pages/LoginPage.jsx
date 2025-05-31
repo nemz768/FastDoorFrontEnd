@@ -50,7 +50,7 @@ const LoginPage = () => {
                     navigate('/');
                 }
 
-                if (data.roles === 'administrator' || data.roles === 'salespeople') {
+                if (data.roles === 'administrator' || data.roles === 'salespeople' || data.roles === 'main') {
                     setIsLoggedIn(true);
                 } else {
                     setIsLoggedIn(false);
