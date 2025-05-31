@@ -49,9 +49,15 @@ export const Header = () => {
     const controlRedirect = () => {
         if (localStorage.getItem('userRoles') === "administrator") {
             navigate('/home/admin');
+
         }else if (localStorage.getItem('userRoles') === "salespeople") {
             navigate('/home/seller');
-        }else {
+
+        }
+        else if (localStorage.getItem('userRoles') === "main") {
+            navigate('/home/mainInstaller');
+        }
+        else {
             alert("Error redirect");
             window.location.reload();
         }

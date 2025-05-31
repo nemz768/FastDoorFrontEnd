@@ -17,7 +17,7 @@ export const MainInstallerCreate = () => {
         const phone = refs.phone.current?.value;
 
         try {
-          await fetch('/api/listInstallers/create', {
+         const response = await fetch('/api/listInstallers/create', {
              method: 'POST',
              headers: {'Content-Type': 'application/json'},
              body: JSON.stringify({
@@ -25,7 +25,12 @@ export const MainInstallerCreate = () => {
                     phone: phone,
              })
          })
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
 
+            const data = await response.json();
+            console.log('Server response:', data);
             navigate("/home/mainInstaller")
         }
         catch(err) {
