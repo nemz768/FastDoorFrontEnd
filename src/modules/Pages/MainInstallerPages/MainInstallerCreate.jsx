@@ -1,29 +1,37 @@
 import React, {useRef} from 'react';
 import '../../../styles/stylePages/createSellerPage.css';
+import {useNavigate} from "react-router-dom";
 export const MainInstallerCreate = () => {
 
+    const navigate = useNavigate();
 
     const refs = {
         fullName: useRef(null),
         phone: useRef(null),
     }
 
-    const sendDataInstaller = async () => {
+    const sendDataInstaller = async (e) => {
+        e.preventDefault()
+
+        const fullName = refs.fullName.current.value;
+        const phone = refs.phone.current.value;
+
         try {
-            await fetch('', {
+            await fetch('/api/listInstallers/create', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({
-                    fullName: refs.fullName,
-                    phone: refs.phone,
+                    fullName: fullName,
+                    phone: phone,
                 })
             })
+
+            navigate("/home/mainInstaller")
         }
         catch(err) {
             console.log(err);
         }
     }
-
 
     return (
         <div className="sellerCreatePage">
