@@ -15,7 +15,7 @@ export const InstallersList = () => {
     useEffect(()=> {
         const getInstallers = async () => {
             try {
-                const response = await fetch("/api/mainInstaller", {
+                const response = await fetch("/api/listInstallers", {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
@@ -23,7 +23,9 @@ export const InstallersList = () => {
                 })
 
                 const data = await response.json();
-                setInstallers(data.installers);
+                setInstallers(data.installers.map((item) => (
+                    {...item,}
+                )));
                 console.log(data)
 
             }
