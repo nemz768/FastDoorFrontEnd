@@ -21,8 +21,8 @@ export const MainInstallerCreate = () => {
              method: 'POST',
              headers: {'Content-Type': 'application/json'},
              body: JSON.stringify({
-                    fullName: fullName,
-                    phone: phone,
+                 fullName,
+                 phone
              })
          })
             if (!response.ok) {
