@@ -59,11 +59,11 @@ export const Header = ({navItems = []}) => {
             </Link>
             <div className="navbar-block">
                 {navItems.map((item) => (
-                    <Link className="orders_address" to={item.route}>
+                    <Link className="navbar_address" to={item.route}>
                         {item.label}
                     </Link>
                 ))}
-                <a className="orders_address" href="#" onClick={handleLogout}>Выйти</a>
+                <a className="navbar_address" href="#" onClick={handleLogout}>Выйти</a>
             </div>
         </header>
     );
