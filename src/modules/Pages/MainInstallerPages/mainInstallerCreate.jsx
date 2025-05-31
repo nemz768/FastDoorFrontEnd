@@ -13,8 +13,8 @@ export const MainInstallerCreate = () => {
     const sendDataInstaller = async (e) => {
         e.preventDefault()
 
-        const fullName = refs.fullName.current.value;
-        const phone = refs.phone.current.value;
+        const fullName = refs.fullName.current?.value;
+        const phone = refs.phone.current?.value;
 
         try {
           await fetch('/api/listInstallers/create', {
