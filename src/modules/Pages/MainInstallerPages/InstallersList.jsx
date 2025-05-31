@@ -59,7 +59,6 @@ export const InstallersList = () => {
     return (
         <div>
             <Header navItems={navItems} />
-            <div className="Installers-content">
                 {isLoading && <div className="loading">Загрузка...</div>}
                 {error && <div className="error">Ошибка: {error}</div>}
                 {!isLoading && !error && installers.length === 0 && (
@@ -110,8 +109,7 @@ export const InstallersList = () => {
                         </div>
                     </div>
                 )}
-                <button onClick={()=> navigate('/home/mainInstaller/create')}>Добавить установщика</button>
-            </div>
+                <button className="add-installer-button" onClick={()=> navigate('/home/mainInstaller/create')}>Добавить установщика</button>
 
            <Footer />
         </div>

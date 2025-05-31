@@ -18,14 +18,14 @@
     flex-direction: row;
     column-gap: 30px;
     align-items: center;
-
+    justify-content: center;
 }
 
 .navbar_address {
     color: #E9D6C7;
 }
 
-.navbar_address {
+.navbar_address:hover {
     color: #C0A28E;
 }
 
