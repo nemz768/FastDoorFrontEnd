@@ -8,10 +8,11 @@ import {Check} from "../modules/Pages/Check.jsx";
 import {RegisterPage} from '../modules/Pages/RegisterPage.jsx';
 import {SellerCreatePage} from "../modules/Pages/SellerPages/SellerCreatePage.jsx";
 import {DonePage} from "../modules/Pages/DonePage.jsx";
-import {MainInstallerPage} from "../modules/Pages/MainInstallerPage.jsx";
+import {MainInstallerPage} from "../modules/Pages/MainInstallerPages/MainInstallerPage.jsx";
 import {SellerAllOrdersPage} from "../modules/Pages/SellerPages/SellerAllOrdersPage.jsx";
 import {PatchOrderPage} from "../modules/Pages/SellerPages/PatchOrderPage.jsx";
 import {AdminPanelPage} from "../modules/Pages/adminPanelPage.jsx";
+import {MainInstallerCreate} from "../modules/Pages/MainInstallerPages/mainInstallerCreate.jsx";
 
 
 
@@ -30,6 +31,7 @@ export const SiteRoutes = () => {
                     <Route path="/reg" element={<RegisterPage/>}></Route>
                     <Route path="/home/seller/create/done" element={<DonePage/>}></Route>
                     <Route path="/home/mainInstaller" element={<MainInstallerPage/>}></Route>
+                    <Route path="/home/mainInstaller/create" element={<MainInstallerCreate/>}></Route>
                     <Route path="/home/admin" element={<AdminPanelPage/>}></Route>
                     <Route path="*"  element={<PageNotFound/>}></Route>
                  </Routes>

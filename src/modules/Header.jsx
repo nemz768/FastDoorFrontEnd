@@ -9,8 +9,7 @@ export const Header = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
-    // Проверяем авторизацию при изменении маршрута
-    useEffect(() => {
+     useEffect(() => {
          const storedRoles = localStorage.getItem('userRoles');
         if (storedRoles && (storedRoles === 'administrator' || storedRoles === 'salespeople')) {
             setIsLoggedIn(true);
@@ -65,7 +64,6 @@ export const Header = () => {
                 <nav className="header-nav">
                     <Link to="/login">Войти</Link>
                     <Link to="/reg">Регистрация</Link>
-                    <p>user</p>
                 </nav>
             )
         }
@@ -94,6 +92,7 @@ export const Header = () => {
                 return (
                     <nav className="header-nav">
                         <a href="#" onClick={controlRedirect}>К своей странице</a>
+                        <Link to="/home/mainInstaller/create">Добавить установщика</Link>
                         <a href="#" onClick={handleLogout}>Выйти</a>
                     </nav>
                 )
