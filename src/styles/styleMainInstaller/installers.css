@@ -51,7 +51,7 @@
   font-size: 12px; /* Smaller font size for buttons */
   font-weight: 500;
   transition: all 0.3s ease;
-  background-color: #007bff; /* Unified button color */
+  background-color: #4E3629; /* Unified button color */
   color: #ffffff;
 }
 
@@ -60,7 +60,7 @@
 }
 
 .installers-table button:first-child:hover {
-  background-color: #0056b3; /* Darker shade on hover */
+  background-color: #3a281f; /* Darker shade on hover */
 }
 
 .installers-table button:last-child {
@@ -68,7 +68,7 @@
 }
 
 .installers-table button:last-child:hover {
-  background-color: #0056b3; /* Same hover color for consistency */
+  background-color: #3a281f; /* Same hover color for consistency */
 }
 
 /* Responsive design */
