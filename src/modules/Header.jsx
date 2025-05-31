@@ -1,14 +1,13 @@
 import '../styles/header.css';
 import logo from '../assets/logo.svg';
 import {Link, useLocation, useNavigate} from 'react-router-dom';
-import {useEffect, useState} from 'react';
+import {useEffect} from 'react';
 import { useAuth } from './Auth/AuthContext.jsx';
 
 export const Header = () => {
     const { isLoggedIn, setIsLoggedIn } = useAuth();
     const location = useLocation();
     const navigate = useNavigate();
-    const [link, setLink] = useState(false);
 
     // Проверяем авторизацию при изменении маршрута
     useEffect(() => {
