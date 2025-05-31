@@ -67,7 +67,7 @@ export const InstallersList = () => {
                     </tbody>
                 </table>
             </div>
-            <button onClick={()=> navigate('/home/mainInstalller/create')}>Добавить установщика</button>
+            <button onClick={()=> navigate('/home/mainInstaller/create')}>Добавить установщика</button>
             <Footer />
         </div>
 

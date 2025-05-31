@@ -55,17 +55,10 @@
   color: #ffffff;
 }
 
-.installers-table button:first-child {
-  opacity: 1; /* Edit button with full opacity */
-}
-
 .installers-table button:first-child:hover {
   background-color: #3a281f; /* Darker shade on hover */
 }
 
-.installers-table button:last-child {
-  opacity: 0.85; /* Delete button slightly faded for distinction */
-}
 
 .installers-table button:last-child:hover {
   background-color: #3a281f; /* Same hover color for consistency */
