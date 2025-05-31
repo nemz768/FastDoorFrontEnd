@@ -104,7 +104,7 @@ export const Header = () => {
             <Link to="/">
                 <img src={logo} alt="dverka" />
             </Link>
-            {getHeader}
+            {getHeader()}
         </header>
     );
 };
