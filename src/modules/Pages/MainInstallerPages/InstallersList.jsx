@@ -61,7 +61,6 @@ export const InstallersList = () => {
                 </table>
             </div>
 
-
             <Footer />
         </div>
 
