@@ -12,7 +12,7 @@ import {MainInstallerPage} from "../modules/Pages/MainInstallerPages/MainInstall
 import {SellerAllOrdersPage} from "../modules/Pages/SellerPages/SellerAllOrdersPage.jsx";
 import {PatchOrderPage} from "../modules/Pages/SellerPages/PatchOrderPage.jsx";
 import {AdminPanelPage} from "../modules/Pages/adminPanelPage.jsx";
-import {MainInstallerCreate} from "../modules/Pages/MainInstallerPages/mainInstallerCreate.jsx";
+import {MainInstallerCreate} from "../modules/Pages/MainInstallerPages/MainInstallerCreate.jsx";
 
 
 
