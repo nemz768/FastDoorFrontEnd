@@ -1,11 +1,9 @@
-import React, {useEffect, useState} from 'react';
-import {Header} from "../../Header.jsx";
-import {Footer} from "../../Footer.jsx";
-import '../../../styles/styleMainInstaller/installers.css'
-import {useNavigate} from "react-router-dom";
-import {ConfirmPopupMainInstaller} from "./ConfirmPopupMainInstaller.jsx";
-
-
+import React, { useEffect, useState } from 'react';
+import { Header } from '../../Header.jsx';
+import { Footer } from '../../Footer.jsx';
+import '../../../styles/styleMainInstaller/installers.css';
+import { useNavigate } from 'react-router-dom';
+import { ConfirmPopupMainInstaller } from './ConfirmPopupMainInstaller.jsx';
 
 export const InstallersList = () => {
     const [installers, setInstallers] = useState([]);
@@ -17,56 +15,57 @@ export const InstallersList = () => {
     const [selectedInstallerId, setSelectedInstallerId] = useState(null);
     const [activeModal, setActiveModal] = useState(false);
 
-
     const navItems = [
         { label: 'Главная', route: '/home/mainInstaller/' },
         { label: 'Добавить установщика', route: '/home/mainInstaller/create' },
         { label: 'Список заказов', route: '/404' },
-     ];
+    ];
 
-    useEffect(()=> {
+    useEffect(() => {
         const getInstallers = async () => {
             setIsLoading(true);
             setError(null);
             try {
                 const response = await fetch(`/api/listInstallers?page=${currentPage}`, {
-                    method: "GET",
+                    method: 'GET',
                     headers: {
-                        "Content-Type": "application/json",
-                    }
-                })
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                if (!response.ok) {
+                    throw new Error('Ошибка при загрузке установщиков');
+                }
 
                 const data = await response.json();
-                setInstallers(data.installers.map((item) => (
-                    {...item,}
-                )));
+                setInstallers(data.installers);
                 setTotalPages(data.totalPages || 1);
                 setCurrentPage(data.currentPage || 0);
-            }
-            catch (error) {
-                console.log(error);
+            } catch (error) {
+                console.error('Fetch error:', error);
                 setError(error.message);
-            }finally {
+            } finally {
                 setIsLoading(false);
             }
-        }
-        getInstallers()
-    }, [currentPage])
+        };
+        getInstallers();
+    }, [currentPage]);
 
-    const openModal = (orderId) => {
-        console.log('Открытие модального окна с orderId:', orderId); // Логирование
-        setSelectedInstallerId(orderId); // Приведение к строке
+    const openModal = (installerId) => {
+        console.log('Открытие модального окна с installerId:', installerId);
+        setSelectedInstallerId(installerId);
         setActiveModal(true);
     };
 
     const closeModal = () => {
-        console.log('Закрытие модального окна, selectedOrderId:', selectedInstallerId);
+        console.log('Закрытие модального окна, selectedInstallerId:', selectedInstallerId);
         setSelectedInstallerId(null);
         setActiveModal(false);
     };
 
-    const handleDeleteSuccess = (deletedOrderId) => {
-        setInstallers(installers.filter((order) => order.id !== deletedOrderId));
+    const handleDeleteSuccess = (deletedInstallerId) => {
+        setInstallers(installers.filter((installer) => installer.id !== deletedInstallerId));
+        closeModal();
     };
 
     const handlePageChange = (newPage) => {
@@ -78,67 +77,71 @@ export const InstallersList = () => {
     return (
         <div>
             <Header navItems={navItems} />
-                {isLoading && <div className="loading">Загрузка...</div>}
-                {error && <div className="error">Ошибка: {error}</div>}
-                {!isLoading && !error && installers.length === 0 && (
-                    <div className="no-orders">Заказы не найдены</div>
-                )}
-                {!isLoading && !error && installers.length > 0 && (
-
-                    <div className="admin-panel">
-                        <table className="installers-table">
-                            <thead>
-                            <tr>
-                                <th>Фио Установщика</th>
-                                <th>Номер телефона</th>
-                                <th>Действие</th>
+            {isLoading && <div className="loading">Загрузка...</div>}
+            {error && <div className="error">Ошибка: {error}</div>}
+            {!isLoading && !error && installers.length === 0 && (
+                <div className="no-orders">Установщики не найдены</div>
+            )}
+            {!isLoading && !error && installers.length > 0 && (
+                <div className="admin-panel">
+                    <table className="installers-table">
+                        <thead>
+                        <tr>
+                            <th>ФИО Установщика</th>
+                            <th>Номер телефона</th>
+                            <th>Действие</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {installers.map((item) => (
+                            <tr key={item.id}>
+                                <td>{item.fullName}</td>
+                                <td>{item.phone}</td>
+                                <td>
+                                    <button onClick={() => navigate(`/home/mainInstaller/edit/${item.id}`)}>
+                                        Изменить
+                                    </button>
+                                    <button onClick={() => openModal(item.id)}>Удалить</button>
+                                </td>
                             </tr>
-                            </thead>
-                            <tbody>
-                            {installers.map((item) => (
-                                <tr key={item.id}>
-                                    <td>{item.fullName}</td>
-                                    <td>{item.phone}</td>
-                                    <td>
-                                        <button>Изменить</button>
-                                        <button  onClick={() => openModal(installers.id)}>Удалить</button>
-                                    </td>
-                                </tr>
-                            ))}
-                            </tbody>
-                        </table>
-                        <div className="pagination">
-                            <button
-                                onClick={() => handlePageChange(currentPage - 1)}
-                                disabled={currentPage === 0}
-                                className="pagination-button"
-                            >
-                                Предыдущая
-                            </button>
-                            <span className="pagination-info">
+                        ))}
+                        </tbody>
+                    </table>
+                    <div className="pagination">
+                        <button
+                            onClick={() => handlePageChange(currentPage - 1)}
+                            disabled={currentPage === 0}
+                            className="pagination-button"
+                        >
+                            Предыдущая
+                        </button>
+                        <span className="pagination-info">
               Страница {currentPage + 1} из {totalPages}
             </span>
-                            <button
-                                onClick={() => handlePageChange(currentPage + 1)}
-                                disabled={currentPage >= totalPages - 1}
-                                className="pagination-button"
-                            >
-                                Следующая
-                            </button>
-                        </div>
-                        <button className="add-installer-button" onClick={()=> navigate('/home/mainInstaller/create')}>Добавить установщика</button>
+                        <button
+                            onClick={() => handlePageChange(currentPage + 1)}
+                            disabled={currentPage >= totalPages - 1}
+                            className="pagination-button"
+                        >
+                            Следующая
+                        </button>
                     </div>
-                )}
-            {activeModal && (
+                    <button
+                        className="add-installer-button"
+                        onClick={() => navigate('/home/mainInstaller/create')}
+                    >
+                        Добавить установщика
+                    </button>
+                </div>
+            )}
+            {activeModal && selectedInstallerId && (
                 <ConfirmPopupMainInstaller
                     handleDeleteSuccess={handleDeleteSuccess}
                     installerId={selectedInstallerId}
                     closeModal={closeModal}
                 />
             )}
-           <Footer className='footer-installer' />
+            <Footer className="footer-installer" />
         </div>
-
     );
 };
-
