@@ -15,7 +15,7 @@ export const InstallersList = () => {
     useEffect(()=> {
         const getInstallers = async () => {
             try {
-                const response = await fetch("/api/Installers", {
+                const response = await fetch("/api/mainInstaller", {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
