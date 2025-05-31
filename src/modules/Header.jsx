@@ -77,25 +77,24 @@ export const Header = () => {
             case 'administrator':
                 return (
                     <nav className="header-nav">
-                        <a href="#" onClick={handleLogout}>Выйти</a>
                         <a href="#" onClick={controlRedirect}>К своей странице</a>
-                        <p>admin</p>
+                        <a href="#" onClick={handleLogout}>Выйти</a>
                     </nav>
                 );
                 case 'salespeople':
                     return (
                         <nav className="header-nav">
-                            <a href="#" onClick={handleLogout}>Выйти</a>
                             <a href="#" onClick={controlRedirect}>К своей странице</a>
-                            <p>sales</p>
+                            <Link to='/home/seller/create'>Создать заказ</Link>
+                            <Link to='/home/seller/listOrdersSeller'>Все заказы</Link>
+                            <a href="#" onClick={handleLogout}>Выйти</a>
                         </nav>
                     )
             case 'main':
                 return (
                     <nav className="header-nav">
-                        <a href="#" onClick={handleLogout}>Выйти</a>
                         <a href="#" onClick={controlRedirect}>К своей странице</a>
-                        <p>main</p>
+                        <a href="#" onClick={handleLogout}>Выйти</a>
                     </nav>
                 )
             default:
@@ -103,7 +102,6 @@ export const Header = () => {
                     <nav className="header-nav">
                         <Link to="/login">Войти</Link>
                         <Link to="/reg">Регистрация</Link>
-                        <p>user</p>
                     </nav>
                 )
         }
