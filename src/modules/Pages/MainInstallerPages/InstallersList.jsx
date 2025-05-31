@@ -65,7 +65,7 @@ export const InstallersList = () => {
                     </tbody>
                 </table>
             </div>
-
+            <button>Добавить установщика</button>
             <Footer />
         </div>
 
