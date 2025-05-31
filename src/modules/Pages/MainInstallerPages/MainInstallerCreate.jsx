@@ -23,8 +23,8 @@ export const MainInstallerCreate = () => {
                  'Content-Type': 'application/json'
              },
              body: JSON.stringify({
-                fullName: fullName,
-                 phone: phone,
+                fullName: String(fullName),
+                 phone: String(phone),
              })
          })
             if (!response.ok) {
