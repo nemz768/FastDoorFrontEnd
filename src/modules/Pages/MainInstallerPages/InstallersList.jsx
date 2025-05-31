@@ -89,7 +89,6 @@ export const InstallersList = () => {
                         ))}
                         </tbody>
                     </table>
-                    <button onClick={()=> navigate('/home/mainInstaller/create')}>Добавить установщика</button>
                     <div className="pagination">
                         <button
                             onClick={() => handlePageChange(currentPage - 1)}
@@ -111,7 +110,8 @@ export const InstallersList = () => {
                     </div>
                 </div>
                 )}
-           <Footer />
+            <button onClick={()=> navigate('/home/mainInstaller/create')}>Добавить установщика</button>
+            <Footer />
         </div>
 
     );
