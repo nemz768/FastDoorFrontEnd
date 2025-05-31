@@ -33,16 +33,13 @@ export const InstallersList = () => {
                     },
                 });
 
-                if (!response.ok) {
-                    throw new Error('Ошибка при загрузке установщиков');
-                }
-
                 const data = await response.json();
-                setInstallers(data.installers);
+                console.log('Полученные данные:', data);
+                setInstallers(data.installers.map((item) => ({ ...item })));
                 setTotalPages(data.totalPages || 1);
                 setCurrentPage(data.currentPage || 0);
             } catch (error) {
-                console.error('Fetch error:', error);
+                console.error('Ошибка при загрузке установщиков:', error);
                 setError(error.message);
             } finally {
                 setIsLoading(false);
@@ -65,7 +62,6 @@ export const InstallersList = () => {
 
     const handleDeleteSuccess = (deletedInstallerId) => {
         setInstallers(installers.filter((installer) => installer.id !== deletedInstallerId));
-        closeModal();
     };
 
     const handlePageChange = (newPage) => {
@@ -80,14 +76,14 @@ export const InstallersList = () => {
             {isLoading && <div className="loading">Загрузка...</div>}
             {error && <div className="error">Ошибка: {error}</div>}
             {!isLoading && !error && installers.length === 0 && (
-                <div className="no-orders">Установщики не найдены</div>
+                <div className="no-orders">Заказы не найдены</div>
             )}
             {!isLoading && !error && installers.length > 0 && (
                 <div className="admin-panel">
                     <table className="installers-table">
                         <thead>
                         <tr>
-                            <th>ФИО Установщика</th>
+                            <th>Фио Установщика</th>
                             <th>Номер телефона</th>
                             <th>Действие</th>
                         </tr>
@@ -98,9 +94,7 @@ export const InstallersList = () => {
                                 <td>{item.fullName}</td>
                                 <td>{item.phone}</td>
                                 <td>
-                                    <button onClick={() => navigate(`/home/mainInstaller/edit/${item.id}`)}>
-                                        Изменить
-                                    </button>
+                                    <button>Изменить</button>
                                     <button onClick={() => openModal(item.id)}>Удалить</button>
                                 </td>
                             </tr>
@@ -116,8 +110,8 @@ export const InstallersList = () => {
                             Предыдущая
                         </button>
                         <span className="pagination-info">
-              Страница {currentPage + 1} из {totalPages}
-            </span>
+                            Страница {currentPage + 1} из {totalPages}
+                        </span>
                         <button
                             onClick={() => handlePageChange(currentPage + 1)}
                             disabled={currentPage >= totalPages - 1}
@@ -134,7 +128,7 @@ export const InstallersList = () => {
                     </button>
                 </div>
             )}
-            {activeModal && selectedInstallerId && (
+            {activeModal && (
                 <ConfirmPopupMainInstaller
                     handleDeleteSuccess={handleDeleteSuccess}
                     installerId={selectedInstallerId}

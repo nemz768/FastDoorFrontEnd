@@ -5,20 +5,18 @@ export const ConfirmPopupMainInstaller = ({ installerId, handleDeleteSuccess, cl
         try {
             const response = await fetch(`/api/listInstallers/delete/${installerId}`, {
                 method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
             });
 
             if (!response.ok) {
-                throw new Error('Произошла ошибка при удалении');
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Произошла ошибка при удалении');
             }
 
             handleDeleteSuccess(installerId);
             closeModal();
         } catch (error) {
             console.error('Error deleting installer:', error);
-            alert(error.message); // Display error to user
+            alert(error.message);
         }
     };
 
