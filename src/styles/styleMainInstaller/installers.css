@@ -212,3 +212,10 @@
     max-width: 300px;
   }
 }
+
+
+.footer-installer {
+  position: absolute;
+  bottom: 0;
+
+}

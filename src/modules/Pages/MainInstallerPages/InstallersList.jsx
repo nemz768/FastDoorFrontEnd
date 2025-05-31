@@ -3,6 +3,7 @@ import {Header} from "../../Header.jsx";
 import {Footer} from "../../Footer.jsx";
 import '../../../styles/styleMainInstaller/installers.css'
 import {useNavigate} from "react-router-dom";
+import {ConfirmPopupMainInstaller} from "./ConfirmPopupMainInstaller.jsx";
 
 
 
@@ -13,6 +14,9 @@ export const InstallersList = () => {
     const [error, setError] = useState(null);
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(1);
+    const [selectedInstallerId, setSelectedInstallerId] = useState(null);
+    const [activeModal, setActiveModal] = useState(false);
+
 
     const navItems = [
         { label: 'Главная', route: '/home/mainInstaller/' },
@@ -49,6 +53,21 @@ export const InstallersList = () => {
         getInstallers()
     }, [currentPage])
 
+    const openModal = (orderId) => {
+        console.log('Открытие модального окна с orderId:', orderId); // Логирование
+        setSelectedInstallerId(orderId); // Приведение к строке
+        setActiveModal(true);
+    };
+
+    const closeModal = () => {
+        console.log('Закрытие модального окна, selectedOrderId:', selectedInstallerId);
+        setSelectedInstallerId(null);
+        setActiveModal(false);
+    };
+
+    const handleDeleteSuccess = (deletedOrderId) => {
+        setInstallers(installers.filter((order) => order.id !== deletedOrderId));
+    };
 
     const handlePageChange = (newPage) => {
         if (newPage >= 0 && newPage < totalPages) {
@@ -82,7 +101,7 @@ export const InstallersList = () => {
                                     <td>{item.phone}</td>
                                     <td>
                                         <button>Изменить</button>
-                                        <button>Удалить</button>
+                                        <button  onClick={() => openModal(installers.id)}>Удалить</button>
                                     </td>
                                 </tr>
                             ))}
@@ -110,8 +129,14 @@ export const InstallersList = () => {
                     </div>
                 )}
                 <button className="add-installer-button" onClick={()=> navigate('/home/mainInstaller/create')}>Добавить установщика</button>
-
-           <Footer />
+            {activeModal && (
+                <ConfirmPopupMainInstaller
+                    handleDeleteSuccess={handleDeleteSuccess}
+                    installerId={selectedInstallerId}
+                    closeModal={closeModal}
+                />
+            )}
+           <Footer className='footer-installer' />
         </div>
 
     );

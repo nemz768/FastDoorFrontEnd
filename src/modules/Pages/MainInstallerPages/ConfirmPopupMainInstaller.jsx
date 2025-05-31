@@ -1,39 +1,41 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import '../../styles/specialStyles/ConfirmPopup.css';
-
-export const ConfirmPopup = ({ closeModal, handleDeleteSuccess, orderId }) => {
+export const ConfirmPopupMainInstaller = ({handleDeleteSuccess, installerId, closeModal}) => {
     const [isDeleting, setIsDeleting] = useState(false);
     const [error, setError] = useState(null);
 
-    const deleteOrder = async () => {
-        if (!orderId || typeof orderId !== 'string') {
-            setError('Неверный идентификатор заказа');
-            console.error('Invalid orderId:', orderId);
-            return;
-        }
 
-        setIsDeleting(true);
+
+    const deleteInstaller = async () => {
+
+
         setError(null);
+
+
         try {
-            const response = await fetch(`/api/delete?id=${orderId}`, {
-                method: 'DELETE',
+            const response = await fetch(`/api/listInstallers/delete/${installerId}`, {
+                method: "DELETE",
                 headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
+                    "Content-Type": "application/json",
+                }
+            })
+
+
             if (!response.ok) {
                 const errorData = await response.json();
                 throw new Error(errorData.message || 'Произошла ошибка при удалении');
             }
-            handleDeleteSuccess(orderId);
+            handleDeleteSuccess(installerId);
             closeModal();
-        } catch (err) {
-            setError(err.message);
-            console.error('Delete error:', err.message);
-        } finally {
+        }
+        catch (error) {
+            console.log(error)
+            setError(error);
+        }
+        finally {
             setIsDeleting(false);
         }
-    };
+    }
 
     return (
         <div className="confirm-popup">
@@ -43,7 +45,7 @@ export const ConfirmPopup = ({ closeModal, handleDeleteSuccess, orderId }) => {
                 <div className="confirm-popup_content">
                     <button
                         disabled={isDeleting}
-                        onClick={deleteOrder}
+                        onClick={deleteInstaller}
                         className="confirm-button"
                     >
                         {isDeleting ? 'Удаление...' : 'Да'}
@@ -60,3 +62,4 @@ export const ConfirmPopup = ({ closeModal, handleDeleteSuccess, orderId }) => {
         </div>
     );
 };
+
