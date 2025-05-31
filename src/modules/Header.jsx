@@ -1,126 +1,92 @@
-import '../styles/header.css';
-import logo from '../assets/logo.svg';
-import {Link, useLocation, useNavigate} from 'react-router-dom';
-import {useEffect} from 'react';
-import { useAuth } from './Auth/AuthContext.jsx';
+import React, { useRef } from 'react';
+import '../../../styles/stylePages/createSellerPage.css';
+import { useNavigate } from 'react-router-dom';
 
-export const Header = () => {
-    const { isLoggedIn, setIsLoggedIn } = useAuth();
-    const location = useLocation();
+export const MainInstallerCreate = () => {
     const navigate = useNavigate();
 
-     useEffect(() => {
-         const storedRoles = localStorage.getItem('userRoles');
-        if (storedRoles && (storedRoles === 'administrator' || storedRoles === 'salespeople')) {
-            setIsLoggedIn(true);
-        } else {
-            setIsLoggedIn(false);
-        }
-    }, [location.pathname, setIsLoggedIn]);
-
-
-
-
-    const handleLogout = async (e) => {
-        e.preventDefault();
-        try {
-            const response = await fetch("/api/logout", {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                }
-            })
-
-            const data = await response;
-
-            console.log(data)
-            localStorage.removeItem('userRoles'); // Очищаем роль при выходе
-            setIsLoggedIn(false);
-            navigate('/');
-
-        }catch (error) {
-            console.log(error);
-        }
-
-
-
+    const refs = {
+        fullName: useRef(null),
+        phone: useRef(null),
     };
 
-    const controlRedirect = () => {
-        if (localStorage.getItem('userRoles') === "administrator") {
-            navigate('/home/admin');
+    const sendDataInstaller = async (e) => {
+        e.preventDefault();
 
-        }else if (localStorage.getItem('userRoles') === "salespeople") {
-            navigate('/home/seller');
+        const fullName = refs.fullName.current?.value.trim();
+        const phone = refs.phone.current?.value.trim();
 
+        // Basic client-side validation
+        if (!fullName || !phone) {
+            alert('Пожалуйста, заполните все поля.');
+            return;
         }
-        else if (localStorage.getItem('userRoles') === "main") {
+
+        // Optional: Validate phone format (example: simple regex for phone numbers)
+        const phoneRegex = /^\+?\d{10,15}$/;
+        if (!phoneRegex.test(phone)) {
+            alert('Пожалуйста, введите корректный номер телефона.');
+            return;
+        }
+
+        try {
+            const response = await fetch('/api/listInstallers/create', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    fullName,
+                    phone,
+                }),
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(`HTTP error! status: ${response.status}, message: ${errorData.message || 'Unknown error'}`);
+            }
+
+            const data = await response.json();
+            console.log('Server response:', data);
             navigate('/home/mainInstaller');
+        } catch (err) {
+            console.error('Error:', err);
+            alert(`Ошибка при отправке данных: ${err.message}`);
         }
-        else {
-            alert("Error redirect");
-            window.location.reload();
-        }
-    }
-
-
-    const getHeader = () => {
-        if (!isLoggedIn) {
-            return (
-                <nav className="header-nav">
-                    <Link to="/login">Войти</Link>
-                    <Link to="/reg">Регистрация</Link>
-                </nav>
-            )
-        }
-
-
-        const role = localStorage.getItem('userRoles');
-
-        switch (role) {
-            case 'administrator':
-                return (
-                    <nav className="header-nav">
-                        <a href="#" onClick={controlRedirect}>К своей странице</a>
-                        <a href="#" onClick={handleLogout}>Выйти</a>
-                    </nav>
-                );
-                case 'salespeople':
-                    return (
-                        <nav className="header-nav">
-                            <a href="#" onClick={controlRedirect}>К своей странице</a>
-                            <Link to='/home/seller/create'>Создать заказ</Link>
-                            <Link to='/home/seller/listOrdersSeller'>Все заказы</Link>
-                            <a href="#" onClick={handleLogout}>Выйти</a>
-                        </nav>
-                    )
-            case 'main':
-                return (
-                    <nav className="header-nav">
-                        <a href="#" onClick={controlRedirect}>К своей странице</a>
-                        <Link to="/home/mainInstaller/create">Добавить установщика</Link>
-                        <a href="#" onClick={handleLogout}>Выйти</a>
-                    </nav>
-                )
-            default:
-                return (
-                    <nav className="header-nav">
-                        <Link to="/login">Войти</Link>
-                        <Link to="/reg">Регистрация</Link>
-                    </nav>
-                )
-        }
-    }
-
+    };
 
     return (
-        <header className="header">
-            <Link to="/">
-                <img src={logo} alt="dverka" />
-            </Link>
+        <div className="sellerCreatePage">
+            <form onSubmit={sendDataInstaller} className="form-container">
+                <h1>Добавление установщика</h1>
+                <h3 className="subtitleInput">Укажите данные установщика</h3>
 
+                <div className="input-group">
+                    <label htmlFor="fullName">ФИО: </label>
+                    <input
+                        type="text"
+                        className="input_SellerPage"
+                        id="fullName"
+                        required
+                        ref={refs.fullName} // Fixed: Changed refs.fullname to refs.fullName
+                        placeholder="ФИО"
+                    />
+                </div>
 
-            {getHeader()}
-        </header>
+                <div className="input-group">
+                    <label htmlFor="phone">Номер телефона: </label>
+                    <input
+                        type="text"
+                        className="input_SellerPage"
+                        id="phone"
+                        required
+                        ref={refs.phone}
+                        placeholder="Номер телефона"
+                    />
+                </div>
+
+                <button id="submitButton" type="submit" className="submit-btn">
+                    Добавить
+                </button>
+            </form>
+        </div>
     );
 };
