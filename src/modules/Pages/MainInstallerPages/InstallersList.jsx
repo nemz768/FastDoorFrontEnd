@@ -2,11 +2,13 @@ import React, {useEffect, useState} from 'react';
 import {Header} from "../../Header.jsx";
 import {Footer} from "../../Footer.jsx";
 import '../../../styles/styleMainInstaller/installers.css'
+import {useNavigate} from "react-router-dom";
 
 
 
 export const InstallersList = () => {
     const [installers, setInstallers] = useState([]);
+    const navigate = useNavigate();
 
 
     const navItems = [
@@ -65,7 +67,7 @@ export const InstallersList = () => {
                     </tbody>
                 </table>
             </div>
-            <button>Добавить установщика</button>
+            <button onClick={()=> navigate('/home/mainInstalller/create')}>Добавить установщика</button>
             <Footer />
         </div>
 
