@@ -208,7 +208,7 @@ export const MainInstallerPage = () => {
                         )}
                         {!isLoading && !error && orders.length > 0 && (
                             <>
-                                    <table>
+                                    <table border="1" className='mainInstallerTable'>
                                         <thead>
                                         <tr>
                                             <th>Адрес доставки</th>
