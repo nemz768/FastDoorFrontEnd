@@ -21,7 +21,7 @@ export const MainInstallerPage = () => {
 
     const url = `/api/mainInstaller?page=${currentPage}`;
     const urlPost = `/api/mainInstaller`;
-
+//123
     const navItems = [
         { label: 'Список установщиков', route: '/home/mainInstaller/InstallersList' },
         { label: 'Добавить установщика', route: '/home/mainInstaller/create' },
