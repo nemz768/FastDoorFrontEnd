@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { Header } from '../../Header.jsx';
 import { Footer } from '../../Footer.jsx';
 import '../../../styles/stylePages/MainInstaller.scss';
@@ -7,6 +7,7 @@ import { CustomCalendar } from '../../special/CustomCalendar.jsx';
 export const MainInstallerPage = () => {
     const [orders, setOrders] = useState([]);
     const [installers, setInstallers] = useState([]);
+    const [fetchedAvailability, setFetchedAvailability] = useState(availabilityList || []);
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(1);
     const [isLoading, setIsLoading] = useState(false);
@@ -153,6 +154,32 @@ export const MainInstallerPage = () => {
         }
     };
 
+
+
+    // calendar fix
+
+    useEffect(() => {
+        const showCountOfDoors = async () => {
+            try {
+                const res = await fetch("/api/orders/create", {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
+                const data = await res.json();
+                const availabilityData = Array.isArray(data.availabilityList) ? data.availabilityList : [];
+                setFetchedAvailability(availabilityData);
+                console.log("Fetched availability:", availabilityData);
+            } catch (err) {
+                console.error("Error fetching availability:", err);
+                setFetchedAvailability(availabilityList || []);
+            }
+        };
+        showCountOfDoors();
+    }, []);
+
+
     const totalAvailabilityPages = Math.ceil(availabilityList.length / recordsPerPage);
     const paginatedAvailabilityList = availabilityList.slice(
         currentAvailabilityPage * recordsPerPage,
@@ -268,6 +295,7 @@ export const MainInstallerPage = () => {
                         <div>
                             <CustomCalendar
                                 availabilityList={availabilityList}
+                                fetchedAvailability={fetchedAvailability}
                             />
                             <button>Закрыть день!</button>
                         </div>
