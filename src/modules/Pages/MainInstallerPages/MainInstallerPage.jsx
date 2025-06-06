@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Header } from '../../Header.jsx';
+import './MainInstallerPage.css';
 import { Footer } from '../../Footer.jsx';
-import '../../../styles/stylePages/MainInstaller.scss';
 import { CustomCalendar } from '../../special/CustomCalendar.jsx';
 
 export const MainInstallerPage = () => {
@@ -191,9 +191,9 @@ export const MainInstallerPage = () => {
     return (
         <div>
             <Header navItems={navItems} />
-            <div className="MainInstallerPage__block">
-                <div className="MainInstallerPage__table-calendar-block">
-                    <main className="SellerAllOrdersPage">
+            <div>
+                <div>
+                    <main>
                         <div>
                             <h2>Панель установщика</h2>
                         </div>
@@ -211,8 +211,8 @@ export const MainInstallerPage = () => {
                         )}
                         {!isLoading && !error && orders.length > 0 && (
                             <>
-                                <div className="table-container">
-                                    <table className="orders-table">
+                                <div>
+                                    <table>
                                         <thead>
                                         <tr>
                                             <th>Адрес доставки</th>

@@ -43,11 +43,12 @@
 .table-container {
     overflow-x: auto;
     margin-bottom: 20px;
+    width: 100%;
 }
 
 /* Table styling */
 .orders-table {
-    width: 100%;
+    width: 100%; /* Changed from 100vh to 100% to fit container */
     border-collapse: collapse;
     background-color: #fff;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -162,6 +163,7 @@
     .orders-table td {
         padding: 8px;
         font-size: 12px;
+        min-width: 60px; /* Reduced min-width for smaller screens */
     }
 
     .edit-button,
@@ -189,5 +191,21 @@
     .action-buttons {
         flex-direction: column;
         gap: 5px;
+    }
+
+    .orders-table th,
+    .orders-table td {
+        min-width: 50px; /* Further reduced for very small screens */
+    }
+}
+
+/* Ensure table fits within container on large screens */
+@media (min-width: 1200px) {
+    .table-container {
+        overflow-x: visible; /* Disable horizontal scroll on large screens */
+    }
+
+    .orders-table {
+        table-layout: auto; /* Allow table to adjust column widths naturally */
     }
 }
