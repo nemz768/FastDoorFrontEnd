@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 
-export const CustomCalendar = ({ availabilityList, setSelectedDate, refs, selectedDate, fetchedAvailability, setIsCalendarOpen }) => {
-
+export const CustomCalendar = ({ availabilityList, fetchedAvailability, setSelectedDate, refs, selectedDate, setIsCalendarOpen }) => {
     const today = new Date();
     const [currentYearMonth, setCurrentYearMonth] = useState({
         year: today.getFullYear(),
@@ -14,11 +13,15 @@ export const CustomCalendar = ({ availabilityList, setSelectedDate, refs, select
     ];
     const dayNames = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
 
+    // Вычисляем количество дней в текущем месяце
     const daysInMonth = new Date(currentYearMonth.year, currentYearMonth.month + 1, 0).getDate();
+    // Определяем первый день недели для текущего месяца
     const firstDayOfWeek = (new Date(currentYearMonth.year, currentYearMonth.month, 1).getDay() || 7) % 7;
 
+    // Создаём карту доступности для быстрого доступа к данным
     const availabilityMap = {};
-    const dataSource = fetchedAvailability.length > 0 ? fetchedAvailability : (availabilityList || []);
+    // Используем fetchedAvailability, если он предоставлен и является массивом, иначе используем availabilityList
+    const dataSource = Array.isArray(fetchedAvailability) && fetchedAvailability.length > 0 ? fetchedAvailability : (availabilityList || []);
     dataSource.forEach(day => {
         if (day && day.date) {
             availabilityMap[day.date] = {
@@ -28,12 +31,16 @@ export const CustomCalendar = ({ availabilityList, setSelectedDate, refs, select
         }
     });
 
+    // Обработчик выбора даты
     const handleDateSelected = (dateStr) => {
-        setSelectedDate(dateStr);
-        refs.dateRef.current.value = dateStr; // Update input field
-        setIsCalendarOpen(false);
+        if (setSelectedDate && refs?.dateRef?.current) {
+            setSelectedDate(dateStr);
+            refs.dateRef.current.value = dateStr; // Обновляем поле ввода
+            setIsCalendarOpen(false); // Закрываем календарь
+        }
     };
 
+    // Переход к предыдущему месяцу
     const handlePrevMonth = () => {
         setCurrentYearMonth(prev => ({
             year: prev.month === 0 ? prev.year - 1 : prev.year,
@@ -41,6 +48,7 @@ export const CustomCalendar = ({ availabilityList, setSelectedDate, refs, select
         }));
     };
 
+    // Переход к следующему месяцу
     const handleNextMonth = () => {
         setCurrentYearMonth(prev => ({
             year: prev.month === 11 ? prev.year + 1 : prev.year,
@@ -48,6 +56,7 @@ export const CustomCalendar = ({ availabilityList, setSelectedDate, refs, select
         }));
     };
 
+    // Рендеринг дней календаря
     const renderDays = () => {
         const weeks = Math.ceil((firstDayOfWeek + daysInMonth) / 7);
         const days = [];
@@ -72,7 +81,7 @@ export const CustomCalendar = ({ availabilityList, setSelectedDate, refs, select
                         <div
                             key={dateStr}
                             className={`calendar-day ${isSelected ? 'selected' : ''} ${isToday ? 'today' : ''} ${isPast ? 'past' : ''}`}
-                            onClick={isPast ? undefined : () => handleDateSelected(dateStr)}
+                            onClick={isPast || !setSelectedDate ? undefined : () => handleDateSelected(dateStr)}
                         >
                             <div className="day-number">{day}</div>
                             {availability && (
@@ -91,7 +100,7 @@ export const CustomCalendar = ({ availabilityList, setSelectedDate, refs, select
         return days;
     };
 
-    // Format date to YYYY-MM-DD in local timezone
+    // Форматирование даты в формат YYYY-MM-DD с учётом локального часового пояса
     const formatLocalDate = (date) => {
         const year = date.getFullYear();
         const month = String(date.getMonth() + 1).padStart(2, '0');

@@ -6,8 +6,7 @@ import { CustomCalendar } from "../../special/CustomCalendar.jsx";
 export const SellerCreatePage = () => {
     const [selectedDate, setSelectedDate] = useState(null);
     const [isCalendarOpen, setIsCalendarOpen] = useState(false);
-    const availabilityList = /*[[${availabilityList}]]*/ [];
-    const [fetchedAvailability, setFetchedAvailability] = useState(availabilityList || []);
+    const [fetchedAvailability, setFetchedAvailability] = useState([]);
     const calendarRef = useRef(null);
     const navigate = useNavigate();
     const numbers = '1234567890';
@@ -22,9 +21,14 @@ export const SellerCreatePage = () => {
         inDoorRef: useRef(null),
     };
 
+    // Обработчик клика вне календаря
     useEffect(() => {
         const handleClickOutside = (event) => {
-            if (calendarRef.current && !calendarRef.current.contains(event.target) && !refs.dateRef.current.contains(event.target)) {
+            if (
+                calendarRef.current &&
+                !calendarRef.current.contains(event.target) &&
+                !refs.dateRef.current.contains(event.target)
+            ) {
                 setIsCalendarOpen(false);
             }
         };
@@ -32,7 +36,7 @@ export const SellerCreatePage = () => {
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
-
+    // Загрузка данных о доступности
     useEffect(() => {
         const showCountOfDoors = async () => {
             try {
@@ -45,17 +49,16 @@ export const SellerCreatePage = () => {
                 const data = await res.json();
                 const availabilityData = Array.isArray(data.availabilityList) ? data.availabilityList : [];
                 setFetchedAvailability(availabilityData);
-                console.log("Fetched availability:", availabilityData);
+                console.log("Загруженные данные о доступности:", availabilityData);
             } catch (err) {
-                console.error("Error fetching availability:", err);
-                setFetchedAvailability(availabilityList || []);
+                console.error("Ошибка при загрузке доступности:", err);
+                setFetchedAvailability([]);
             }
         };
         showCountOfDoors();
     }, []);
 
-
-
+    // Отправка формы создания заказа
     const sendResultsCreate = async (e) => {
         e.preventDefault();
         const fullname = refs.fullname.current?.value || '';
@@ -87,17 +90,18 @@ export const SellerCreatePage = () => {
             });
 
             if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+                throw new Error(`Ошибка HTTP! Статус: ${response.status}`);
             }
 
             const data = await response.json();
-            console.log('Server response:', data);
+            console.log('Ответ сервера:', data);
             navigate("./done");
         } catch (err) {
-            console.error('Error creating order:', err);
+            console.error('Ошибка при создании заказа:', err);
         }
     };
 
+    // Валидация ввода чисел для полей количества дверей
     useEffect(() => {
         const frontInput = refs.frontDoorRef.current;
         const inInput = refs.inDoorRef.current;
@@ -121,12 +125,6 @@ export const SellerCreatePage = () => {
             if (inInput) inInput.removeEventListener('input', () => handleInput(inInput));
         };
     }, []);
-
-    const handleDateSelected = (dateStr) => {
-        setSelectedDate(dateStr);
-        refs.dateRef.current.value = dateStr; // Update input field
-        setIsCalendarOpen(false);
-    };
 
     return (
         <div className="sellerCreatePage">
@@ -200,8 +198,7 @@ export const SellerCreatePage = () => {
                         <div ref={calendarRef} className="calendar-container">
                             <CustomCalendar
                                 fetchedAvailability={fetchedAvailability}
-                                availabilityList={availabilityList}
-                                onDateSelected={handleDateSelected}
+                                availabilityList={fetchedAvailability} // Используем fetchedAvailability вместо пустого availabilityList
                                 setSelectedDate={setSelectedDate}
                                 selectedDate={selectedDate}
                                 setIsCalendarOpen={setIsCalendarOpen}
