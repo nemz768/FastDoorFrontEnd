@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Header } from '../../Header.jsx';
 import { Footer } from '../../Footer.jsx';
 import { CustomCalendar } from '../../special/CustomCalendar.jsx';
+import '../../../styles/styleMainInstaller/MainInstallerPage.css'
 
 export const MainInstallerPage = () => {
     const [orders, setOrders] = useState([]);
@@ -190,12 +191,9 @@ export const MainInstallerPage = () => {
     return (
         <div>
             <Header navItems={navItems} />
-            <div>
-                <div>
+            <div className="mainInstallerTables-block">
+                    <h2>Панель установщика</h2>
                     <main>
-                        <div>
-                            <h2>Панель установщика</h2>
-                        </div>
                         {isLoading && <div className="loading">Загрузка...</div>}
                         {error && (
                             <div className="error">
@@ -210,7 +208,6 @@ export const MainInstallerPage = () => {
                         )}
                         {!isLoading && !error && orders.length > 0 && (
                             <>
-                                <div>
                                     <table>
                                         <thead>
                                         <tr>
@@ -269,7 +266,6 @@ export const MainInstallerPage = () => {
                                         ))}
                                         </tbody>
                                     </table>
-                                </div>
                                 <div className="pagination">
                                     <button
                                         onClick={() => handlePageChange(currentPage - 1)}
@@ -343,7 +339,6 @@ export const MainInstallerPage = () => {
                             </div>
                         </div>
                     </div>
-                </div>
             </div>
             <Footer />
         </div>
