@@ -52,7 +52,7 @@ export const SellerCreatePage = () => {
             }
         };
         showCountOfDoors();
-    }, [availabilityList]);
+    }, []);
 
 
 
