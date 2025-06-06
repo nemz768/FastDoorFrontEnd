@@ -6,8 +6,8 @@ import { CustomCalendar } from "../../special/CustomCalendar.jsx";
 export const SellerCreatePage = () => {
     const [selectedDate, setSelectedDate] = useState(null);
     const [isCalendarOpen, setIsCalendarOpen] = useState(false);
-    const [fetchedAvailability, setFetchedAvailability] = useState(availabilityList || []);
     const availabilityList = /*[[${availabilityList}]]*/ [];
+    const [fetchedAvailability, setFetchedAvailability] = useState(availabilityList || []);
     const calendarRef = useRef(null);
     const navigate = useNavigate();
     const numbers = '1234567890';
