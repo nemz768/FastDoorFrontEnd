@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Header } from '../../Header.jsx';
-import './MainInstallerPage.css';
 import { Footer } from '../../Footer.jsx';
 import { CustomCalendar } from '../../special/CustomCalendar.jsx';
 
