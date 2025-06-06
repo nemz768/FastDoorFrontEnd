@@ -41,6 +41,7 @@
 
 /* Table container for horizontal scrolling on small screens */
 .table-container {
+    overflow-x: auto;
     margin-bottom: 20px;
 }
 
@@ -57,7 +58,7 @@
     padding: 14px;
     text-align: left;
     border: 1px solid #C0A28E;
-    min-width: 102px;
+    min-width: 72px;
 }
 
 .orders-table th {
