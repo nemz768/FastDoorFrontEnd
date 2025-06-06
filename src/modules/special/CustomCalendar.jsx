@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-export const CustomCalendar = ({ availabilityList, fetchedAvailability, setSelectedDate, refs, selectedDate, setIsCalendarOpen }) => {
+export const CustomCalendar = ({ availabilityList, fetchedAvailability, setSelectedDate, selectedDate }) => {
     const today = new Date();
     const [currentYearMonth, setCurrentYearMonth] = useState({
         year: today.getFullYear(),
@@ -33,10 +33,8 @@ export const CustomCalendar = ({ availabilityList, fetchedAvailability, setSelec
 
     // Обработчик выбора даты
     const handleDateSelected = (dateStr) => {
-        if (setSelectedDate && refs?.dateRef?.current) {
+        if (setSelectedDate) {
             setSelectedDate(dateStr);
-            refs.dateRef.current.value = dateStr; // Обновляем поле ввода
-            setIsCalendarOpen(false); // Закрываем календарь
         }
     };
 

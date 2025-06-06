@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Header } from '../../Header.jsx';
 import { Footer } from '../../Footer.jsx';
 import '../../../styles/stylePages/MainInstaller.scss';
@@ -17,14 +17,7 @@ export const MainInstallerPage = () => {
     const [comments, setComments] = useState({});
     const [currentAvailabilityPage, setCurrentAvailabilityPage] = useState(0);
     const [selectedDate, setSelectedDate] = useState(null);
-    const [isCalendarOpen, setIsCalendarOpen] = useState(false);
     const recordsPerPage = 10;
-    const calendarRef = useRef(null);
-    const dateRef = useRef(null);
-
-    const refs = {
-        dateRef,
-    };
 
     const url = `/api/mainInstaller?page=${currentPage}`;
     const urlPost = `/api/mainInstaller`;
@@ -185,21 +178,6 @@ export const MainInstallerPage = () => {
         }
     };
 
-    // Обработчик клика вне календаря
-    useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (
-                calendarRef.current &&
-                !calendarRef.current.contains(event.target) &&
-                !refs.dateRef.current.contains(event.target)
-            ) {
-                setIsCalendarOpen(false);
-            }
-        };
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, []);
-
     const totalAvailabilityPages = Math.ceil(availabilityList.length / recordsPerPage);
     const paginatedAvailabilityList = availabilityList.slice(
         currentAvailabilityPage * recordsPerPage,
@@ -313,26 +291,12 @@ export const MainInstallerPage = () => {
                     </main>
                     <div className="MainInstallerPage__calendar-dateTable-block">
                         <div>
-                            <input
-                                readOnly
-                                className="input_SellerPage"
-                                type="text"
-                                placeholder="Выбрать дату"
-                                ref={refs.dateRef}
-                                onClick={() => setIsCalendarOpen(prev => !prev)}
+                            <CustomCalendar
+                                availabilityList={availabilityList}
+                                fetchedAvailability={fetchedAvailability}
+                                setSelectedDate={setSelectedDate}
+                                selectedDate={selectedDate}
                             />
-                            {isCalendarOpen && (
-                                <div ref={calendarRef} className="calendar-container">
-                                    <CustomCalendar
-                                        availabilityList={availabilityList}
-                                        fetchedAvailability={fetchedAvailability}
-                                        setSelectedDate={setSelectedDate}
-                                        refs={refs}
-                                        selectedDate={selectedDate}
-                                        setIsCalendarOpen={setIsCalendarOpen}
-                                    />
-                                </div>
-                            )}
                             <button>Закрыть день!</button>
                         </div>
                         <div>
