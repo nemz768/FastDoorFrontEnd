@@ -22,7 +22,7 @@ export const CustomCalendar = ({ availabilityList, onDateSelected, selectedDate 
             }
         };
         showCountOfDoors();
-    }, [availabilityList]);
+    }, []);
 
     const today = new Date();
     const [currentYearMonth, setCurrentYearMonth] = useState({
