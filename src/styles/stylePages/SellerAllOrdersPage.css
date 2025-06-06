@@ -1,16 +1,16 @@
-/* Page wrapper for full height and footer positioning */
+/* Page wrapper to ensure full height and footer positioning */
 .page-wrapper {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    background-color: #f5e9dd; /* Softer, modern beige */
+    background-color: #E9D6C7;
 }
 
 /* Main content area */
 .SellerAllOrdersPage {
     flex: 1;
-    padding: 1.5rem 1rem;
-    max-width: 75rem; /* 1200px */
+    padding: 20px 0;
+    max-width: 1200px;
     margin: 0 auto;
     width: 100%;
     box-sizing: border-box;
@@ -18,116 +18,124 @@
 
 .SellerAllOrdersPage h2 {
     text-align: center;
-    color: #3a281f; /* Darker brown for better contrast */
-    margin-bottom: 1.5rem;
-    font-size: 1.75rem; /* Slightly larger for emphasis */
-    font-weight: 600;
+    color: #4E3629;
+    margin-bottom: 20px;
+    font-size: 24px;
 }
 
-/* Loading, error, and no-orders states */
+/* Loading and error states */
 .loading,
 .error,
 .no-orders {
     text-align: center;
-    padding: 1.5rem;
-    font-size: 1.125rem;
-    color: #3a281f;
+    padding: 20px;
+    font-size: 18px;
+    color: #4E3629;
 }
 
 .error {
-    color: #d32f2f; /* Brighter red for errors */
-    background-color: #ffebee;
-    border-radius: 0.375rem; /* 6px */
-    padding: 1rem;
+    color: #a94442;
+    background-color: #f2dede;
+    border-radius: 5px;
 }
 
-/* Table container for responsive scrolling */
+/* Table container for horizontal scrolling on small screens */
 .table-container {
     overflow-x: auto;
-    margin-bottom: 1.5rem;
+    margin-bottom: 20px;
     width: 100%;
 }
 
-/* Orders table styling */
+/* Table styling */
 .orders-table {
-    width: 100%;
+    width: 100%; /* Changed from 100vh to 100% to fit container */
     border-collapse: collapse;
-    background-color: #ffffff;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Softer shadow */
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .orders-table th,
 .orders-table td {
-    padding: 0.875rem; /* 14px */
+    padding: 14px;
     text-align: left;
-    border: 1px solid #d7c3b0; /* Lighter border color */
-    min-width: 4.5rem; /* 72px */
-    word-break: break-word;
-    white-space: normal;
+    border: 1px solid #C0A28E;
+    min-width: 72px;
 }
 
 .orders-table th {
-    background-color: #3a281f; /* Darker brown for header */
-    color: #f5e9dd;
-    font-weight: 600;
-    font-size: 0.875rem; /* 14px */
-    min-width: 6.375rem; /* 102px */
+    background-color: #4E3629;
+    color: #E9D6C7;
+    font-weight: bold;
+    font-size: 14px;
+    min-width: 102px;
 }
 
 .orders-table td {
-    color: #3a281f;
-    font-size: 0.875rem;
+    color: #4E3629;
+    font-size: 14px;
 }
 
 .orders-table tr:nth-child(even) {
-    background-color: #fafafa; /* Lighter alternate row color */
+    background-color: #f9f9f9;
 }
 
 .orders-table tr:hover {
-    background-color: #f0e2d3; /* Slightly darker hover effect */
+    background-color: #E9D6C7;
 }
 
 /* Action buttons */
 .action-buttons {
     display: flex;
-    gap: 0.625rem; /* 10px */
+    gap: 10px;
     justify-content: center;
 }
 
 .edit-button,
 .delete-button,
 .pagination-button {
-    padding: 0.5rem 0.75rem; /* 8px 12px */
+    padding: 8px 12px;
     border: none;
-    border-radius: 0.375rem; /* 6px */
+    border-radius: 5px;
     cursor: pointer;
-    font-size: 0.875rem;
-    transition: all 0.3s ease; /* Smoother transition */
+    font-size: 14px;
+    transition: background-color 0.2s;
 }
 
-.edit-button,
-.delete-button {
-    background-color: #3a281f;
-    color: #f5e9dd;
+.edit-button {
+    background-color: #4e3629;
+    color: rgb(233, 214, 199);
+    transition: 0.7s;
 }
 
-.edit-button:hover,
-.delete-button:hover {
-    background-color: #f5e9dd;
+.edit-button:hover {
+    background-color: rgb(233, 214, 199);
     color: #3a281f;
+    transition: 0.7s;
+}
+
+.delete-button {
+    background-color: #4e3629;
+    color: rgb(233, 214, 199);
+    transition: 0.7s;
+}
+
+.delete-button:hover {
+    background-color: rgb(233, 214, 199);
+    color: #3a281f;
+    transition: 0.7s;
 }
 
 .pagination-button {
-    background-color: #3a281f;
-    color: #f5e9dd;
+    background-color: #4E3629;
+    color: rgb(233, 214, 199);
 }
 
 .pagination-button:hover:not(:disabled) {
-    background-color: #2e1f17; /* Darker shade on hover */
+    background-color: #3a281f;
 }
 
 .pagination-button:disabled {
-    background-color: #e0e0e0;
+    background-color: #ccc;
     cursor: not-allowed;
 }
 
@@ -136,63 +144,68 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 1rem; /* 16px */
-    margin-top: 1.5rem;
+    gap: 15px;
+    margin-top: 20px;
 }
 
 .pagination-info {
-    font-size: 1rem;
-    color: #3a281f;
+    font-size: 16px;
+    color: #4E3629;
 }
 
 /* Responsive design */
 @media (max-width: 768px) {
     .SellerAllOrdersPage {
-        padding: 0.75rem;
+        padding: 10px;
     }
 
     .orders-table th,
     .orders-table td {
-        padding: 0.5rem;
-        font-size: 0.75rem; /* 12px */
-        min-width: 3.75rem; /* 60px */
+        padding: 8px;
+        font-size: 12px;
+        min-width: 60px; /* Reduced min-width for smaller screens */
     }
 
     .edit-button,
     .delete-button,
     .pagination-button {
-        padding: 0.375rem 0.625rem; /* 6px 10px */
-        font-size: 0.75rem;
+        padding: 6px 10px;
+        font-size: 12px;
     }
 
     .pagination {
         flex-wrap: wrap;
-        gap: 0.625rem;
+        gap: 10px;
     }
 }
 
 @media (max-width: 576px) {
     .SellerAllOrdersPage h2 {
-        font-size: 1.25rem; /* 20px */
+        font-size: 20px;
     }
 
-    .orders-table th,
-    .orders-table td {
-        min-width: 3.125rem; /* 50px */
+    .orders-table {
+        font-size: 12px;
     }
 
     .action-buttons {
         flex-direction: column;
-        gap: 0.3125rem; /* 5px */
+        gap: 5px;
+    }
+
+    .orders-table th,
+    .orders-table td {
+        min-width: 50px; /* Further reduced for very small screens */
     }
 }
 
+/* Ensure table fits within container on large screens */
 @media (min-width: 1200px) {
     .table-container {
-        overflow-x: visible;
+        overflow-x: visible; /* Disable horizontal scroll on large screens */
     }
 
     .orders-table {
-        table-layout: auto;
+        table-layout: auto; /* Allow table to adjust column widths naturally */
     }
 }
