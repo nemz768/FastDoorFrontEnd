@@ -1,28 +1,6 @@
-import React, {useEffect, useMemo, useState} from "react";
+import React, { useState } from "react";
 
-export const CustomCalendar = ({ availabilityList, onDateSelected, selectedDate }) => {
-    const [fetchedAvailability, setFetchedAvailability] = useState(availabilityList || []);
-
-    useEffect(() => {
-        const showCountOfDoors = async () => {
-            try {
-                const res = await fetch("/api/orders/create", {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                });
-                const data = await res.json();
-                const availabilityData = Array.isArray(data.availabilityList) ? data.availabilityList : [];
-                setFetchedAvailability(availabilityData);
-                console.log("Fetched availability:", availabilityData);
-            } catch (err) {
-                console.error("Error fetching availability:", err);
-                setFetchedAvailability(availabilityList || []);
-            }
-        };
-        showCountOfDoors();
-    }, [availabilityList]);
+export const CustomCalendar = ({ availabilityList, onDateSelected, selectedDate, fetchedAvailability }) => {
 
     const today = new Date();
     const [currentYearMonth, setCurrentYearMonth] = useState({
@@ -39,23 +17,16 @@ export const CustomCalendar = ({ availabilityList, onDateSelected, selectedDate 
     const daysInMonth = new Date(currentYearMonth.year, currentYearMonth.month + 1, 0).getDate();
     const firstDayOfWeek = (new Date(currentYearMonth.year, currentYearMonth.month, 1).getDay() || 7) % 7;
 
-    const availabilityMap = useMemo(() => {
-        const map = {};
-        const dataSource = fetchedAvailability.length > 0 ? fetchedAvailability : (availabilityList || []);
-        dataSource.forEach(day => {
-            if (day && day.date) {
-                map[day.date] = {
-                    frontDoorQuantity: day.frontDoorQuantity || 0,
-                    inDoorQuantity: day.inDoorQuantity || 0,
-                };
-            }
-        });
-        return map;
-    }, [fetchedAvailability, availabilityList]);
-
-
-
-
+    const availabilityMap = {};
+    const dataSource = fetchedAvailability.length > 0 ? fetchedAvailability : (availabilityList || []);
+    dataSource.forEach(day => {
+        if (day && day.date) {
+            availabilityMap[day.date] = {
+                frontDoorQuantity: day.frontDoorQuantity || 0,
+                inDoorQuantity: day.inDoorQuantity || 0,
+            };
+        }
+    });
 
     const handlePrevMonth = () => {
         setCurrentYearMonth(prev => ({
@@ -71,7 +42,7 @@ export const CustomCalendar = ({ availabilityList, onDateSelected, selectedDate 
         }));
     };
 
-    const renderDays = useMemo(() => {
+    const renderDays = () => {
         const weeks = Math.ceil((firstDayOfWeek + daysInMonth) / 7);
         const days = [];
         let day = 1;
@@ -112,7 +83,7 @@ export const CustomCalendar = ({ availabilityList, onDateSelected, selectedDate 
             days.push(<div key={`week-${week}`} className="calendar-week">{weekDays}</div>);
         }
         return days;
-    }, [currentYearMonth, selectedDate, availabilityMap, onDateSelected]);
+    };
 
     // Format date to YYYY-MM-DD in local timezone
     const formatLocalDate = (date) => {
