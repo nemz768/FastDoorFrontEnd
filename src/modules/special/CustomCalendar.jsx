@@ -12,7 +12,6 @@ export const CustomCalendar = ({ availabilityList, fetchedAvailability, setSelec
         'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь',
     ];
     const dayNames = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
-
     // Вычисляем количество дней в текущем месяце
     const daysInMonth = new Date(currentYearMonth.year, currentYearMonth.month + 1, 0).getDate();
     // Определяем первый день недели для текущего месяца

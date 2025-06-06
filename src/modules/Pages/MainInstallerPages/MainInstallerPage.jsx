@@ -188,8 +188,6 @@ export const MainInstallerPage = () => {
     const handleDateSelected = (dateStr) => {
         setSelectedDate(dateStr);
     };
-
-
     return (
         <div>
             <Header navItems={navItems} />
