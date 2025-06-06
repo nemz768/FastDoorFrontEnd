@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-export const CustomCalendar = ({ availabilityList, onDateSelected, selectedDate, fetchedAvailability }) => {
+export const CustomCalendar = ({ availabilityList, setSelectedDate, refs, selectedDate, fetchedAvailability, setIsCalendarOpen }) => {
 
     const today = new Date();
     const [currentYearMonth, setCurrentYearMonth] = useState({
@@ -27,6 +27,12 @@ export const CustomCalendar = ({ availabilityList, onDateSelected, selectedDate,
             };
         }
     });
+
+    const handleDateSelected = (dateStr) => {
+        setSelectedDate(dateStr);
+        refs.dateRef.current.value = dateStr; // Update input field
+        setIsCalendarOpen(false);
+    };
 
     const handlePrevMonth = () => {
         setCurrentYearMonth(prev => ({
@@ -66,7 +72,7 @@ export const CustomCalendar = ({ availabilityList, onDateSelected, selectedDate,
                         <div
                             key={dateStr}
                             className={`calendar-day ${isSelected ? 'selected' : ''} ${isToday ? 'today' : ''} ${isPast ? 'past' : ''}`}
-                            onClick={isPast ? undefined : () => onDateSelected(dateStr)}
+                            onClick={isPast ? undefined : () => handleDateSelected(dateStr)}
                         >
                             <div className="day-number">{day}</div>
                             {availability && (

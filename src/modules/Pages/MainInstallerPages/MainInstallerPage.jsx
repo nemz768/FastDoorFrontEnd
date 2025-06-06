@@ -266,7 +266,9 @@ export const MainInstallerPage = () => {
                     </main>
                     <div className="MainInstallerPage__calendar-dateTable-block">
                         <div>
-                            <CustomCalendar />
+                            <CustomCalendar
+                                availabilityList={availabilityList}
+                            />
                             <button>Закрыть день!</button>
                         </div>
                         <div>

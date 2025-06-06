@@ -202,7 +202,10 @@ export const SellerCreatePage = () => {
                                 fetchedAvailability={fetchedAvailability}
                                 availabilityList={availabilityList}
                                 onDateSelected={handleDateSelected}
+                                setSelectedDate={setSelectedDate}
                                 selectedDate={selectedDate}
+                                setIsCalendarOpen={setIsCalendarOpen}
+                                refs={refs}
                             />
                         </div>
                     )}
