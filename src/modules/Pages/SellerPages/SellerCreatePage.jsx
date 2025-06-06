@@ -27,6 +27,7 @@ export const SellerCreatePage = () => {
             if (
                 calendarRef.current &&
                 !calendarRef.current.contains(event.target) &&
+                refs.dateRef.current &&
                 !refs.dateRef.current.contains(event.target)
             ) {
                 setIsCalendarOpen(false);
@@ -46,6 +47,9 @@ export const SellerCreatePage = () => {
                         "Content-Type": "application/json",
                     },
                 });
+                if (!res.ok) {
+                    throw new Error(`Ошибка HTTP: ${res.status}`);
+                }
                 const data = await res.json();
                 const availabilityData = Array.isArray(data.availabilityList) ? data.availabilityList : [];
                 setFetchedAvailability(availabilityData);
@@ -68,6 +72,11 @@ export const SellerCreatePage = () => {
         const dateOrder = selectedDate || '';
         const frontDoorQuantity = Number(refs.frontDoorRef.current?.value) || 0;
         const inDoorQuantity = Number(refs.inDoorRef.current?.value) || 0;
+
+        if (!dateOrder) {
+            alert('Пожалуйста, выберите дату доставки!');
+            return;
+        }
 
         try {
             const response = await fetch("/api/orders/create", {
@@ -98,6 +107,7 @@ export const SellerCreatePage = () => {
             navigate("./done");
         } catch (err) {
             console.error('Ошибка при создании заказа:', err);
+            alert('Ошибка при создании заказа: ' + err.message);
         }
     };
 
@@ -192,13 +202,15 @@ export const SellerCreatePage = () => {
                         id="dateOrdered"
                         ref={refs.dateRef}
                         placeholder="Выбрать дату"
-                        onClick={() => setIsCalendarOpen(prev => !prev)}
+                        onClick={() => {
+                           setIsCalendarOpen(prev => !prev);
+                        }}
                     />
                     {isCalendarOpen && (
                         <div ref={calendarRef} className="calendar-container">
                             <CustomCalendar
                                 fetchedAvailability={fetchedAvailability}
-                                availabilityList={fetchedAvailability} // Используем fetchedAvailability вместо пустого availabilityList
+                                availabilityList={fetchedAvailability} // Используем fetchedAvailability
                                 setSelectedDate={setSelectedDate}
                                 selectedDate={selectedDate}
                                 setIsCalendarOpen={setIsCalendarOpen}
