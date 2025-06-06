@@ -41,7 +41,6 @@
 
 /* Table container for horizontal scrolling on small screens */
 .table-container {
-    overflow-x: auto;
     margin-bottom: 20px;
 }
 
