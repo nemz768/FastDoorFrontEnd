@@ -184,6 +184,12 @@ export const MainInstallerPage = () => {
         (currentAvailabilityPage + 1) * recordsPerPage
     );
 
+
+    const handleDateSelected = (dateStr) => {
+        setSelectedDate(dateStr);
+    };
+
+
     return (
         <div>
             <Header navItems={navItems} />
@@ -295,6 +301,7 @@ export const MainInstallerPage = () => {
                                 availabilityList={availabilityList}
                                 fetchedAvailability={fetchedAvailability}
                                 setSelectedDate={setSelectedDate}
+                                onDateSelected={handleDateSelected}
                                 selectedDate={selectedDate}
                             />
                             <button>Закрыть день!</button>

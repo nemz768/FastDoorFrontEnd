@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-export const CustomCalendar = ({ availabilityList, fetchedAvailability, setSelectedDate, selectedDate }) => {
+export const CustomCalendar = ({ availabilityList, fetchedAvailability, setSelectedDate, selectedDate, onDateSelected }) => {
     const today = new Date();
     const [currentYearMonth, setCurrentYearMonth] = useState({
         year: today.getFullYear(),
@@ -31,12 +31,7 @@ export const CustomCalendar = ({ availabilityList, fetchedAvailability, setSelec
         }
     });
 
-    // Обработчик выбора даты
-    const handleDateSelected = (dateStr) => {
-        if (setSelectedDate) {
-            setSelectedDate(dateStr);
-        }
-    };
+
 
     // Переход к предыдущему месяцу
     const handlePrevMonth = () => {
@@ -79,7 +74,7 @@ export const CustomCalendar = ({ availabilityList, fetchedAvailability, setSelec
                         <div
                             key={dateStr}
                             className={`calendar-day ${isSelected ? 'selected' : ''} ${isToday ? 'today' : ''} ${isPast ? 'past' : ''}`}
-                            onClick={isPast || !setSelectedDate ? undefined : () => handleDateSelected(dateStr)}
+                            onClick={isPast || !setSelectedDate ? undefined : () => onDateSelected(dateStr)}
                         >
                             <div className="day-number">{day}</div>
                             {availability && (

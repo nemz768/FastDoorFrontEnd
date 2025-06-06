@@ -6,7 +6,8 @@ import { CustomCalendar } from "../../special/CustomCalendar.jsx";
 export const SellerCreatePage = () => {
     const [selectedDate, setSelectedDate] = useState(null);
     const [isCalendarOpen, setIsCalendarOpen] = useState(false);
-    const [fetchedAvailability, setFetchedAvailability] = useState([]);
+    const availabilityList = /*[[${availabilityList}]]*/ [];
+    const [fetchedAvailability, setFetchedAvailability] = useState(availabilityList || []);
     const calendarRef = useRef(null);
     const navigate = useNavigate();
     const numbers = '1234567890';
@@ -21,15 +22,9 @@ export const SellerCreatePage = () => {
         inDoorRef: useRef(null),
     };
 
-    // Обработчик клика вне календаря
     useEffect(() => {
         const handleClickOutside = (event) => {
-            if (
-                calendarRef.current &&
-                !calendarRef.current.contains(event.target) &&
-                refs.dateRef.current &&
-                !refs.dateRef.current.contains(event.target)
-            ) {
+            if (calendarRef.current && !calendarRef.current.contains(event.target) && !refs.dateRef.current.contains(event.target)) {
                 setIsCalendarOpen(false);
             }
         };
@@ -37,7 +32,7 @@ export const SellerCreatePage = () => {
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
-    // Загрузка данных о доступности
+
     useEffect(() => {
         const showCountOfDoors = async () => {
             try {
@@ -47,22 +42,20 @@ export const SellerCreatePage = () => {
                         "Content-Type": "application/json",
                     },
                 });
-                if (!res.ok) {
-                    throw new Error(`Ошибка HTTP: ${res.status}`);
-                }
                 const data = await res.json();
                 const availabilityData = Array.isArray(data.availabilityList) ? data.availabilityList : [];
                 setFetchedAvailability(availabilityData);
-                console.log("Загруженные данные о доступности:", availabilityData);
+                console.log("Fetched availability:", availabilityData);
             } catch (err) {
-                console.error("Ошибка при загрузке доступности:", err);
-                setFetchedAvailability([]);
+                console.error("Error fetching availability:", err);
+                setFetchedAvailability(availabilityList || []);
             }
         };
         showCountOfDoors();
     }, []);
 
-    // Отправка формы создания заказа
+
+
     const sendResultsCreate = async (e) => {
         e.preventDefault();
         const fullname = refs.fullname.current?.value || '';
@@ -72,11 +65,6 @@ export const SellerCreatePage = () => {
         const dateOrder = selectedDate || '';
         const frontDoorQuantity = Number(refs.frontDoorRef.current?.value) || 0;
         const inDoorQuantity = Number(refs.inDoorRef.current?.value) || 0;
-
-        if (!dateOrder) {
-            alert('Пожалуйста, выберите дату доставки!');
-            return;
-        }
 
         try {
             const response = await fetch("/api/orders/create", {
@@ -99,19 +87,17 @@ export const SellerCreatePage = () => {
             });
 
             if (!response.ok) {
-                throw new Error(`Ошибка HTTP! Статус: ${response.status}`);
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
 
             const data = await response.json();
-            console.log('Ответ сервера:', data);
+            console.log('Server response:', data);
             navigate("./done");
         } catch (err) {
-            console.error('Ошибка при создании заказа:', err);
-            alert('Ошибка при создании заказа: ' + err.message);
+            console.error('Error creating order:', err);
         }
     };
 
-    // Валидация ввода чисел для полей количества дверей
     useEffect(() => {
         const frontInput = refs.frontDoorRef.current;
         const inInput = refs.inDoorRef.current;
@@ -135,6 +121,12 @@ export const SellerCreatePage = () => {
             if (inInput) inInput.removeEventListener('input', () => handleInput(inInput));
         };
     }, []);
+
+    const handleDateSelected = (dateStr) => {
+        setSelectedDate(dateStr);
+        refs.dateRef.current.value = dateStr; // Update input field
+        setIsCalendarOpen(false);
+    };
 
     return (
         <div className="sellerCreatePage">
@@ -202,15 +194,14 @@ export const SellerCreatePage = () => {
                         id="dateOrdered"
                         ref={refs.dateRef}
                         placeholder="Выбрать дату"
-                        onClick={() => {
-                           setIsCalendarOpen(prev => !prev);
-                        }}
+                        onClick={() => setIsCalendarOpen(prev => !prev)}
                     />
                     {isCalendarOpen && (
                         <div ref={calendarRef} className="calendar-container">
                             <CustomCalendar
                                 fetchedAvailability={fetchedAvailability}
-                                availabilityList={fetchedAvailability} // Используем fetchedAvailability
+                                availabilityList={availabilityList}
+                                onDateSelected={handleDateSelected}
                                 setSelectedDate={setSelectedDate}
                                 selectedDate={selectedDate}
                                 setIsCalendarOpen={setIsCalendarOpen}
