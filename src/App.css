@@ -1,7 +1,7 @@
 html {
   margin: 0;
   padding: 0;
-  height: 100%;
+  min-height: 120vh;
   scrollbar-width: thin; !important
   scrollbar-color: #4E3629 #f1f1f1; !important
 }
