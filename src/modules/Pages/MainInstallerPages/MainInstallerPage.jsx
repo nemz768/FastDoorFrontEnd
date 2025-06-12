@@ -191,6 +191,7 @@ export const MainInstallerPage = () => {
     return (
         <>
             <Header navItems={navItems} />
+
             <div className="mainInstallerTables-block">
                     <h2>Панель установщика</h2>
                     <main>
@@ -288,6 +289,8 @@ export const MainInstallerPage = () => {
                             </>
                         )}
                     </main>
+
+
                     <div className="MainInstallerPage__calendar-dateTable-block">
                         <div>
                             <CustomCalendar
@@ -300,7 +303,7 @@ export const MainInstallerPage = () => {
                             <button>Закрыть день!</button>
                         </div>
                         <div>
-                            <table border="1">
+                            <table className="table-dates" border="1">
                                 <thead>
                                 <tr>
                                     <th>Дата</th>
@@ -339,7 +342,9 @@ export const MainInstallerPage = () => {
                             </div>
                         </div>
                     </div>
+
             </div>
+
             <Footer />
         </>
     );
