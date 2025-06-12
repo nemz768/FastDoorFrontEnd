@@ -189,7 +189,7 @@ export const MainInstallerPage = () => {
         setSelectedDate(dateStr);
     };
     return (
-        <>
+        <div className='mainInstallerTables-FullBlock'>
             <Header navItems={navItems} />
 
             <div className="mainInstallerTables-block">
@@ -346,6 +346,6 @@ export const MainInstallerPage = () => {
             </div>
 
             <Footer />
-        </>
+        </div>
     );
 };

@@ -1,3 +1,11 @@
+
+.mainInstallerTables-FullBlock{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+
 .mainInstallerTables-block {
     display: flex;
     flex-direction: column;
