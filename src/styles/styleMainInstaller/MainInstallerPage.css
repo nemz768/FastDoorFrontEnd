@@ -80,8 +80,14 @@
 }
 
 
-.MainInstallerPage__calendar-dateTable-block th,
-.MainInstallerPage__calendar-dateTable-block td
+.MainInstallerPage__calendar-dateTable-block {
+    display: flex;
+    flex-direction: row;
+    column-gap: 30px;
+}
+
+.table-dates th,
+.table-dates td
 {
     background: white;
     padding: 6px;
