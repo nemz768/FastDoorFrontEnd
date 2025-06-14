@@ -116,27 +116,39 @@ export const MainInstallerPage = () => {
         fetchOrders();
     }, [currentPage]);
 
-
+    // Исправленная функция закрытия даты
     const closeDateCalendar = async () => {
-        if (!selectedDate) return;
+        if (!selectedDate) {
+            console.warn("Дата не выбрана!");
+            return;
+        }
+
         try {
-            const response = await fetch(`/api/doorLimits/closeDate?date=${selectedDate}`, {
+            setIsLoading(true);
+            const response = await fetch(`/api/doorLimits/closeDate?date=${encodeURIComponent(selectedDate)}`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
-                }
-            })
+                },
+                body: JSON.stringify({ date: selectedDate }),
+            });
+
+            if (!response.ok) {
+                throw new Error(`Ошибка при закрытии даты: ${response.status} ${response.statusText}`);
+            }
 
             const data = await response.json();
-            console.log(data)
-            fetchOrders()
-        }
-        catch(err) {
-            console.log(err)
-        }
+            console.log("Дата успешно закрыта:", data);
 
-
-    }
+            await fetchOrders();
+            setSelectedDate(null);
+        } catch (err) {
+            console.error("Ошибка при закрытии даты:", err);
+            setError(err.message);
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
     // Обработчик изменения комментария
     const handleCommentChange = (event, orderId) => {
@@ -205,10 +217,10 @@ export const MainInstallerPage = () => {
         (currentAvailabilityPage + 1) * recordsPerPage
     );
 
-
     const handleDateSelected = (dateStr) => {
         setSelectedDate(dateStr);
     };
+
     return (
         <div className='mainInstallerTables-FullBlock'>
             <Header navItems={navItems} />
@@ -297,8 +309,8 @@ export const MainInstallerPage = () => {
                                     Предыдущая
                                 </button>
                                 <span className="pagination-info">
-                                        Страница {currentPage + 1} из {totalPages}
-                                    </span>
+                                    Страница {currentPage + 1} из {totalPages}
+                                </span>
                                 <button
                                     onClick={() => handlePageChange(currentPage + 1)}
                                     disabled={currentPage >= totalPages - 1}
@@ -311,7 +323,6 @@ export const MainInstallerPage = () => {
                     )}
                 </main>
 
-
                 <div className="MainInstallerPage__calendar-dateTable-block">
                     <div>
                         <CustomCalendar
@@ -321,7 +332,9 @@ export const MainInstallerPage = () => {
                             onDateSelected={handleDateSelected}
                             selectedDate={selectedDate}
                         />
-                        <button  onClick={closeDateCalendar} disabled={!selectedDate}>Закрыть день!</button>
+                        <button onClick={closeDateCalendar} disabled={!selectedDate || isLoading}>
+                            {isLoading ? "Закрытие..." : "Закрыть день!"}
+                        </button>
                     </div>
                     <div>
                         <table className="table-dates" border="1">
@@ -351,8 +364,8 @@ export const MainInstallerPage = () => {
                                 Предыдущая
                             </button>
                             <span className="pagination-info">
-                                    Страница {currentAvailabilityPage + 1} из {totalAvailabilityPages}
-                                </span>
+                                Страница {currentAvailabilityPage + 1} из {totalAvailabilityPages}
+                            </span>
                             <button
                                 onClick={() => handleAvailabilityPageChange(currentAvailabilityPage + 1)}
                                 disabled={currentAvailabilityPage >= totalAvailabilityPages - 1}
@@ -363,7 +376,6 @@ export const MainInstallerPage = () => {
                         </div>
                     </div>
                 </div>
-
             </div>
 
             <Footer />
