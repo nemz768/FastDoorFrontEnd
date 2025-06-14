@@ -330,7 +330,6 @@ export const MainInstallerPage = () => {
                         <CustomCalendar
                             availabilityList={availabilityList}
                             fetchedAvailability={fetchedAvailability}
-                            setFetchedAvailability={setFetchedAvailability}
                             setSelectedDate={setSelectedDate}
                             onDateSelected={handleDateSelected}
                             selectedDate={selectedDate}
