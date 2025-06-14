@@ -137,7 +137,7 @@ export const MainInstallerPage = () => {
                 throw new Error(`Ошибка при закрытии даты: ${response.status} ${response.statusText}`);
             }
 
-            console.log(response.text());
+            console.log(await response.text());
 
             await fetchOrders();
             setSelectedDate(null);
@@ -325,6 +325,7 @@ export const MainInstallerPage = () => {
                 <div className="MainInstallerPage__calendar-dateTable-block">
                     <div>
                         <CustomCalendar
+                            setFetchedAvailability={setFetchedAvailability}
                             availabilityList={availabilityList}
                             fetchedAvailability={fetchedAvailability}
                             setSelectedDate={setSelectedDate}
