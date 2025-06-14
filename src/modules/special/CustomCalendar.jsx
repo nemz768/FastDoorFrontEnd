@@ -1,9 +1,10 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 
 export const CustomCalendar = ({setSelectedDate, selectedDate, onDateSelected }) => {
 
     const availabilityList = /*[[${availabilityList}]]*/ [];
     const [fetchedAvailability, setFetchedAvailability] = useState(availabilityList || []);
+    const cachedAvailability = useRef(null);
 
 
 
@@ -37,6 +38,11 @@ export const CustomCalendar = ({setSelectedDate, selectedDate, onDateSelected })
     });
 
     useEffect(() => {
+        if (cachedAvailability.current) {
+            setFetchedAvailability(cachedAvailability.current)
+        }
+
+
         const showCountOfDoors = async () => {
             try {
                 const res = await fetch("/api/orders/create", {
@@ -47,10 +53,12 @@ export const CustomCalendar = ({setSelectedDate, selectedDate, onDateSelected })
                 });
                 const data = await res.json();
                 const availabilityData = Array.isArray(data.availabilityList) ? data.availabilityList : [];
+                cachedAvailability.current = availabilityData;
                 setFetchedAvailability(availabilityData);
                 console.log("Fetched availability:", availabilityData);
             } catch (err) {
                 console.error("Error fetching availability:", err);
+                cachedAvailability.current = availabilityList || [];
                 setFetchedAvailability(availabilityList || []);
             }
         };
