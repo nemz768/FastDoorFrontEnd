@@ -137,8 +137,7 @@ export const MainInstallerPage = () => {
                 throw new Error(`Ошибка при закрытии даты: ${response.status} ${response.statusText}`);
             }
 
-            const data = await response.json();
-            console.log("Дата успешно закрыта:", data);
+            console.log(response.text());
 
             await fetchOrders();
             setSelectedDate(null);
