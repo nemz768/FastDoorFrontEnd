@@ -214,155 +214,155 @@ export const MainInstallerPage = () => {
             <Header navItems={navItems} />
 
             <div className="mainInstallerTables-block">
-                    <h2>Панель установщика</h2>
-                    <main>
-                        {isLoading && <div className="loading">Загрузка...</div>}
-                        {error && (
-                            <div className="error">
-                                <h3>Ошибка: {error}</h3>
-                                <button className="retry-button" onClick={fetchOrders}>
-                                    Повторить
-                                </button>
-                            </div>
-                        )}
-                        {!isLoading && !error && orders.length === 0 && (
-                            <div className="no-orders">Заказы не найдены</div>
-                        )}
-                        {!isLoading && !error && orders.length > 0 && (
-                            <>
-                                    <table border="1" className='mainInstallerTable'>
-                                        <thead>
-                                        <tr>
-                                            <th>Адрес доставки</th>
-                                            <th>Филиалы</th>
-                                            <th>Дата</th>
-                                            <th>Номер телефона</th>
-                                            <th>Количество входных дверей</th>
-                                            <th>Количество межкомнатных дверей</th>
-                                            <th>Комментарий продавца</th>
-                                            <th>Ваш комментарий</th>
-                                            <th>Установщик</th>
-                                            <th>Действие</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        {orders.map((order) => (
-                                            <tr key={order.id}>
-                                                <td>{order.address}</td>
-                                                <td>{order.nickname}</td>
-                                                <td>{order.dateOrder}</td>
-                                                <td>{order.phone}</td>
-                                                <td>{order.frontDoorQuantity}</td>
-                                                <td>{order.inDoorQuantity}</td>
-                                                <td>{order.messageSeller}</td>
-                                                <td>
-                                                    <input
-                                                        type="text"
-                                                        value={comments[order.id] || ''}
-                                                        onChange={(event) => handleCommentChange(event, order.id)}
-                                                    />
-                                                </td>
-                                                <td>
-                                                    <select
-                                                        value={selectedTag[order.id] || ''}
-                                                        onChange={(event) => handleChange(event, order.id)}
-                                                    >
-                                                        <option value="">Выбрать установщика</option>
-                                                        {installers.map((option) => (
-                                                            <option key={option.id} value={option.id}>
-                                                                {option.fullName}
-                                                            </option>
-                                                        ))}
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                    <button
-                                                        onClick={() => postData(order.id)}
-                                                        disabled={!selectedTag[order.id]}
-                                                        id="ConfirmBtn"
-                                                    >
-                                                        Подтвердить
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        ))}
-                                        </tbody>
-                                    </table>
-                                <div className="pagination">
-                                    <button
-                                        onClick={() => handlePageChange(currentPage - 1)}
-                                        disabled={currentPage === 0}
-                                        className="pagination-button"
-                                    >
-                                        Предыдущая
-                                    </button>
-                                    <span className="pagination-info">
-                                        Страница {currentPage + 1} из {totalPages}
-                                    </span>
-                                    <button
-                                        onClick={() => handlePageChange(currentPage + 1)}
-                                        disabled={currentPage >= totalPages - 1}
-                                        className="pagination-button"
-                                    >
-                                        Следующая
-                                    </button>
-                                </div>
-                            </>
-                        )}
-                    </main>
-
-
-                    <div className="MainInstallerPage__calendar-dateTable-block">
-                        <div>
-                            <CustomCalendar
-                                availabilityList={availabilityList}
-                                fetchedAvailability={fetchedAvailability}
-                                setSelectedDate={setSelectedDate}
-                                onDateSelected={handleDateSelected}
-                                selectedDate={selectedDate}
-                            />
-                            <button  onClick={closeDateCalendar} disabled={!selectedDate}>Закрыть день!</button>
+                <h2>Панель установщика</h2>
+                <main>
+                    {isLoading && <div className="loading">Загрузка...</div>}
+                    {error && (
+                        <div className="error">
+                            <h3>Ошибка: {error}</h3>
+                            <button className="retry-button" onClick={fetchOrders}>
+                                Повторить
+                            </button>
                         </div>
-                        <div>
-                            <table className="table-dates" border="1">
+                    )}
+                    {!isLoading && !error && orders.length === 0 && (
+                        <div className="no-orders">Заказы не найдены</div>
+                    )}
+                    {!isLoading && !error && orders.length > 0 && (
+                        <>
+                            <table border="1" className='mainInstallerTable'>
                                 <thead>
                                 <tr>
+                                    <th>Адрес доставки</th>
+                                    <th>Филиалы</th>
                                     <th>Дата</th>
-                                    <th>Доступные входные двери</th>
-                                    <th>Доступные межкомнатные двери</th>
+                                    <th>Номер телефона</th>
+                                    <th>Количество входных дверей</th>
+                                    <th>Количество межкомнатных дверей</th>
+                                    <th>Комментарий продавца</th>
+                                    <th>Ваш комментарий</th>
+                                    <th>Установщик</th>
+                                    <th>Действие</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {paginatedAvailabilityList.map((availability, index) => (
-                                    <tr key={index}>
-                                        <td>{availability.formattedDate}</td>
-                                        <td>{availability.frontDoorQuantity}</td>
-                                        <td>{availability.inDoorQuantity}</td>
+                                {orders.map((order) => (
+                                    <tr key={order.id}>
+                                        <td>{order.address}</td>
+                                        <td>{order.nickname}</td>
+                                        <td>{order.dateOrder}</td>
+                                        <td>{order.phone}</td>
+                                        <td>{order.frontDoorQuantity}</td>
+                                        <td>{order.inDoorQuantity}</td>
+                                        <td>{order.messageSeller}</td>
+                                        <td>
+                                            <input
+                                                type="text"
+                                                value={comments[order.id] || ''}
+                                                onChange={(event) => handleCommentChange(event, order.id)}
+                                            />
+                                        </td>
+                                        <td>
+                                            <select
+                                                value={selectedTag[order.id] || ''}
+                                                onChange={(event) => handleChange(event, order.id)}
+                                            >
+                                                <option value="">Выбрать установщика</option>
+                                                {installers.map((option) => (
+                                                    <option key={option.id} value={option.id}>
+                                                        {option.fullName}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <button
+                                                onClick={() => postData(order.id)}
+                                                disabled={!selectedTag[order.id]}
+                                                id="ConfirmBtn"
+                                            >
+                                                Подтвердить
+                                            </button>
+                                        </td>
                                     </tr>
                                 ))}
                                 </tbody>
                             </table>
                             <div className="pagination">
                                 <button
-                                    onClick={() => handleAvailabilityPageChange(currentAvailabilityPage - 1)}
-                                    disabled={currentAvailabilityPage === 0}
+                                    onClick={() => handlePageChange(currentPage - 1)}
+                                    disabled={currentPage === 0}
                                     className="pagination-button"
                                 >
                                     Предыдущая
                                 </button>
                                 <span className="pagination-info">
-                                    Страница {currentAvailabilityPage + 1} из {totalAvailabilityPages}
-                                </span>
+                                        Страница {currentPage + 1} из {totalPages}
+                                    </span>
                                 <button
-                                    onClick={() => handleAvailabilityPageChange(currentAvailabilityPage + 1)}
-                                    disabled={currentAvailabilityPage >= totalAvailabilityPages - 1}
+                                    onClick={() => handlePageChange(currentPage + 1)}
+                                    disabled={currentPage >= totalPages - 1}
                                     className="pagination-button"
                                 >
                                     Следующая
                                 </button>
                             </div>
+                        </>
+                    )}
+                </main>
+
+
+                <div className="MainInstallerPage__calendar-dateTable-block">
+                    <div>
+                        <CustomCalendar
+                            availabilityList={availabilityList}
+                            fetchedAvailability={fetchedAvailability}
+                            setSelectedDate={setSelectedDate}
+                            onDateSelected={handleDateSelected}
+                            selectedDate={selectedDate}
+                        />
+                        <button  onClick={closeDateCalendar} disabled={!selectedDate}>Закрыть день!</button>
+                    </div>
+                    <div>
+                        <table className="table-dates" border="1">
+                            <thead>
+                            <tr>
+                                <th>Дата</th>
+                                <th>Доступные входные двери</th>
+                                <th>Доступные межкомнатные двери</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {paginatedAvailabilityList.map((availability, index) => (
+                                <tr key={index}>
+                                    <td>{availability.formattedDate}</td>
+                                    <td>{availability.frontDoorQuantity}</td>
+                                    <td>{availability.inDoorQuantity}</td>
+                                </tr>
+                            ))}
+                            </tbody>
+                        </table>
+                        <div className="pagination">
+                            <button
+                                onClick={() => handleAvailabilityPageChange(currentAvailabilityPage - 1)}
+                                disabled={currentAvailabilityPage === 0}
+                                className="pagination-button"
+                            >
+                                Предыдущая
+                            </button>
+                            <span className="pagination-info">
+                                    Страница {currentAvailabilityPage + 1} из {totalAvailabilityPages}
+                                </span>
+                            <button
+                                onClick={() => handleAvailabilityPageChange(currentAvailabilityPage + 1)}
+                                disabled={currentAvailabilityPage >= totalAvailabilityPages - 1}
+                                className="pagination-button"
+                            >
+                                Следующая
+                            </button>
                         </div>
                     </div>
+                </div>
 
             </div>
 
