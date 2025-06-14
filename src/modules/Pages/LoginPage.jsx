@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import '../../styles/stylePages/loginPage.css';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../Auth/AuthContext.jsx';
+import { useAuth } from '../Context/Auth/AuthContext.jsx';
 
 const LoginPage = () => {
     const { setIsLoggedIn } = useAuth();

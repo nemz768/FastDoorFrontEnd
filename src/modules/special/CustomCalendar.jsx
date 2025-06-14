@@ -6,8 +6,6 @@ export const CustomCalendar = ({setSelectedDate, selectedDate, onDateSelected })
     const [fetchedAvailability, setFetchedAvailability] = useState(availabilityList || []);
     const cachedAvailability = useRef(null);
 
-
-
     const today = new Date();
     const [currentYearMonth, setCurrentYearMonth] = useState({
         year: today.getFullYear(),
@@ -53,12 +51,10 @@ export const CustomCalendar = ({setSelectedDate, selectedDate, onDateSelected })
                 });
                 const data = await res.json();
                 const availabilityData = Array.isArray(data.availabilityList) ? data.availabilityList : [];
-                cachedAvailability.current = availabilityData;
                 setFetchedAvailability(availabilityData);
                 console.log("Fetched availability:", availabilityData);
             } catch (err) {
                 console.error("Error fetching availability:", err);
-                cachedAvailability.current = availabilityList || [];
                 setFetchedAvailability(availabilityList || []);
             }
         };

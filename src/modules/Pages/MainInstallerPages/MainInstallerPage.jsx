@@ -7,6 +7,7 @@ import '../../../styles/styleMainInstaller/MainInstallerPage.css'
 export const MainInstallerPage = () => {
     const [orders, setOrders] = useState([]);
     const [installers, setInstallers] = useState([]);
+    const [fetchedAvailability, setFetchedAvailability] = useState([]);
     const [availabilityList, setAvailabilityList] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(1);
@@ -18,9 +19,11 @@ export const MainInstallerPage = () => {
     const [selectedDate, setSelectedDate] = useState(null);
     const recordsPerPage = 10;
 
+    const [currentDate, setCurrentDate] = useState(0);
+
     const url = `/api/mainInstaller?page=${currentPage}`;
     const urlPost = `/api/mainInstaller`;
-//1234
+
     const navItems = [
         { label: 'Список установщиков', route: '/home/mainInstaller/InstallersList' },
         { label: 'Добавить установщика', route: '/home/mainInstaller/create' },
@@ -91,8 +94,51 @@ export const MainInstallerPage = () => {
     };
 
     useEffect(() => {
+        const showCountOfDoors = async () => {
+            try {
+                const res = await fetch("/api/orders/create", {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
+                const data = await res.json();
+                const availabilityData = Array.isArray(data.availabilityList) ? data.availabilityList : [];
+                setFetchedAvailability(availabilityData);
+                console.log("Загруженные данные о доступности:", availabilityData);
+            } catch (err) {
+                console.error("Ошибка при загрузке доступности:", err);
+                setFetchedAvailability(availabilityList || []);
+            }
+        };
+        showCountOfDoors();
+    }, []);
+
+    useEffect(() => {
         fetchOrders();
     }, [currentPage]);
+
+
+    const closeDateCalendar = async () => {
+        if (!selectedDate) return;
+        try {
+            const response = await fetch(`/api/doorLimits/closeDate?date=${selectedDate}`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                }
+            })
+
+            const data = await response.json();
+            console.log(data)
+            fetchOrders()
+        }
+        catch(err) {
+            console.log(err)
+        }
+
+
+    }
 
     // Обработчик изменения комментария
     const handleCommentChange = (event, orderId) => {
@@ -271,11 +317,13 @@ export const MainInstallerPage = () => {
                     <div className="MainInstallerPage__calendar-dateTable-block">
                         <div>
                             <CustomCalendar
+                                availabilityList={availabilityList}
+                                fetchedAvailability={fetchedAvailability}
                                 setSelectedDate={setSelectedDate}
                                 onDateSelected={handleDateSelected}
                                 selectedDate={selectedDate}
                             />
-                            <button>Закрыть день!</button>
+                            <button  onClick={closeDateCalendar} disabled={!selectedDate}>Закрыть день!</button>
                         </div>
                         <div>
                             <table className="table-dates" border="1">

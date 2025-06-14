@@ -6,6 +6,8 @@ import { CustomCalendar } from "../../special/CustomCalendar.jsx";
 export const SellerCreatePage = () => {
     const [selectedDate, setSelectedDate] = useState(null);
     const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+    const availabilityList = /*[[${availabilityList}]]*/ [];
+    const [fetchedAvailability, setFetchedAvailability] = useState(availabilityList || []);
     const calendarRef = useRef(null);
     const navigate = useNavigate();
     const numbers = '1234567890';
@@ -29,6 +31,30 @@ export const SellerCreatePage = () => {
         document.addEventListener('mousedown', handleClickOutside);
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
+
+
+    useEffect(() => {
+        const showCountOfDoors = async () => {
+            try {
+                const res = await fetch("/api/orders/create", {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
+                const data = await res.json();
+                const availabilityData = Array.isArray(data.availabilityList) ? data.availabilityList : [];
+                setFetchedAvailability(availabilityData);
+                console.log("Fetched availability:", availabilityData);
+            } catch (err) {
+                console.error("Error fetching availability:", err);
+                setFetchedAvailability(availabilityList || []);
+            }
+        };
+        showCountOfDoors();
+    }, []);
+
+
 
     const sendResultsCreate = async (e) => {
         e.preventDefault();
@@ -173,6 +199,8 @@ export const SellerCreatePage = () => {
                     {isCalendarOpen && (
                         <div ref={calendarRef} className="calendar-container">
                             <CustomCalendar
+                                fetchedAvailability={fetchedAvailability}
+                                availabilityList={availabilityList}
                                 onDateSelected={handleDateSelected}
                                 setSelectedDate={setSelectedDate}
                                 selectedDate={selectedDate}
