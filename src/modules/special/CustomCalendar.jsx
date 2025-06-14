@@ -1,6 +1,12 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 
-export const CustomCalendar = ({ availabilityList, fetchedAvailability, setSelectedDate, selectedDate, onDateSelected }) => {
+export const CustomCalendar = ({setSelectedDate, selectedDate, onDateSelected }) => {
+
+    const availabilityList = /*[[${availabilityList}]]*/ [];
+    const [fetchedAvailability, setFetchedAvailability] = useState(availabilityList || []);
+
+
+
     const today = new Date();
     const [currentYearMonth, setCurrentYearMonth] = useState({
         year: today.getFullYear(),
@@ -30,7 +36,26 @@ export const CustomCalendar = ({ availabilityList, fetchedAvailability, setSelec
         }
     });
 
-
+    useEffect(() => {
+        const showCountOfDoors = async () => {
+            try {
+                const res = await fetch("/api/orders/create", {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
+                const data = await res.json();
+                const availabilityData = Array.isArray(data.availabilityList) ? data.availabilityList : [];
+                setFetchedAvailability(availabilityData);
+                console.log("Fetched availability:", availabilityData);
+            } catch (err) {
+                console.error("Error fetching availability:", err);
+                setFetchedAvailability(availabilityList || []);
+            }
+        };
+        showCountOfDoors();
+    }, []);
 
     // Переход к предыдущему месяцу
     const handlePrevMonth = () => {

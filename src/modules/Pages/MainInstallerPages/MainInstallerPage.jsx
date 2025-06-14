@@ -7,7 +7,6 @@ import '../../../styles/styleMainInstaller/MainInstallerPage.css'
 export const MainInstallerPage = () => {
     const [orders, setOrders] = useState([]);
     const [installers, setInstallers] = useState([]);
-    const [fetchedAvailability, setFetchedAvailability] = useState([]);
     const [availabilityList, setAvailabilityList] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(1);
@@ -90,28 +89,6 @@ export const MainInstallerPage = () => {
             setIsLoading(false);
         }
     };
-
-    // Получение данных о доступности дверей
-    useEffect(() => {
-        const showCountOfDoors = async () => {
-            try {
-                const res = await fetch("/api/orders/create", {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                });
-                const data = await res.json();
-                const availabilityData = Array.isArray(data.availabilityList) ? data.availabilityList : [];
-                setFetchedAvailability(availabilityData);
-                console.log("Загруженные данные о доступности:", availabilityData);
-            } catch (err) {
-                console.error("Ошибка при загрузке доступности:", err);
-                setFetchedAvailability(availabilityList || []);
-            }
-        };
-        showCountOfDoors();
-    }, [availabilityList]);
 
     useEffect(() => {
         fetchOrders();
@@ -294,8 +271,6 @@ export const MainInstallerPage = () => {
                     <div className="MainInstallerPage__calendar-dateTable-block">
                         <div>
                             <CustomCalendar
-                                availabilityList={availabilityList}
-                                fetchedAvailability={fetchedAvailability}
                                 setSelectedDate={setSelectedDate}
                                 onDateSelected={handleDateSelected}
                                 selectedDate={selectedDate}
