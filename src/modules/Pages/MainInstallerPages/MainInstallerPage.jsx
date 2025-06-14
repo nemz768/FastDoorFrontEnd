@@ -19,8 +19,6 @@ export const MainInstallerPage = () => {
     const [selectedDate, setSelectedDate] = useState(null);
     const recordsPerPage = 10;
 
-    const [currentDate, setCurrentDate] = useState(0);
-
     const url = `/api/mainInstaller?page=${currentPage}`;
     const urlPost = `/api/mainInstaller`;
 
