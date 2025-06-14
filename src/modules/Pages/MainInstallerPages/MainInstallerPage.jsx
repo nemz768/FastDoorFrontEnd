@@ -28,6 +28,7 @@ export const MainInstallerPage = () => {
         { label: 'Список заказов', route: '/404' },
     ];
 
+    // Форматирование даты в DD.MM.YYYY
     const reversedDate = (dateString) => {
         const day = dateString.slice(8);
         const month = dateString.slice(5, 7);
@@ -35,6 +36,7 @@ export const MainInstallerPage = () => {
         return `${day}.${month}.${year}`;
     };
 
+    // Получение данных о заказах и доступности
     const fetchOrders = async () => {
         setIsLoading(true);
         setError(null);
@@ -90,7 +92,7 @@ export const MainInstallerPage = () => {
     };
 
     useEffect(() => {
-        const fetchAvailability = async () => {
+        const showCountOfDoors = async () => {
             try {
                 const res = await fetch("/api/orders/create", {
                     method: "GET",
@@ -107,47 +109,37 @@ export const MainInstallerPage = () => {
                 setFetchedAvailability(availabilityList || []);
             }
         };
-        fetchAvailability();
+        showCountOfDoors();
+    }, []);
+
+    useEffect(() => {
         fetchOrders();
     }, [currentPage]);
 
+    // Исправленная функция закрытия даты
     const closeDateCalendar = async () => {
-        const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
-        if (!selectedDate || !dateRegex.test(selectedDate)) {
-            console.warn("Неверный формат даты или дата не выбрана!");
-            setError("Пожалуйста, выберите корректную дату.");
+        if (!selectedDate) {
+            console.warn("Дата не выбрана!");
             return;
         }
 
         try {
             setIsLoading(true);
-            setError(null);
             const response = await fetch(`/api/doorLimits/closeDate?date=${encodeURIComponent(selectedDate)}`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
                 },
+                body: JSON.stringify({ date: selectedDate }),
             });
 
             if (!response.ok) {
                 throw new Error(`Ошибка при закрытии даты: ${response.status} ${response.statusText}`);
             }
 
-            const result = await response.json();
-            console.log("Ответ сервера:", result);
+            console.log(await response.text());
 
-            if (Array.isArray(result.availabilityList)) {
-                setFetchedAvailability(result.availabilityList);
-                setAvailabilityList(
-                    result.availabilityList.map((list) => ({
-                        ...list,
-                        formattedDate: reversedDate(list.date),
-                    }))
-                );
-            } else {
-                await fetchOrders();
-            }
-
+            await fetchOrders();
             setSelectedDate(null);
         } catch (err) {
             console.error("Ошибка при закрытии даты:", err);
@@ -157,6 +149,7 @@ export const MainInstallerPage = () => {
         }
     };
 
+    // Обработчик изменения комментария
     const handleCommentChange = (event, orderId) => {
         setComments((prev) => ({
             ...prev,
@@ -164,6 +157,7 @@ export const MainInstallerPage = () => {
         }));
     };
 
+    // Обработчик выбора установщика
     const handleChange = (event, orderId) => {
         setSelectedTag((prev) => ({
             ...prev,
@@ -171,6 +165,7 @@ export const MainInstallerPage = () => {
         }));
     };
 
+    // Отправка данных на сервер
     const postData = async (orderId) => {
         try {
             const selectedInstaller = installers.find(
@@ -201,12 +196,14 @@ export const MainInstallerPage = () => {
         }
     };
 
+    // Обработчик смены страницы заказов
     const handlePageChange = (newPage) => {
         if (newPage >= 0 && newPage < totalPages) {
             setCurrentPage(newPage);
         }
     };
 
+    // Обработчик смены страницы доступности
     const handleAvailabilityPageChange = (newPage) => {
         if (newPage >= 0 && newPage < Math.ceil(availabilityList.length / recordsPerPage)) {
             setCurrentAvailabilityPage(newPage);
@@ -328,6 +325,7 @@ export const MainInstallerPage = () => {
                 <div className="MainInstallerPage__calendar-dateTable-block">
                     <div>
                         <CustomCalendar
+                            setFetchedAvailability={setFetchedAvailability}
                             availabilityList={availabilityList}
                             fetchedAvailability={fetchedAvailability}
                             setSelectedDate={setSelectedDate}
