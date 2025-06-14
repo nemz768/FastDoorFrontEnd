@@ -1,9 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useRef, useState} from "react";
 
-export const CustomCalendar = ({ setSelectedDate, selectedDate, onDateSelected, availabilityList, fetchedAvailability, setFetchedAvailability }) => {
+export const CustomCalendar = ({setSelectedDate, selectedDate, onDateSelected }) => {
+
+    const availabilityList = /*[[${availabilityList}]]*/ [];
+    const [fetchedAvailability, setFetchedAvailability] = useState(availabilityList || []);
+    const cachedAvailability = useRef(null);
+
+    const today = new Date();
     const [currentYearMonth, setCurrentYearMonth] = useState({
-        year: new Date().getFullYear(),
-        month: new Date().getMonth(),
+        year: today.getFullYear(),
+        month: today.getMonth(),
     });
 
     const monthNames = [
@@ -11,7 +17,6 @@ export const CustomCalendar = ({ setSelectedDate, selectedDate, onDateSelected, 
         'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь',
     ];
     const dayNames = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
-
     // Вычисляем количество дней в текущем месяце
     const daysInMonth = new Date(currentYearMonth.year, currentYearMonth.month + 1, 0).getDate();
     // Определяем первый день недели для текущего месяца
@@ -19,18 +24,23 @@ export const CustomCalendar = ({ setSelectedDate, selectedDate, onDateSelected, 
 
     // Создаём карту доступности для быстрого доступа к данным
     const availabilityMap = {};
+    // Используем fetchedAvailability, если он предоставлен и является массивом, иначе используем availabilityList
     const dataSource = Array.isArray(fetchedAvailability) && fetchedAvailability.length > 0 ? fetchedAvailability : (availabilityList || []);
     dataSource.forEach(day => {
         if (day && day.date) {
             availabilityMap[day.date] = {
                 frontDoorQuantity: day.frontDoorQuantity || 0,
                 inDoorQuantity: day.inDoorQuantity || 0,
-                available: day.available !== undefined ? day.available : true, // По умолчанию дата доступна
             };
         }
     });
 
     useEffect(() => {
+        if (cachedAvailability.current) {
+            setFetchedAvailability(cachedAvailability.current)
+        }
+
+
         const showCountOfDoors = async () => {
             try {
                 const res = await fetch("/api/orders/create", {
@@ -72,7 +82,7 @@ export const CustomCalendar = ({ setSelectedDate, selectedDate, onDateSelected, 
         const weeks = Math.ceil((firstDayOfWeek + daysInMonth) / 7);
         const days = [];
         let day = 1;
-        const todayStr = formatLocalDate(new Date());
+        const todayStr = formatLocalDate(today);
 
         for (let week = 0; week < weeks; week++) {
             const weekDays = [];
@@ -85,25 +95,23 @@ export const CustomCalendar = ({ setSelectedDate, selectedDate, onDateSelected, 
                     const dateStr = formatLocalDate(date);
                     const isSelected = selectedDate === dateStr;
                     const isToday = dateStr === todayStr;
-                    const isPast = date < new Date() && !isToday;
+                    const isPast = date < today && !isToday;
                     const availability = availabilityMap[dateStr];
-                    const isClosed = availability && !availability.available;
 
                     weekDays.push(
-                        <button
+                        <div
                             key={dateStr}
-                            className={`calendar-day ${isSelected ? 'selected' : ''} ${isToday ? 'today' : ''} ${isPast ? 'past' : ''} ${isClosed ? 'closed' : ''}`}
-                            onClick={isPast || isClosed || !setSelectedDate ? undefined : () => onDateSelected(dateStr)}
-                            disabled={isPast || isClosed}
+                            className={`calendar-day ${isSelected ? 'selected' : ''} ${isToday ? 'today' : ''} ${isPast ? 'past' : ''}`}
+                            onClick={isPast || !setSelectedDate ? undefined : () => onDateSelected(dateStr)}
                         >
                             <div className="day-number">{day}</div>
                             {availability && (
-                                <div className={`availability ${isPast ? 'past' : ''} ${isClosed ? 'closed' : ''}`}>
+                                <div className={`availability ${isPast ? 'past' : ''}`}>
                                     <span>В: {availability.frontDoorQuantity}</span>
                                     <span>М: {availability.inDoorQuantity}</span>
                                 </div>
                             )}
-                        </button>
+                        </div>
                     );
                     day++;
                 }
