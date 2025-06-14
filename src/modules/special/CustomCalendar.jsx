@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import "./CustomCalendar.css"
 export const CustomCalendar = ({ setSelectedDate, selectedDate, onDateSelected, availabilityList, fetchedAvailability, setFetchedAvailability }) => {
     const [currentYearMonth, setCurrentYearMonth] = useState({
         year: new Date().getFullYear(),
