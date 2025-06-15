@@ -129,7 +129,10 @@ export const MainInstallerPage = () => {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ date: selectedDate }),
+                body: JSON.stringify({
+                    date: selectedDate,
+                    available: false // check it
+                }),
             });
 
             if (!response.ok) {

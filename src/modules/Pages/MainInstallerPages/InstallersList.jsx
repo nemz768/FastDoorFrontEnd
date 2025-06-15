@@ -14,6 +14,8 @@ export const InstallersList = () => {
     const [totalPages, setTotalPages] = useState(1);
     const [selectedInstallerId, setSelectedInstallerId] = useState(null);
     const [activeModal, setActiveModal] = useState(false);
+    const [setButton, getSetButton] = useState(false);
+    const [setInputs, getSetInputs] = useState(false);
 
     const navItems = [
         { label: 'Главная', route: '/home/mainInstaller/' },
@@ -52,6 +54,10 @@ export const InstallersList = () => {
         getInstallers();
     }, [currentPage]);
 
+
+
+
+
     const openModal = (installerId) => {
         console.log('Открытие модального окна с installerId:', installerId);
         setSelectedInstallerId(installerId);
@@ -74,6 +80,24 @@ export const InstallersList = () => {
         }
     };
 
+    const returnInputs = () => {
+        getSetInputs(true)
+        return (
+            <div>
+                <input type="text"/>
+                <input type="text"/>
+            </div>
+     )
+    }
+    const handleChangeBtn = (installerId) => {
+        getSetButton(true)
+        setSelectedInstallerId(installerId);
+        returnInputs()
+        return (
+            <button>Подтвердить</button>
+        )
+    }
+
     return (
         <div>
             <Header navItems={navItems} />
@@ -95,10 +119,18 @@ export const InstallersList = () => {
                         <tbody>
                         {installers.map((item) => (
                             <tr key={item.id}>
-                                <td>{item.fullName}</td>
-                                <td>{item.phone}</td>
+                                {setInputs && (
+                                    <>
+                                        <td>{item.fullName}</td>
+                                        <td>{item.phone}</td>
+                                    </>
+                                )}
+
                                 <td>
-                                    <button>Изменить</button>
+                                    {setButton && (
+                                        <button onClick={()=> handleChangeBtn(item.id)}>Изменить</button>
+                                    )
+                                    }
                                     <button onClick={() => openModal(item.id)}>Удалить</button>
                                 </td>
                             </tr>
