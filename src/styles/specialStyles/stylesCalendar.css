@@ -20,3 +20,12 @@
     border: 2px solid #28a745;
 }
 
+.custom-calendar .calendar-day.past {
+    background-color: #d3d3d3 !important; /* светло-серый фон */
+    color: #888888; /* тусклый текст */
+    cursor: not-allowed;
+}
+
+.custom-calendar .calendar-day.past .availability {
+    display: none; /* скрыть инфу о дверях */
+}

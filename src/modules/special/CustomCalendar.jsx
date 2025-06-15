@@ -73,7 +73,7 @@ export const CustomCalendar = ({ setSelectedDate, selectedDate, onDateSelected, 
                             disabled={isPast || isClosed}
                         >
                             <div className="day-number">{day}</div>
-                            {availability && (
+                            {availability && !isPast && (
                                 <div className={`availability ${isPast ? 'past' : ''} ${isClosed ? 'closed' : ''}`}>
                                     <span>В: {availability.frontDoorQuantity}</span>
                                     <span>М: {availability.inDoorQuantity}</span>
