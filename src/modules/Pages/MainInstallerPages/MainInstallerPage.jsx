@@ -116,13 +116,12 @@ export const MainInstallerPage = () => {
         fetchOrders();
     }, [currentPage]);
 
-    // Исправленная функция закрытия даты
-    const closeDateCalendar = async () => {
+    const closeDateCalendar = async (e) => {
+        e.preventDefault();
         if (!selectedDate) {
             console.warn("Дата не выбрана!");
             return;
         }
-
         try {
             setIsLoading(true);
             const response = await fetch(`/api/doorLimits/closeDate?date=${encodeURIComponent(selectedDate)}`, {
