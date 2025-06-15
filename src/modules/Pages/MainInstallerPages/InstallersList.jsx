@@ -16,6 +16,13 @@ export const InstallersList = () => {
     const [activeModal, setActiveModal] = useState(false);
     const [editingInstallerId, setEditingInstallerId] = useState(null);
 
+
+
+    const [editedInstaller, setEditedInstaller] = useState({
+        fullName: '',
+        phone: ''
+    });
+
     const navItems = [
         { label: 'Главная', route: '/home/mainInstaller/' },
         { label: 'Добавить установщика', route: '/home/mainInstaller/create' },
@@ -53,9 +60,38 @@ export const InstallersList = () => {
         getInstallers();
     }, [currentPage]);
 
+    const saveDataInstaller = async (installerId) => {
+        const { fullName, phone } = editedInstaller;
+
+        try {
+            const response = await fetch(`/api/installer/${installerId}?fullName=${encodeURIComponent(fullName)}&phone=${encodeURIComponent(phone)}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+
+            if (!response.ok) {
+                throw new Error(`Ошибка: ${response.status}`);
+            }
+            // Обновить локально
+            setInstallers(prev =>
+                prev.map(installer =>
+                    installer.id === installerId
+                        ? { ...installer, fullName, phone }
+                        : installer
+                )
+            );
+
+            // Выйти из режима редактирования
+            setEditingInstallerId(null);
+        }catch (err) {
+            console.log(err)
+            setError("Ошибка при сохранении данных установщика")
+        }
 
 
-
+    }
 
     const openModal = (installerId) => {
         console.log('Открытие модального окна с installerId:', installerId);
@@ -79,8 +115,9 @@ export const InstallersList = () => {
         }
     };
 
-    const handleChangeBtn = (installerId) => {
-        setEditingInstallerId(installerId);
+    const handleChangeBtn = (installer) => {
+        setEditingInstallerId(installer.id);
+        setEditedInstaller({ fullName: installer.fullName, phone: installer.phone });
     };
 
 
@@ -107,8 +144,12 @@ export const InstallersList = () => {
                             <tr key={item.id}>
                                 {editingInstallerId === item.id ? (
                                     <>
-                                        <td><input defaultValue={item.fullName} /></td>
-                                        <td><input defaultValue={item.phone} /></td>
+                                        <td><input     value={editedInstaller.fullName}
+                                                       onChange={(e) => setEditedInstaller(prev => ({ ...prev, fullName: e.target.value }))}
+                                                       defaultValue={item.fullName} /></td>
+                                        <td><input     value={editedInstaller.phone}
+                                                       onChange={(e) => setEditedInstaller(prev => ({ ...prev, phone: e.target.value }))}
+                                                       defaultValue={item.phone} /></td>
                                     </>
                                 ) : (
                                     <>
@@ -118,9 +159,9 @@ export const InstallersList = () => {
                                 )}
                                 <td>
                                     {editingInstallerId === item.id ? (
-                                        <button onClick={() => console.log("privet")}>Сохранить</button>
+                                        <button onClick={() => saveDataInstaller(item.id)}>Сохранить</button>
                                     ) : (
-                                        <button onClick={() => handleChangeBtn(item.id)}>Изменить</button>
+                                        <button onClick={() => handleChangeBtn(item)}>Изменить</button>
                                     )}
                                     <button onClick={() => openModal(item.id)}>Удалить</button>
                                 </td>
