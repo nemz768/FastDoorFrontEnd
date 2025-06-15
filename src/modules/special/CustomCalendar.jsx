@@ -70,7 +70,7 @@ export const CustomCalendar = ({ setSelectedDate, selectedDate, onDateSelected, 
                             key={dateStr}
                             className={`calendar-day ${isSelected ? 'selected' : ''} ${isToday ? 'today' : ''} ${isPast ? 'past' : ''} ${isClosed ? 'closed' : ''} buttons-calendar`}
                             onClick={isPast || isClosed || !setSelectedDate ? undefined : () => onDateSelected(dateStr)}
-                            disabled={isPast || isClosed}
+                            disabled={isPast}
                         >
                             <div className="day-number">{day}</div>
                             {availability && !isPast && (
