@@ -9,7 +9,7 @@ export const PatchOrderPage = () => {
     const [inputValue, setInputValue] = useState({});
     const [selectedDate, setSelectedDate] = useState(null);
     const [isCalendarOpen, setIsCalendarOpen] = useState(false);
-
+    const [fetchedAvailability, setFetchedAvailability] = useState(availabilityList || []);
     const availabilityList = /*[[${availabilityList}]]*/ [];
     const navigate = useNavigate();
     const calendarRef = useRef(null);
@@ -52,6 +52,28 @@ export const PatchOrderPage = () => {
         };
         getData();
     }, [orderId]);
+
+
+    useEffect(() => {
+        const showCountOfDoors = async () => {
+            try {
+                const res = await fetch("/api/orders/create", {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
+                const data = await res.json();
+                const availabilityData = Array.isArray(data.availabilityList) ? data.availabilityList : [];
+                setFetchedAvailability(availabilityData);
+                console.log("Fetched availability:", availabilityData);
+            } catch (err) {
+                console.error("Error fetching availability:", err);
+                setFetchedAvailability(availabilityList || []);
+            }
+        };
+        showCountOfDoors();
+    }, []);
 
     useEffect(() => {
         const handleInput = (el) => {
@@ -218,8 +240,10 @@ export const PatchOrderPage = () => {
                         {isCalendarOpen && (
                             <div ref={calendarRef} className="calendar-container">
                                 <CustomCalendar
+                                    fetchedAvailability={fetchedAvailability}
                                     availabilityList={availabilityList}
                                     onDateSelected={handleDateSelected}
+                                    setSelectedDate={setSelectedDate}
                                     selectedDate={selectedDate}
                                 />
                             </div>
