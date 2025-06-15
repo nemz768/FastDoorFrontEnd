@@ -14,8 +14,7 @@ export const InstallersList = () => {
     const [totalPages, setTotalPages] = useState(1);
     const [selectedInstallerId, setSelectedInstallerId] = useState(null);
     const [activeModal, setActiveModal] = useState(false);
-    const [setButton, getSetButton] = useState(false);
-    const [setInputs, getSetInputs] = useState(false);
+    const [editingInstallerId, setEditingInstallerId] = useState(null);
 
     const navItems = [
         { label: 'Главная', route: '/home/mainInstaller/' },
@@ -80,23 +79,10 @@ export const InstallersList = () => {
         }
     };
 
-    const returnInputs = () => {
-        getSetInputs(true)
-        return (
-            <div>
-                <input type="text"/>
-                <input type="text"/>
-            </div>
-     )
-    }
     const handleChangeBtn = (installerId) => {
-        getSetButton(true)
-        setSelectedInstallerId(installerId);
-        returnInputs()
-        return (
-            <button>Подтвердить</button>
-        )
-    }
+        setEditingInstallerId(installerId);
+    };
+
 
     return (
         <div>
@@ -119,18 +105,23 @@ export const InstallersList = () => {
                         <tbody>
                         {installers.map((item) => (
                             <tr key={item.id}>
-                                {setInputs && (
+                                {editingInstallerId === item.id ? (
+                                    <>
+                                        <td><input defaultValue={item.fullName} /></td>
+                                        <td><input defaultValue={item.phone} /></td>
+                                    </>
+                                ) : (
                                     <>
                                         <td>{item.fullName}</td>
                                         <td>{item.phone}</td>
                                     </>
                                 )}
-
                                 <td>
-                                    {setButton && (
-                                        <button onClick={()=> handleChangeBtn(item.id)}>Изменить</button>
-                                    )
-                                    }
+                                    {editingInstallerId === item.id ? (
+                                        <button onClick={() => console.log("privet")}>Сохранить</button>
+                                    ) : (
+                                        <button onClick={() => handleChangeBtn(item.id)}>Изменить</button>
+                                    )}
                                     <button onClick={() => openModal(item.id)}>Удалить</button>
                                 </td>
                             </tr>
