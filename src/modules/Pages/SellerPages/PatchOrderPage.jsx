@@ -9,10 +9,11 @@ export const PatchOrderPage = () => {
     const [inputValue, setInputValue] = useState({});
     const [selectedDate, setSelectedDate] = useState(null);
     const [isCalendarOpen, setIsCalendarOpen] = useState(false);
-    const [fetchedAvailability, setFetchedAvailability] = useState(availabilityList || []);
     const availabilityList = /*[[${availabilityList}]]*/ [];
     const navigate = useNavigate();
     const calendarRef = useRef(null);
+
+    const [fetchedAvailability, setFetchedAvailability] = useState(availabilityList || []);
 
     const refs = {
         fullname: useRef(null),
