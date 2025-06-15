@@ -1,15 +1,9 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, { useState } from "react";
 
-export const CustomCalendar = ({setSelectedDate, selectedDate, onDateSelected }) => {
-
-    const availabilityList = /*[[${availabilityList}]]*/ [];
-    const [fetchedAvailability, setFetchedAvailability] = useState(availabilityList || []);
-    const cachedAvailability = useRef(null);
-
-    const today = new Date();
+export const CustomCalendar = ({ setSelectedDate, selectedDate, onDateSelected, availabilityList, fetchedAvailability }) => {
     const [currentYearMonth, setCurrentYearMonth] = useState({
-        year: today.getFullYear(),
-        month: today.getMonth(),
+        year: new Date().getFullYear(),
+        month: new Date().getMonth(),
     });
 
     const monthNames = [
@@ -17,51 +11,22 @@ export const CustomCalendar = ({setSelectedDate, selectedDate, onDateSelected })
         'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь',
     ];
     const dayNames = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
-    // Вычисляем количество дней в текущем месяце
+
     const daysInMonth = new Date(currentYearMonth.year, currentYearMonth.month + 1, 0).getDate();
-    // Определяем первый день недели для текущего месяца
     const firstDayOfWeek = (new Date(currentYearMonth.year, currentYearMonth.month, 1).getDay() || 7) % 7;
 
-    // Создаём карту доступности для быстрого доступа к данным
     const availabilityMap = {};
-    // Используем fetchedAvailability, если он предоставлен и является массивом, иначе используем availabilityList
     const dataSource = Array.isArray(fetchedAvailability) && fetchedAvailability.length > 0 ? fetchedAvailability : (availabilityList || []);
     dataSource.forEach(day => {
         if (day && day.date) {
             availabilityMap[day.date] = {
                 frontDoorQuantity: day.frontDoorQuantity || 0,
                 inDoorQuantity: day.inDoorQuantity || 0,
+                available: day.available !== undefined ? day.available : true,
             };
         }
     });
 
-    useEffect(() => {
-        if (cachedAvailability.current) {
-            setFetchedAvailability(cachedAvailability.current)
-        }
-
-
-        const showCountOfDoors = async () => {
-            try {
-                const res = await fetch("/api/orders/create", {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                });
-                const data = await res.json();
-                const availabilityData = Array.isArray(data.availabilityList) ? data.availabilityList : [];
-                setFetchedAvailability(availabilityData);
-                console.log("Fetched availability:", availabilityData);
-            } catch (err) {
-                console.error("Error fetching availability:", err);
-                setFetchedAvailability(availabilityList || []);
-            }
-        };
-        showCountOfDoors();
-    }, []);
-
-    // Переход к предыдущему месяцу
     const handlePrevMonth = () => {
         setCurrentYearMonth(prev => ({
             year: prev.month === 0 ? prev.year - 1 : prev.year,
@@ -69,7 +34,6 @@ export const CustomCalendar = ({setSelectedDate, selectedDate, onDateSelected })
         }));
     };
 
-    // Переход к следующему месяцу
     const handleNextMonth = () => {
         setCurrentYearMonth(prev => ({
             year: prev.month === 11 ? prev.year + 1 : prev.year,
@@ -77,12 +41,11 @@ export const CustomCalendar = ({setSelectedDate, selectedDate, onDateSelected })
         }));
     };
 
-    // Рендеринг дней календаря
     const renderDays = () => {
         const weeks = Math.ceil((firstDayOfWeek + daysInMonth) / 7);
         const days = [];
         let day = 1;
-        const todayStr = formatLocalDate(today);
+        const todayStr = formatLocalDate(new Date());
 
         for (let week = 0; week < weeks; week++) {
             const weekDays = [];
@@ -95,23 +58,25 @@ export const CustomCalendar = ({setSelectedDate, selectedDate, onDateSelected })
                     const dateStr = formatLocalDate(date);
                     const isSelected = selectedDate === dateStr;
                     const isToday = dateStr === todayStr;
-                    const isPast = date < today && !isToday;
+                    const isPast = date < new Date() && !isToday;
                     const availability = availabilityMap[dateStr];
+                    const isClosed = availability && !availability.available;
 
                     weekDays.push(
-                        <div
+                        <button
                             key={dateStr}
-                            className={`calendar-day ${isSelected ? 'selected' : ''} ${isToday ? 'today' : ''} ${isPast ? 'past' : ''}`}
-                            onClick={isPast || !setSelectedDate ? undefined : () => onDateSelected(dateStr)}
+                            className={`calendar-day ${isSelected ? 'selected' : ''} ${isToday ? 'today' : ''} ${isPast ? 'past' : ''} ${isClosed ? 'closed' : ''}`}
+                            onClick={isPast || isClosed || !setSelectedDate ? undefined : () => onDateSelected(dateStr)}
+                            disabled={isPast || isClosed}
                         >
                             <div className="day-number">{day}</div>
                             {availability && (
-                                <div className={`availability ${isPast ? 'past' : ''}`}>
+                                <div className={`availability ${isPast ? 'past' : ''} ${isClosed ? 'closed' : ''}`}>
                                     <span>В: {availability.frontDoorQuantity}</span>
                                     <span>М: {availability.inDoorQuantity}</span>
                                 </div>
                             )}
-                        </div>
+                        </button>
                     );
                     day++;
                 }
@@ -121,7 +86,6 @@ export const CustomCalendar = ({setSelectedDate, selectedDate, onDateSelected })
         return days;
     };
 
-    // Форматирование даты в формат YYYY-MM-DD с учётом локального часового пояса
     const formatLocalDate = (date) => {
         const year = date.getFullYear();
         const month = String(date.getMonth() + 1).padStart(2, '0');
