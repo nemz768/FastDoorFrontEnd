@@ -333,6 +333,7 @@ export const MainInstallerPage = () => {
                             setSelectedDate={setSelectedDate}
                             onDateSelected={handleDateSelected}
                             selectedDate={selectedDate}
+                            canSelectClosedDays={true}
                         />
                         <button onClick={closeDateCalendar} disabled={!selectedDate || isLoading}>
                             {isLoading ? "Закрытие..." : "Закрыть день!"}

@@ -3,7 +3,7 @@ import '../../styles/specialStyles/stylesCalendar.css'
 
 
 
-export const CustomCalendar = ({ selectedDate, onDateSelected, availabilityList, fetchedAvailability }) => {
+export const CustomCalendar = ({ selectedDate, onDateSelected, availabilityList, fetchedAvailability, canSelectClosedDays = false }) => {
     const [currentYearMonth, setCurrentYearMonth] = useState({
         year: new Date().getFullYear(),
         month: new Date().getMonth(),
@@ -69,8 +69,8 @@ export const CustomCalendar = ({ selectedDate, onDateSelected, availabilityList,
                         <button
                             key={dateStr}
                             className={`calendar-day ${isSelected ? 'selected' : ''} ${isToday ? 'today' : ''} ${isPast ? 'past' : ''} ${isClosed ? 'closed' : ''} buttons-calendar`}
-                            onClick={!isPast ? () => onDateSelected(dateStr) : undefined}
-                            disabled={isPast}
+                            onClick={!isPast && (!isClosed || canSelectClosedDays) ? () => onDateSelected(dateStr) : undefined}
+                            disabled={isPast || (isClosed && !canSelectClosedDays)}
                         >
                             <div className="day-number">{day}</div>
                             {availability && !isPast && (
