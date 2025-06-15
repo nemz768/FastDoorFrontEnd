@@ -15,6 +15,7 @@ export const InstallersList = () => {
     const [selectedInstallerId, setSelectedInstallerId] = useState(null);
     const [activeModal, setActiveModal] = useState(false);
     const [editingInstallerId, setEditingInstallerId] = useState(null);
+    const [message, sendMessage] = useState('');
 
 
 
@@ -85,6 +86,9 @@ export const InstallersList = () => {
 
             // Выйти из режима редактирования
             setEditingInstallerId(null);
+            sendMessage('Данные успешно обновлены!');
+            setTimeout(() => sendMessage(''), 3000);
+
         }catch (err) {
             console.log(err)
             setError("Ошибка при сохранении данных установщика")
@@ -204,6 +208,11 @@ export const InstallersList = () => {
                 />
             )}
             <Footer className="footer-installer" />
+            {message && (
+                <div className="toast-notification">
+                    {message}
+                </div>
+            )}
         </div>
     );
 };
