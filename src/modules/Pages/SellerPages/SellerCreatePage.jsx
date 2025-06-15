@@ -233,7 +233,7 @@ export const SellerCreatePage = () => {
                     />
                 </div>
 
-                <button id="submitButton" type="submit" className="submit-btn">Подтвердить заказ</button>
+                <button id="submitButton" type="submit" className="submit-btn button-full-style">Подтвердить заказ</button>
             </form>
         </div>
     );

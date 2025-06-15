@@ -65,7 +65,7 @@ export const CustomCalendar = ({ setSelectedDate, selectedDate, onDateSelected, 
                     weekDays.push(
                         <button
                             key={dateStr}
-                            className={`calendar-day ${isSelected ? 'selected' : ''} ${isToday ? 'today' : ''} ${isPast ? 'past' : ''} ${isClosed ? 'closed' : ''}`}
+                            className={`calendar-day ${isSelected ? 'selected' : ''} ${isToday ? 'today' : ''} ${isPast ? 'past' : ''} ${isClosed ? 'closed' : ''} buttons-calendar`}
                             onClick={isPast || isClosed || !setSelectedDate ? undefined : () => onDateSelected(dateStr)}
                             disabled={isPast || isClosed}
                         >
