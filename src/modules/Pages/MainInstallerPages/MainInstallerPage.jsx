@@ -335,6 +335,12 @@ export const MainInstallerPage = () => {
                         <button onClick={closeDateCalendar} disabled={!selectedDate || isLoading}>
                             {isLoading ? "Закрытие..." : "Закрыть день!"}
                         </button>
+                        <button>
+                            Открыть день
+                        </button>
+                        <button>
+                          Изменить количество дверей
+                        </button>
                     </div>
                     <div>
                         <table className="table-dates" border="1">
