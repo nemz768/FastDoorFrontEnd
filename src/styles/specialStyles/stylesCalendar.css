@@ -29,3 +29,15 @@
 .custom-calendar .calendar-day.past .availability {
     display: none; /* скрыть инфу о дверях */
 }
+
+
+
+.custom-calendar .calendar-day.closed-selected {
+    background-color: #28a745 !important; /* зелёный */
+    color: #fff;
+    cursor: pointer;
+}
+
+.custom-calendar .calendar-day.closed-selected .availability {
+    color: #fff;
+}
