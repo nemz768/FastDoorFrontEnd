@@ -1,0 +1,75 @@
+/* Существующие стили */
+.mainInstallerTables-FullBlock {
+    /* ... */
+}
+
+/* Добавляем стиль для закрытых дат */
+.custom-calendar .calendar-day.closed {
+    background-color: #ff0000 !important; /* Красный фон */
+    color: #ffffff; /* Белый текст для контраста */
+    cursor: not-allowed;
+}
+
+.custom-calendar .calendar-day.closed .availability {
+    color: #ffffff; /* Белый текст для информации о доступности */
+}
+
+/* Стили для других классов, если нужно */
+.custom-calendar .calendar-day {
+    padding: 5px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+.custom-calendar .calendar-day.selected {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.custom-calendar .calendar-day.today {
+    border: 2px solid #28a745;
+}
+
+.custom-calendar .calendar-day.past {
+    background-color: #f8f9fa;
+    cursor: not-allowed;
+}
+
+.custom-calendar .calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #f1f1f1;
+}
+
+.custom-calendar .nav-arrow {
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.custom-calendar .calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    background-color: #e9ecef;
+}
+
+.custom-calendar .weekday {
+    text-align: center;
+    padding: 5px;
+    font-weight: bold;
+}
+
+.custom-calendar .calendar-week {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+}
+
+.custom-calendar .availability {
+    font-size: 12px;
+    margin-top: 2px;
+}
+
+.custom-calendar .availability span {
+    display: block;
+}

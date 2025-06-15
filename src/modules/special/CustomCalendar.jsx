@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import '../../styles/specialStyles/stylesCalendar.css'
+
+
 
 export const CustomCalendar = ({ setSelectedDate, selectedDate, onDateSelected, availabilityList, fetchedAvailability }) => {
     const [currentYearMonth, setCurrentYearMonth] = useState({
