@@ -297,7 +297,7 @@ export const MainInstallerPage = () => {
             <Header navItems={navItems} />
 
             <div className="mainInstallerTables-block">
-                <h2>Панель установщика</h2>
+                <h2>Панель установщика1111</h2>
                 <main>
                     {isOrdersLoading  && <div className="loading">Загрузка...</div>}
                     {error && (
