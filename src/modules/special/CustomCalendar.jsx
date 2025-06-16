@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import '../../styles/specialStyles/stylesCalendar.css';
 
 export const CustomCalendar = ({
-                                   selectedDate,
-                                   setSelectedDate,
+                                   selectedDates,
+                                   setSelectedDates,
                                    onDateSelected,
                                    availabilityList,
                                    fetchedAvailability,
@@ -76,8 +76,15 @@ export const CustomCalendar = ({
             return;
         }
 
+        if (setSelectedDates) {
+            setSelectedDates(prev => {
+                const newSet = new Set(prev);
+                newSet.has(dateStr) ? newSet.delete(dateStr) : newSet.add(dateStr);
+                return newSet;
+            });
+        }
+
         onDateSelected?.(dateStr);
-        setSelectedDate?.(dateStr);
     };
 
     const renderDays = () => {
@@ -95,7 +102,7 @@ export const CustomCalendar = ({
                 } else {
                     const date = new Date(currentYearMonth.year, currentYearMonth.month, day);
                     const dateStr = formatLocalDate(date);
-                    const isSelected = selectedDate === dateStr;
+                    const isSelected = selectedDates?.has?.(dateStr);
                     const isToday = dateStr === todayStr;
                     const isPast = date < new Date() && !isToday;
                     const availability = availabilityMap[dateStr];
