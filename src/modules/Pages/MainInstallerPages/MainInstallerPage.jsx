@@ -169,11 +169,10 @@ export const MainInstallerPage = () => {
                 },
                 body: JSON.stringify({
                     date: selectedDate,
-                    available: true
                 }),
             });
             if (!response.ok) {
-                throw new Error(`Ошибка при закрытии даты: ${response.status} ${response.statusText}`);
+                throw new Error(`Ошибка при открытии даты: ${response.status} ${response.statusText}`);
             }
 
             console.log(await response.text());
@@ -181,7 +180,7 @@ export const MainInstallerPage = () => {
             toggleAvailabilityByDate(selectedDate, true);
             setSelectedDate(null);
         } catch (err) {
-            console.error("Ошибка при закрытии даты:", err);
+            console.error("Ошибка при открытии даты:", err);
             setError(err.message);
         } finally {
             setIsLoading(false);
