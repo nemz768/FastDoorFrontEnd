@@ -36,7 +36,7 @@ export const MainInstallerPage = () => {
         return `${day}.${month}.${year}`;
     };
 
-    // Получение данных о заказах и доступности
+    // Получение данных о заказах и доступности123
     const fetchOrders = async () => {
         setIsLoading(true);
         setError(null);
