@@ -6,15 +6,11 @@ export const CustomCalendar = ({
                                    onDateSelected,
                                    availabilityList,
                                    fetchedAvailability,
-                                   canSelectClosedDays = false,
-                                   closedSelectedDates,
-                                   setClosedSelectedDates,
                                }) => {
     const [currentYearMonth, setCurrentYearMonth] = useState({
         year: new Date().getFullYear(),
         month: new Date().getMonth(),
     });
-
 
     const monthNames = [
         'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
@@ -42,8 +38,6 @@ export const CustomCalendar = ({
             year: prev.month === 0 ? prev.year - 1 : prev.year,
             month: prev.month === 0 ? 11 : prev.month - 1,
         }));
-        // Можно сбросить выделенные закрытые дни при смене месяца
-        setClosedSelectedDates(new Set());
     };
 
     const handleNextMonth = () => {
@@ -51,7 +45,6 @@ export const CustomCalendar = ({
             year: prev.month === 11 ? prev.year + 1 : prev.year,
             month: prev.month === 11 ? 0 : prev.month + 1,
         }));
-        setClosedSelectedDates(new Set());
     };
 
     const formatLocalDate = (date) => {
@@ -62,24 +55,9 @@ export const CustomCalendar = ({
     };
 
     const onDayClick = (dateStr, isClosed, isPast) => {
-        if (isPast) return;
-        if (isClosed && canSelectClosedDays) {
-            setClosedSelectedDates(prev => {
-                const newSet = new Set(prev);
-                if (newSet.has(dateStr)) {
-                    newSet.delete(dateStr);  // снять выделение
-                } else {
-                    newSet.add(dateStr);     // выделить для открытия
-                }
-                return newSet;
-            });
-            return;
-        }
-        if (!isClosed) {
-            onDateSelected(dateStr);
-        }
+        if (isPast || isClosed) return;
+        onDateSelected(dateStr);
     };
-
 
     const renderDays = () => {
         const weeks = Math.ceil((firstDayOfWeek + daysInMonth) / 7);
@@ -101,20 +79,18 @@ export const CustomCalendar = ({
                     const isPast = date < new Date() && !isToday;
                     const availability = availabilityMap[dateStr];
                     const isClosed = availability && !availability.available;
-                    const isClosedSelected = closedSelectedDates.has(dateStr);
 
                     weekDays.push(
                         <button
                             key={dateStr}
                             className={`calendar-day 
-        ${isSelected ? 'selected' : ''} 
-        ${isToday ? 'today' : ''} 
-        ${isPast ? 'past' : ''} 
-        ${isClosed ? 'closed' : ''} 
-        ${isClosedSelected ? 'closed-selected' : ''} 
-        buttons-calendar`}
+                ${isSelected ? 'selected' : ''} 
+                ${isToday ? 'today' : ''} 
+                ${isPast ? 'past' : ''} 
+                ${isClosed ? 'closed' : ''} 
+                buttons-calendar`}
                             onClick={() => onDayClick(dateStr, isClosed, isPast)}
-                            disabled={isPast || (isClosed && !canSelectClosedDays)}
+                            disabled={isPast || isClosed}
                         >
                             <div className="day-number">{day}</div>
                             {availability && !isPast && (

@@ -118,9 +118,8 @@ export const MainInstallerPage = () => {
         fetchOrders();
     }, [currentPage]);
 
-    const closeDateCalendar = async (e) => {
-        e.preventDefault();
-        if (!selectedDate) {
+    const closeDateCalendar = async () => {
+       if (!selectedDate) {
             console.warn("Дата не выбрана!");
             return;
         }
@@ -153,6 +152,38 @@ export const MainInstallerPage = () => {
             setIsLoading(false);
         }
     };
+
+    const openDates = async () => {
+        if (closedSelectedDates.size === 0) {
+            alert("Выберите закрытые дни для открытия");
+            return;
+        }
+        setIsLoading(true);
+        setError(null);
+        try {
+            for (const date of closedSelectedDates) {
+                const response = await fetch(`/api/doorLimits/openDate?date=${encodeURIComponent(date)}`, {
+                    method: "PATCH",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ date: date, available: true }),
+                });
+                if (!response.ok) {
+                    throw new Error(`Ошибка при открытии даты ${date}: ${response.statusText}`);
+                }
+            }
+            await fetchOrders();
+            setClosedSelectedDates(new Set());
+            setSelectedDate(null);
+        } catch (err) {
+            console.error("Ошибка при открытии даты:", err);
+            setError(err.message);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+
+
 
 
 
@@ -228,40 +259,6 @@ export const MainInstallerPage = () => {
     const handleDateSelected = (dateStr) => {
         setSelectedDate(dateStr);
     };
-
-
-
-    const openDates = async () => {
-        if (closedSelectedDates.size === 0) {
-            alert("Выберите закрытые дни для открытия");
-            return;
-        }
-        setIsLoading(true);
-        setError(null);
-        try {
-            for (const date of closedSelectedDates) {
-                const response = await fetch(`/api/doorLimits/openDate?date=${encodeURIComponent(date)}`, {
-                    method: "PATCH",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ date: date, available: true }),
-                });
-                if (!response.ok) {
-                    throw new Error(`Ошибка при открытии даты ${date}: ${response.statusText}`);
-                }
-            }
-            await fetchOrders();
-            setClosedSelectedDates(new Set());
-            setSelectedDate(null);
-        } catch (err) {
-            console.error("Ошибка при открытии даты:", err);
-            setError(err.message);
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
-
-
 
 
     return (
@@ -376,8 +373,6 @@ export const MainInstallerPage = () => {
                             onDateSelected={handleDateSelected}
                             selectedDate={selectedDate}
                             canSelectClosedDays={true}
-                            closedSelectedDates={closedSelectedDates}
-                            setClosedSelectedDates={setClosedSelectedDates}
                         />
                         <button onClick={closeDateCalendar} disabled={!selectedDate || isLoading}>
                             {isLoading ? "Закрытие..." : "Закрыть день!"}
