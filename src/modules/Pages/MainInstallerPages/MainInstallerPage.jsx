@@ -19,6 +19,8 @@ export const MainInstallerPage = () => {
     const [selectedDate, setSelectedDate] = useState(null);
     const recordsPerPage = 10;
 
+    const [closedSelectedDates, setClosedSelectedDates] = useState(new Set());
+
     const url = `/api/mainInstaller?page=${currentPage}`;
     const urlPost = `/api/mainInstaller`;
 
@@ -152,41 +154,10 @@ export const MainInstallerPage = () => {
         }
     };
 
-    const openDateCalendar = async (e) => {
-        e.preventDefault();
-        if (!selectedDate) {
-            console.warn("Дата не выбрана!");
-            return;
-        }
-        console.log("Date: " + selectedDate);
-        try {
-            setIsLoading(true);
-            const response = await fetch(`/api/doorLimits/openDate?date=${encodeURIComponent(selectedDate)}`, {
-                method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    date: selectedDate,
-                    available: true // check it
-                }),
-            });
 
-            if (!response.ok) {
-                throw new Error(`Ошибка при закрытии даты: ${response.status} ${response.statusText}`);
-            }
 
-            console.log(await response.text());
 
-            await fetchOrders();
-            setSelectedDate(null);
-        } catch (err) {
-            console.error("Ошибка при закрытии даты:", err);
-            setError(err.message);
-        } finally {
-            setIsLoading(false);
-        }
-    };
+
     // Обработчик изменения комментария
     const handleCommentChange = (event, orderId) => {
         setComments((prev) => ({
@@ -257,6 +228,41 @@ export const MainInstallerPage = () => {
     const handleDateSelected = (dateStr) => {
         setSelectedDate(dateStr);
     };
+
+
+
+    const openDates = async () => {
+        if (closedSelectedDates.size === 0) {
+            alert("Выберите закрытые дни для открытия");
+            return;
+        }
+        setIsLoading(true);
+        setError(null);
+        try {
+            for (const date of closedSelectedDates) {
+                const response = await fetch(`/api/doorLimits/openDate?date=${encodeURIComponent(date)}`, {
+                    method: "PATCH",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ date: date, available: true }),
+                });
+                if (!response.ok) {
+                    throw new Error(`Ошибка при открытии даты ${date}: ${response.statusText}`);
+                }
+            }
+            await fetchOrders();
+            setClosedSelectedDates(new Set());
+            setSelectedDate(null);
+        } catch (err) {
+            console.error("Ошибка при открытии даты:", err);
+            setError(err.message);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+
+
+
 
     return (
         <div className='mainInstallerTables-FullBlock'>
@@ -370,12 +376,15 @@ export const MainInstallerPage = () => {
                             onDateSelected={handleDateSelected}
                             selectedDate={selectedDate}
                             canSelectClosedDays={true}
+                            closedSelectedDates={closedSelectedDates}
+                            setClosedSelectedDates={setClosedSelectedDates}
                         />
                         <button onClick={closeDateCalendar} disabled={!selectedDate || isLoading}>
                             {isLoading ? "Закрытие..." : "Закрыть день!"}
                         </button>
-                        <button onClick={openDateCalendar}>
-                            Открыть день
+                        <button  onClick={openDates}
+                                 disabled={closedSelectedDates.size === 0 || isLoading}>
+                            {isLoading ? "Открытие..." : "Открыть день"}
                         </button>
                         <button>
                           Изменить количество дверей

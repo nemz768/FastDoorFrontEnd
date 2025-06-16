@@ -6,15 +6,15 @@ export const CustomCalendar = ({
                                    onDateSelected,
                                    availabilityList,
                                    fetchedAvailability,
-                                   canSelectClosedDays = false
+                                   canSelectClosedDays = false,
+                                   closedSelectedDates,
+                                   setClosedSelectedDates,
                                }) => {
     const [currentYearMonth, setCurrentYearMonth] = useState({
         year: new Date().getFullYear(),
         month: new Date().getMonth(),
     });
 
-    // Добавим состояние для закрытых выделенных дней
-    const [closedSelectedDates, setClosedSelectedDates] = useState(new Set());
 
     const monthNames = [
         'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
@@ -67,19 +67,19 @@ export const CustomCalendar = ({
             setClosedSelectedDates(prev => {
                 const newSet = new Set(prev);
                 if (newSet.has(dateStr)) {
-                    newSet.delete(dateStr);
+                    newSet.delete(dateStr);  // снять выделение
                 } else {
-                    newSet.add(dateStr);
+                    newSet.add(dateStr);     // выделить для открытия
                 }
                 return newSet;
             });
-            // Не вызываем onDateSelected для закрытых, если это нужно, или можно вызвать
             return;
         }
         if (!isClosed) {
             onDateSelected(dateStr);
         }
     };
+
 
     const renderDays = () => {
         const weeks = Math.ceil((firstDayOfWeek + daysInMonth) / 7);
