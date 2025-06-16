@@ -118,7 +118,10 @@ export const MainInstallerPage = () => {
 
     const closeDateCalendar = async (e) => {
         e.preventDefault();
-
+        if (!selectedDate) {
+            console.warn("Дата не выбрана!");
+            return;
+        }
         console.log("Date: " + selectedDate);
         try {
             setIsLoading(true);
@@ -227,7 +230,7 @@ export const MainInstallerPage = () => {
             <Header navItems={navItems} />
 
             <div className="mainInstallerTables-block">
-                <h2>Панель установщика</h2>
+                <h2>Панель установщика1111111</h2>
                 <main>
                     {isLoading && <div className="loading">Загрузка...</div>}
                     {error && (
