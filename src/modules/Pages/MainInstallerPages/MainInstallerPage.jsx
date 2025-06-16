@@ -11,14 +11,14 @@ export const MainInstallerPage = () => {
     const [availabilityList, setAvailabilityList] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(1);
-    const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
     const [selectedTag, setSelectedTag] = useState({});
     const [comments, setComments] = useState({});
     const [currentAvailabilityPage, setCurrentAvailabilityPage] = useState(0);
     const [selectedDate, setSelectedDate] = useState(null);
     const recordsPerPage = 10;
-
+    const [isOrdersLoading, setIsOrdersLoading] = useState(false);
+    const [isAvailabilityChanging, setIsAvailabilityChanging] = useState(false);
     const [closedSelectedDates, setClosedSelectedDates] = useState(new Set());
 
     const url = `/api/mainInstaller?page=${currentPage}`;
@@ -40,7 +40,7 @@ export const MainInstallerPage = () => {
 
     // Получение данных о заказах и доступности123
     const fetchOrders = async () => {
-        setIsLoading(true);
+        setIsOrdersLoading(true);
         setError(null);
         try {
             const response = await fetch(url, {
@@ -89,7 +89,7 @@ export const MainInstallerPage = () => {
             console.error('Ошибка при загрузке заказов:', err);
             setError(err.message);
         } finally {
-            setIsLoading(false);
+            setIsOrdersLoading(false)
         }
     };
 
@@ -123,11 +123,12 @@ export const MainInstallerPage = () => {
             console.warn("Дата не выбрана!");
             return;
         }
-        console.log("Date: " + selectedDate);
+        const updatedDates = [];
 
         try {
-            setIsLoading(true);
-            for (const date of selectedDate) {
+            setIsAvailabilityChanging(true);
+
+            for (const date of closedSelectedDates) {
                 const response = await fetch(`/api/doorLimits/closeDate?date=${encodeURIComponent(selectedDate)}`, {
                     method: "PATCH",
                     headers: {
@@ -142,6 +143,7 @@ export const MainInstallerPage = () => {
                 if (!response.ok) {
                     throw new Error(`Ошибка при закрытии даты: ${date} ${response.status} ${response.statusText}`);
                 }
+                updatedDates.push(date);
             }
             setFetchedAvailability(prev =>
                 prev.map(item =>
@@ -159,7 +161,7 @@ export const MainInstallerPage = () => {
             console.error("Ошибка при закрытии даты:", err);
             setError(err.message);
         } finally {
-            setIsLoading(false);
+            setIsAvailabilityChanging(false);
         }
     };
 
@@ -168,7 +170,7 @@ export const MainInstallerPage = () => {
             alert("Выберите закрытые дни для открытия");
             return;
         }
-        setIsLoading(true);
+        setIsAvailabilityChanging(true);
         setError(null);
         const updatedDates = [];
 
@@ -202,7 +204,7 @@ export const MainInstallerPage = () => {
             console.error("Ошибка при открытии даты:", err);
             setError(err.message);
         } finally {
-            setIsLoading(false);
+            setIsAvailabilityChanging(false);
         }
     };
 
@@ -292,7 +294,7 @@ export const MainInstallerPage = () => {
             <div className="mainInstallerTables-block">
                 <h2>Панель установщика</h2>
                 <main>
-                    {isLoading && <div className="loading">Загрузка...</div>}
+                    {isOrdersLoading  && <div className="loading">Загрузка...</div>}
                     {error && (
                         <div className="error">
                             <h3>Ошибка: {error}</h3>
@@ -301,10 +303,10 @@ export const MainInstallerPage = () => {
                             </button>
                         </div>
                     )}
-                    {!isLoading && !error && orders.length === 0 && (
+                    {!isOrdersLoading && !error && orders.length === 0 && (
                         <div className="no-orders">Заказы не найдены</div>
                     )}
-                    {!isLoading && !error && orders.length > 0 && (
+                    {!isOrdersLoading && !error && orders.length > 0 && (
                         <>
                             <table border="1" className='mainInstallerTable'>
                                 <thead>
@@ -400,12 +402,12 @@ export const MainInstallerPage = () => {
                             closedSelectedDates={closedSelectedDates}
                             setClosedSelectedDates={setClosedSelectedDates}
                         />
-                        <button onClick={closeDateCalendar} disabled={!selectedDate || isLoading}>
-                            {isLoading ? "Закрытие..." : "Закрыть день!"}
+                        <button onClick={closeDateCalendar} disabled={!selectedDate || isAvailabilityChanging}>
+                            {isAvailabilityChanging ? "Закрытие..." : "Закрыть день!"}
                         </button>
                         <button  onClick={openDates}
-                                 disabled={closedSelectedDates.size === 0 || isLoading}>
-                            {isLoading ? "Открытие..." : "Открыть день"}
+                                 disabled={closedSelectedDates.size === 0 || isAvailabilityChanging}>
+                            {isAvailabilityChanging ? "Открытие..." : "Открыть день"}
                         </button>
                         <button>
                           Изменить количество дверей
