@@ -3,8 +3,8 @@ import { Header } from '../../Header.jsx';
 import { Footer } from '../../Footer.jsx';
 import { CustomCalendar } from '../../special/CustomCalendar.jsx';
 import '../../../styles/styleMainInstaller/MainInstallerPage.css'
-import {shutdownSvg} from '../../../assets/shutdownsvg.svg'
-import {shutdownSvg} from '../../../assets/shutdownsvg.svg'
+// import {shutdownSvg} from '../../../assets/shutdownsvg.svg'
+// import {shutdownSvg} from '../../../assets/shutdownsvg.svg'
 import {shutdownSvg} from '../../../assets/shutdownsvg.svg'
 
 export const MainInstallerPage = () => {
