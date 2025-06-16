@@ -118,10 +118,6 @@ export const MainInstallerPage = () => {
 
     const closeDateCalendar = async (e) => {
         e.preventDefault();
-        if (!selectedDate) {
-            console.warn("Дата не выбрана!");
-            return;
-        }
         try {
             setIsLoading(true);
             const response = await fetch(`/api/doorLimits/closeDate?date=${encodeURIComponent(selectedDate)}`, {
@@ -150,6 +146,38 @@ export const MainInstallerPage = () => {
             setIsLoading(false);
         }
     };
+
+
+    const openDateCalendar = async (e) => {
+        e.preventDefault();
+        try {
+            setIsLoading(true);
+            const response = await fetch(`/api/doorLimits/openDate?date=${encodeURIComponent(selectedDate)}`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    date: selectedDate,
+                    available: false // check it
+                }),
+            });
+            if (!response.ok) {
+                throw new Error(`Ошибка при закрытии даты: ${response.status} ${response.statusText}`);
+            }
+
+            console.log(await response.text());
+
+            await fetchOrders();
+            setSelectedDate(null);
+        } catch (err) {
+            console.error("Ошибка при закрытии даты:", err);
+            setError(err.message);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
 
     // Обработчик изменения комментария
     const handleCommentChange = (event, orderId) => {
@@ -338,8 +366,8 @@ export const MainInstallerPage = () => {
                         <button onClick={closeDateCalendar} disabled={!selectedDate || isLoading}>
                             {isLoading ? "Закрытие..." : "Закрыть день!"}
                         </button>
-                        <button>
-                            Открыть день
+                        <button onClick={openDateCalendar} disabled={!selectedDate || isLoading}>
+                            {isLoading ? "Открытие..." : "Открыть день!"}
                         </button>
                         <button>
                           Изменить количество дверей
