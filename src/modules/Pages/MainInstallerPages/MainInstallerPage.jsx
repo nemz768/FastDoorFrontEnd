@@ -24,7 +24,7 @@ export const MainInstallerPage = () => {
     const url = `/api/mainInstaller?page=${currentPage}`;
     const urlPost = `/api/mainInstaller`;
 
-
+//1
     const [selectedDates, setSelectedDates] = useState(new Set());
 
     const navItems = [
