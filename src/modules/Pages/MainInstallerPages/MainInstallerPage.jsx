@@ -159,7 +159,7 @@ export const MainInstallerPage = () => {
                 },
                 body: JSON.stringify({
                     date: selectedDate,
-                    available: false // check it
+                    available: true // check it
                 }),
             });
             if (!response.ok) {
