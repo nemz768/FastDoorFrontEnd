@@ -36,16 +36,6 @@ export const MainInstallerPage = () => {
         return `${day}.${month}.${year}`;
     };
 
-    const toggleAvailabilityByDate = (date, isAvailable) => {
-        setAvailabilityList((prev) =>
-            prev.map((item) =>
-                item.date === date
-                    ? { ...item, available: isAvailable }
-                    : item
-            )
-        );
-    };
-
     // Получение данных о заказах и доступности
     const fetchOrders = async () => {
         setIsLoading(true);
@@ -147,7 +137,7 @@ export const MainInstallerPage = () => {
 
             console.log(await response.text());
 
-            toggleAvailabilityByDate(selectedDate, false);
+            await fetchOrders();
             setSelectedDate(null);
         } catch (err) {
             console.error("Ошибка при закрытии даты:", err);
@@ -169,19 +159,19 @@ export const MainInstallerPage = () => {
                 },
                 body: JSON.stringify({
                     date: selectedDate,
-                    available: true // check it
+                    available: true
                 }),
             });
             if (!response.ok) {
-                throw new Error(`Ошибка при открытии даты: ${response.status} ${response.statusText}`);
+                throw new Error(`Ошибка при закрытии даты: ${response.status} ${response.statusText}`);
             }
 
             console.log(await response.text());
 
-            toggleAvailabilityByDate(selectedDate, true);
+            await fetchOrders();
             setSelectedDate(null);
         } catch (err) {
-            console.error("Ошибка при открытии даты:", err);
+            console.error("Ошибка при закрытии даты:", err);
             setError(err.message);
         } finally {
             setIsLoading(false);
@@ -376,7 +366,7 @@ export const MainInstallerPage = () => {
                         <button onClick={closeDateCalendar} disabled={!selectedDate || isLoading}>
                             {isLoading ? "Закрытие..." : "Закрыть день!"}
                         </button>
-                        <button onClick={openDateCalendar} disabled={isLoading}>
+                        <button onClick={openDateCalendar}>
                             {isLoading ? "Открытие..." : "Открыть день!"}
                         </button>
                         <button>
