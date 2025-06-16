@@ -128,7 +128,7 @@ export const MainInstallerPage = () => {
         try {
             setIsAvailabilityChanging(true);
 
-            for (const date of closedSelectedDates) {
+            for (const date of selectedDate) {
                 const response = await fetch(`/api/doorLimits/closeDate?date=${encodeURIComponent(selectedDate)}`, {
                     method: "PATCH",
                     headers: {
