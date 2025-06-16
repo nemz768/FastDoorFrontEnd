@@ -2,10 +2,8 @@ import React, { useState } from "react";
 import '../../styles/specialStyles/stylesCalendar.css';
 
 export const CustomCalendar = ({
-                                   // selectedDate,
-                                   // setSelectedDate,
-                                   selectedDates,        // Множество выбранных дат (Set)
-                                   setSelectedDates,     // Функция для обновления выбранных дат
+                                   selectedDate,
+                                   setSelectedDate,
                                    onDateSelected,
                                    availabilityList,
                                    fetchedAvailability,
@@ -67,7 +65,6 @@ export const CustomCalendar = ({
     const onDayClick = (dateStr, isClosed, isPast) => {
         if (isPast) return;
 
-        // Если клик по закрытому дню и можно выбирать закрытые дни
         if (isClosed) {
             if (canSelectClosedDays && closedSelectedDates && setClosedSelectedDates) {
                 setClosedSelectedDates(prev => {
@@ -79,22 +76,8 @@ export const CustomCalendar = ({
             return;
         }
 
-        // Множественный выбор дат для открытия/закрытия
-        if (selectedDates && setSelectedDates) {
-            setSelectedDates(prev => {
-                const newSet = new Set(prev);
-                if (newSet.has(dateStr)) {
-                    newSet.delete(dateStr);
-                } else {
-                    newSet.add(dateStr);
-                }
-                return newSet;
-            });
-        }
-
-        // Для обратной совместимости
         onDateSelected?.(dateStr);
-        // setSelectedDate?.(dateStr);  // Убрали одиночный выбор
+        setSelectedDate?.(dateStr);
     };
 
     const renderDays = () => {
@@ -112,7 +95,7 @@ export const CustomCalendar = ({
                 } else {
                     const date = new Date(currentYearMonth.year, currentYearMonth.month, day);
                     const dateStr = formatLocalDate(date);
-                    const isSelected = selectedDates ? selectedDates.has(dateStr) : false;
+                    const isSelected = selectedDate === dateStr;
                     const isToday = dateStr === todayStr;
                     const isPast = date < new Date() && !isToday;
                     const availability = availabilityMap[dateStr];
@@ -123,12 +106,12 @@ export const CustomCalendar = ({
                         <button
                             key={dateStr}
                             className={`calendar-day 
-                            ${isSelected ? 'selected' : ''} 
-                            ${isToday ? 'today' : ''} 
-                            ${isPast ? 'past' : ''} 
-                            ${isClosed ? 'closed' : ''} 
-                            ${isClosedSelected ? 'closed-selected' : ''} 
-                            buttons-calendar`}
+                                ${isSelected ? 'selected' : ''} 
+                                ${isToday ? 'today' : ''} 
+                                ${isPast ? 'past' : ''} 
+                                ${isClosed ? 'closed' : ''} 
+                                ${isClosedSelected ? 'closed-selected' : ''} 
+                                buttons-calendar`}
                             onClick={() => onDayClick(dateStr, isClosed, isPast)}
                             disabled={isPast || (isClosed && !canSelectClosedDays)}
                         >

@@ -401,7 +401,6 @@ export const MainInstallerPage = () => {
                     <div>
                         <CustomCalendar
                             selectedDates={selectedDates}
-                            setSelectedDates={setSelectedDates}
                             setFetchedAvailability={setFetchedAvailability}
                             availabilityList={availabilityList}
                             fetchedAvailability={fetchedAvailability}
@@ -420,7 +419,7 @@ export const MainInstallerPage = () => {
                             {isAvailabilityChanging ? "Открытие..." : "Открыть день"}
                         </button>
                         <button>
-                          Изменить количество дверей
+                            Изменить количество дверей
                         </button>
                     </div>
                     <div>
