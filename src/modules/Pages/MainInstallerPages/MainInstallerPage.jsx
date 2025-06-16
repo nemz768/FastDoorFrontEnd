@@ -412,7 +412,7 @@ export const MainInstallerPage = () => {
                             closedSelectedDates={closedSelectedDates}
                             setClosedSelectedDates={setClosedSelectedDates}
                         />
-                        <button onClick={closeDateCalendar} disabled={selectedDates.size === 0 || isAvailabilityChanging}>
+                        <button onClick={closeDateCalendar} disabled={!selectedDate || isAvailabilityChanging}>
                             {isAvailabilityChanging ? "Закрытие..." : "Закрыть день!"}
                         </button>
                         <button  onClick={openDates}
