@@ -24,6 +24,9 @@ export const MainInstallerPage = () => {
     const url = `/api/mainInstaller?page=${currentPage}`;
     const urlPost = `/api/mainInstaller`;
 
+
+    const [selectedDates, setSelectedDates] = useState(new Set());
+
     const navItems = [
         { label: 'Список установщиков', route: '/home/mainInstaller/InstallersList' },
         { label: 'Добавить установщика', route: '/home/mainInstaller/create' },
@@ -128,7 +131,7 @@ export const MainInstallerPage = () => {
         try {
             setIsAvailabilityChanging(true);
 
-            for (const date of selectedDate) {
+            for (const date of selectedDates) {
                 const response = await fetch(`/api/doorLimits/closeDate?date=${encodeURIComponent(selectedDate)}`, {
                     method: "PATCH",
                     headers: {
@@ -208,13 +211,6 @@ export const MainInstallerPage = () => {
         }
     };
 
-
-
-
-
-
-
-
     // Обработчик изменения комментария
     const handleCommentChange = (event, orderId) => {
         setComments((prev) => ({
@@ -283,8 +279,17 @@ export const MainInstallerPage = () => {
     );
 
     const handleDateSelected = (dateStr) => {
-        setSelectedDate(dateStr);
+        setSelectedDates(prev => {
+            const newSet = new Set(prev);
+            if (newSet.has(dateStr)) {
+                newSet.delete(dateStr);
+            } else {
+                newSet.add(dateStr);
+            }
+            return newSet;
+        });
     };
+
 
 
     return (
@@ -392,6 +397,7 @@ export const MainInstallerPage = () => {
                 <div className="MainInstallerPage__calendar-dateTable-block">
                     <div>
                         <CustomCalendar
+                            selectedDates={selectedDates}
                             setFetchedAvailability={setFetchedAvailability}
                             availabilityList={availabilityList}
                             fetchedAvailability={fetchedAvailability}
