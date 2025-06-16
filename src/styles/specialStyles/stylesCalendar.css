@@ -12,7 +12,7 @@
 }
 
 .custom-calendar .calendar-day.selected {
-    background-color: #007bff;
+    background-color: #007bff; !important;
     color: #fff;
 }
 

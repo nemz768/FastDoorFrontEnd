@@ -117,4 +117,7 @@
     font-size: 16px;
 }
 
-
+.Calendar-Button-MainInstaller {
+    background-color: transparent;
+    border: 1px black solid;
+}
