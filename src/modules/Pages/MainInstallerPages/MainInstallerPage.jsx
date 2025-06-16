@@ -416,14 +416,14 @@ export const MainInstallerPage = () => {
                             setClosedSelectedDates={setClosedSelectedDates}
                         />
                         <button className="Calendar-Button-MainInstaller" onClick={closeDateCalendar} disabled={!selectedDate || isAvailabilityChanging}>
-                            {shutdownSvg}
+                            <img src={shutdownSvg} alt="shutdown"/>
                         </button>
                         <button className="Calendar-Button-MainInstaller" onClick={openDates}
                                  disabled={closedSelectedDates.size === 0 || isAvailabilityChanging}>
-                            {openSvg}
+                             <img src={openSvg} alt="shutdown"/>
                         </button>
                         <button className="Calendar-Button-MainInstaller">
-                            {changeDataSvg}
+                       <img src={changeDataSvg} alt="shutdown"/>
                         </button>
                     </div>
                     <div>
