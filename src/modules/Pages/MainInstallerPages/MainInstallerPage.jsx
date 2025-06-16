@@ -24,6 +24,9 @@ export const MainInstallerPage = () => {
     const url = `/api/mainInstaller?page=${currentPage}`;
     const urlPost = `/api/mainInstaller`;
 
+
+    const [selectedDates, setSelectedDates] = useState(new Set());
+
     const navItems = [
         { label: 'Список установщиков', route: '/home/mainInstaller/InstallersList' },
         { label: 'Добавить установщика', route: '/home/mainInstaller/create' },
@@ -119,8 +122,8 @@ export const MainInstallerPage = () => {
     }, [currentPage]);
 
     const closeDateCalendar = async () => {
-       if (!selectedDate) {
-            console.warn("Дата не выбрана!");
+        if (selectedDates.size === 0) {
+            console.warn("Даты не выбраны!");
             return;
         }
         const updatedDates = [];
@@ -128,15 +131,15 @@ export const MainInstallerPage = () => {
         try {
             setIsAvailabilityChanging(true);
 
-            for (const date of selectedDate) {
-                const response = await fetch(`/api/doorLimits/closeDate?date=${encodeURIComponent(selectedDate)}`, {
+            for (const date of selectedDates) {
+                const response = await fetch(`/api/doorLimits/closeDate?date=${encodeURIComponent(date)}`, {
                     method: "PATCH",
                     headers: {
                         "Content-Type": "application/json",
                     },
                     body: JSON.stringify({
-                        date: selectedDate,
-                        available: false // check it
+                        date: date,
+                        available: false,
                     }),
                 });
 
@@ -145,18 +148,21 @@ export const MainInstallerPage = () => {
                 }
                 updatedDates.push(date);
             }
+
             setFetchedAvailability(prev =>
                 prev.map(item =>
-                    item.date === selectedDate ? { ...item, available: false } : item
+                    updatedDates.includes(item.date) ? { ...item, available: false } : item
                 )
             );
 
             setAvailabilityList(prev =>
                 prev.map(item =>
-                    item.date === selectedDate ? { ...item, available: false } : item
+                    updatedDates.includes(item.date) ? { ...item, available: false } : item
                 )
             );
+
             setSelectedDate(null);
+            setSelectedDates(new Set()); // сброс выделения после закрытия
         } catch (err) {
             console.error("Ошибка при закрытии даты:", err);
             setError(err.message);
@@ -207,13 +213,6 @@ export const MainInstallerPage = () => {
             setIsAvailabilityChanging(false);
         }
     };
-
-
-
-
-
-
-
 
     // Обработчик изменения комментария
     const handleCommentChange = (event, orderId) => {
@@ -283,8 +282,17 @@ export const MainInstallerPage = () => {
     );
 
     const handleDateSelected = (dateStr) => {
-        setSelectedDate(dateStr);
+        setSelectedDates(prev => {
+            const newSet = new Set(prev);
+            if (newSet.has(dateStr)) {
+                newSet.delete(dateStr);
+            } else {
+                newSet.add(dateStr);
+            }
+            return newSet;
+        });
     };
+
 
 
     return (
@@ -392,6 +400,8 @@ export const MainInstallerPage = () => {
                 <div className="MainInstallerPage__calendar-dateTable-block">
                     <div>
                         <CustomCalendar
+                            selectedDates={selectedDates}
+                            setSelectedDates={setSelectedDates}
                             setFetchedAvailability={setFetchedAvailability}
                             availabilityList={availabilityList}
                             fetchedAvailability={fetchedAvailability}
@@ -410,7 +420,7 @@ export const MainInstallerPage = () => {
                             {isAvailabilityChanging ? "Открытие..." : "Открыть день"}
                         </button>
                         <button>
-                          Изменить количество дверей
+                            Изменить количество дверей
                         </button>
                     </div>
                     <div>
