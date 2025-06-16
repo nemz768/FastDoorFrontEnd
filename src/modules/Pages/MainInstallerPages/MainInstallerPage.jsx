@@ -124,26 +124,36 @@ export const MainInstallerPage = () => {
             return;
         }
         console.log("Date: " + selectedDate);
+
         try {
             setIsLoading(true);
-            const response = await fetch(`/api/doorLimits/closeDate?date=${encodeURIComponent(selectedDate)}`, {
-                method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    date: selectedDate,
-                    available: false // check it
-                }),
-            });
+            for (const date of selectedDate) {
+                const response = await fetch(`/api/doorLimits/closeDate?date=${encodeURIComponent(selectedDate)}`, {
+                    method: "PATCH",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        date: selectedDate,
+                        available: false // check it
+                    }),
+                });
 
-            if (!response.ok) {
-                throw new Error(`Ошибка при закрытии даты: ${response.status} ${response.statusText}`);
+                if (!response.ok) {
+                    throw new Error(`Ошибка при закрытии даты: ${date} ${response.status} ${response.statusText}`);
+                }
             }
+            setFetchedAvailability(prev =>
+                prev.map(item =>
+                    item.date === selectedDate ? { ...item, available: false } : item
+                )
+            );
 
-            console.log(await response.text());
-
-            await fetchOrders();
+            setAvailabilityList(prev =>
+                prev.map(item =>
+                    item.date === selectedDate ? { ...item, available: false } : item
+                )
+            );
             setSelectedDate(null);
         } catch (err) {
             console.error("Ошибка при закрытии даты:", err);
@@ -160,6 +170,8 @@ export const MainInstallerPage = () => {
         }
         setIsLoading(true);
         setError(null);
+        const updatedDates = [];
+
         try {
             for (const date of closedSelectedDates) {
                 const response = await fetch(`/api/doorLimits/openDate?date=${encodeURIComponent(date)}`, {
@@ -170,8 +182,20 @@ export const MainInstallerPage = () => {
                 if (!response.ok) {
                     throw new Error(`Ошибка при открытии даты ${date}: ${response.statusText}`);
                 }
+                updatedDates.push(date);
             }
-            await fetchOrders();
+
+            setFetchedAvailability(prev =>
+                prev.map(item =>
+                    updatedDates.includes(item.date) ? { ...item, available: true } : item
+                )
+            );
+
+            setAvailabilityList(prev =>
+                prev.map(item =>
+                    updatedDates.includes(item.date) ? { ...item, available: true } : item
+                )
+            );
             setClosedSelectedDates(new Set());
             setSelectedDate(null);
         } catch (err) {
