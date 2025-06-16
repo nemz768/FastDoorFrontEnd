@@ -135,7 +135,9 @@ export const MainInstallerPage = () => {
                 headers: {
                     "Content-Type": "application/json",
                 },
-
+                body: JSON.stringify({
+                    date: selectedDate,
+                }),
             });
 
             if (!response.ok) {
@@ -157,6 +159,7 @@ export const MainInstallerPage = () => {
 
     const openDateCalendar = async (e) => {
         e.preventDefault();
+        console.log("Открываем дату:", selectedDate);
         try {
             setIsLoading(true);
             const response = await fetch(`/api/doorLimits/openDate?date=${encodeURIComponent(selectedDate)}`, {
@@ -164,6 +167,9 @@ export const MainInstallerPage = () => {
                 headers: {
                     "Content-Type": "application/json",
                 },
+                body: JSON.stringify({
+                    date: selectedDate,
+                }),
             });
             if (!response.ok) {
                 throw new Error(`Ошибка при открытии даты: ${response.status} ${response.statusText}`);
