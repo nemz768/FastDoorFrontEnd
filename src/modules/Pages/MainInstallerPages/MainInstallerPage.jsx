@@ -401,6 +401,7 @@ export const MainInstallerPage = () => {
                     <div>
                         <CustomCalendar
                             selectedDates={selectedDates}
+                            setSelectedDates={setSelectedDates}
                             setFetchedAvailability={setFetchedAvailability}
                             availabilityList={availabilityList}
                             fetchedAvailability={fetchedAvailability}
