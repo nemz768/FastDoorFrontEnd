@@ -262,7 +262,7 @@ export const MainInstallerPage = () => {
         }
     };
 
-    // Обработчик смены страницы заказов
+    // Обработчик смены страницы заказовd
     const handlePageChange = (newPage) => {
         if (newPage >= 0 && newPage < totalPages) {
             setCurrentPage(newPage);
