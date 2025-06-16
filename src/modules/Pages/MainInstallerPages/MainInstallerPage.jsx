@@ -118,6 +118,7 @@ export const MainInstallerPage = () => {
 
     const closeDateCalendar = async (e) => {
         e.preventDefault();
+        console.log("abababab" + selectedDate);
         try {
             setIsLoading(true);
             const response = await fetch(`/api/doorLimits/closeDate?date=${encodeURIComponent(selectedDate)}`, {
@@ -125,10 +126,6 @@ export const MainInstallerPage = () => {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({
-                    date: selectedDate,
-                    available: false // check it
-                }),
             });
 
             if (!response.ok) {
@@ -150,6 +147,7 @@ export const MainInstallerPage = () => {
 
     const openDateCalendar = async (e) => {
         e.preventDefault();
+        console.log("xzxzxzxzxz" + selectedDate);
         try {
             setIsLoading(true);
             const response = await fetch(`/api/doorLimits/openDate?date=${encodeURIComponent(selectedDate)}`, {
@@ -157,10 +155,6 @@ export const MainInstallerPage = () => {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({
-                    date: selectedDate,
-                    available: true
-                }),
             });
             if (!response.ok) {
                 throw new Error(`Ошибка при закрытии даты: ${response.status} ${response.statusText}`);
