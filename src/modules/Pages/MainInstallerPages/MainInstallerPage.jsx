@@ -3,9 +3,9 @@ import { Header } from '../../Header.jsx';
 import { Footer } from '../../Footer.jsx';
 import { CustomCalendar } from '../../special/CustomCalendar.jsx';
 import '../../../styles/styleMainInstaller/MainInstallerPage.css'
-// import {shutdownSvg} from '../../../assets/shutdownsvg.svg'
-// import {shutdownSvg} from '../../../assets/shutdownsvg.svg'
-import {shutdownSvg} from '../../../assets/shutdownsvg.svg'
+import openSvg from '../../../assets/unlock-alt-svgrepo-com.svg'
+import changeDataSvg from '../../../assets/change-management-backup-svgrepo-com.svg'
+import shutdownSvg from '../../../assets/lock-alt-svgrepo-com.svg'
 
 export const MainInstallerPage = () => {
     const [orders, setOrders] = useState([]);
@@ -416,14 +416,14 @@ export const MainInstallerPage = () => {
                             setClosedSelectedDates={setClosedSelectedDates}
                         />
                         <button className="Calendar-Button-MainInstaller" onClick={closeDateCalendar} disabled={!selectedDate || isAvailabilityChanging}>
-                            {isAvailabilityChanging ? shutdownSvg : "Закрыть день!"}
+                            {shutdownSvg}
                         </button>
                         <button className="Calendar-Button-MainInstaller" onClick={openDates}
                                  disabled={closedSelectedDates.size === 0 || isAvailabilityChanging}>
-                            {isAvailabilityChanging ? "Открытие..." : "Открыть день"}
+                            {openSvg}
                         </button>
                         <button className="Calendar-Button-MainInstaller">
-                            Изменить количество дверей
+                            {changeDataSvg}
                         </button>
                     </div>
                     <div>
