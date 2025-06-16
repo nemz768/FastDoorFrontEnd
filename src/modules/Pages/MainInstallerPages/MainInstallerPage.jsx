@@ -152,8 +152,41 @@ export const MainInstallerPage = () => {
         }
     };
 
+    const openDateCalendar = async (e) => {
+        e.preventDefault();
+        if (!selectedDate) {
+            console.warn("Дата не выбрана!");
+            return;
+        }
+        console.log("Date: " + selectedDate);
+        try {
+            setIsLoading(true);
+            const response = await fetch(`/api/doorLimits/openDate?date=${encodeURIComponent(selectedDate)}`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    date: selectedDate,
+                    available: true // check it
+                }),
+            });
 
+            if (!response.ok) {
+                throw new Error(`Ошибка при закрытии даты: ${response.status} ${response.statusText}`);
+            }
 
+            console.log(await response.text());
+
+            await fetchOrders();
+            setSelectedDate(null);
+        } catch (err) {
+            console.error("Ошибка при закрытии даты:", err);
+            setError(err.message);
+        } finally {
+            setIsLoading(false);
+        }
+    };
     // Обработчик изменения комментария
     const handleCommentChange = (event, orderId) => {
         setComments((prev) => ({
@@ -230,7 +263,7 @@ export const MainInstallerPage = () => {
             <Header navItems={navItems} />
 
             <div className="mainInstallerTables-block">
-                <h2>Панель установщика1111111</h2>
+                <h2>Панель установщика</h2>
                 <main>
                     {isLoading && <div className="loading">Загрузка...</div>}
                     {error && (
@@ -341,7 +374,7 @@ export const MainInstallerPage = () => {
                         <button onClick={closeDateCalendar} disabled={!selectedDate || isLoading}>
                             {isLoading ? "Закрытие..." : "Закрыть день!"}
                         </button>
-                        <button>
+                        <button onClick={openDateCalendar}>
                             Открыть день
                         </button>
                         <button>
