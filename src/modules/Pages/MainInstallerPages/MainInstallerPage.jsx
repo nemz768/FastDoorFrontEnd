@@ -122,8 +122,8 @@ export const MainInstallerPage = () => {
     }, [currentPage]);
 
     const closeDateCalendar = async () => {
-       if (!selectedDate) {
-            console.warn("Дата не выбрана!");
+        if (selectedDates.size === 0) {
+            console.warn("Даты не выбраны!");
             return;
         }
         const updatedDates = [];
@@ -132,14 +132,14 @@ export const MainInstallerPage = () => {
             setIsAvailabilityChanging(true);
 
             for (const date of selectedDates) {
-                const response = await fetch(`/api/doorLimits/closeDate?date=${encodeURIComponent(selectedDate)}`, {
+                const response = await fetch(`/api/doorLimits/closeDate?date=${encodeURIComponent(date)}`, {
                     method: "PATCH",
                     headers: {
                         "Content-Type": "application/json",
                     },
                     body: JSON.stringify({
-                        date: selectedDate,
-                        available: false // check it
+                        date: date,
+                        available: false,
                     }),
                 });
 
@@ -148,18 +148,21 @@ export const MainInstallerPage = () => {
                 }
                 updatedDates.push(date);
             }
+
             setFetchedAvailability(prev =>
                 prev.map(item =>
-                    item.date === selectedDate ? { ...item, available: false } : item
+                    updatedDates.includes(item.date) ? { ...item, available: false } : item
                 )
             );
 
             setAvailabilityList(prev =>
                 prev.map(item =>
-                    item.date === selectedDate ? { ...item, available: false } : item
+                    updatedDates.includes(item.date) ? { ...item, available: false } : item
                 )
             );
+
             setSelectedDate(null);
+            setSelectedDates(new Set()); // сброс выделения после закрытия
         } catch (err) {
             console.error("Ошибка при закрытии даты:", err);
             setError(err.message);
@@ -297,7 +300,7 @@ export const MainInstallerPage = () => {
             <Header navItems={navItems} />
 
             <div className="mainInstallerTables-block">
-                <h2>Панель установщика1111</h2>
+                <h2>Панель установщика</h2>
                 <main>
                     {isOrdersLoading  && <div className="loading">Загрузка...</div>}
                     {error && (
