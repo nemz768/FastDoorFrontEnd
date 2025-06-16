@@ -118,7 +118,6 @@ export const MainInstallerPage = () => {
 
     const closeDateCalendar = async (e) => {
         e.preventDefault();
-        console.log("abababab" + selectedDate);
         try {
             setIsLoading(true);
             const response = await fetch(`/api/doorLimits/closeDate?date=${encodeURIComponent(selectedDate)}`, {
@@ -126,6 +125,10 @@ export const MainInstallerPage = () => {
                 headers: {
                     "Content-Type": "application/json",
                 },
+                body: JSON.stringify({
+                    date: selectedDate,
+                    available: false // check it
+                }),
             });
 
             if (!response.ok) {
@@ -144,33 +147,6 @@ export const MainInstallerPage = () => {
         }
     };
 
-
-    const openDateCalendar = async (e) => {
-        e.preventDefault();
-        console.log("xzxzxzxzxz" + selectedDate);
-        try {
-            setIsLoading(true);
-            const response = await fetch(`/api/doorLimits/openDate?date=${encodeURIComponent(selectedDate)}`, {
-                method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            });
-            if (!response.ok) {
-                throw new Error(`Ошибка при закрытии даты: ${response.status} ${response.statusText}`);
-            }
-
-            console.log(await response.text());
-
-            await fetchOrders();
-            setSelectedDate(null);
-        } catch (err) {
-            console.error("Ошибка при закрытии даты:", err);
-            setError(err.message);
-        } finally {
-            setIsLoading(false);
-        }
-    };
 
 
     // Обработчик изменения комментария
@@ -360,8 +336,8 @@ export const MainInstallerPage = () => {
                         <button onClick={closeDateCalendar} disabled={!selectedDate || isLoading}>
                             {isLoading ? "Закрытие..." : "Закрыть день!"}
                         </button>
-                        <button onClick={openDateCalendar}>
-                            {isLoading ? "Открытие..." : "Открыть день!"}
+                        <button>
+                            Открыть день
                         </button>
                         <button>
                           Изменить количество дверей
