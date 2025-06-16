@@ -118,6 +118,8 @@ export const MainInstallerPage = () => {
 
     const closeDateCalendar = async (e) => {
         e.preventDefault();
+
+        console.log("Date: " + selectedDate);
         try {
             setIsLoading(true);
             const response = await fetch(`/api/doorLimits/closeDate?date=${encodeURIComponent(selectedDate)}`, {
