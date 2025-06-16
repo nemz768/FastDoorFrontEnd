@@ -33,7 +33,7 @@ export const MainInstallerPage = () => {
         { label: 'Список заказов', route: '/404' },
     ];
 
-    // Форматирование даты в DD.MM.YYYY
+    // Форматирование даты в DD.MM.YYYY123
     const reversedDate = (dateString) => {
         const day = dateString.slice(8);
         const month = dateString.slice(5, 7);
