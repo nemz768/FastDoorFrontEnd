@@ -135,10 +135,7 @@ export const MainInstallerPage = () => {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({
-                    date: selectedDate,
-                    available: false // check it
-                }),
+
             });
 
             if (!response.ok) {
@@ -167,9 +164,6 @@ export const MainInstallerPage = () => {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({
-                    date: selectedDate,
-                }),
             });
             if (!response.ok) {
                 throw new Error(`Ошибка при открытии даты: ${response.status} ${response.statusText}`);
