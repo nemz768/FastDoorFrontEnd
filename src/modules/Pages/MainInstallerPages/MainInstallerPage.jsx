@@ -137,6 +137,7 @@ export const MainInstallerPage = () => {
                 },
                 body: JSON.stringify({
                     date: selectedDate,
+                    available: false // check it
                 }),
             });
 
@@ -159,7 +160,6 @@ export const MainInstallerPage = () => {
 
     const openDateCalendar = async (e) => {
         e.preventDefault();
-        console.log("Открываем дату:", selectedDate);
         try {
             setIsLoading(true);
             const response = await fetch(`/api/doorLimits/openDate?date=${encodeURIComponent(selectedDate)}`, {
@@ -169,6 +169,7 @@ export const MainInstallerPage = () => {
                 },
                 body: JSON.stringify({
                     date: selectedDate,
+                    available: true // check it
                 }),
             });
             if (!response.ok) {
