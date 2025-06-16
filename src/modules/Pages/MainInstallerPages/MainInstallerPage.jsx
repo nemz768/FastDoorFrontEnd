@@ -222,7 +222,7 @@ export const MainInstallerPage = () => {
         }));
     };
 
-    // Обработчик выбора установщика
+    // Обработчик выбора установщикаf
     const handleChange = (event, orderId) => {
         setSelectedTag((prev) => ({
             ...prev,
