@@ -36,6 +36,16 @@ export const MainInstallerPage = () => {
         return `${day}.${month}.${year}`;
     };
 
+    const toggleAvailabilityByDate = (date, isAvailable) => {
+        setAvailabilityList((prev) =>
+            prev.map((item) =>
+                item.date === date
+                    ? { ...item, available: isAvailable }
+                    : item
+            )
+        );
+    };
+
     // Получение данных о заказах и доступности
     const fetchOrders = async () => {
         setIsLoading(true);
@@ -137,7 +147,7 @@ export const MainInstallerPage = () => {
 
             console.log(await response.text());
 
-            await fetchOrders();
+            toggleAvailabilityByDate(selectedDate, false);
             setSelectedDate(null);
         } catch (err) {
             console.error("Ошибка при закрытии даты:", err);
@@ -159,7 +169,7 @@ export const MainInstallerPage = () => {
                 },
                 body: JSON.stringify({
                     date: selectedDate,
-                    available: true // check it
+                    available: true
                 }),
             });
             if (!response.ok) {
@@ -168,7 +178,7 @@ export const MainInstallerPage = () => {
 
             console.log(await response.text());
 
-            await fetchOrders();
+            toggleAvailabilityByDate(selectedDate, true);
             setSelectedDate(null);
         } catch (err) {
             console.error("Ошибка при закрытии даты:", err);
@@ -366,7 +376,7 @@ export const MainInstallerPage = () => {
                         <button onClick={closeDateCalendar} disabled={!selectedDate || isLoading}>
                             {isLoading ? "Закрытие..." : "Закрыть день!"}
                         </button>
-                        <button onClick={openDateCalendar} disabled={!selectedDate || isLoading}>
+                        <button onClick={openDateCalendar} disabled={isLoading}>
                             {isLoading ? "Открытие..." : "Открыть день!"}
                         </button>
                         <button>
