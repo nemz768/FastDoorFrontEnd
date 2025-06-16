@@ -1,11 +1,15 @@
 import React, { useState } from "react";
-import '../../styles/specialStyles/stylesCalendar.css'
+import '../../styles/specialStyles/stylesCalendar.css';
 
 export const CustomCalendar = ({
                                    selectedDate,
+                                   setSelectedDate,
                                    onDateSelected,
                                    availabilityList,
                                    fetchedAvailability,
+                                   canSelectClosedDays = false,
+                                   closedSelectedDates,
+                                   setClosedSelectedDates,
                                }) => {
     const [currentYearMonth, setCurrentYearMonth] = useState({
         year: new Date().getFullYear(),
@@ -22,7 +26,9 @@ export const CustomCalendar = ({
     const firstDayOfWeek = (new Date(currentYearMonth.year, currentYearMonth.month, 1).getDay() || 7) % 7;
 
     const availabilityMap = {};
-    const dataSource = Array.isArray(fetchedAvailability) && fetchedAvailability.length > 0 ? fetchedAvailability : (availabilityList || []);
+    const dataSource = Array.isArray(fetchedAvailability) && fetchedAvailability.length > 0
+        ? fetchedAvailability
+        : (availabilityList || []);
     dataSource.forEach(day => {
         if (day && day.date) {
             availabilityMap[day.date] = {
@@ -38,6 +44,7 @@ export const CustomCalendar = ({
             year: prev.month === 0 ? prev.year - 1 : prev.year,
             month: prev.month === 0 ? 11 : prev.month - 1,
         }));
+        setClosedSelectedDates?.(new Set());
     };
 
     const handleNextMonth = () => {
@@ -45,6 +52,7 @@ export const CustomCalendar = ({
             year: prev.month === 11 ? prev.year + 1 : prev.year,
             month: prev.month === 11 ? 0 : prev.month + 1,
         }));
+        setClosedSelectedDates?.(new Set());
     };
 
     const formatLocalDate = (date) => {
@@ -55,8 +63,21 @@ export const CustomCalendar = ({
     };
 
     const onDayClick = (dateStr, isClosed, isPast) => {
-        if (isPast || isClosed) return;
-        onDateSelected(dateStr);
+        if (isPast) return;
+
+        if (isClosed) {
+            if (canSelectClosedDays && closedSelectedDates && setClosedSelectedDates) {
+                setClosedSelectedDates(prev => {
+                    const newSet = new Set(prev);
+                    newSet.has(dateStr) ? newSet.delete(dateStr) : newSet.add(dateStr);
+                    return newSet;
+                });
+            }
+            return;
+        }
+
+        onDateSelected?.(dateStr);
+        setSelectedDate?.(dateStr);
     };
 
     const renderDays = () => {
@@ -79,18 +100,20 @@ export const CustomCalendar = ({
                     const isPast = date < new Date() && !isToday;
                     const availability = availabilityMap[dateStr];
                     const isClosed = availability && !availability.available;
+                    const isClosedSelected = closedSelectedDates?.has?.(dateStr);
 
                     weekDays.push(
                         <button
                             key={dateStr}
                             className={`calendar-day 
-                ${isSelected ? 'selected' : ''} 
-                ${isToday ? 'today' : ''} 
-                ${isPast ? 'past' : ''} 
-                ${isClosed ? 'closed' : ''} 
-                buttons-calendar`}
+                                ${isSelected ? 'selected' : ''} 
+                                ${isToday ? 'today' : ''} 
+                                ${isPast ? 'past' : ''} 
+                                ${isClosed ? 'closed' : ''} 
+                                ${isClosedSelected ? 'closed-selected' : ''} 
+                                buttons-calendar`}
                             onClick={() => onDayClick(dateStr, isClosed, isPast)}
-                            disabled={isPast || isClosed}
+                            disabled={isPast || (isClosed && !canSelectClosedDays)}
                         >
                             <div className="day-number">{day}</div>
                             {availability && !isPast && (
