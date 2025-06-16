@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import '../../styles/specialStyles/stylesCalendar.css';
-//3
+
 export const CustomCalendar = ({
                                    selectedDate,
                                    setSelectedDate,
