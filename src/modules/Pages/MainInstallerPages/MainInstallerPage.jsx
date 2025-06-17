@@ -428,13 +428,17 @@ export const MainInstallerPage = () => {
                         </button>
 
                         <div>
-                            <button onClick={()=> {
-                                setOpenCalendarDateChange(true)
-                            }} className="Calendar-Button-MainInstaller">
+                            <button onClick={()=> {setOpenCalendarDateChange(true)
+                            }} disabled={!selectedDate || isAvailabilityChanging}
+                                 className="Calendar-Button-MainInstaller">
                                 <img src={changeDataSvg} alt="shutdown"/>
                             </button>
 
-                            {openCalendarDateChange && <ChangeDoorsLimit/>}
+                            {openCalendarDateChange && <ChangeDoorsLimit
+                                selectedDate={selectedDate}
+                                setOpenCalendarDateChange={setOpenCalendarDateChange}
+                                openCalendarDateChange={openCalendarDateChange}
+                            />}
                         </div>
                     </div>
                     <div>
