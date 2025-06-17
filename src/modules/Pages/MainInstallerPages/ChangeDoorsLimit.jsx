@@ -1,17 +1,13 @@
-import {useRef} from "react";
+import {useState} from "react";
 import '../../../styles/styleMainInstaller/ChangeDoorLimits.css'
 
-//12312312312321312
-export const ChangeDoorsLimit = ({selectedDate, setOpenCalendarDateChange, refreshAvailabilityData }) => {
+export const ChangeDoorsLimit = ({selectedDate, setOpenCalendarDateChange }) => {
 
-    const DoorLimits = {
-        frontDoorQuantity: useRef(null),
-        inDoorQuantity: useRef(null)
-    }
+    const [frontDoorQuantity, setFrontDoorQuantity] = useState(0);
+    const [inDoorQuantity, setInDoorQuantity] = useState(0);
+
+
     const patchDoorLimits = async () => {
-        const frontDoorQuantity = DoorLimits.frontDoorQuantity.current.value;
-        const inDoorQuantity = DoorLimits.inDoorQuantity.current.value;
-
         try {
             const response = await fetch("/api/doorLimits/editDate", {
                 method: 'PATCH',
@@ -20,8 +16,8 @@ export const ChangeDoorsLimit = ({selectedDate, setOpenCalendarDateChange, refre
                 },
                 body: JSON.stringify({
                     date: selectedDate,
-                    frontDoorQuantity: Number(frontDoorQuantity),
-                    inDoorQuantity: Number(inDoorQuantity),
+                    frontDoorQuantity: frontDoorQuantity,
+                    inDoorQuantity: inDoorQuantity,
 
                 })
             });
@@ -29,10 +25,6 @@ export const ChangeDoorsLimit = ({selectedDate, setOpenCalendarDateChange, refre
             const data = await response.text();
             console.log(data);
 
-            // Обновление данных после успешного изменения
-            if (typeof refreshAvailabilityData === 'function') {
-                await refreshAvailabilityData();
-            }
 
             setOpenCalendarDateChange(false)
 
@@ -40,9 +32,6 @@ export const ChangeDoorsLimit = ({selectedDate, setOpenCalendarDateChange, refre
             console.log("Ошибка:", error);
         }
     };
-
-
-
     return (
         <div className="ChangeDoorsLimit">
             <div onClick={()=> {
@@ -53,10 +42,10 @@ export const ChangeDoorsLimit = ({selectedDate, setOpenCalendarDateChange, refre
 
             <div>
                 <p>Входные двери: </p>
-                <input ref={DoorLimits.frontDoorQuantity} type="text" />
+                <input value={frontDoorQuantity} onChange={(e)=> setFrontDoorQuantity(Number(e.target.value))}type="text" />
 
                 <p>Межкомнатные двери: </p>
-                <input ref={DoorLimits.inDoorQuantity} type="text" />
+                <input value={inDoorQuantity} onChange={(e)=> setInDoorQuantity(Number(e.target.value))} type="text" />
                 <button onClick={patchDoorLimits}>Подтвердить</button>
             </div>
         </div>

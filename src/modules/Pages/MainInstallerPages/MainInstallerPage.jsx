@@ -437,7 +437,6 @@ export const MainInstallerPage = () => {
                                 selectedDate={selectedDate}
                                 setOpenCalendarDateChange={setOpenCalendarDateChange}
                                 openCalendarDateChange={openCalendarDateChange}
-                                refreshAvailabilityData={fetchOrders}
                            />}
                         </div>
                     </div>
