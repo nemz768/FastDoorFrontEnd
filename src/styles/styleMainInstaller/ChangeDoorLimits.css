@@ -1,0 +1,7 @@
+.ChangeDoorsLimit {
+    display: flex;
+    flex-direction: column;
+    background: white;
+    border: 1px solid black;
+
+}

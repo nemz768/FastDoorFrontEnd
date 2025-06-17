@@ -1,8 +1,48 @@
-
+import {useRef} from "react";
 import '../../../styles/styleMainInstaller/ChangeDoorLimits.css'
 
 
-export const ChangeDoorsLimit = ({setOpenCalendarDateChange}) => {
+export const ChangeDoorsLimit = ({selectedDate, setOpenCalendarDateChange}) => {
+
+
+
+
+    const DoorLimits = {
+        frontDoorQuantity: useRef(null),
+        inDoorQuantity: useRef(null)
+    }
+    const patchDoorLimits = async ()=> {
+        const frontDoorQuantity = DoorLimits.frontDoorQuantity.current.value;
+        const inDoorQuantity = DoorLimits.inDoorQuantity.current.value;
+        try {
+            const response = await fetch("api/doorLimits/editDate", {
+                method: 'PATCH',
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    date: selectedDate,
+                    inDoorQuantity: inDoorQuantity,
+                    frontDoorQuantity: frontDoorQuantity
+                })
+            })
+
+           const data =  await response.text();
+            console.log(data)
+
+        }
+        catch (error) {
+            console.log(error)
+        }
+
+    }
+
+
+    const handleConfirm = () =>  {
+        patchDoorLimits();
+        setOpenCalendarDateChange(false)
+
+    }
 
     return (
         <div className="ChangeDoorsLimit">
@@ -14,9 +54,10 @@ export const ChangeDoorsLimit = ({setOpenCalendarDateChange}) => {
 
             <div>
                 <p>Входные двери: </p>
-                <input type="text"/>
+                <input ref={DoorLimits.inDoorQuantity} type="text"/>
                 <p>Межкомнатные двери: </p>
-                <input type="text"/>
+                <input ref={DoorLimits.frontDoorQuantity} type="text"/>
+                <button onClick={handleConfirm}>Подтвердить</button>
             </div>
         </div>
     );
