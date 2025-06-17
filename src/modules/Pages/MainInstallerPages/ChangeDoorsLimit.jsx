@@ -1,7 +1,7 @@
 import {useRef} from "react";
 import '../../../styles/styleMainInstaller/ChangeDoorLimits.css'
 
-
+//12312312312321312
 export const ChangeDoorsLimit = ({selectedDate, setOpenCalendarDateChange, refreshAvailabilityData }) => {
 
     const DoorLimits = {
