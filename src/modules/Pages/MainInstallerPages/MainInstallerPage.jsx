@@ -299,25 +299,6 @@ export const MainInstallerPage = () => {
         });
     };
 
-    const updateAvailabilityInMemory = (date, updatedValues) => {
-        const formattedDate = reversedDate(date);
-
-        setAvailabilityList(prev =>
-            prev.map(item =>
-                item.formattedDate === formattedDate
-                    ? {
-                        ...item,
-                        doorLimit: updatedValues.frontDoorQuantity,
-                        inDoorLimit: updatedValues.inDoorQuantity
-                    }
-                    : item
-            )
-        );
-    };
-
-
-
-
 
     return (
         <div className='mainInstallerTables-FullBlock'>
@@ -456,8 +437,8 @@ export const MainInstallerPage = () => {
                                 selectedDate={selectedDate}
                                 setOpenCalendarDateChange={setOpenCalendarDateChange}
                                 openCalendarDateChange={openCalendarDateChange}
-                                onUpdate={updateAvailabilityInMemory}
-                            />}
+                                refreshAvailabilityData={fetchOrders}
+                           />}
                         </div>
                     </div>
                     <div>

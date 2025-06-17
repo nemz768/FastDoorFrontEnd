@@ -2,7 +2,7 @@ import {useRef} from "react";
 import '../../../styles/styleMainInstaller/ChangeDoorLimits.css'
 
 
-export const ChangeDoorsLimit = ({selectedDate, setOpenCalendarDateChange, onUpdate}) => {
+export const ChangeDoorsLimit = ({selectedDate, setOpenCalendarDateChange, refreshAvailabilityData }) => {
 
     const DoorLimits = {
         frontDoorQuantity: useRef(null),
@@ -28,10 +28,12 @@ export const ChangeDoorsLimit = ({selectedDate, setOpenCalendarDateChange, onUpd
 
             const data = await response.text();
             console.log(data);
-            onUpdate(selectedDate, {
-                frontDoorQuantity,
-                inDoorQuantity
-            });
+
+            // Обновление данных после успешного изменения
+            if (typeof refreshAvailabilityData === 'function') {
+                await refreshAvailabilityData();
+            }
+
             setOpenCalendarDateChange(false)
 
         } catch (error) {
