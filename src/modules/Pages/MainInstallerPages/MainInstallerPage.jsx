@@ -299,6 +299,10 @@ export const MainInstallerPage = () => {
         });
     };
 
+    const refreshData = async () => {
+        const updated = await fetchOrders(); // или какой у тебя метод получения данных
+        setSelectedDate(updated);
+    };
 
     return (
         <div className='mainInstallerTables-FullBlock'>
@@ -437,6 +441,7 @@ export const MainInstallerPage = () => {
                                 selectedDate={selectedDate}
                                 setOpenCalendarDateChange={setOpenCalendarDateChange}
                                 openCalendarDateChange={openCalendarDateChange}
+                                refreshData={refreshData}
                            />}
                         </div>
                     </div>
