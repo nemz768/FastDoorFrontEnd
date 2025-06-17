@@ -120,4 +120,5 @@
 .Calendar-Button-MainInstaller {
     background-color: transparent;
     border: 1px black solid;
+    border-radius: 0;
 }

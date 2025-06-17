@@ -6,6 +6,7 @@ import '../../../styles/styleMainInstaller/MainInstallerPage.css'
 import openSvg from '../../../assets/unlock-alt-svgrepo-com.svg'
 import changeDataSvg from '../../../assets/change-management-backup-svgrepo-com.svg'
 import shutdownSvg from '../../../assets/lock-alt-svgrepo-com.svg'
+import {ChangeDoorsLimit} from "./ChangeDoorsLimit.jsx";
 
 export const MainInstallerPage = () => {
     const [orders, setOrders] = useState([]);
@@ -27,7 +28,9 @@ export const MainInstallerPage = () => {
     const url = `/api/mainInstaller?page=${currentPage}`;
     const urlPost = `/api/mainInstaller`;
 
-//1
+// changeDataCalendar
+    const [openCalendarDateChange, setOpenCalendarDateChange] = useState(false);
+
     const [selectedDates, setSelectedDates] = useState(new Set());
 
     const navItems = [
@@ -415,6 +418,7 @@ export const MainInstallerPage = () => {
                             closedSelectedDates={closedSelectedDates}
                             setClosedSelectedDates={setClosedSelectedDates}
                         />
+
                         <button className="Calendar-Button-MainInstaller" onClick={closeDateCalendar} disabled={!selectedDate || isAvailabilityChanging}>
                             <img src={shutdownSvg} alt="shutdown"/>
                         </button>
@@ -422,9 +426,16 @@ export const MainInstallerPage = () => {
                                  disabled={closedSelectedDates.size === 0 || isAvailabilityChanging}>
                              <img src={openSvg} alt="shutdown"/>
                         </button>
-                        <button className="Calendar-Button-MainInstaller">
-                       <img src={changeDataSvg} alt="shutdown"/>
-                        </button>
+
+                        <div>
+                            <button onClick={()=> {
+                                setOpenCalendarDateChange(true)
+                            }} className="Calendar-Button-MainInstaller">
+                                <img src={changeDataSvg} alt="shutdown"/>
+                            </button>
+
+                            {openCalendarDateChange && <ChangeDoorsLimit/>}
+                        </div>
                     </div>
                     <div>
                         <table className="table-dates" border="1">
