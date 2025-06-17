@@ -299,9 +299,21 @@ export const MainInstallerPage = () => {
         });
     };
 
-    const refreshData = async () => {
-        const updated = await fetchOrders(); // или какой у тебя метод получения данных
-        setSelectedDate(updated);
+    const refreshAvailabilityData = async () => {
+        try {
+            const res = await fetch("/api/orders/create");
+            if (!res.ok) throw new Error('Ошибка загрузки данных доступности');
+            const data = await res.json();
+            setFetchedAvailability(data.availabilityList || []);
+            setAvailabilityList(
+                (data.availabilityList || []).map(item => ({
+                    ...item,
+                    formattedDate: reversedDate(item.date),
+                }))
+            );
+        } catch (err) {
+            console.error(err);
+        }
     };
 
     return (
@@ -441,7 +453,7 @@ export const MainInstallerPage = () => {
                                 selectedDate={selectedDate}
                                 setOpenCalendarDateChange={setOpenCalendarDateChange}
                                 openCalendarDateChange={openCalendarDateChange}
-                                refreshData={refreshData}
+                                refreshAvailabilityData={refreshAvailabilityData}
                            />}
                         </div>
                     </div>

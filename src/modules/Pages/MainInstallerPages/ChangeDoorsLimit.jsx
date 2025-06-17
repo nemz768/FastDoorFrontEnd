@@ -1,7 +1,7 @@
 import {useState} from "react";
 import '../../../styles/styleMainInstaller/ChangeDoorLimits.css'
 
-export const ChangeDoorsLimit = ({selectedDate, setOpenCalendarDateChange,refreshData }) => {
+export const ChangeDoorsLimit = ({selectedDate, setOpenCalendarDateChange,refreshAvailabilityData }) => {
 
     const [frontDoorQuantity, setFrontDoorQuantity] = useState(0);
     const [inDoorQuantity, setInDoorQuantity] = useState(0);
@@ -24,9 +24,7 @@ export const ChangeDoorsLimit = ({selectedDate, setOpenCalendarDateChange,refres
 
             const data = await response.text();
             console.log(data);
-            if (refreshData) await refreshData(); // <— вот здесь
-
-
+            await refreshAvailabilityData();
             setOpenCalendarDateChange(false)
 
         } catch (error) {
