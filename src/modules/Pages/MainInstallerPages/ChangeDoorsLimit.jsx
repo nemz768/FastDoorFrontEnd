@@ -2,7 +2,7 @@ import {useRef} from "react";
 import '../../../styles/styleMainInstaller/ChangeDoorLimits.css'
 
 
-export const ChangeDoorsLimit = ({selectedDate, setOpenCalendarDateChange}) => {
+export const ChangeDoorsLimit = ({selectedDate, setOpenCalendarDateChange, onUpdate}) => {
 
     const DoorLimits = {
         frontDoorQuantity: useRef(null),
@@ -22,23 +22,24 @@ export const ChangeDoorsLimit = ({selectedDate, setOpenCalendarDateChange}) => {
                     date: selectedDate,
                     frontDoorQuantity: Number(frontDoorQuantity),
                     inDoorQuantity: Number(inDoorQuantity),
-                    available: true
+
                 })
             });
 
             const data = await response.text();
             console.log(data);
+            onUpdate(selectedDate, {
+                frontDoorQuantity,
+                inDoorQuantity
+            });
+            setOpenCalendarDateChange(false)
+
         } catch (error) {
             console.log("Ошибка:", error);
         }
     };
 
 
-    const handleConfirm = () =>  {
-        patchDoorLimits();
-        setOpenCalendarDateChange(false)
-
-    }
 
     return (
         <div className="ChangeDoorsLimit">
@@ -54,7 +55,7 @@ export const ChangeDoorsLimit = ({selectedDate, setOpenCalendarDateChange}) => {
 
                 <p>Межкомнатные двери: </p>
                 <input ref={DoorLimits.inDoorQuantity} type="text" />
-                <button onClick={handleConfirm}>Подтвердить</button>
+                <button onClick={patchDoorLimits}>Подтвердить</button>
             </div>
         </div>
     );

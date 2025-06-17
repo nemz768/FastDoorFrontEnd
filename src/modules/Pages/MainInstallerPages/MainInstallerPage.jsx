@@ -299,6 +299,24 @@ export const MainInstallerPage = () => {
         });
     };
 
+    const updateAvailabilityInMemory = (date, updatedValues) => {
+        const formattedDate = reversedDate(date);
+
+        setAvailabilityList(prev =>
+            prev.map(item =>
+                item.formattedDate === formattedDate
+                    ? {
+                        ...item,
+                        doorLimit: updatedValues.frontDoorQuantity,
+                        inDoorLimit: updatedValues.inDoorQuantity
+                    }
+                    : item
+            )
+        );
+    };
+
+
+
 
 
     return (
@@ -438,6 +456,7 @@ export const MainInstallerPage = () => {
                                 selectedDate={selectedDate}
                                 setOpenCalendarDateChange={setOpenCalendarDateChange}
                                 openCalendarDateChange={openCalendarDateChange}
+                                onUpdate={updateAvailabilityInMemory}
                             />}
                         </div>
                     </div>
