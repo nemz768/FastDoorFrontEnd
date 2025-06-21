@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
 
 export const MainInstallersAllOrdersTable = ({orders, reversedDate}) => {
-    const [installerId, setInstallerId] = useState(null);
+    const [orderId, setOrderId] = useState(null);
 
 
 
-    const handleChangeButton = (installer) => {
-        setInstallerId(installer.id);
+    const handleChangeButton = (order) => {
+        setOrderId(order.id);
 
     }
 
@@ -45,13 +45,13 @@ export const MainInstallersAllOrdersTable = ({orders, reversedDate}) => {
                         </td>
                         <td>
                             {
-                                installerId === order.id
+                                orderId === order.id
                                     ? <div>
                                         <button>Подтвердить</button>
                                         <button>Отмена</button>
                                     </div>
                                     :<div>
-                                        <button onClick={()=> handleChangeButton(order.id)}>Изменить</button>
+                                        <button onClick={()=> handleChangeButton(order)}>Изменить</button>
                                         <button>Удалить</button>
                                     </div>
 
