@@ -69,7 +69,7 @@ export const MainInstallersAllOrdersTable = ({orders, reversedDate, updateOrders
                         <td>{order.fullName}</td>
                         <td>{order.address}</td>
                         <td>{order.nickname}</td>
-                        <td>{reversedDate(order.dateOrder)}</td>
+                        <td>{order.dateOrder ? reversedDate(order.dateOrder) : ''}</td>
                         <td>{order.phone}</td>
 
                         {
