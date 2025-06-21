@@ -1,13 +1,13 @@
 import React, {useState} from 'react';
 
 export const MainInstallersAllOrdersTable = ({orders, reversedDate}) => {
-    const [changeBtn, setChangeBtn] = useState(true);
-    const [confirmBtn, setConfirmBtn] = useState(false);
+    const [installerId, setInstallerId] = useState(null);
 
 
-    const handleChangeButton = () => {
-        setChangeBtn(false)
-        setConfirmBtn(true)
+
+    const handleChangeButton = (installer) => {
+        setInstallerId(installer.id);
+
     }
 
     return (
@@ -44,18 +44,19 @@ export const MainInstallersAllOrdersTable = ({orders, reversedDate}) => {
                             {order.installerName ||  "Не выставлен"}
                         </td>
                         <td>
-                            {confirmBtn && (
-                                <button>
-                                    Подтвердить
-                                </button>
-                            )}
                             {
-                                changeBtn && (
-                                    <button onClick={handleChangeButton}>
-                                        Изменить
-                                    </button>
-                                )
+                                installerId === order.id
+                                    ? <div>
+                                        <button>Подтвердить</button>
+                                        <button>Отмена</button>
+                                    </div>
+                                    :<div>
+                                        <button onClick={handleChangeButton(order.id)}>Изменить</button>
+                                        <button>Удалить</button>
+                                    </div>
+
                             }
+
                         </td>
                     </tr>
                 ))}
