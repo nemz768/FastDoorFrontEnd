@@ -1,14 +1,14 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 export const MainInstallersAllOrdersTable = ({orders, reversedDate}) => {
-    // const [comments, setComments] = useState({});
-    //
-    // const handleCommentChange = (event, orderId) => {
-    //     setComments((prev) => ({
-    //         ...prev,
-    //         [orderId]: event.target.value,
-    //     }));
-    // };
+    const [changeBtn, setChangeBtn] = useState(true);
+    const [confirmBtn, setConfirmBtn] = useState(false);
+
+
+    const handleChangeButton = () => {
+        setChangeBtn(false)
+        setConfirmBtn(true)
+    }
 
     return (
         <>
@@ -38,15 +38,24 @@ export const MainInstallersAllOrdersTable = ({orders, reversedDate}) => {
                         <td>{order.inDoorQuantity}</td>
                         <td>{order.messageSeller}</td>
                         <td>
-                          {order.messageMainInstaller ? order.messageMainInstaller : "Нет"}
+                          {order.messageMainInstaller || "Нет"}
                         </td>
                         <td>
-                            {order.installerName ? order.installerName : "Не выставлен"}
+                            {order.installerName ||  "Не выставлен"}
                         </td>
                         <td>
-                            <button>
-                                Изменить
-                            </button>
+                            {confirmBtn && (
+                                <button>
+                                    Подтвердить
+                                </button>
+                            )}
+                            {
+                                changeBtn && (
+                                    <button onClick={handleChangeButton}>
+                                        Изменить
+                                    </button>
+                                )
+                            }
                         </td>
                     </tr>
                 ))}

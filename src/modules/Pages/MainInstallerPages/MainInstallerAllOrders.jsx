@@ -90,8 +90,6 @@ export const MainInstallerAllOrders = () => {
                         />
                     </div>
                 }
-
-
             </div>
             <Footer/>
         </div>
