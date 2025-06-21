@@ -8,6 +8,10 @@ export const MainInstallersAllOrdersTable = ({orders, reversedDate}) => {
         frontDoorQuantity: 0,
         inDoorQuantity: 0
     });
+    const uniqueInstallers = [...new Set(
+        orders.filter(order => order.installerName).map(order => order.installerName)
+    )];
+
 
     const handleChangeButton = (order) => {
         setOrderId(order.id);
@@ -113,14 +117,11 @@ export const MainInstallersAllOrdersTable = ({orders, reversedDate}) => {
                                         >
                                             <option value="">Выбрать установщика</option>
                                             <option key={order.id} value={order.installerName}>
-                                                {orders
-                                                    .filter((item) => item.installerName) // Фильтруем только с установщиками
-                                                    .map((item) => (
-                                                        <option key={item.id} value={item.installerName}>
-                                                            {item.installerName}
-                                                        </option>
-                                                    ))
-                                                }
+                                                {uniqueInstallers.map((installer) => (
+                                                    <option key={installer} value={installer}>
+                                                        {installer}
+                                                    </option>
+                                                ))}
                                             </option>
                                         </select>
                                     )
