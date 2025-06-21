@@ -269,12 +269,6 @@ export const MainInstallerPage = () => {
         }
     };
 
-    // Обработчик смены страницы заказовd
-    const handlePageChange = (newPage) => {
-        if (newPage >= 0 && newPage < totalPages) {
-            setCurrentPage(newPage);
-        }
-    };
 
     // Обработчик смены страницы доступности
     const handleAvailabilityPageChange = (newPage) => {
@@ -351,8 +345,8 @@ export const MainInstallerPage = () => {
 
                         />
                         <Pagination
-                            handlePageChange={handlePageChange}
-                            currentPage={currentPage}
+                            setCurrentPage={setCurrentPage}
+                           currentPage={currentPage}
                             totalPages={totalPages}
                         />
                        </div>
