@@ -108,7 +108,7 @@ export const MainInstallersAllOrdersTable = ({orders, reversedDate}) => {
                                             onChange={(event) => handleChange(event, order.id)}
                                         >
                                             <option value="">Выбрать установщика</option>
-                                            {order.map((option) => (
+                                            {orders.map((option) => (
                                                 <option key={option.id} value={option.id}>
                                                     {option.installerName}
                                                 </option>
