@@ -113,7 +113,9 @@ export const MainInstallersAllOrdersTable = ({orders, reversedDate}) => {
                                         >
                                             <option value="">Выбрать установщика</option>
                                             <option key={order.id} value={order.installerName}>
-                                                {order.installerName}
+                                                {orders.map((item)=> {
+                                                    item.installerName
+                                                })}
                                             </option>
                                         </select>
                                     )
@@ -127,7 +129,7 @@ export const MainInstallersAllOrdersTable = ({orders, reversedDate}) => {
                             {
                                 orderId === order.id
                                     ? <div>
-                                        <button>Подтвердить</button>
+                                        <button>Сохранить</button>
                                         <button onClick={handleCancel}>Отмена</button>
                                     </div>
                                     :<div>
