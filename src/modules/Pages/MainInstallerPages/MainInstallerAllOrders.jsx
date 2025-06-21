@@ -48,18 +48,31 @@ export const MainInstallerAllOrders = () => {
         fetchOrders();
     }, [currentPage])
 
-    const payload = {
-        address: orders.address,
-        nickname: orders.nickname,
-        dateOrder: orders.dateOrder,
-        phone: orders.phone,
-        frontDoorQuantity: orders.frontDoorQuantity,
-        messageSeller: orders.messageSeller,
-        messageMainInstaller: orders.messageMainInstaller,
-        installerName: orders.installerName,
-    }
+
 
     const updateOrders = async (order) => {
+        const fullName = order.fullName || '';
+        const address = order.address || '';
+        const nickname = order.nickname || '';
+        const dateOrder = order.dateOrder || '';
+        const phone = order.phone || '';
+        const frontDoorQuantity = order.frontDoorQuantity || 0;
+        const inDoorQuantity = order.inDoorQuantity || 0;
+        const messageSeller = order.messageSeller || '';
+        const installerName = order.installerName || '';
+
+        const payload = {
+            fullName,
+            address,
+            nickname,
+            dateOrder,
+            phone,
+            frontDoorQuantity,
+            inDoorQuantity,
+            messageSeller,
+            installerName
+        }
+
         try {
             const response = await fetch(`/api/edit/${order.id}`, {
                 method: "PATCH",

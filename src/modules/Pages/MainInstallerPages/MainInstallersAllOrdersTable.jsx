@@ -65,6 +65,7 @@ export const MainInstallersAllOrdersTable = ({orders, reversedDate, updateOrders
                 <tbody>
                 {orders.map((order) => (
                     <tr key={order.id}>
+                        <td>{order.fullName}</td>
                         <td>{order.address}</td>
                         <td>{order.nickname}</td>
                         <td>{reversedDate(order.dateOrder)}</td>
