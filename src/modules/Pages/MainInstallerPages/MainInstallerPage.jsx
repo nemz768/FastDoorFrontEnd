@@ -7,6 +7,8 @@ import openSvg from '../../../assets/unlock-alt-svgrepo-com.svg'
 import changeDataSvg from '../../../assets/change-management-backup-svgrepo-com.svg'
 import shutdownSvg from '../../../assets/lock-alt-svgrepo-com.svg'
 import {ChangeDoorsLimit} from "./ChangeDoorsLimit.jsx";
+import {Pagination} from "../../special/Pagination.jsx";
+import {MainInstallerTable} from "./MainInstallerTable.jsx";
 
 export const MainInstallerPage = () => {
     const [orders, setOrders] = useState([]);
@@ -336,85 +338,24 @@ export const MainInstallerPage = () => {
                         <div className="no-orders">Заказы не найдены</div>
                     )}
                     {!isOrdersLoading && !error && orders.length > 0 && (
-                        <>
-                            <table border="1" className='mainInstallerTable'>
-                                <thead>
-                                <tr>
-                                    <th>Адрес доставки</th>
-                                    <th>Филиалы</th>
-                                    <th>Дата</th>
-                                    <th>Номер телефона</th>
-                                    <th>Количество входных дверей</th>
-                                    <th>Количество межкомнатных дверей</th>
-                                    <th>Комментарий продавца</th>
-                                    <th>Ваш комментарий</th>
-                                    <th>Установщик</th>
-                                    <th>Действие</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {orders.map((order) => (
-                                    <tr key={order.id}>
-                                        <td>{order.address}</td>
-                                        <td>{order.nickname}</td>
-                                        <td>{order.dateOrder}</td>
-                                        <td>{order.phone}</td>
-                                        <td>{order.frontDoorQuantity}</td>
-                                        <td>{order.inDoorQuantity}</td>
-                                        <td>{order.messageSeller}</td>
-                                        <td>
-                                            <input
-                                                type="text"
-                                                value={comments[order.id] || ''}
-                                                onChange={(event) => handleCommentChange(event, order.id)}
-                                            />
-                                        </td>
-                                        <td>
-                                            <select
-                                                value={selectedTag[order.id] || ''}
-                                                onChange={(event) => handleChange(event, order.id)}
-                                            >
-                                                <option value="">Выбрать установщика</option>
-                                                {installers.map((option) => (
-                                                    <option key={option.id} value={option.id}>
-                                                        {option.fullName}
-                                                    </option>
-                                                ))}
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <button
-                                                onClick={() => postData(order.id)}
-                                                disabled={!selectedTag[order.id]}
-                                                id="ConfirmBtn"
-                                            >
-                                                Подтвердить
-                                            </button>
-                                        </td>
-                                    </tr>
-                                ))}
-                                </tbody>
-                            </table>
-                            <div className="pagination">
-                                <button
-                                    onClick={() => handlePageChange(currentPage - 1)}
-                                    disabled={currentPage === 0}
-                                    className="pagination-button"
-                                >
-                                    Предыдущая
-                                </button>
-                                <span className="pagination-info">
-                                    Страница {currentPage + 1} из {totalPages}
-                                </span>
-                                <button
-                                    onClick={() => handlePageChange(currentPage + 1)}
-                                    disabled={currentPage >= totalPages - 1}
-                                    className="pagination-button"
-                                >
-                                    Следующая
-                                </button>
-                            </div>
-                        </>
+                       <div>
+                        <MainInstallerTable
+                            reversedDate={reversedDate}
+                            installers={installers}
+                            orders={orders}
+                            comments={comments}
+                           selectedTag={selectedTag}
+                            handleCommentChange={handleCommentChange}
+                            handleChange={handleChange}
+                           postData={postData}
+
+                        />
+                        <Pagination
+                            handlePageChange={handlePageChange}
+                            currentPage={currentPage}
+                            totalPages={totalPages}
+                        />
+                       </div>
                     )}
                 </main>
 
@@ -498,7 +439,6 @@ export const MainInstallerPage = () => {
                     </div>
                 </div>
             </div>
-
             <Footer />
         </div>
     );

@@ -38,13 +38,12 @@ export const ChangeDoorsLimit = ({selectedDate, setOpenCalendarDateChange,refres
             }}>
                 close
             </div>
-
             <div>
                 <p>Входные двери: </p>
-                <input value={frontDoorQuantity} onChange={(e)=> setFrontDoorQuantity(Number(e.target.value))}type="number" />
+                <input min="0"  value={frontDoorQuantity} onChange={(e)=> setFrontDoorQuantity(Number(e.target.value))}type="number" />
 
                 <p>Межкомнатные двери: </p>
-                <input value={inDoorQuantity} onChange={(e)=> setInDoorQuantity(Number(e.target.value))} type="number" />
+                <input min="0" value={inDoorQuantity} onChange={(e)=> setInDoorQuantity(Number(e.target.value))} type="number" />
                 <button onClick={patchDoorLimits}>Подтвердить</button>
             </div>
         </div>
