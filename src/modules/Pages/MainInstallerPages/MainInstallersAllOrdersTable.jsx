@@ -2,12 +2,18 @@ import React, {useState} from 'react';
 
 export const MainInstallersAllOrdersTable = ({orders, reversedDate}) => {
     const [orderId, setOrderId] = useState(null);
-
-
+    const [editedOrder, setEditedOrder] = useState({
+        messageMainInstaller: '',
+        frontDoorQuantity: 0,
+        inDoorQuantity: 0
+    });
 
     const handleChangeButton = (order) => {
         setOrderId(order.id);
-
+        setEditedOrder({
+            messageMainInstaller: order.messageMainInstaller,
+            frontDoorQuantity: order.frontDoorQuantity,
+            inDoorQuantity: order.inDoorQuantity });
     }
 
     return (
@@ -16,7 +22,7 @@ export const MainInstallersAllOrdersTable = ({orders, reversedDate}) => {
                 <thead>
                 <tr>
                     <th>Адрес доставки</th>
-                    <th>Филиалы</th>
+                    <th>Филиал</th>
                     <th>Дата</th>
                     <th>Номер телефона</th>
                     <th>Количество входных дверей</th>
@@ -34,11 +40,45 @@ export const MainInstallersAllOrdersTable = ({orders, reversedDate}) => {
                         <td>{order.nickname}</td>
                         <td>{reversedDate(order.dateOrder)}</td>
                         <td>{order.phone}</td>
-                        <td>{order.frontDoorQuantity}</td>
-                        <td>{order.inDoorQuantity}</td>
+
+                        {
+                            orderId === order.id
+                            ?   <>
+                                    <td>
+                                        <input value={editedOrder.frontDoorQuantity}
+                                               defaultValue={order.frontDoorQuantity}
+                                               onChange={(e)=> setEditedOrder((prev) => ({...prev, frontDoorQuantity: e.target.value }))}
+                                               type="text"/>
+                                    </td>
+                                    <td>
+                                        <input value={editedOrder.inDoorQuantity}
+                                               defaultValue={order.inDoorQuantity}
+                                               onChange={(e)=> setEditedOrder((prev) => ({...prev, inDoorQuantity: e.target.value }))}
+
+                                               type="text"/>
+                                    </td>
+                                </>
+                                : <>
+                                    <td>{order.frontDoorQuantity}</td>
+                                    <td>{order.inDoorQuantity}</td>
+                                </>
+                        }
+
+
+
+
                         <td>{order.messageSeller}</td>
                         <td>
-                          {order.messageMainInstaller || "Нет"}
+                            {
+                                orderId === order.id
+                                ? <input value={editedOrder.messageMainInstaller}
+                                        onChange={(e)=>
+                                        setEditedOrder((prev)=>
+                                            ({...prev, messageMainInstaller: e.target.value}))} defaultValue={order.messageMainInstaller || "Нет"}
+                                         type="text"/>
+                                : order.messageMainInstaller || "Нет"
+                            }
+
                         </td>
                         <td>
                             {order.installerName ||  "Не выставлен"}
@@ -48,15 +88,13 @@ export const MainInstallersAllOrdersTable = ({orders, reversedDate}) => {
                                 orderId === order.id
                                     ? <div>
                                         <button>Подтвердить</button>
-                                        <button>Отмена</button>
+                                        <button onClick={()=> handleChangeButton(null)}>Отмена</button>
                                     </div>
                                     :<div>
                                         <button onClick={()=> handleChangeButton(order)}>Изменить</button>
                                         <button>Удалить</button>
                                     </div>
-
                             }
-
                         </td>
                     </tr>
                 ))}
