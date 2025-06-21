@@ -6,13 +6,27 @@ import {Pagination} from "../../special/Pagination.jsx";
 import '../../../styles/styleMainInstaller/mainInstallerAllOrders.css'
 
 export const MainInstallerAllOrders = () => {
+    const [orderId, setOrderId] = useState(null);
+    const [selectedTag, setSelectedTag] = useState({});
     const [loading, isLoading] = useState(false);
     const [error, setError] = useState(null);
     const [orders, setOrders] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(1);
     const [message, sendMessage] = useState('');
+    const [editedOrder, setEditedOrder] = useState({
+        fullName: '',
+        address: '',
+        nickname: '',
+        phone: '',
+        dateOrder: '',
+        frontDoorQuantity: 0,
+        inDoorQuantity: 0,
+        messageSeller: '',
+        messageMainInstaller: '',
+        installerName: ''
 
+    });
     const fetchOrders = async () => {
             isLoading(true);
             try {
@@ -48,34 +62,16 @@ export const MainInstallerAllOrders = () => {
         fetchOrders();
     }, [currentPage])
 
-
-
     const updateOrders = async (order) => {
-        const fullName = order.fullName || '';
-        const address = order.address || '';
-        const nickname = order.nickname || '';
-        const dateOrder = order.dateOrder || '';
-        const phone = order.phone || '';
-        const frontDoorQuantity = Number(order.frontDoorQuantity) || 0;
-        const inDoorQuantity = Number(order.inDoorQuantity) || 0;
-        const messageSeller = order.messageSeller || '';
-        const messageMainInstaller = order.messageMainInstaller || '';
-        const installerName = order.installerName || '';
-
-        const payload = {
-            fullName,
-            address,
-            nickname,
-            dateOrder,
-            phone,
-            frontDoorQuantity,
-            inDoorQuantity,
-            messageSeller,
-            messageMainInstaller,
-            installerName
-        }
+        const {fullName,address,nickname, dateOrder, phone,
+            frontDoorQuantity,inDoorQuantity,messageSeller,messageMainInstaller,
+            installerName} = editedOrder;
 
         try {
+            const payload = {
+                ...editedOrder,
+                installerName: selectedTag[orderId] || ''
+            };
            await fetch(`/api/edit/${order}`, {
                 method: "PATCH",
                 headers: {
@@ -86,10 +82,12 @@ export const MainInstallerAllOrders = () => {
 
             setOrders(prev =>
                 prev.map(item =>
-                    item.id === order
-                        ? { ...item, fullName,address,nickname, dateOrder, phone,
-                            frontDoorQuantity,inDoorQuantity,messageSeller,messageMainInstaller,
-                            installerName }
+                    item.id === orderId
+                        ? {
+                            ...item,
+                            ...editedOrder,
+                            installerName: selectedTag[orderId] || item.installerName
+                        }
                         : item
                 )
             );
@@ -138,6 +136,13 @@ export const MainInstallerAllOrders = () => {
                             orders={orders}
                             reversedDate={reversedDate}
                             updateOrders={updateOrders}
+                            editedOrder={editedOrder}
+                            setEditedOrder={setEditedOrder}
+                            setOrderId={setOrderId}
+                            orderId={orderId}
+                            setSelectedTag={setSelectedTag}
+                            selectedTag={selectedTag}
+
                         />
                         <Pagination
                             currentPage={currentPage}

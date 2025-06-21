@@ -1,13 +1,7 @@
-import React, {useState} from 'react';
+import React from 'react';
 
-export const MainInstallersAllOrdersTable = ({orders, reversedDate, updateOrders}) => {
-    const [orderId, setOrderId] = useState(null);
-    const [selectedTag, setSelectedTag] = useState({});
-    const [editedOrder, setEditedOrder] = useState({
-        messageMainInstaller: '',
-        frontDoorQuantity: 0,
-        inDoorQuantity: 0
-    });
+export const MainInstallersAllOrdersTable = ({orders, reversedDate, updateOrders,editedOrder,setEditedOrder, setOrderId, setSelectedTag, selectedTag, orderId}) => {
+
     const uniqueInstallers = [...new Set(
         orders.filter(order => order.installerName).map(order => order.installerName)
     )];
@@ -41,9 +35,6 @@ export const MainInstallersAllOrdersTable = ({orders, reversedDate, updateOrders
             inDoorQuantity: 0
         });
     }
-
-
-
 
     return (
         <>
