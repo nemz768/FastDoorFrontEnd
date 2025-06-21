@@ -137,7 +137,7 @@ export const MainInstallersAllOrdersTable = ({orders, reversedDate, updateOrders
                             {
                                 orderId === order.id
                                     ? <div>
-                                        <button onClick={()=> updateOrders(order)}>Сохранить</button>
+                                        <button onClick={()=> updateOrders(order.id)}>Сохранить</button>
                                         <button onClick={handleCancel}>Отмена</button>
                                     </div>
                                     :<div>

@@ -56,9 +56,10 @@ export const MainInstallerAllOrders = () => {
         const nickname = order.nickname || '';
         const dateOrder = order.dateOrder || '';
         const phone = order.phone || '';
-        const frontDoorQuantity = order.frontDoorQuantity || 0;
-        const inDoorQuantity = order.inDoorQuantity || 0;
+        const frontDoorQuantity = Number(order.frontDoorQuantity) || 0;
+        const inDoorQuantity = Number(order.inDoorQuantity) || 0;
         const messageSeller = order.messageSeller || '';
+        const messageMainInstaller = order.messageMainInstaller || '';
         const installerName = order.installerName || '';
 
         const payload = {
@@ -70,11 +71,12 @@ export const MainInstallerAllOrders = () => {
             frontDoorQuantity,
             inDoorQuantity,
             messageSeller,
+            messageMainInstaller,
             installerName
         }
 
         try {
-            const response = await fetch(`/api/edit/${order.id}`, {
+           await fetch(`/api/edit/${order}`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
@@ -82,13 +84,21 @@ export const MainInstallerAllOrders = () => {
                 body: JSON.stringify(payload),
             })
 
-            const data = await response.json();
-            console.log(data);
-            sendMessage("Success")
+            setOrders(prev =>
+                prev.map(item =>
+                    item.id === order
+                        ? { ...item, fullName,address,nickname, dateOrder, phone,
+                            frontDoorQuantity,inDoorQuantity,messageSeller,messageMainInstaller,
+                            installerName }
+                        : item
+                )
+            );
+            sendMessage("Успешный успех")
             setTimeout(()=> sendMessage(''), 3000);
         }
         catch (error) {
             console.log(error);
+            sendMessage("Возникла ошибка " + error.message);
         }
     }
 
