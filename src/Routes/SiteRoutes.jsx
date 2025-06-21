@@ -14,6 +14,7 @@ import {PatchOrderPage} from "../modules/Pages/SellerPages/PatchOrderPage.jsx";
 import {AdminPanelPage} from "../modules/Pages/Administrator/adminPanelPage.jsx";
 import {MainInstallerCreate} from "../modules/Pages/MainInstallerPages/MainInstallerCreate.jsx";
 import {InstallersList} from "../modules/Pages/MainInstallerPages/InstallersList.jsx";
+import {MainInstallerAllOrders} from "../modules/Pages/MainInstallerPages/MainInstallerAllOrders.jsx";
 
 
 
@@ -33,6 +34,7 @@ export const SiteRoutes = () => {
                     <Route path="/home/seller/create/done" element={<DonePage/>}></Route>
                     <Route path="/home/mainInstaller" element={<MainInstallerPage/>}></Route>
                     <Route path="/home/mainInstaller/InstallersList" element={<InstallersList/>}></Route>
+                    <Route path="/home/mainInstaller/listOrdersMainInstaller" element={<MainInstallerAllOrders/>}></Route>
                     <Route path="/home/mainInstaller/create" element={<MainInstallerCreate/>}></Route>
                     <Route path="/home/admin" element={<AdminPanelPage/>}></Route>
                     <Route path="*"  element={<PageNotFound/>}></Route>

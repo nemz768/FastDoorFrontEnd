@@ -38,7 +38,7 @@ export const MainInstallerPage = () => {
     const navItems = [
         { label: 'Список установщиков', route: '/home/mainInstaller/InstallersList' },
         { label: 'Добавить установщика', route: '/home/mainInstaller/create' },
-        { label: 'Список заказов', route: '/404' },
+        { label: 'Полный список заказов', route: '/home/mainInstaller/listOrdersMainInstaller' },
     ];
 
     // Форматирование даты в DD.MM.YYYY123

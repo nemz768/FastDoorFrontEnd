@@ -27,7 +27,7 @@ export const InstallersList = () => {
     const navItems = [
         { label: 'Главная', route: '/home/mainInstaller/' },
         { label: 'Добавить установщика', route: '/home/mainInstaller/create' },
-        { label: 'Список заказов', route: '/404' },
+        { label: 'Полный список заказов', route: '/listOrdersMainInstaller' },
     ];
 
     useEffect(() => {
