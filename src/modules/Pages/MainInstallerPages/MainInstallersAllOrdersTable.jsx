@@ -113,9 +113,14 @@ export const MainInstallersAllOrdersTable = ({orders, reversedDate}) => {
                                         >
                                             <option value="">Выбрать установщика</option>
                                             <option key={order.id} value={order.installerName}>
-                                                {orders.map((item)=> {
-                                                    item.installerName
-                                                })}
+                                                {orders
+                                                    .filter((item) => item.installerName) // Фильтруем только с установщиками
+                                                    .map((item) => (
+                                                        <option key={item.id} value={item.installerName}>
+                                                            {item.installerName}
+                                                        </option>
+                                                    ))
+                                                }
                                             </option>
                                         </select>
                                     )
