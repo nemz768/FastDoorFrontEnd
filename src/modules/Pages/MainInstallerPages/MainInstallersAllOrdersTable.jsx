@@ -51,7 +51,7 @@ export const MainInstallersAllOrdersTable = ({orders, reversedDate}) => {
                                         <button>Отмена</button>
                                     </div>
                                     :<div>
-                                        <button onClick={handleChangeButton(order.id)}>Изменить</button>
+                                        <button onClick={()=> handleChangeButton(order.id)}>Изменить</button>
                                         <button>Удалить</button>
                                     </div>
 
