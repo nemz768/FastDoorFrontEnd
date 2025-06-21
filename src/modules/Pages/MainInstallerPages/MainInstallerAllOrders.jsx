@@ -63,10 +63,6 @@ export const MainInstallerAllOrders = () => {
     }, [currentPage])
 
     const updateOrders = async (order) => {
-        const {fullName,address,nickname, dateOrder, phone,
-            frontDoorQuantity,inDoorQuantity,messageSeller,messageMainInstaller,
-            installerName} = editedOrder;
-
         try {
             const payload = {
                 ...editedOrder,
