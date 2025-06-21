@@ -19,7 +19,7 @@ export const MainInstallersAllOrdersTable = ({orders, reversedDate}) => {
 
     }
 
-    const handleChange = (orderId, event)=>{
+    const handleChange = (event, orderId)=>{
         setSelectedTag(prev => ({
             ...prev,
             [orderId]: event.target.value,
