@@ -3,6 +3,7 @@ import {Header} from "../../Header.jsx";
 import {Footer} from "../../Footer.jsx";
 import {MainInstallersAllOrdersTable} from "./MainInstallersAllOrdersTable.jsx";
 import {Pagination} from "../../special/Pagination.jsx";
+import '../../../styles/styleMainInstaller/mainInstallerAllOrders.css'
 
 export const MainInstallerAllOrders = () => {
     const [loading, isLoading] = useState(false);
@@ -63,16 +64,16 @@ export const MainInstallerAllOrders = () => {
             <Header navItems={navItems}/>
 
             <div className="mainInstallerAllOrders-block">
-                <h1>Все заказы</h1>
+                <h2 className="mainInstallerAllOrders-title">Все заказы</h2>
 
-                <div className="error">
-                    <h3>Ошибка: {error}</h3>
-                    <button className="retry-button" onClick={fetchOrders}>
-                        Повторить
-                    </button>
-                </div>
-
-
+                {error && (
+                    <div className="error">
+                        <h3>Ошибка: {error}</h3>
+                        <button className="retry-button" onClick={fetchOrders}>
+                            Повторить
+                        </button>
+                    </div>
+                )}
                 {!loading && !error && orders.length === 0 && (
                     <div className="no-orders">Заказы не найдены</div>
                 )}

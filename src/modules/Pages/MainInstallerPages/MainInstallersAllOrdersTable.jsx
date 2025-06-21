@@ -41,7 +41,7 @@ export const MainInstallersAllOrdersTable = ({orders, reversedDate}) => {
                           {order.messageMainInstaller ? order.messageMainInstaller : "Нет"}
                         </td>
                         <td>
-                            {order.installerName}
+                            {order.installerName ? order.installerName : "Не выставлен"}
                         </td>
                         <td>
                             <button>
