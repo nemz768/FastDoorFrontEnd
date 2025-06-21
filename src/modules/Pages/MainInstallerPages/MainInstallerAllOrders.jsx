@@ -85,6 +85,7 @@ export const MainInstallerAllOrders = () => {
             const data = await response.json();
             console.log(data);
             sendMessage("Success")
+            setTimeout(()=> sendMessage(''), 3000);
         }
         catch (error) {
             console.log(error);

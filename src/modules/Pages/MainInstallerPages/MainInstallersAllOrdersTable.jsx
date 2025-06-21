@@ -50,6 +50,7 @@ export const MainInstallersAllOrdersTable = ({orders, reversedDate, updateOrders
             <table border="1" className='mainInstallerTable'>
                 <thead>
                 <tr>
+                    <th>ФИО</th>
                     <th>Адрес доставки</th>
                     <th>Филиал</th>
                     <th>Дата</th>
