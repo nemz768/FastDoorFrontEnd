@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 
 export const MainInstallersAllOrdersTable = ({orders, reversedDate}) => {
     const [orderId, setOrderId] = useState(null);
+    const [selectedTag, setSelectedTag] = useState(null);
     const [editedOrder, setEditedOrder] = useState({
         messageMainInstaller: '',
         frontDoorQuantity: 0,
@@ -14,6 +15,24 @@ export const MainInstallersAllOrdersTable = ({orders, reversedDate}) => {
             messageMainInstaller: order.messageMainInstaller,
             frontDoorQuantity: order.frontDoorQuantity,
             inDoorQuantity: order.inDoorQuantity });
+
+
+    }
+
+    const handleChange = (orderId, event)=>{
+        setSelectedTag(prev => ({
+            ...prev,
+            [orderId]: event.target.value,
+        }))
+    }
+
+    const handleCancel = () => {
+        setOrderId(null);
+        setEditedOrder({
+            messageMainInstaller: '',
+            frontDoorQuantity: 0,
+            inDoorQuantity: 0
+        });
     }
 
     return (
@@ -74,21 +93,40 @@ export const MainInstallersAllOrdersTable = ({orders, reversedDate}) => {
                                 ? <input value={editedOrder.messageMainInstaller}
                                         onChange={(e)=>
                                         setEditedOrder((prev)=>
-                                            ({...prev, messageMainInstaller: e.target.value}))} defaultValue={order.messageMainInstaller || "Нет"}
+                                            ({...prev, messageMainInstaller: e.target.value}))} defaultValue={order.messageMainInstaller || ''}
                                          type="text"/>
                                 : order.messageMainInstaller || "Нет"
                             }
 
                         </td>
                         <td>
-                            {order.installerName ||  "Не выставлен"}
+                            {
+                                orderId === order.id
+                                    ? (
+                                        <select
+                                            value={selectedTag[order.id] || ''}
+                                            onChange={(event) => handleChange(event, order.id)}
+                                        >
+                                            <option value="">Выбрать установщика</option>
+                                            {order.map((option) => (
+                                                <option key={option.id} value={option.id}>
+                                                    {option.installerName}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    )
+                                    : order.installerName ||  "Не выставлен"
+                            }
+
+
+
                         </td>
                         <td>
                             {
                                 orderId === order.id
                                     ? <div>
                                         <button>Подтвердить</button>
-                                        <button onClick={()=> handleChangeButton(null)}>Отмена</button>
+                                        <button onClick={handleCancel}>Отмена</button>
                                     </div>
                                     :<div>
                                         <button onClick={()=> handleChangeButton(order)}>Изменить</button>
