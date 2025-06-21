@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 
 export const MainInstallersAllOrdersTable = ({orders, reversedDate}) => {
     const [orderId, setOrderId] = useState(null);
-    const [selectedTag, setSelectedTag] = useState(null);
+    const [selectedTag, setSelectedTag] = useState({});
     const [editedOrder, setEditedOrder] = useState({
         messageMainInstaller: '',
         frontDoorQuantity: 0,
@@ -16,6 +16,10 @@ export const MainInstallersAllOrdersTable = ({orders, reversedDate}) => {
             frontDoorQuantity: order.frontDoorQuantity,
             inDoorQuantity: order.inDoorQuantity });
 
+        setSelectedTag(prev => ({
+            ...prev,
+            [order.id]: order.installerName || ''
+        }));
 
     }
 
@@ -108,9 +112,9 @@ export const MainInstallersAllOrdersTable = ({orders, reversedDate}) => {
                                             onChange={(event) => handleChange(event, order.id)}
                                         >
                                             <option value="">Выбрать установщика</option>
-                                                <option key={order.id} value={order.id}>
-                                                    {order.installerName}
-                                                </option>
+                                            <option key={order.id} value={order.installerName}>
+                                                {order.installerName}
+                                            </option>
                                         </select>
                                     )
                                     : order.installerName ||  "Не выставлен"
