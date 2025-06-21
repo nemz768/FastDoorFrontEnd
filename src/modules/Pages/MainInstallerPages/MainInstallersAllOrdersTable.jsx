@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 
-export const MainInstallersAllOrdersTable = ({orders, reversedDate}) => {
+export const MainInstallersAllOrdersTable = ({orders, reversedDate, updateOrders}) => {
     const [orderId, setOrderId] = useState(null);
     const [selectedTag, setSelectedTag] = useState({});
     const [editedOrder, setEditedOrder] = useState({
@@ -11,7 +11,6 @@ export const MainInstallersAllOrdersTable = ({orders, reversedDate}) => {
     const uniqueInstallers = [...new Set(
         orders.filter(order => order.installerName).map(order => order.installerName)
     )];
-
 
     const handleChangeButton = (order) => {
         setOrderId(order.id);
@@ -42,6 +41,9 @@ export const MainInstallersAllOrdersTable = ({orders, reversedDate}) => {
             inDoorQuantity: 0
         });
     }
+
+
+
 
     return (
         <>
@@ -133,7 +135,7 @@ export const MainInstallersAllOrdersTable = ({orders, reversedDate}) => {
                             {
                                 orderId === order.id
                                     ? <div>
-                                        <button>Сохранить</button>
+                                        <button onClick={()=> updateOrders(order)}>Сохранить</button>
                                         <button onClick={handleCancel}>Отмена</button>
                                     </div>
                                     :<div>

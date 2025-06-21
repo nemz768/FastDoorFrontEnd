@@ -11,8 +11,9 @@ export const MainInstallerAllOrders = () => {
     const [orders, setOrders] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(1);
+    const [message, sendMessage] = useState('');
 
-        const fetchOrders = async () => {
+    const fetchOrders = async () => {
             isLoading(true);
             try {
                 const response = await fetch(`/api/mainInstaller/listOrdersMainInstaller?page=${currentPage}`, {
@@ -46,6 +47,36 @@ export const MainInstallerAllOrders = () => {
     useEffect(() => {
         fetchOrders();
     }, [currentPage])
+
+    const payload = {
+        address: orders.address,
+        nickname: orders.nickname,
+        dateOrder: orders.dateOrder,
+        phone: orders.phone,
+        frontDoorQuantity: orders.frontDoorQuantity,
+        messageSeller: orders.messageSeller,
+        messageMainInstaller: orders.messageMainInstaller,
+        installerName: orders.installerName,
+    }
+
+    const updateOrders = async (order) => {
+        try {
+            const response = await fetch(`/api/edit/${order.id}`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(payload),
+            })
+
+            const data = await response.json();
+            console.log(data);
+            sendMessage("Success")
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
 
     const navItems = [
         { label: 'Главная', route: '/home/mainInstaller/'  },
@@ -82,6 +113,7 @@ export const MainInstallerAllOrders = () => {
                         <MainInstallersAllOrdersTable
                             orders={orders}
                             reversedDate={reversedDate}
+                            updateOrders={updateOrders}
                         />
                         <Pagination
                             currentPage={currentPage}
@@ -92,6 +124,11 @@ export const MainInstallerAllOrders = () => {
                 }
             </div>
             <Footer/>
+            {message && (
+                <div className="toast-notification">
+                    {message}
+                </div>
+            )}
         </div>
     );
 };
