@@ -75,7 +75,7 @@ export const InstallersList = () => {
             if (!response.ok) {
                 throw new Error(`Ошибка: ${response.status}`);
             }
-            // Обновить локально
+
             setInstallers(prev =>
                 prev.map(installer =>
                     installer.id === installerId

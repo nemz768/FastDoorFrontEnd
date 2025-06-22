@@ -11,7 +11,9 @@ export const MainInstallersAllOrdersTable = ({orders, reversedDate, updateOrders
         setEditedOrder({
             messageMainInstaller: order.messageMainInstaller,
             frontDoorQuantity: order.frontDoorQuantity,
-            inDoorQuantity: order.inDoorQuantity });
+            inDoorQuantity: order.inDoorQuantity,
+            installerName: order.installerName || ''
+        });
 
         setSelectedTag(prev => ({
             ...prev,
@@ -120,9 +122,6 @@ export const MainInstallersAllOrdersTable = ({orders, reversedDate, updateOrders
                                     )
                                     : order.installerName ||  "Не выставлен"
                             }
-
-
-
                         </td>
                         <td>
                             {

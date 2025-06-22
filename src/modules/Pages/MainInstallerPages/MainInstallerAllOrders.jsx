@@ -15,17 +15,10 @@ export const MainInstallerAllOrders = () => {
     const [totalPages, setTotalPages] = useState(1);
     const [message, sendMessage] = useState('');
     const [editedOrder, setEditedOrder] = useState({
-        fullName: '',
-        address: '',
-        nickname: '',
-        phone: '',
-        dateOrder: '',
         frontDoorQuantity: 0,
         inDoorQuantity: 0,
-        messageSeller: '',
-        messageMainInstaller: '',
+         messageMainInstaller: '',
         installerName: ''
-
     });
     const fetchOrders = async () => {
             isLoading(true);
@@ -66,6 +59,9 @@ export const MainInstallerAllOrders = () => {
         try {
             const payload = {
                 ...editedOrder,
+                frontDoorQuantity: editedOrder.frontDoorQuantity,
+                inDoorQuantity: editedOrder.inDoorQuantity,
+                messageMainInstaller: editedOrder.messageMainInstaller,
                 installerName: selectedTag[orderId] || ''
             };
            await fetch(`/api/edit/${order}`, {
