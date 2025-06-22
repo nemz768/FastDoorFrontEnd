@@ -158,12 +158,14 @@ export const MainInstallerAllOrders = () => {
         { label: 'Добавить установщика', route: '/home/mainInstaller/create' },
     ];
 
-    const reversedDate = (dateString) => {
-        const day = dateString.slice(8);
+    const reversedDate = (dateString = '') => {
+        const day = dateString.slice(8, 10);
         const month = dateString.slice(5, 7);
         const year = dateString.slice(0, 4);
+        if (!day || !month || !year) return '';
         return `${day}.${month}.${year}`;
     };
+
 
     return (
         <div className="mainInstallerAllOrders">
