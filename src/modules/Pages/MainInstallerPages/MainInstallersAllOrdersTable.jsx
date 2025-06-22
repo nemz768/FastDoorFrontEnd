@@ -1,10 +1,18 @@
 import React from 'react';
 
-export const MainInstallersAllOrdersTable = ({orders, reversedDate, updateOrders,editedOrder,setEditedOrder, setOrderId, setSelectedTag, selectedTag, orderId}) => {
+export const MainInstallersAllOrdersTable = ({orders, reversedDate, updateOrders,
+                                                 editedOrder,setEditedOrder, setOrderId, setSelectedTag,
+                                                 selectedTag, orderId}) => {
 
-    const uniqueInstallers = [...new Set(
-        orders.filter(order => order.installerName).map(order => order.installerName)
-    )];
+    const uniqueInstallers = Array.from(
+        new Set([
+            ...orders
+                .filter(order => order.installerName)
+                .map(order => order.installerName),
+            ...Object.values(selectedTag).filter(Boolean) // Добавляем выбранные вручную
+        ])
+    );
+
 
     const handleChangeButton = (order) => {
         setOrderId(order.id);
@@ -70,16 +78,19 @@ export const MainInstallersAllOrdersTable = ({orders, reversedDate, updateOrders
                             ?   <>
                                     <td>
                                         <input value={editedOrder.frontDoorQuantity}
-                                               defaultValue={order.frontDoorQuantity}
-                                               onChange={(e)=> setEditedOrder((prev) => ({...prev, frontDoorQuantity: e.target.value }))}
-                                               type="text"/>
+                                              onChange={(e)=> setEditedOrder((prev) => ({...prev, frontDoorQuantity: parseInt(e.target.value) || 0 }))}
+                                               type="number"
+                                                min="0"
+                                        />
                                     </td>
                                     <td>
                                         <input value={editedOrder.inDoorQuantity}
-                                               defaultValue={order.inDoorQuantity}
-                                               onChange={(e)=> setEditedOrder((prev) => ({...prev, inDoorQuantity: e.target.value }))}
+                                               onChange={(e)=> setEditedOrder((prev) => ({...prev, inDoorQuantity: parseInt(e.target.value) || 0 }))}
+                                               type="number"
+                                               min="0"
 
-                                               type="text"/>
+                                        />
+
                                     </td>
                                 </>
                                 : <>

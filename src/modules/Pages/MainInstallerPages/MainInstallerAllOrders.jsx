@@ -74,7 +74,7 @@ export const MainInstallerAllOrders = () => {
 
             setOrders(prev =>
                 prev.map(item =>
-                    item.id === orderId
+                    String(item.id) === String(order)
                         ? {
                             ...item,
                             ...editedOrder,
