@@ -57,26 +57,31 @@ export const MainInstallerAllOrders = () => {
 
 
     const updateOrders = async (orderIdToUpdate) => {
-        const numericId = Number(orderIdToUpdate); // ← добавлено
-        const order = orders.find(o => o.id === numericId);
+        const order = orders.find(o => o.id === orderIdToUpdate);
         if (!order) return;
+
+        const numericId = Number(order.id);
+        const frontDoorQuantity = Number(editedOrder.frontDoorQuantity);
+        const inDoorQuantity = Number(editedOrder.inDoorQuantity);
 
         const payload = {
             id: numericId,
-            fullName: order.fullName,
-            address: order.address,
-            phone: order.phone,
-            dateOrder: order.dateOrder,
-            frontDoorQuantity: Number(editedOrder.frontDoorQuantity),
-            inDoorQuantity: Number(editedOrder.inDoorQuantity),
-            installerName: selectedTag[numericId] || order.installerName || '',
+            fullName: order.fullName || '',
+            address: order.address || '',
+            phone: order.phone || '',
+            dateOrder: order.dateOrder || '',
+            frontDoorQuantity: isNaN(frontDoorQuantity) ? 0 : frontDoorQuantity,
+            inDoorQuantity: isNaN(inDoorQuantity) ? 0 : inDoorQuantity,
+            installerName: selectedTag[numericId] || order.installerName || null,
             messageSeller: order.messageSeller || '',
             messageMainInstaller: editedOrder.messageMainInstaller || '',
-            nickname: order.nickname
+            nickname: order.nickname || '',
         };
 
+        console.log('Payload being sent:', payload); // 👈 Можно удалить после отладки
+
         try {
-            const response = await fetch(`/api/edit/${numericId}`, {
+            const response = await fetch(`/api/edit/${orderIdToUpdate}`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
@@ -84,23 +89,29 @@ export const MainInstallerAllOrders = () => {
                 body: JSON.stringify(payload),
             });
 
-            if (!response.ok) throw new Error(`Ошибка: ${response.status}`);
+            if (!response.ok) {
+                const errText = await response.text(); // посмотри, что вернёт сервер
+                throw new Error(`Ошибка: ${response.status} — ${errText}`);
+            }
 
+            // Обновление в списке заказов
             setOrders(prev =>
                 prev.map(item =>
-                    item.id === numericId
+                    item.id === orderIdToUpdate
                         ? { ...item, ...payload }
                         : item
                 )
             );
+
             sendMessage("Успешный успех");
+            setOrderId(null); // очистка выделенного заказа
             setTimeout(() => sendMessage(''), 3000);
-            setOrderId(null);
         } catch (error) {
             console.error(error);
-            sendMessage("Возникла ошибка " + error.message);
+            sendMessage("Возникла ошибка: " + error.message);
         }
     };
+
 
 
     const navItems = [
