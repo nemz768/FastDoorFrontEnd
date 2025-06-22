@@ -42,7 +42,8 @@ export const MainInstallerPage = () => {
     ];
 
     // Форматирование даты в DD.MM.YYYY
-    const reversedDate = (dateString = '') => {
+    const reversedDate = (dateString) => {
+        if (typeof dateString !== 'string' || dateString.length < 10) return '';
         const day = dateString.slice(8, 10);
         const month = dateString.slice(5, 7);
         const year = dateString.slice(0, 4);
