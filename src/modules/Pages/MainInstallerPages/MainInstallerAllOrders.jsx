@@ -70,15 +70,13 @@ export const MainInstallerAllOrders = () => {
             address: order.address || '',
             phone: order.phone || '',
             dateOrder: order.dateOrder || '',
-            frontDoorQuantity: isNaN(frontDoorQuantity) ? 0 : frontDoorQuantity,
-            inDoorQuantity: isNaN(inDoorQuantity) ? 0 : inDoorQuantity,
+            frontDoorQuantity: frontDoorQuantity,
+            inDoorQuantity: inDoorQuantity,
             installerName: selectedTag[numericId] || order.installerName || null,
             messageSeller: order.messageSeller || '',
             messageMainInstaller: editedOrder.messageMainInstaller || '',
             nickname: order.nickname || '',
         };
-
-        console.log('Payload being sent:', payload); // 👈 Можно удалить после отладки
 
         try {
             const response = await fetch(`/api/edit/${orderIdToUpdate}`, {
@@ -112,6 +110,28 @@ export const MainInstallerAllOrders = () => {
         }
     };
 
+    const handleDeleteSuccess = (deletedInstallerId) => {
+        setOrders(orders.filter((order) => order.id !== deletedInstallerId));
+    };
+
+
+    const deleteOrder = async (orderToDelete) => {
+        try {
+            const response = await fetch(`/api/delete?id=${orderToDelete}`, {
+                method: "DELETE",
+            })
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Произошла ошибка при удалении');
+            }
+            handleDeleteSuccess(orderToDelete);
+            sendMessage("Удаление прошло успешно")
+        }
+        catch (error) {
+            console.log(error)
+            sendMessage("Ошибка при удалении")
+        }
+    }
 
 
     const navItems = [
@@ -156,6 +176,7 @@ export const MainInstallerAllOrders = () => {
                             orderId={orderId}
                             setSelectedTag={setSelectedTag}
                             selectedTag={selectedTag}
+                            deleteOrder={deleteOrder}
 
                         />
                         <Pagination
