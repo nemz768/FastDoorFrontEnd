@@ -119,6 +119,9 @@ export const MainInstallerAllOrders = () => {
         try {
             const response = await fetch(`/api/delete?id=${orderToDelete}`, {
                 method: "DELETE",
+                headers: {
+                    'Accept': '*/*',
+                },
             })
             if (!response.ok) {
                 const errorData = await response.json();
