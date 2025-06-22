@@ -110,9 +110,9 @@ export const MainInstallerAllOrders = () => {
         }
     };
 
-    const handleDeleteSuccess = (deletedInstallerId) => {
-        setOrders(orders.filter((order) => order.id !== deletedInstallerId));
-    };
+    // const handleDeleteSuccess = (deletedInstallerId) => {
+    //     setOrders(orders.filter((order) => order.id !== deletedInstallerId));
+    // };
 
 
     // const deleteOrder = async (orderIdToDelete) => {
@@ -195,7 +195,7 @@ export const MainInstallerAllOrders = () => {
                             orderId={orderId}
                             setSelectedTag={setSelectedTag}
                             selectedTag={selectedTag}
-                            deleteOrder={deleteOrder}
+                            // deleteOrder={deleteOrder}
 
                         />
                         <Pagination
