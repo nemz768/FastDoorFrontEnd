@@ -4,18 +4,12 @@ export const MainInstallersAllOrdersTable = ({orders, reversedDate, updateOrders
                                                  editedOrder,setEditedOrder, setOrderId, setSelectedTag,
                                                  selectedTag, orderId}) => {
 
-    const uniqueInstallers = Array.from(
-        new Set([
-            ...orders
-                .filter(order => order.installerName)
-                .map(order => order.installerName),
-            ...Object.values(selectedTag).filter(Boolean) // Добавляем выбранные вручную
-        ])
-    );
-
+    const uniqueInstallers = [...new Set(
+        orders.filter(order => order.installerName).map(order => order.installerName)
+    )];
 
     const handleChangeButton = (order) => {
-        setOrderId(order.id);
+        setOrderId(Number(order.id))
         setEditedOrder({
             messageMainInstaller: order.messageMainInstaller,
             frontDoorQuantity: order.frontDoorQuantity,
@@ -43,6 +37,11 @@ export const MainInstallersAllOrdersTable = ({orders, reversedDate, updateOrders
             messageMainInstaller: '',
             frontDoorQuantity: 0,
             inDoorQuantity: 0
+        });
+        setSelectedTag(prev => {
+            const updated = {...prev};
+            delete updated[orderId];
+            return updated;
         });
     }
 
@@ -78,14 +77,14 @@ export const MainInstallersAllOrdersTable = ({orders, reversedDate, updateOrders
                             ?   <>
                                     <td>
                                         <input value={editedOrder.frontDoorQuantity}
-                                              onChange={(e)=> setEditedOrder((prev) => ({...prev, frontDoorQuantity: parseInt(e.target.value) || 0 }))}
+                                              onChange={(e)=> setEditedOrder((prev) => ({...prev, frontDoorQuantity: e.target.value }))}
                                                type="number"
                                                 min="0"
                                         />
                                     </td>
                                     <td>
                                         <input value={editedOrder.inDoorQuantity}
-                                               onChange={(e)=> setEditedOrder((prev) => ({...prev, inDoorQuantity: parseInt(e.target.value) || 0 }))}
+                                               onChange={(e)=> setEditedOrder((prev) => ({...prev, inDoorQuantity: e.target.value }))}
                                                type="number"
                                                min="0"
 

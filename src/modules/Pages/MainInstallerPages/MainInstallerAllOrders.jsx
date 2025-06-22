@@ -55,42 +55,49 @@ export const MainInstallerAllOrders = () => {
         fetchOrders();
     }, [currentPage])
 
-    const updateOrders = async (order) => {
+    const updateOrders = async (orderIdToUpdate) => {
+        const order = orders.find(o => o.id === orderIdToUpdate);
+        if (!order) return;
+
+        const payload = {
+            id: Number(order.id), // сервер ожидает число
+            fullName: order.fullName,
+            address: order.address,
+            phone: order.phone,
+            dateOrder: order.dateOrder,
+            frontDoorQuantity: Number(editedOrder.frontDoorQuantity),
+            inDoorQuantity: Number(editedOrder.inDoorQuantity),
+            installerName: selectedTag[order.id] || order.installerName || '',
+            messageSeller: order.messageSeller || '',
+            messageMainInstaller: editedOrder.messageMainInstaller || '',
+            nickname: order.nickname
+        };
+
         try {
-            const payload = {
-                ...editedOrder,
-                frontDoorQuantity: editedOrder.frontDoorQuantity,
-                inDoorQuantity: editedOrder.inDoorQuantity,
-                messageMainInstaller: editedOrder.messageMainInstaller,
-                installerName: selectedTag[orderId] || ''
-            };
-           await fetch(`/api/edit/${order}`, {
+            const response = await fetch(`/api/edit/${orderIdToUpdate}`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify(payload),
-            })
+            });
+
+            if (!response.ok) throw new Error(`Ошибка: ${response.status}`);
 
             setOrders(prev =>
                 prev.map(item =>
-                    String(item.id) === String(order)
-                        ? {
-                            ...item,
-                            ...editedOrder,
-                            installerName: selectedTag[orderId] || item.installerName
-                        }
+                    item.id === orderIdToUpdate
+                        ? { ...item, ...payload }
                         : item
                 )
             );
-            sendMessage("Успешный успех")
-            setTimeout(()=> sendMessage(''), 3000);
-        }
-        catch (error) {
-            console.log(error);
+            sendMessage("Успешный успех");
+            setTimeout(() => sendMessage(''), 3000);
+        } catch (error) {
+            console.error(error);
             sendMessage("Возникла ошибка " + error.message);
         }
-    }
+    };
 
     const navItems = [
         { label: 'Главная', route: '/home/mainInstaller/'  },
