@@ -9,7 +9,7 @@ export const MainInstallersAllOrdersTable = ({orders, reversedDate, updateOrders
     )];
 
     const handleChangeButton = (order) => {
-        setOrderId(Number(order.id))
+        setOrderId(order.id)
         setEditedOrder({
             messageMainInstaller: order.messageMainInstaller,
             frontDoorQuantity: order.frontDoorQuantity,

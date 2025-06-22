@@ -34,7 +34,7 @@ export const MainInstallerAllOrders = () => {
                 setOrders(
                     data.orders.map((order) => ({
                         ...order,
-                        id: String(order.id),
+                        id: order.id,
                     })) || []
                 );
                 setTotalPages(data.totalPages || 1);
