@@ -115,26 +115,42 @@ export const MainInstallerAllOrders = () => {
     };
 
 
-    const deleteOrder = async (orderToDelete) => {
+    const deleteOrder = async (orderIdToDelete) => {
+        isLoading(true);
+        setError(null);
         try {
-            const response = await fetch(`/api/delete?id=${orderToDelete}`, {
+            const response = await fetch(`/api/delete?id=${orderIdToDelete}`, {
                 method: "DELETE",
                 headers: {
-                    'Accept': '*/*',
-                },
-            })
+                    "Content-Type": "application/json",
+                }
+            });
+
             if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.message || 'Произошла ошибка при удалении');
+                // Если сервер вернул JSON с ошибкой — прочитаем
+                let errorMsg = 'Ошибка при удалении';
+                try {
+                    const errorData = await response.json();
+                    errorMsg = errorData.message || errorMsg;
+                } catch {
+                    // если JSON не парсится, оставим дефолтное сообщение
+                }
+                throw new Error(errorMsg);
             }
-            handleDeleteSuccess(orderToDelete);
-            sendMessage("Удаление прошло успешно")
+
+            // Успешное удаление — обновляем список
+            handleDeleteSuccess(orderIdToDelete);
+            sendMessage("Удаление прошло успешно");
+
+        } catch (error) {
+            console.error("Ошибка удаления заказа:", error);
+            setError(error.message);
+            sendMessage("Ошибка при удалении: " + error.message);
+        } finally {
+            isLoading(false);
         }
-        catch (error) {
-            console.log(error)
-            sendMessage("Ошибка при удалении")
-        }
-    }
+    };
+
 
 
     const navItems = [
