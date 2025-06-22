@@ -55,26 +55,28 @@ export const MainInstallerAllOrders = () => {
         fetchOrders();
     }, [currentPage])
 
+
     const updateOrders = async (orderIdToUpdate) => {
-        const order = orders.find(o => o.id === orderIdToUpdate);
+        const numericId = Number(orderIdToUpdate); // ← добавлено
+        const order = orders.find(o => o.id === numericId);
         if (!order) return;
 
         const payload = {
-            id: Number(order.id), // сервер ожидает число
+            id: numericId,
             fullName: order.fullName,
             address: order.address,
             phone: order.phone,
             dateOrder: order.dateOrder,
             frontDoorQuantity: Number(editedOrder.frontDoorQuantity),
             inDoorQuantity: Number(editedOrder.inDoorQuantity),
-            installerName: selectedTag[order.id] || order.installerName || '',
+            installerName: selectedTag[numericId] || order.installerName || '',
             messageSeller: order.messageSeller || '',
             messageMainInstaller: editedOrder.messageMainInstaller || '',
             nickname: order.nickname
         };
 
         try {
-            const response = await fetch(`/api/edit/${orderIdToUpdate}`, {
+            const response = await fetch(`/api/edit/${numericId}`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
@@ -86,18 +88,20 @@ export const MainInstallerAllOrders = () => {
 
             setOrders(prev =>
                 prev.map(item =>
-                    item.id === orderIdToUpdate
+                    item.id === numericId
                         ? { ...item, ...payload }
                         : item
                 )
             );
             sendMessage("Успешный успех");
             setTimeout(() => sendMessage(''), 3000);
+            setOrderId(null);
         } catch (error) {
             console.error(error);
             sendMessage("Возникла ошибка " + error.message);
         }
     };
+
 
     const navItems = [
         { label: 'Главная', route: '/home/mainInstaller/'  },
