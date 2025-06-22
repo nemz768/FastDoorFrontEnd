@@ -41,13 +41,15 @@ export const MainInstallerPage = () => {
         { label: 'Полный список заказов', route: '/home/mainInstaller/listOrdersMainInstaller' },
     ];
 
-    // Форматирование даты в DD.MM.YYYY123
-    const reversedDate = (dateString) => {
-        const day = dateString.slice(8);
+    // Форматирование даты в DD.MM.YYYY
+    const reversedDate = (dateString = '') => {
+        const day = dateString.slice(8, 10);
         const month = dateString.slice(5, 7);
         const year = dateString.slice(0, 4);
+        if (!day || !month || !year) return '';
         return `${day}.${month}.${year}`;
     };
+
 
     // Получение данных о заказах и доступности123
     const fetchOrders = async () => {
