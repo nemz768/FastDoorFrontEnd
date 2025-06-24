@@ -99,10 +99,10 @@ const LoginPage = () => {
                            для регистрации
                     </p>
                     <div className="checkbox_div">
-                        <input className="checkbox" type="checkbox" name="rememberMe" />
-                        <p className="p_login" checked={rememberMe}
-                           onChange={()=> setRememberMe(true)}
-                        > Запомнить меня</p>
+                        <input className="checkbox" onChange={(e) => setRememberMe(e.target.checked)}
+                               checked={rememberMe} type="checkbox" name="rememberMe" />
+                        <p className="p_login"
+                       > Запомнить меня</p>
                     </div>
                     <button className="button-login shadowsSection" type="submit">
                         Войти
