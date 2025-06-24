@@ -6,6 +6,10 @@ html {
   scrollbar-color: #4E3629 #f1f1f1; !important
 }
 
+
+
+
+
 ::-webkit-scrollbar {
   width: 8px; /* Уменьшено с 12px до 8px */ !important;
 }

@@ -55,7 +55,7 @@ export const Header = ({navItems = []}) => {
     return (
         <header className="header">
             <Link to="/">
-                <img src={logo} alt="dverka" style={{ height: '50px' }} />
+                <img src={logo} alt="dverka" />
             </Link>
             <div className="navbar-block">
                 {navItems.map((item) => (
