@@ -118,20 +118,24 @@ export const MainInstallerAllOrders = () => {
     const deleteOrder = async (orderIdToDelete) => {
         setError(null);
         try {
-          await fetch(`/api/delete?id=${orderIdToDelete}`, {
+          const response = await fetch(`/api/delete?id=${orderIdToDelete}`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
                 }
             });
-            // Успешное удаление — обновляем список
+
+
+          const data = await response.json();
+            console.log(data)
+
             handleDeleteSuccess(orderIdToDelete);
             sendMessage("Удаление прошло успешно");
-            setTimeout(()=> sendMessage(""), 3000)
         } catch (error) {
             console.error("Ошибка удаления заказа:", error);
             setError(error.message);
             sendMessage("Ошибка при удалении: " + error.message);
+        }finally {
             setTimeout(()=> sendMessage(""), 3000)
         }
     };
