@@ -110,35 +110,34 @@ export const MainInstallerAllOrders = () => {
         }
     };
 
-    const handleDeleteSuccess = (deletedInstallerId) => {
-        setOrders(orders.filter((order) => order.id !== deletedInstallerId));
-    };
+    // const handleDeleteSuccess = (deletedInstallerId) => {
+    //     setOrders(orders.filter((order) => order.id !== deletedInstallerId));
+    // };
 
 
-    const deleteOrder = async (orderIdToDelete) => {
-        setError(null);
-        try {
-          const response = await fetch(`/api/delete?id=${orderIdToDelete}`, {
-                method: "DELETE",
-                headers: {
-                    "Content-Type": "application/json",
-                }
-            });
-
-
-          const data = await response.json();
-            console.log(data)
-
-            handleDeleteSuccess(orderIdToDelete);
-            sendMessage("Удаление прошло успешно");
-        } catch (error) {
-            console.error("Ошибка удаления заказа:", error);
-            setError(error.message);
-            sendMessage("Ошибка при удалении: " + error.message);
-        }finally {
-            setTimeout(()=> sendMessage(""), 3000)
-        }
-    };
+    // const deleteOrder = async (orderIdToDelete) => {
+    //     setError(null);
+    //     try {
+    //       const response = await fetch(`/api/delete?id=${orderIdToDelete}`, {
+    //             method: "DELETE",
+    //             headers: {
+    //                 "Content-Type": "application/json",
+    //             }
+    //         });
+    //
+    //
+    //       const data = await response.json();
+    //         console.log(data)
+    //         handleDeleteSuccess(orderIdToDelete);
+    //         sendMessage("Удаление прошло успешно");
+    //     } catch (error) {
+    //         console.error("Ошибка удаления заказа:", error);
+    //         setError(error.message);
+    //         sendMessage("Ошибка при удалении: " + error.message);
+    //     }finally {
+    //         setTimeout(()=> sendMessage(""), 3000)
+    //     }
+    // };
 
 
 
@@ -186,7 +185,7 @@ export const MainInstallerAllOrders = () => {
                             orderId={orderId}
                             setSelectedTag={setSelectedTag}
                             selectedTag={selectedTag}
-                            deleteOrder={deleteOrder}
+                            // deleteOrder={deleteOrder}
 
                         />
                         <Pagination

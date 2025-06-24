@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, {useRef, useState} from 'react';
 import '../../styles/stylePages/loginPage.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../Context/Auth/AuthContext.jsx';
@@ -8,13 +8,15 @@ const LoginPage = () => {
     const UsernameRef = useRef(null);
     const PasswordRef = useRef(null);
     const navigate = useNavigate();
+    const [rememberMe, setRememberMe] = useState(false);
+
 
     const sendToBack = async (e) => {
         e.preventDefault();
         const login = UsernameRef.current.value;
         const password = PasswordRef.current.value;
         try {
-            const response = await fetch('http://fast-door.ru/api/login', {
+            const response = await fetch(`http://fast-door.ru/api/login?remember-me=${rememberMe}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -22,6 +24,7 @@ const LoginPage = () => {
                 body: JSON.stringify({
                     username: login,
                     password: password,
+                    rememberMe: rememberMe
                 }),
             });
 
@@ -97,7 +100,9 @@ const LoginPage = () => {
                     </p>
                     <div className="checkbox_div">
                         <input className="checkbox" type="checkbox" name="rememberMe" />
-                        <p className="p_login"> Запомнить меня</p>
+                        <p className="p_login" checked={rememberMe}
+                           onChange={(e) => setRememberMe(e.target.checked)}
+                        > Запомнить меня</p>
                     </div>
                     <button className="button-login shadowsSection" type="submit">
                         Войти
