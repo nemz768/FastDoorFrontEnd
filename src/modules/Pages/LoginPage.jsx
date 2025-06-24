@@ -16,7 +16,7 @@ const LoginPage = () => {
         const login = UsernameRef.current.value;
         const password = PasswordRef.current.value;
         try {
-            const response = await fetch(`http://fast-door.ru/api/login?remember-me=${rememberMe}`, {
+            const response = await fetch(`/api/login?remember-me=${rememberMe}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
