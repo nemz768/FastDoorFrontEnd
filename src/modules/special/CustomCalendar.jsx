@@ -23,7 +23,12 @@ export const CustomCalendar = ({
     const dayNames = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
 
     const daysInMonth = new Date(currentYearMonth.year, currentYearMonth.month + 1, 0).getDate();
-    const firstDayOfWeek = (new Date(currentYearMonth.year, currentYearMonth.month, 1).getDay() || 7) % 7;
+    const getMondayBasedWeekday = (date) => {
+        const day = date.getDay();
+        return day === 0 ? 6 : day - 1;
+    };
+
+    const firstDayOfWeek = getMondayBasedWeekday(new Date(currentYearMonth.year, currentYearMonth.month, 1));
 
     const availabilityMap = {};
     const dataSource = Array.isArray(fetchedAvailability) && fetchedAvailability.length > 0
