@@ -1,5 +1,4 @@
 import '../styles/header.css';
-import logo from '../assets/logo.png';
 import {Link, useNavigate} from 'react-router-dom';
 import {useEffect} from "react";
 
@@ -54,9 +53,6 @@ export const Header = ({navItems = []}) => {
 
     return (
         <header className="header">
-            <Link to="/">
-                <img src={logo} alt="dverka" />
-            </Link>
             <div className="navbar-block">
                 {navItems.map((item) => (
                     <Link className="navbar_address" to={item.route}>
