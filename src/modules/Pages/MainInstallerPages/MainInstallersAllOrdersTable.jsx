@@ -2,7 +2,7 @@ import React from 'react';
 
 export const MainInstallersAllOrdersTable = ({orders, reversedDate, updateOrders,
                                                  editedOrder,setEditedOrder, setOrderId, setSelectedTag,
-                                                 selectedTag, orderId}) => {
+                                                 selectedTag, orderId, deleteOrder}) => {
 
     const uniqueInstallers = [...new Set(
         orders.filter(order => order.installerName).map(order => order.installerName)
@@ -11,9 +11,9 @@ export const MainInstallersAllOrdersTable = ({orders, reversedDate, updateOrders
     const handleChangeButton = (order) => {
         setOrderId(order.id)
         setEditedOrder({
-            messageMainInstaller: order.messageMainInstaller,
-            frontDoorQuantity: order.frontDoorQuantity,
-            inDoorQuantity: order.inDoorQuantity,
+            messageMainInstaller: order.messageMainInstaller || '',
+            frontDoorQuantity: order.frontDoorQuantity || 0,
+            inDoorQuantity: order.inDoorQuantity || 0,
             installerName: order.installerName || ''
         });
 
@@ -142,7 +142,7 @@ export const MainInstallersAllOrdersTable = ({orders, reversedDate, updateOrders
                                     </div>
                                     :<div>
                                         <button onClick={()=> handleChangeButton(order)}>Изменить</button>
-                                        <button>Удалить</button>
+                                        <button onClick={()=> deleteOrder(order.id)}>Удалить</button>
                                     </div>
                             }
                         </td>

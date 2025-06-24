@@ -110,46 +110,31 @@ export const MainInstallerAllOrders = () => {
         }
     };
 
-    // const handleDeleteSuccess = (deletedInstallerId) => {
-    //     setOrders(orders.filter((order) => order.id !== deletedInstallerId));
-    // };
+    const handleDeleteSuccess = (deletedInstallerId) => {
+        setOrders(orders.filter((order) => order.id !== deletedInstallerId));
+    };
 
 
-    // const deleteOrder = async (orderIdToDelete) => {
-    //     isLoading(true);
-    //     setError(null);
-    //     try {
-    //         const response = await fetch(`/api/delete?id=${orderIdToDelete}`, {
-    //             method: "DELETE",
-    //             headers: {
-    //                 "Content-Type": "application/json",
-    //             }
-    //         });
-    //
-    //         if (!response.ok) {
-    //             // Если сервер вернул JSON с ошибкой — прочитаем
-    //             let errorMsg = 'Ошибка при удалении';
-    //             try {
-    //                 const errorData = await response.json();
-    //                 errorMsg = errorData.message || errorMsg;
-    //             } catch {
-    //                 // если JSON не парсится, оставим дефолтное сообщение
-    //             }
-    //             throw new Error(errorMsg);
-    //         }
-    //
-    //         // Успешное удаление — обновляем список
-    //         handleDeleteSuccess(orderIdToDelete);
-    //         sendMessage("Удаление прошло успешно");
-    //
-    //     } catch (error) {
-    //         console.error("Ошибка удаления заказа:", error);
-    //         setError(error.message);
-    //         sendMessage("Ошибка при удалении: " + error.message);
-    //     } finally {
-    //         isLoading(false);
-    //     }
-    // };
+    const deleteOrder = async (orderIdToDelete) => {
+        setError(null);
+        try {
+          await fetch(`/api/delete?id=${orderIdToDelete}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                }
+            });
+            // Успешное удаление — обновляем список
+            handleDeleteSuccess(orderIdToDelete);
+            sendMessage("Удаление прошло успешно");
+            setTimeout(()=> sendMessage(""), 3000)
+        } catch (error) {
+            console.error("Ошибка удаления заказа:", error);
+            setError(error.message);
+            sendMessage("Ошибка при удалении: " + error.message);
+            setTimeout(()=> sendMessage(""), 3000)
+        }
+    };
 
 
 
@@ -197,7 +182,7 @@ export const MainInstallerAllOrders = () => {
                             orderId={orderId}
                             setSelectedTag={setSelectedTag}
                             selectedTag={selectedTag}
-                            // deleteOrder={deleteOrder}
+                            deleteOrder={deleteOrder}
 
                         />
                         <Pagination
