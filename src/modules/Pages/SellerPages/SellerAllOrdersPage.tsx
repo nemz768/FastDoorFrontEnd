@@ -3,7 +3,7 @@ import '../../../styles/stylePages/SellerAllOrdersPage.css';
 import { Header } from '../../Header.tsx';
 import { Footer } from '../../Footer.tsx';
 import { ConfirmPopup } from '../../special/ConfirmPopup.tsx';
-import {SellerOrdersTablePc} from "./SellerOrdersTablePC.jsx";
+import {SellerOrdersTablePc} from "./SellerOrdersTablePC.js";
 
 export const SellerAllOrdersPage = () => {
     const [orders, setOrders] = useState([]);
