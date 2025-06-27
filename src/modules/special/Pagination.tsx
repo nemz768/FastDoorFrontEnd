@@ -1,5 +1,3 @@
-import React from 'react';
-
 export const Pagination = ({currentPage, totalPages, setCurrentPage}) => {
 
     const handlePageChange = (newPage) => {

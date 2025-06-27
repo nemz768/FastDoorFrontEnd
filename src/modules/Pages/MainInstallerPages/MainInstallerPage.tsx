@@ -1,39 +1,58 @@
 import React, { useEffect, useState } from 'react';
-import { Header } from '../../Header.tsx';
-import { Footer } from '../../Footer.tsx';
-import { CustomCalendar } from '../../special/CustomCalendar.tsx';
+import { Header } from '../../Header';
+import { Footer } from '../../Footer';
+import { CustomCalendar } from '../../special/CustomCalendar';
 import '../../../styles/styleMainInstaller/MainInstallerPage.css'
 import openSvg from '../../../assets/unlock-alt-svgrepo-com.svg'
 import changeDataSvg from '../../../assets/change-management-backup-svgrepo-com.svg'
 import shutdownSvg from '../../../assets/lock-alt-svgrepo-com.svg'
-import {ChangeDoorsLimit} from "./ChangeDoorsLimit.js";
-import {Pagination} from "../../special/Pagination.tsx";
-import {MainInstallerTable} from "./MainInstallerTable.tsx";
+import {ChangeDoorsLimit} from "./ChangeDoorsLimit";
+import {Pagination} from "../../special/Pagination";
+import {MainInstallerTable} from "./MainInstallerTable";
+import {Order, OrdersResponse} from "../../Interfaces/Interfaces";
+
+interface installersType {
+    id: string;
+    fullName: string;
+}
+
+
+export interface Availability{
+    date: string;
+    available: boolean;
+    frontDoorQuantity: number;
+    inDoorQuantity: number;
+    formattedDate?: string;
+}
+
+interface OrderResponseMainInstaller extends OrdersResponse{
+    installers?: installersType[]
+    availabilityList?: Availability[]
+};
 
 export const MainInstallerPage = () => {
-    const [orders, setOrders] = useState([]);
-    const [installers, setInstallers] = useState([]);
-    const [fetchedAvailability, setFetchedAvailability] = useState([]);
-    const [availabilityList, setAvailabilityList] = useState([]);
+    const [orders, setOrders] = useState<Order[]>([]);
+    const [installers, setInstallers] = useState<installersType[]>([]);
+    const [fetchedAvailability, setFetchedAvailability] = useState<Availability[]>([]);
+    const [availabilityList, setAvailabilityList] = useState<Availability[]>([]);
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(1);
-    const [error, setError] = useState(null);
-    const [selectedTag, setSelectedTag] = useState({});
-    const [comments, setComments] = useState({});
+    const [error, setError] = useState<string | null>(null);
+    const [selectedTag, setSelectedTag] = useState<Record<string, string>>({});
+    const [comments, setComments] = useState<Record<string, string>>({});
     const [currentAvailabilityPage, setCurrentAvailabilityPage] = useState(0);
-    const [selectedDate, setSelectedDate] = useState(null);
+    const [selectedDate, setSelectedDate] = useState<string | null>(null);
     const recordsPerPage = 10;
     const [isOrdersLoading, setIsOrdersLoading] = useState(false);
     const [isAvailabilityChanging, setIsAvailabilityChanging] = useState(false);
-    const [closedSelectedDates, setClosedSelectedDates] = useState(new Set());
+    const [closedSelectedDates, setClosedSelectedDates] = useState<Set<string>>(new Set());
 
     const url = `/api/mainInstaller?page=${currentPage}`;
     const urlPost = `/api/mainInstaller`;
 
 // changeDataCalendar
     const [openCalendarDateChange, setOpenCalendarDateChange] = useState(false);
-
-    const [selectedDates, setSelectedDates] = useState(new Set());
+    const [selectedDates, setSelectedDates] = useState<Set<string>>(new Set());
 
     const navItems = [
         { label: 'Список установщиков', route: '/home/mainInstaller/InstallersList' },
@@ -42,8 +61,8 @@ export const MainInstallerPage = () => {
     ];
 
     // Форматирование даты в DD.MM.YYYY
-    const reversedDate = (dateString) => {
-        if (typeof dateString !== 'string' || dateString.length < 10) return '';
+    const reversedDate = (dateString:string) => {
+        if (dateString.length < 10) return '';
         const day = dateString.slice(8, 10);
         const month = dateString.slice(5, 7);
         const year = dateString.slice(0, 4);
@@ -52,7 +71,7 @@ export const MainInstallerPage = () => {
     };
 
 
-    // Получение данных о заказах и доступности123
+    // Получение данных о заказах и доступности
     const fetchOrders = async () => {
         setIsOrdersLoading(true);
         setError(null);
@@ -68,7 +87,7 @@ export const MainInstallerPage = () => {
                 throw new Error(`Не удалось загрузить заказы: ${response.status} ${response.statusText}`);
             }
 
-            const data = await response.json();
+            const data: OrderResponseMainInstaller = await response.json();
 
             setOrders(
                 Array.isArray(data.orders)
@@ -99,7 +118,7 @@ export const MainInstallerPage = () => {
 
             setTotalPages(data.totalPages || 1);
             setCurrentPage(data.currentPage || 0);
-        } catch (err) {
+        } catch (err:any) {
             console.error('Ошибка при загрузке заказов:', err);
             setError(err.message);
         } finally {
@@ -137,7 +156,8 @@ export const MainInstallerPage = () => {
             console.warn("Даты не выбраны!");
             return;
         }
-        const updatedDates = [];
+
+        const updatedDates: string[] = [];
 
         try {
             setIsAvailabilityChanging(true);
@@ -174,7 +194,7 @@ export const MainInstallerPage = () => {
 
             setSelectedDate(null);
             setSelectedDates(new Set()); // сброс выделения после закрытия
-        } catch (err) {
+        } catch (err:any) {
             console.error("Ошибка при закрытии даты:", err);
             setError(err.message);
         } finally {
@@ -189,7 +209,7 @@ export const MainInstallerPage = () => {
         }
         setIsAvailabilityChanging(true);
         setError(null);
-        const updatedDates = [];
+        const updatedDates: string[] = [];
 
         try {
             for (const date of closedSelectedDates) {
@@ -217,7 +237,7 @@ export const MainInstallerPage = () => {
             );
             setClosedSelectedDates(new Set());
             setSelectedDate(null);
-        } catch (err) {
+        } catch (err:any) {
             console.error("Ошибка при открытии даты:", err);
             setError(err.message);
         } finally {
@@ -226,7 +246,7 @@ export const MainInstallerPage = () => {
     };
 
     // Обработчик изменения комментария
-    const handleCommentChange = (event, orderId) => {
+    const handleCommentChange = (event: React.ChangeEvent<HTMLTextAreaElement>, orderId: string) => {
         setComments((prev) => ({
             ...prev,
             [orderId]: event.target.value,
@@ -234,7 +254,7 @@ export const MainInstallerPage = () => {
     };
 
     // Обработчик выбора установщикаf
-    const handleChange = (event, orderId) => {
+    const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>, orderId: string) => {
         setSelectedTag((prev) => ({
             ...prev,
             [orderId]: event.target.value,
@@ -242,7 +262,7 @@ export const MainInstallerPage = () => {
     };
 
     // Отправка данных на сервер
-    const postData = async (orderId) => {
+    const postData = async (orderId: string) => {
         try {
             const selectedInstaller = installers.find(
                 (installer) => installer.id === selectedTag[orderId]
@@ -266,7 +286,7 @@ export const MainInstallerPage = () => {
             }
 
             fetchOrders();
-        } catch (err) {
+        } catch (err:any) {
             console.error('Ошибка при отправке данных:', err);
             setError(err.message);
         }
@@ -274,7 +294,7 @@ export const MainInstallerPage = () => {
 
 
     // Обработчик смены страницы доступности
-    const handleAvailabilityPageChange = (newPage) => {
+    const handleAvailabilityPageChange = (newPage:number) => {
         if (newPage >= 0 && newPage < Math.ceil(availabilityList.length / recordsPerPage)) {
             setCurrentAvailabilityPage(newPage);
         }
@@ -286,7 +306,7 @@ export const MainInstallerPage = () => {
         (currentAvailabilityPage + 1) * recordsPerPage
     );
 
-    const handleDateSelected = (dateStr) => {
+    const handleDateSelected = (dateStr:string) => {
         setSelectedDates(prev => {
             const newSet = new Set(prev);
             if (newSet.has(dateStr)) {
@@ -302,7 +322,7 @@ export const MainInstallerPage = () => {
         try {
             const res = await fetch("/api/orders/create");
             if (!res.ok) throw new Error('Ошибка загрузки данных доступности');
-            const data = await res.json();
+            const data: OrderResponseMainInstaller = await res.json();
             setFetchedAvailability(data.availabilityList || []);
             setAvailabilityList(
                 (data.availabilityList || []).map(item => ({
@@ -335,33 +355,30 @@ export const MainInstallerPage = () => {
                         <div className="no-orders">Заказы не найдены</div>
                     )}
                     {!isOrdersLoading && !error && orders.length > 0 && (
-                       <div>
-                        <MainInstallerTable
-                            reversedDate={reversedDate}
-                            installers={installers}
-                            orders={orders}
-                            comments={comments}
-                           selectedTag={selectedTag}
-                            handleCommentChange={handleCommentChange}
-                            handleChange={handleChange}
-                           postData={postData}
+                        <div>
+                            <MainInstallerTable
+                                reversedDate={reversedDate}
+                                installers={installers}
+                                orders={orders}
+                                comments={comments}
+                                selectedTag={selectedTag}
+                                handleCommentChange={handleCommentChange}
+                                handleChange={handleChange}
+                                postData={postData}
 
-                        />
-                        <Pagination
-                            setCurrentPage={setCurrentPage}
-                           currentPage={currentPage}
-                            totalPages={totalPages}
-                        />
-                       </div>
+                            />
+                            <Pagination
+                                setCurrentPage={setCurrentPage}
+                                currentPage={currentPage}
+                                totalPages={totalPages}
+                            />
+                        </div>
                     )}
                 </main>
 
                 <div className="MainInstallerPage__calendar-dateTable-block">
                     <div>
                         <CustomCalendar
-                            selectedDates={selectedDates}
-                            setSelectedDates={setSelectedDates}
-                            setFetchedAvailability={setFetchedAvailability}
                             availabilityList={availabilityList}
                             fetchedAvailability={fetchedAvailability}
                             setSelectedDate={setSelectedDate}
@@ -376,27 +393,26 @@ export const MainInstallerPage = () => {
                             <img src={shutdownSvg} alt="shutdown"/>
                         </button>
                         <button className="Calendar-Button-MainInstaller" onClick={openDates}
-                                 disabled={closedSelectedDates.size === 0 || isAvailabilityChanging}>
-                             <img src={openSvg} alt="shutdown"/>
+                                disabled={closedSelectedDates.size === 0 || isAvailabilityChanging}>
+                            <img src={openSvg} alt="shutdown"/>
                         </button>
 
                         <div>
                             <button onClick={()=> {setOpenCalendarDateChange(true)
                             }} disabled={!selectedDate || isAvailabilityChanging}
-                                 className="Calendar-Button-MainInstaller">
+                                    className="Calendar-Button-MainInstaller">
                                 <img src={changeDataSvg} alt="shutdown"/>
                             </button>
 
                             {openCalendarDateChange && <ChangeDoorsLimit
                                 selectedDate={selectedDate}
                                 setOpenCalendarDateChange={setOpenCalendarDateChange}
-                                openCalendarDateChange={openCalendarDateChange}
-                                refreshAvailabilityData={refreshAvailabilityData}
-                           />}
+                                 refreshAvailabilityData={refreshAvailabilityData}
+                            />}
                         </div>
                     </div>
                     <div>
-                        <table className="table-dates" border="1">
+                        <table className="table-dates" border={1}>
                             <thead>
                             <tr>
                                 <th>Дата</th>
@@ -440,3 +456,7 @@ export const MainInstallerPage = () => {
         </div>
     );
 };
+export interface NavItems {
+    label: string;
+    route: string;
+}

@@ -1,8 +1,13 @@
 import '../styles/header.css';
 import {Link, useNavigate} from 'react-router-dom';
-import {useEffect} from "react";
+import React, {useEffect} from "react";
+import {NavItems} from "./Interfaces/Interfaces";
 
-export const Header = ({navItems = []}) => {
+interface HeaderProps {
+    navItems?: NavItems[];
+}
+
+export const Header = ({navItems = []}: HeaderProps) => {
 
     const navigate = useNavigate();
 
@@ -32,7 +37,7 @@ export const Header = ({navItems = []}) => {
     }, [])
 
 
-    const handleLogout = async (e) => {
+    const handleLogout = async (e: React.MouseEvent<HTMLAnchorElement>) => {
         e.preventDefault();
         try {
             const response = await fetch("/api/logout", {

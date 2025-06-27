@@ -10,3 +10,16 @@ export interface Order {
     installerName?: string; // null возможен
     nickname: string;
 }
+
+export interface OrdersResponse {
+    orders: Order[];
+    totalPages: number;
+    currentPage: number;
+
+}
+
+
+export interface NavItems {
+    label: string;
+    route: string;
+}

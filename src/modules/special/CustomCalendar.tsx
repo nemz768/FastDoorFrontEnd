@@ -1,5 +1,18 @@
 import React, { useState } from "react";
 import '../../styles/specialStyles/stylesCalendar.css';
+import {Availability} from "../Pages/MainInstallerPages/MainInstallerPage";
+
+interface CalendarTypeProps {
+    selectedDate: string;
+    setSelectedDate: (date: string) => void;
+    onDateSelected: (date: string) => void;
+    availabilityList: Availability[];
+    fetchedAvailability: Availability[];
+    canSelectClosedDays: boolean;
+    closedSelectedDates: Set<string>;
+    setClosedSelectedDates: React.Dispatch<React.SetStateAction<Set<string>>>;
+}
+
 
 export const CustomCalendar = ({
                                    selectedDate,
@@ -10,7 +23,7 @@ export const CustomCalendar = ({
                                    canSelectClosedDays = false,
                                    closedSelectedDates,
                                    setClosedSelectedDates,
-                               }) => {
+                               }: CalendarTypeProps) => {
     const [currentYearMonth, setCurrentYearMonth] = useState({
         year: new Date().getFullYear(),
         month: new Date().getMonth(),
@@ -23,14 +36,19 @@ export const CustomCalendar = ({
     const dayNames = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
 
     const daysInMonth = new Date(currentYearMonth.year, currentYearMonth.month + 1, 0).getDate();
-    const getMondayBasedWeekday = (date) => {
+    const getMondayBasedWeekday = (date: Date):number => {
         const day = date.getDay();
         return day === 0 ? 6 : day - 1;
     };
 
-    const firstDayOfWeek = getMondayBasedWeekday(new Date(currentYearMonth.year, currentYearMonth.month, 1));
+    const firstDayOfWeek:number = getMondayBasedWeekday(new Date(currentYearMonth.year, currentYearMonth.month, 1));
 
-    const availabilityMap = {};
+    const availabilityMap: Record<string, {
+        frontDoorQuantity: number;
+        inDoorQuantity: number;
+        available: boolean;
+    }> = {};
+
     const dataSource = Array.isArray(fetchedAvailability) && fetchedAvailability.length > 0
         ? fetchedAvailability
         : (availabilityList || []);
@@ -60,14 +78,14 @@ export const CustomCalendar = ({
         setClosedSelectedDates?.(new Set());
     };
 
-    const formatLocalDate = (date) => {
+    const formatLocalDate = (date: Date) => {
         const year = date.getFullYear();
         const month = String(date.getMonth() + 1).padStart(2, '0');
         const day = String(date.getDate()).padStart(2, '0');
         return `${year}-${month}-${day}`;
     };
 
-    const onDayClick = (dateStr, isClosed, isPast) => {
+    const onDayClick = (dateStr: string, isClosed: boolean, isPast: boolean) => {
         if (isPast) return;
 
         if (isClosed) {

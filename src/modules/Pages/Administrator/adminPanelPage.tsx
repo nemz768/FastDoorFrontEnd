@@ -2,13 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Header } from '../../Header';
 import { Footer } from '../../Footer';
 import '../../../styles/stylePages/adminPanelPage.css';
-import { Order } from '../../Interfaces/Interfaces';
+import { Order, OrdersResponse } from '../../Interfaces/Interfaces';
 
-interface OrdersResponse {
-    orders: Order[];
-    totalPages: number;
-    currentPage: number;
-}
+
 
 export const AdminPanelPage = () => {
 
