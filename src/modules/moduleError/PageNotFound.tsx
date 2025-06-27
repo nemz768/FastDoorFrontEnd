@@ -22,7 +22,7 @@ const PageNotFound = () => {
 
                                 <p>страница, которую вы ищете, недоступна!</p>
 
-                                <btn onClick={() => navigate(-1)} className="link_404">Вернуться назад</btn>
+                                <button onClick={() => navigate(-1)} className="link_404">Вернуться назад</button>
                             </div>
                         </div>
                     </div>

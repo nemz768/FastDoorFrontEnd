@@ -1,8 +1,17 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect, ReactNode  } from 'react';
 
-const AuthContext = createContext();
+interface AuthContextType  {
+    isLoggedIn: boolean;
+    setIsLoggedIn: (isLoggedIn: boolean) => void;
+}
 
-export const AuthProvider = ({ children }) => {
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+interface AuthContextProps {
+    children: ReactNode
+}
+
+export const AuthProvider = ({ children }:AuthContextProps) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     // Проверяем авторизацию при монтировании
@@ -22,4 +31,10 @@ export const AuthProvider = ({ children }) => {
     );
 };
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = (): AuthContextType => {
+    const context = useContext(AuthContext);
+    if (!context) {
+        throw new Error('useAuth must be used within an AuthProvider');
+    }
+    return context;
+}

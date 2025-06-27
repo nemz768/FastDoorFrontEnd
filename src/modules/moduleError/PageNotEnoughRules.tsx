@@ -1,6 +1,10 @@
 import '../../styles/stylesError/pageNotEnoughRules.css';
 import {Link, useNavigate} from "react-router-dom";
 import image from  '../../assets/dog-family.jpg'
+
+
+
+
 export const PageNotEnoughRules = () => {
     const navigate = useNavigate();
 

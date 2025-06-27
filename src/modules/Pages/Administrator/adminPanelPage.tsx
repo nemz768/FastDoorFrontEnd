@@ -2,11 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { Header } from '../../Header';
 import { Footer } from '../../Footer';
 import '../../../styles/stylePages/adminPanelPage.css';
+import { Order } from '../../Interfaces/Interfaces';
 
+interface OrdersResponse {
+    orders: Order[];
+    totalPages: number;
+    currentPage: number;
+}
 
 export const AdminPanelPage = () => {
 
-    const [orders, setOrders] = useState([]);
+    const [orders, setOrders] = useState<Order[]>([]);
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(1);
     const [isLoading, setIsLoading] = useState(false);
@@ -33,17 +39,19 @@ export const AdminPanelPage = () => {
                 if (!response.ok) {
                     throw new Error(`Не удалось загрузить заказы либо филиала ${nickName} не существует!`);
                 }
-                const data = await response.json();
-                console.log('API data:', data);
+                const data: OrdersResponse = await response.json();
+
+                const normalizedOrders: Order[] = data.orders.map((order) => ({
+                    ...order,
+                    id: String(order.id),
+                }));
+
                 setOrders(
-                    data.orders.map((order) => ({
-                        ...order,
-                        id: String(order.id),
-                    })) || []
+                    normalizedOrders
                 );
                 setTotalPages(data.totalPages || 1);
                 setCurrentPage(data.currentPage || 0);
-            } catch (err) {
+            } catch (err: any) {
                 console.error('Ошибка загрузки заказов:', err);
                 setError(err.message);
             } finally {
@@ -54,7 +62,7 @@ export const AdminPanelPage = () => {
         fetchOrders();
     }, [currentPage, nickName]);
 
-    const handlePageChange = (newPage) => {
+    const handlePageChange = (newPage: number) => {
         if (newPage >= 0 && newPage < totalPages) {
             setCurrentPage(newPage);
         }
@@ -62,7 +70,7 @@ export const AdminPanelPage = () => {
     // debounce, чтобы предотвратить постоянные запросы к apis
 
 
-    const handleSearch = (value) => {
+    const handleSearch = (value: string) => {
         setShowButtonClear(value !== '');
         setNickName(value);
         setCurrentPage(0);
