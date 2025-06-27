@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Header } from '../../Header.jsx';
-import { Footer } from '../../Footer.jsx';
+import { Header } from '../../Header.tsx';
+import { Footer } from '../../Footer.tsx';
 import '../../../styles/styleMainInstaller/installers.css';
 import { useNavigate } from 'react-router-dom';
-import { ConfirmPopupMainInstaller } from './ConfirmPopupMainInstaller.jsx';
+import { ConfirmPopupMainInstaller } from './ConfirmPopupMainInstaller.js';
 
 export const InstallersList = () => {
     const [installers, setInstallers] = useState([]);

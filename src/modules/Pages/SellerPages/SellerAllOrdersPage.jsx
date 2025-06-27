@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import '../../../styles/stylePages/SellerAllOrdersPage.css';
-import { Header } from '../../Header.jsx';
-import { Footer } from '../../Footer.jsx';
-import { ConfirmPopup } from '../../special/ConfirmPopup.jsx';
+import { Header } from '../../Header.tsx';
+import { Footer } from '../../Footer.tsx';
+import { ConfirmPopup } from '../../special/ConfirmPopup.tsx';
 import {SellerOrdersTablePc} from "./SellerOrdersTablePC.jsx";
 
 export const SellerAllOrdersPage = () => {

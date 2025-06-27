@@ -1,20 +1,20 @@
 import { Routes, Route } from "react-router-dom";
-import MainPage from "../modules/Pages/MainPage.jsx";
-import LoginPage from "../modules/Pages/LoginPage.jsx";
-import PageNotFound from "../modules/moduleError/PageNotFound.jsx";
+import MainPage from "../modules/Pages/MainPage.js";
+import LoginPage from "../modules/Pages/LoginPage.js";
+import PageNotFound from "../modules/moduleError/PageNotFound.js";
 import {SellerPage} from "../modules/Pages/SellerPages/SellerPage.jsx";
-import {PageNotEnoughRules} from "../modules/moduleError/PageNotEnoughRules.jsx";
-import {Check} from "../modules/Pages/Check.jsx";
-import {RegisterPage} from '../modules/Pages/RegisterPage.jsx';
+import {PageNotEnoughRules} from "../modules/moduleError/PageNotEnoughRules.js";
+import {Check} from "../modules/Pages/Check.js";
+import {RegisterPage} from '../modules/Pages/RegisterPage.js';
 import {SellerCreatePage} from "../modules/Pages/SellerPages/SellerCreatePage.jsx";
-import {DonePage} from "../modules/Pages/DonePage.jsx";
-import {MainInstallerPage} from "../modules/Pages/MainInstallerPages/MainInstallerPage.jsx";
+import {DonePage} from "../modules/Pages/DonePage.js";
+import {MainInstallerPage} from "../modules/Pages/MainInstallerPages/MainInstallerPage.js";
 import {SellerAllOrdersPage} from "../modules/Pages/SellerPages/SellerAllOrdersPage.jsx";
 import {PatchOrderPage} from "../modules/Pages/SellerPages/PatchOrderPage.jsx";
-import {AdminPanelPage} from "../modules/Pages/Administrator/adminPanelPage.jsx";
-import {MainInstallerCreate} from "../modules/Pages/MainInstallerPages/MainInstallerCreate.jsx";
-import {InstallersList} from "../modules/Pages/MainInstallerPages/InstallersList.jsx";
-import {MainInstallerAllOrders} from "../modules/Pages/MainInstallerPages/MainInstallerAllOrders.jsx";
+import {AdminPanelPage} from "../modules/Pages/Administrator/adminPanelPage.js";
+import {MainInstallerCreate} from "../modules/Pages/MainInstallerPages/MainInstallerCreate.js";
+import {InstallersList} from "../modules/Pages/MainInstallerPages/InstallersList.js";
+import {MainInstallerAllOrders} from "../modules/Pages/MainInstallerPages/MainInstallerAllOrders.js";
 
 
 

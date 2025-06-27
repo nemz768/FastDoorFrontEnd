@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Header } from '../../Header.jsx';
-import { Footer } from '../../Footer.jsx';
+import { Header } from '../../Header.tsx';
+import { Footer } from '../../Footer.tsx';
 import '../../../styles/stylePages/adminPanelPage.css';
 
 

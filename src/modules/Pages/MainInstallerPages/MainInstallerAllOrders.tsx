@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import {Header} from "../../Header.jsx";
-import {Footer} from "../../Footer.jsx";
-import {MainInstallersAllOrdersTable} from "./MainInstallersAllOrdersTable.jsx";
-import {Pagination} from "../../special/Pagination.jsx";
+import {Header} from "../../Header.tsx";
+import {Footer} from "../../Footer.tsx";
+import {MainInstallersAllOrdersTable} from "./MainInstallersAllOrdersTable.tsx";
+import {Pagination} from "../../special/Pagination.tsx";
 import '../../../styles/styleMainInstaller/mainInstallerAllOrders.css'
 
 export const MainInstallerAllOrders = () => {

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import '../../../styles/stylePages/createSellerPage.css';
-import { CustomCalendar } from "../../special/CustomCalendar.jsx";
+import { CustomCalendar } from "../../special/CustomCalendar.tsx";
 
 export const SellerCreatePage = () => {
     const [selectedDate, setSelectedDate] = useState(null);

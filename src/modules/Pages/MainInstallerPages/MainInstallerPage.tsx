@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Header } from '../../Header.jsx';
-import { Footer } from '../../Footer.jsx';
-import { CustomCalendar } from '../../special/CustomCalendar.jsx';
+import { Header } from '../../Header.tsx';
+import { Footer } from '../../Footer.tsx';
+import { CustomCalendar } from '../../special/CustomCalendar.tsx';
 import '../../../styles/styleMainInstaller/MainInstallerPage.css'
 import openSvg from '../../../assets/unlock-alt-svgrepo-com.svg'
 import changeDataSvg from '../../../assets/change-management-backup-svgrepo-com.svg'
 import shutdownSvg from '../../../assets/lock-alt-svgrepo-com.svg'
-import {ChangeDoorsLimit} from "./ChangeDoorsLimit.jsx";
-import {Pagination} from "../../special/Pagination.jsx";
-import {MainInstallerTable} from "./MainInstallerTable.jsx";
+import {ChangeDoorsLimit} from "./ChangeDoorsLimit.js";
+import {Pagination} from "../../special/Pagination.tsx";
+import {MainInstallerTable} from "./MainInstallerTable.tsx";
 
 export const MainInstallerPage = () => {
     const [orders, setOrders] = useState([]);

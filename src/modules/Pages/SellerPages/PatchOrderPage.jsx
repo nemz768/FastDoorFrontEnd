@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import 'pikaday/css/pikaday.css';
 import '../../../styles/stylePages/PatchOrderPage.css';
-import {CustomCalendar} from "../../special/CustomCalendar.jsx";
+import {CustomCalendar} from "../../special/CustomCalendar.tsx";
 
 export const PatchOrderPage = () => {
     const { orderId } = useParams();
