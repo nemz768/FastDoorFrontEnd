@@ -1,20 +1,20 @@
 import { Routes, Route } from "react-router-dom";
-import MainPage from "../modules/Pages/MainPage.js";
-import LoginPage from "../modules/Pages/LoginPage.js";
-import PageNotFound from "../modules/moduleError/PageNotFound.js";
-import {SellerPage} from "../modules/Pages/SellerPages/SellerPage.jsx";
-import {PageNotEnoughRules} from "../modules/moduleError/PageNotEnoughRules.js";
-import {Check} from "../modules/Pages/Check.js";
-import {RegisterPage} from '../modules/Pages/RegisterPage.js';
-import {SellerCreatePage} from "../modules/Pages/SellerPages/SellerCreatePage.jsx";
-import {DonePage} from "../modules/Pages/DonePage.js";
-import {MainInstallerPage} from "../modules/Pages/MainInstallerPages/MainInstallerPage.js";
-import {SellerAllOrdersPage} from "../modules/Pages/SellerPages/SellerAllOrdersPage.jsx";
-import {PatchOrderPage} from "../modules/Pages/SellerPages/PatchOrderPage.jsx";
-import {AdminPanelPage} from "../modules/Pages/Administrator/adminPanelPage.js";
-import {MainInstallerCreate} from "../modules/Pages/MainInstallerPages/MainInstallerCreate.js";
-import {InstallersList} from "../modules/Pages/MainInstallerPages/InstallersList.js";
-import {MainInstallerAllOrders} from "../modules/Pages/MainInstallerPages/MainInstallerAllOrders.js";
+import MainPage from "../modules/Pages/MainPage";
+import LoginPage from "../modules/Pages/LoginPage";
+import PageNotFound from "../modules/moduleError/PageNotFound";
+import {SellerPage} from "../modules/Pages/SellerPages/SellerPage";
+import {PageNotEnoughRules} from "../modules/moduleError/PageNotEnoughRules";
+import {Check} from "../modules/Pages/Check";
+import {RegisterPage} from '../modules/Pages/RegisterPage';
+import {SellerCreatePage} from "../modules/Pages/SellerPages/SellerCreatePage";
+import {DonePage} from "../modules/Pages/DonePage";
+import {MainInstallerPage} from "../modules/Pages/MainInstallerPages/MainInstallerPage";
+import {SellerAllOrdersPage} from "../modules/Pages/SellerPages/SellerAllOrdersPage";
+import {PatchOrderPage} from "../modules/Pages/SellerPages/PatchOrderPage";
+import {AdminPanelPage} from "../modules/Pages/Administrator/adminPanelPage";
+import {MainInstallerCreate} from "../modules/Pages/MainInstallerPages/MainInstallerCreate";
+import {InstallersList} from "../modules/Pages/MainInstallerPages/InstallersList";
+import {MainInstallerAllOrders} from "../modules/Pages/MainInstallerPages/MainInstallerAllOrders";
 
 
 

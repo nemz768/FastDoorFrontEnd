@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Header } from '../../Header.tsx';
-import { Footer } from '../../Footer.tsx';
+import { Header } from '../../Header';
+import { Footer } from '../../Footer';
 import '../../../styles/stylePages/adminPanelPage.css';
 
 
@@ -78,7 +78,7 @@ export const AdminPanelPage = () => {
             <Header />
             <main className="SellerAllOrdersPage">
                 <div>
-                    <h2>Панель администратора</h2>
+                    <h2>Панель администратора TS proverka</h2>
                     <div className="InputBlock">
                         <input
                             className="inputFind"
