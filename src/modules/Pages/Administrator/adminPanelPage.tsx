@@ -78,7 +78,7 @@ export const AdminPanelPage = () => {
             <Header />
             <main className="SellerAllOrdersPage">
                 <div>
-                    <h2>Панель администратора TS proverka</h2>
+                    <h2>Панель администратора TS proverka2</h2>
                     <div className="InputBlock">
                         <input
                             className="inputFind"

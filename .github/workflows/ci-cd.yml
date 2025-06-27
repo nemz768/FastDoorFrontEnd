@@ -54,6 +54,7 @@ jobs:
              fi
              cd ~/mrDverkinFront/
              git pull origin master
+             npm install
              yarn build
              sudo cp -r dist/* /var/www/frontend/
              sudo nginx -t
