@@ -1,25 +1,36 @@
 import React, { useEffect, useState } from 'react';
-import { Header } from '../../Header.tsx';
-import { Footer } from '../../Footer.tsx';
+import { Header } from '../../Header';
+import { Footer } from '../../Footer';
 import '../../../styles/styleMainInstaller/installers.css';
 import { useNavigate } from 'react-router-dom';
-import { ConfirmPopupMainInstaller } from './ConfirmPopupMainInstaller.js';
+import { ConfirmPopupMainInstaller } from './ConfirmPopupMainInstaller';
 
-export const InstallersList = () => {
-    const [installers, setInstallers] = useState([]);
+
+
+interface InstallersListType {
+    id: number;
+    fullName: string;
+    phone: string;
+}
+
+
+
+
+export const InstallersList : React.FC = () => {
+    const [installers, setInstallers] = useState<InstallersListType[]>([]);
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState(null);
+    const [error, setError] = useState<string | null>(null);
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(1);
-    const [selectedInstallerId, setSelectedInstallerId] = useState(null);
+    const [selectedInstallerId, setSelectedInstallerId] = useState<number | null>(null);
     const [activeModal, setActiveModal] = useState(false);
-    const [editingInstallerId, setEditingInstallerId] = useState(null);
+    const [editingInstallerId, setEditingInstallerId] = useState<number | null>(null);
     const [message, sendMessage] = useState('');
 
 
 
-    const [editedInstaller, setEditedInstaller] = useState({
+    const [editedInstaller, setEditedInstaller] = useState<{fullName: string; phone: string}>({
         fullName: '',
         phone: ''
     });
@@ -44,14 +55,14 @@ export const InstallersList = () => {
 
                 const data = await response.json();
                 console.log('Полученные данные:', data);
-                setInstallers(data.installers.map((item) => ({
+                setInstallers(data.installers.map((item: InstallersListType) => ({
                     ...item,
                     fullName: item.fullName,
 
                 })));
                 setTotalPages(data.totalPages || 1);
                 setCurrentPage(data.currentPage || 0);
-            } catch (error) {
+            } catch (error: any) {
                 console.error('Ошибка при загрузке установщиков:', error);
                 setError(error.message);
             } finally {
@@ -61,7 +72,7 @@ export const InstallersList = () => {
         getInstallers();
     }, [currentPage]);
 
-    const saveDataInstaller = async (installerId) => {
+    const saveDataInstaller = async (installerId:number) => {
         const { fullName, phone } = editedInstaller;
 
         try {
@@ -97,7 +108,7 @@ export const InstallersList = () => {
 
     }
 
-    const openModal = (installerId) => {
+    const openModal = (installerId:number) => {
         console.log('Открытие модального окна с installerId:', installerId);
         setSelectedInstallerId(installerId);
         setActiveModal(true);
@@ -109,17 +120,17 @@ export const InstallersList = () => {
         setActiveModal(false);
     };
 
-    const handleDeleteSuccess = (deletedInstallerId) => {
+    const handleDeleteSuccess = (deletedInstallerId:number) => {
         setInstallers(installers.filter((installer) => installer.id !== deletedInstallerId));
     };
 
-    const handlePageChange = (newPage) => {
+    const handlePageChange = (newPage:number) => {
         if (newPage >= 0 && newPage < totalPages) {
             setCurrentPage(newPage);
         }
     };
 
-    const handleChangeBtn = (installer) => {
+    const handleChangeBtn = (installer: InstallersListType) => {
         setEditingInstallerId(installer.id);
         setEditedInstaller({ fullName: installer.fullName, phone: installer.phone });
     };
@@ -207,7 +218,7 @@ export const InstallersList = () => {
                     closeModal={closeModal}
                 />
             )}
-            <Footer className="footer-installer" />
+            <Footer/>
             {message && (
                 <div className="toast-notification">
                     {message}

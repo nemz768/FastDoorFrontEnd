@@ -1,8 +1,17 @@
 import React, {useState} from 'react';
 import '../../../styles/specialStyles/ConfirmPopup.css';
+
+
+interface ConfirmPopupPropsType {
+    installerId: string;
+    closeModal: null;
+
+}
+
+
 export const ConfirmPopupMainInstaller = ({handleDeleteSuccess, installerId, closeModal}) => {
     const [isDeleting, setIsDeleting] = useState(false);
-    const [error, setError] = useState(null);
+    const [error, setError] = useState<string | null>(null);
 
 
 
@@ -20,7 +29,7 @@ export const ConfirmPopupMainInstaller = ({handleDeleteSuccess, installerId, clo
             handleDeleteSuccess(installerId);
             closeModal();
         }
-        catch (error) {
+        catch (error:any) {
             console.log(error)
             setError(error);
         }

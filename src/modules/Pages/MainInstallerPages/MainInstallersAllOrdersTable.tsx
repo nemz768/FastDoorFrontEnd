@@ -1,4 +1,6 @@
-import React from 'react';
+
+
+
 
 export const MainInstallersAllOrdersTable = ({orders, reversedDate, updateOrders,
                                                  editedOrder,setEditedOrder, setOrderId, setSelectedTag,

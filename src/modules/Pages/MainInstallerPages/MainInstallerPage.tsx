@@ -253,7 +253,7 @@ export const MainInstallerPage = () => {
         }));
     };
 
-    // Обработчик выбора установщикаf
+    // Обработчик выбора установщика
     const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>, orderId: string) => {
         setSelectedTag((prev) => ({
             ...prev,

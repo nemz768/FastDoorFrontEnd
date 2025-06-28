@@ -63,8 +63,6 @@ export const AdminPanelPage = () => {
             setCurrentPage(newPage);
         }
     };
-    // debounce, чтобы предотвратить постоянные запросы к apis
-
 
     const handleSearch = (value: string) => {
         setShowButtonClear(value !== '');

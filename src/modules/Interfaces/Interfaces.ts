@@ -7,7 +7,7 @@ export interface Order {
     frontDoorQuantity: number;
     inDoorQuantity: number;
     messageSeller: string;
-    installerName?: string; // null возможен
+    installerName?: string | null; // null возможен
     nickname: string;
 }
 

@@ -3,7 +3,7 @@ import '../../styles/specialStyles/stylesCalendar.css';
 import {Availability} from "../Pages/MainInstallerPages/MainInstallerPage";
 
 interface CalendarTypeProps {
-    selectedDate: string;
+    selectedDate: string | null;
     setSelectedDate: (date: string) => void;
     onDateSelected: (date: string) => void;
     availabilityList: Availability[];
