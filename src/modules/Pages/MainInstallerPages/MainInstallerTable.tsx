@@ -11,16 +11,16 @@ export const MainInstallerTable = ({
                                        postData,
                                    }) => {
     const [date, setDate] = useState(null);
-    const [workloadData, setWorkloadData] = useState({}); // для данных от API
+    const [workloadData, setWorkloadData] = useState({}); // данные нагрузки установщиков по дате
 
-    // Устанавливаем дату из первого заказа
+    // Устанавливаем дату из первого заказа (чтобы загрузить нагрузку по дате)
     useEffect(() => {
         if (orders && orders.length > 0) {
             setDate(orders[0].dateOrder);
         }
     }, [orders]);
 
-    // Загружаем данные нагрузок установщиков по дате
+    // Загружаем данные нагрузок установщиков по выбранной дате
     useEffect(() => {
         if (!date) return;
 
@@ -30,15 +30,11 @@ export const MainInstallerTable = ({
                     `/api/listInstallers/workload?date=${encodeURIComponent(date)}`,
                     {
                         method: "GET",
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
+                        headers: { "Content-Type": "application/json" },
                     }
                 );
                 const data = await response.json();
-
-                // Предположим, data — объект с ключами installerId и значениями нагрузки
-                // Например: { "1": 5, "2": 3, ... }
+                // Ожидается объект: { "installerId": число нагрузки, ... }
                 setWorkloadData(data);
             } catch (err) {
                 console.error("Ошибка при загрузке данных:", err);
@@ -91,7 +87,6 @@ export const MainInstallerTable = ({
                                 {installers.map((option) => (
                                     <option key={option.id} value={option.id}>
                                         {option.fullName}{" "}
-                                        {/* Выводим нагрузку рядом с именем */}
                                         {workloadData[option.id] !== undefined
                                             ? `(${workloadData[option.id]})`
                                             : ""}
