@@ -161,7 +161,6 @@ export const MainInstallerPage = () => {
 
         try {
             setIsAvailabilityChanging(true);
-
             for (const date of selectedDates) {
                 const response = await fetch(`/api/doorLimits/closeDate?date=${encodeURIComponent(date)}`, {
                     method: "PATCH",
@@ -456,7 +455,3 @@ export const MainInstallerPage = () => {
         </div>
     );
 };
-export interface NavItems {
-    label: string;
-    route: string;
-}

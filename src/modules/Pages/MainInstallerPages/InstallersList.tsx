@@ -120,7 +120,7 @@ export const InstallersList : React.FC = () => {
         setActiveModal(false);
     };
 
-    const handleDeleteSuccess = (deletedInstallerId:number) => {
+    const handleDeleteSuccess = (deletedInstallerId:number | null) => {
         setInstallers(installers.filter((installer) => installer.id !== deletedInstallerId));
     };
 
