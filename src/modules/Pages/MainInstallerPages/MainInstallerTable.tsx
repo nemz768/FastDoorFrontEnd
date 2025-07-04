@@ -117,8 +117,8 @@ export const MainInstallerTable = ({
                                                 onClick={() => handleSelect(order.id, option.id)}
                                             >
                                                 <div>{option.fullName}</div>
-                                                <div>B: {workloadData[option.id]?.B ?? 0}</div>
-                                                <div>M: {workloadData[option.id]?.M ?? 0}</div>
+                                                <div>B: {workloadData[option.id]?.inDoorQuantity ?? 0}</div>
+                                                <div>M: {workloadData[option.id]?.frontDoorQuantity ?? 0}</div>
                                             </div>
                                         ))}
                                     </div>
