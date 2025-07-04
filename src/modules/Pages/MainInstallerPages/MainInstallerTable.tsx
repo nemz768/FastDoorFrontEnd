@@ -79,20 +79,16 @@ export const MainInstallerTable = ({
                             />
                         </td>
                         <td>
-                            <select
-                                value={selectedTag[order.id] || ""}
-                                onChange={(event) => handleChange(event, order.id)}
-                            >
-                                <option value="">Выбрать установщикаff</option>
+                            <div className="custom-select">
                                 {installers.map((option) => (
-                                    <option key={option.id} value={option.id}>
-                                        {option.fullName}{" "}
-                                        {workloadData[option.id] !== undefined
-                                            ? `(${workloadData[option.id]})`
-                                            : ""}
-                                    </option>
+                                    <div key={option.id} onClick={() => handleSelect(option.id)} className="custom-option">
+                                        <div>{option.fullName}</div>
+                                        <div>B: {workloadData[option.id]?.B ?? 0}</div>
+                                        <div>M: {workloadData[option.id]?.M ?? 0}</div>
+                                    </div>
                                 ))}
-                            </select>
+                            </div>
+
                         </td>
                         <td>
                             <button
