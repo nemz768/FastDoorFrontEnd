@@ -1,0 +1,498 @@
+import React, { useEffect, useState } from 'react';
+import { Header } from '../../../Widgets/Header/Header';
+import { Footer } from '../../../Widgets/Footer/Footer';
+import { CustomCalendar } from '../../../Widgets/CustomCalendar/CustomCalendar';
+import './MainInstallerPage.css'
+import openSvg from '../../../../assets/unlock-alt-svgrepo-com.svg'
+import changeDataSvg from '../../../../assets/change-management-backup-svgrepo-com.svg'
+import shutdownSvg from '../../../../assets/lock-alt-svgrepo-com.svg'
+import {ChangeDoorsLimit} from "../ChangeDoorLimitsPage/ChangeDoorsLimit";
+import {Pagination} from "../../../Widgets/Pagination/Pagination";
+import {MainInstallerTable} from "./MainInstallerTable";
+import {Order, OrdersResponse} from "../../../Interfaces/Interfaces";
+
+export interface installersType {
+    id: string;
+    fullName: string;
+}
+
+export interface InstallerWorkload {
+    orderId: number;
+    installerFullName: string;
+    installerComment: string;
+    frontDoorQuantity: number;
+    inDoorQuantity: number;
+}
+
+export interface Availability{
+    date: string;
+    available: boolean;
+    frontDoorQuantity: number;
+    inDoorQuantity: number;
+    formattedDate?: string;
+}
+
+interface OrderResponseMainInstaller extends OrdersResponse{
+    installers?: installersType[]
+    availabilityList?: Availability[]
+};
+
+export const MainInstallerPage = () => {
+    const [orders, setOrders] = useState<Order[]>([]);
+    const [installers, setInstallers] = useState<installersType[]>([]);
+    const [fetchedAvailability, setFetchedAvailability] = useState<Availability[]>([]);
+    const [availabilityList, setAvailabilityList] = useState<Availability[]>([]);
+    const [currentPage, setCurrentPage] = useState(0);
+    const [totalPages, setTotalPages] = useState(1);
+    const [error, setError] = useState<string | null>(null);
+    const [selectedTag, setSelectedTag] = useState<Record<string, string>>({});
+    const [comments, setComments] = useState<Record<string, string>>({});
+    const [currentAvailabilityPage, setCurrentAvailabilityPage] = useState(0);
+    const [selectedDate, setSelectedDate] = useState<string | null>(null);
+    const [workloadByDate, setWorkloadByDate] = useState<Record<string, InstallerWorkload[]>>({});
+   const recordsPerPage = 10;
+    const [isOrdersLoading, setIsOrdersLoading] = useState(false);
+    const [isAvailabilityChanging, setIsAvailabilityChanging] = useState(false);
+    const [closedSelectedDates, setClosedSelectedDates] = useState<Set<string>>(new Set());
+    const [openCalendarDateChange, setOpenCalendarDateChange] = useState(false);
+    const [selectedDates, setSelectedDates] = useState<Set<string>>(new Set());
+
+    const url = `/api/mainInstaller?page=${currentPage}`;
+    const urlPost = `/api/mainInstaller`;
+
+    const navItems = [
+        { label: 'Список установщиков', route: '/home/mainInstaller/InstallersList' },
+        { label: 'Добавить установщика', route: '/home/mainInstaller/create' },
+        { label: 'Полный список заказов', route: '/home/mainInstaller/listOrdersMainInstaller' },
+    ];
+
+    const fetchInstallerWorkload = async (date: string) => {
+        if (workloadByDate[date]) return; // Пропускаем, если данные уже загружены
+        try {
+            const response = await fetch(`/api/listInstallers/workload?date=${encodeURIComponent(date)}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error(`Не удалось загрузить данные о рабочей нагрузке: ${response.status} ${response.statusText}`);
+            }
+
+            const data: InstallerWorkload[] = await response.json();
+            setWorkloadByDate((prev) => ({
+                ...prev,
+                [date]: data,
+            }));
+        } catch (err: any) {
+            console.error('Ошибка при загрузке рабочей нагрузки:', err);
+        }
+    };
+
+
+    useEffect(() => {
+        if (selectedDate) {
+            fetchInstallerWorkload(selectedDate);
+        }
+    }, [selectedDate]);
+
+
+    // Форматирование даты в DD.MM.YYYY
+    const reversedDate = (dateString: string) => {
+        if (dateString.length < 10) return '';
+        const day = dateString.slice(8, 10);
+        const month = dateString.slice(5, 7);
+        const year = dateString.slice(0, 4);
+        if (!day || !month || !year) return '';
+        return `${day}.${month}.${year}`;
+    };
+
+
+    // Получение данных о заказах и доступности
+    const fetchOrders = async () => {
+        setIsOrdersLoading(true);
+        setError(null);
+        try {
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error(`Не удалось загрузить заказы: ${response.status} ${response.statusText}`);
+            }
+
+            const data: OrderResponseMainInstaller = await response.json();
+
+            setOrders(
+                Array.isArray(data.orders)
+                    ? data.orders.map((order) => ({
+                        ...order,
+                        id: String(order.id),
+                    }))
+                    : []
+            );
+
+            setAvailabilityList(
+                Array.isArray(data.availabilityList)
+                    ? data.availabilityList.map((list) => ({
+                        ...list,
+                        formattedDate: reversedDate(list.date),
+                    }))
+                    : []
+            );
+
+            setInstallers(
+                Array.isArray(data.installers)
+                    ? data.installers.map((inst) => ({
+                        ...inst,
+                        id: String(inst.id),
+                    }))
+                    : []
+            );
+
+            setTotalPages(data.totalPages || 1);
+            setCurrentPage(data.currentPage || 0);
+
+            // Запрашиваем нагрузку для уникальных дат заказов
+            const uniqueDates = [...new Set(data.orders.map((order) => order.dateOrder))];
+            await Promise.all(uniqueDates.map((date) => fetchInstallerWorkload(date)));
+        } catch (err: any) {
+            console.error('Ошибка при загрузке заказов:', err);
+            setError(err.message);
+        } finally {
+            setIsOrdersLoading(false);
+        }
+    };
+    useEffect(() => {
+        const showCountOfDoors = async () => {
+            try {
+                const res = await fetch("/api/orders/create", {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
+                const data = await res.json();
+                const availabilityData = Array.isArray(data.availabilityList) ? data.availabilityList : [];
+                setFetchedAvailability(availabilityData);
+                console.log("Загруженные данные о доступности:", availabilityData);
+            } catch (err) {
+                console.error("Ошибка при загрузке доступности:", err);
+                setFetchedAvailability(availabilityList || []);
+            }
+        };
+        showCountOfDoors();
+    }, []);
+
+    useEffect(() => {
+        fetchOrders();
+    }, [currentPage]);
+
+    const closeDateCalendar = async () => {
+        if (selectedDates.size === 0) {
+            console.warn("Даты не выбраны!");
+            return;
+        }
+
+        const updatedDates: string[] = [];
+
+        try {
+            setIsAvailabilityChanging(true);
+            for (const date of selectedDates) {
+                const response = await fetch(`/api/doorLimits/closeDate?date=${encodeURIComponent(date)}`, {
+                    method: "PATCH",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        date: date,
+                        available: false,
+                    }),
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Ошибка при закрытии даты: ${date} ${response.status} ${response.statusText}`);
+                }
+                updatedDates.push(date);
+            }
+
+            setFetchedAvailability(prev =>
+                prev.map(item =>
+                    updatedDates.includes(item.date) ? { ...item, available: false } : item
+                )
+            );
+
+            setAvailabilityList(prev =>
+                prev.map(item =>
+                    updatedDates.includes(item.date) ? { ...item, available: false } : item
+                )
+            );
+
+            setSelectedDate(null);
+            setSelectedDates(new Set()); // сброс выделения после закрытия
+        } catch (err:any) {
+            console.error("Ошибка при закрытии даты:", err);
+            setError(err.message);
+        } finally {
+            setIsAvailabilityChanging(false);
+        }
+    };
+
+    const openDates = async () => {
+        if (closedSelectedDates.size === 0) {
+            alert("Выберите закрытые дни для открытия");
+            return;
+        }
+        setIsAvailabilityChanging(true);
+        setError(null);
+        const updatedDates: string[] = [];
+
+        try {
+            for (const date of closedSelectedDates) {
+                const response = await fetch(`/api/doorLimits/openDate?date=${encodeURIComponent(date)}`, {
+                    method: "PATCH",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ date: date, available: true }),
+                });
+                if (!response.ok) {
+                    throw new Error(`Ошибка при открытии даты ${date}: ${response.statusText}`);
+                }
+                updatedDates.push(date);
+            }
+
+            setFetchedAvailability(prev =>
+                prev.map(item =>
+                    updatedDates.includes(item.date) ? { ...item, available: true } : item
+                )
+            );
+
+            setAvailabilityList(prev =>
+                prev.map(item =>
+                    updatedDates.includes(item.date) ? { ...item, available: true } : item
+                )
+            );
+            setClosedSelectedDates(new Set());
+            setSelectedDate(null);
+        } catch (err:any) {
+            console.error("Ошибка при открытии даты:", err);
+            setError(err.message);
+        } finally {
+            setIsAvailabilityChanging(false);
+        }
+    };
+
+    // Обработчик изменения комментария
+    const handleCommentChange = (event: React.ChangeEvent<HTMLTextAreaElement>, orderId: string) => {
+        setComments((prev) => ({
+            ...prev,
+            [orderId]: event.target.value,
+        }));
+    };
+
+    // Обработчик выбора установщика
+    const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>, orderId: string) => {
+        setSelectedTag((prev) => ({
+            ...prev,
+            [orderId]: event.target.value,
+        }));
+    };
+
+    // Отправка данных на сервер
+    const postData = async (orderId: string) => {
+        try {
+            const selectedInstaller = installers.find(
+                (installer) => installer.id === selectedTag[orderId]
+            );
+            const installerFullName = selectedInstaller ? selectedInstaller.fullName : '';
+
+            const response = await fetch(urlPost, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    orderId: orderId,
+                    installerComment: comments[orderId] || '',
+                    installerFullName: installerFullName,
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error(`Не удалось отправить данные: ${response.status} ${response.statusText}`);
+            }
+
+            fetchOrders();
+        } catch (err:any) {
+            console.error('Ошибка при отправке данных:', err);
+            setError(err.message);
+        }
+    };
+
+
+    // Обработчик смены страницы доступности
+    const handleAvailabilityPageChange = (newPage:number) => {
+        if (newPage >= 0 && newPage < Math.ceil(availabilityList.length / recordsPerPage)) {
+            setCurrentAvailabilityPage(newPage);
+        }
+    };
+
+    const totalAvailabilityPages = Math.ceil(availabilityList.length / recordsPerPage);
+    const paginatedAvailabilityList = availabilityList.slice(
+        currentAvailabilityPage * recordsPerPage,
+        (currentAvailabilityPage + 1) * recordsPerPage
+    );
+
+    const handleDateSelected = (dateStr:string) => {
+        setSelectedDates(prev => {
+            const newSet = new Set(prev);
+            if (newSet.has(dateStr)) {
+                newSet.delete(dateStr);
+            } else {
+                newSet.add(dateStr);
+            }
+            return newSet;
+        });
+    };
+
+    const refreshAvailabilityData = async () => {
+        try {
+            const res = await fetch("/api/orders/create");
+            if (!res.ok) throw new Error('Ошибка загрузки данных доступности');
+            const data: OrderResponseMainInstaller = await res.json();
+            setFetchedAvailability(data.availabilityList || []);
+            setAvailabilityList(
+                (data.availabilityList || []).map(item => ({
+                    ...item,
+                    formattedDate: reversedDate(item.date),
+                }))
+            );
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
+    return (
+        <div className='mainInstallerTables-FullBlock'>
+            <Header navItems={navItems} />
+
+            <div className="mainInstallerTables-block">
+                <h2>Панель установщика</h2>
+                <main>
+                    {isOrdersLoading  && <div className="loading">Загрузка...</div>}
+                    {error && (
+                        <div className="error">
+                            <h3>Ошибка: {error}</h3>
+                            <button className="retry-button" onClick={fetchOrders}>
+                                Повторить
+                            </button>
+                        </div>
+                    )}
+                    {!isOrdersLoading && !error && orders.length === 0 && (
+                        <div className="no-orders">Заказы не найдены</div>
+                    )}
+                    {!isOrdersLoading && !error && orders.length > 0 && (
+                        <div>
+                            <MainInstallerTable
+                                reversedDate={reversedDate}
+                                installers={installers}
+                                orders={orders}
+                                comments={comments}
+                                selectedTag={selectedTag}
+                                handleCommentChange={handleCommentChange}
+                                handleChange={handleChange}
+                                postData={postData}
+                                workloadByDate={workloadByDate}
+                            />
+                            <Pagination
+                                setCurrentPage={setCurrentPage}
+                                currentPage={currentPage}
+                                totalPages={totalPages}
+                            />
+                        </div>
+                    )}
+                </main>
+
+                <div className="MainInstallerPage__calendar-dateTable-block">
+                    <div>
+                        <CustomCalendar
+                            availabilityList={availabilityList}
+                            fetchedAvailability={fetchedAvailability}
+                            setSelectedDate={setSelectedDate}
+                            onDateSelected={handleDateSelected}
+                            selectedDate={selectedDate}
+                            canSelectClosedDays={true}
+                            closedSelectedDates={closedSelectedDates}
+                            setClosedSelectedDates={setClosedSelectedDates}
+                        />
+
+                        <button className="Calendar-Button-MainInstaller" onClick={closeDateCalendar} disabled={!selectedDate || isAvailabilityChanging}>
+                            <img src={shutdownSvg} alt="shutdown"/>
+                        </button>
+                        <button className="Calendar-Button-MainInstaller" onClick={openDates}
+                                disabled={closedSelectedDates.size === 0 || isAvailabilityChanging}>
+                            <img src={openSvg} alt="shutdown"/>
+                        </button>
+
+                        <div>
+                            <button onClick={()=> {setOpenCalendarDateChange(true)
+                            }} disabled={!selectedDate || isAvailabilityChanging}
+                                    className="Calendar-Button-MainInstaller">
+                                <img src={changeDataSvg} alt="shutdown"/>
+                            </button>
+
+                            {openCalendarDateChange && <ChangeDoorsLimit
+                                selectedDate={selectedDate}
+                                setOpenCalendarDateChange={setOpenCalendarDateChange}
+                                 refreshAvailabilityData={refreshAvailabilityData}
+                            />}
+                        </div>
+                    </div>
+                    <div>
+                        <table className="table-dates" border={1}>
+                            <thead>
+                            <tr>
+                                <th>Дата</th>
+                                <th>Доступные входные двери</th>
+                                <th>Доступные межкомнатные двери</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {paginatedAvailabilityList.map((availability, index) => (
+                                <tr key={index}>
+                                    <td>{availability.formattedDate}</td>
+                                    <td>{availability.frontDoorQuantity}</td>
+                                    <td>{availability.inDoorQuantity}</td>
+                                </tr>
+                            ))}
+                            </tbody>
+                        </table>
+                        <div className="pagination">
+                            <button
+                                onClick={() => handleAvailabilityPageChange(currentAvailabilityPage - 1)}
+                                disabled={currentAvailabilityPage === 0}
+                                className="pagination-button"
+                            >
+                                Предыдущая
+                            </button>
+                            <span className="pagination-info">
+                                Страница {currentAvailabilityPage + 1} из {totalAvailabilityPages}
+                            </span>
+                            <button
+                                onClick={() => handleAvailabilityPageChange(currentAvailabilityPage + 1)}
+                                disabled={currentAvailabilityPage >= totalAvailabilityPages - 1}
+                                className="pagination-button"
+                            >
+                                Следующая
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <Footer />
+        </div>
+    );
+};

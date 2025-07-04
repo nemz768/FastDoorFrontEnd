@@ -1,20 +1,19 @@
 import { Routes, Route } from "react-router-dom";
-import MainPage from "../modules/Pages/MainPage";
-import LoginPage from "../modules/Pages/LoginPage";
-import PageNotFound from "../modules/moduleError/PageNotFound";
-import {SellerPage} from "../modules/Pages/SellerPages/SellerPage";
-import {PageNotEnoughRules} from "../modules/moduleError/PageNotEnoughRules";
-import {Check} from "../modules/Pages/Check";
-import {RegisterPage} from '../modules/Pages/RegisterPage';
-import {SellerCreatePage} from "../modules/Pages/SellerPages/SellerCreatePage";
-import {DonePage} from "../modules/Pages/DonePage";
-import {MainInstallerPage} from "../modules/Pages/MainInstallerPages/MainInstallerPage";
-import {SellerAllOrdersPage} from "../modules/Pages/SellerPages/SellerAllOrdersPage";
-import {PatchOrderPage} from "../modules/Pages/SellerPages/PatchOrderPage";
+import {MainPage} from "../modules/Pages/MainPage/MainPage";
+import {LoginPage} from "../modules/Pages/LoginPage/LoginPage";
+import {PageNotFound} from "../modules/Pages/PageNotFound/PageNotFound";
+import {SellerPage} from "../modules/Pages/SellerPages/SellerPage/SellerPage";
+import {PageNotEnoughRules} from "../modules/Pages/PageNotEnoughRules/PageNotEnoughRules";
+import {RegisterPage} from '../modules/Pages/RegisterPage/RegisterPage';
+import {SellerCreatePage} from "../modules/Pages/SellerPages/SellerCreatePage/SellerCreatePage";
+import {DonePage} from "../modules/Pages/DonePage/DonePage";
+import {MainInstallerPage} from "../modules/Pages/MainInstallerPages/MainInstallerPage/MainInstallerPage";
+import {SellerAllOrdersPage} from "../modules/Pages/SellerPages/SellerAllOrdersPage/SellerAllOrdersPage";
+import {PatchOrderPage} from "../modules/Pages/SellerPages/PatchOrderPage/PatchOrderPage";
 import {AdminPanelPage} from "../modules/Pages/Administrator/adminPanelPage";
-import {MainInstallerCreate} from "../modules/Pages/MainInstallerPages/MainInstallerCreate";
-import {InstallersList} from "../modules/Pages/MainInstallerPages/InstallersList";
-import {MainInstallerAllOrders} from "../modules/Pages/MainInstallerPages/MainInstallerAllOrders";
+import {MainInstallerCreate} from "../modules/Pages/MainInstallerPages/InstallerCreatePage/MainInstallerCreate";
+import {InstallersList} from "../modules/Pages/MainInstallerPages/InstallersPage/InstallersList";
+import {MainInstallerAllOrders} from "../modules/Pages/MainInstallerPages/AllOrdersPage/MainInstallerAllOrders";
 
 
 
@@ -29,7 +28,6 @@ export const SiteRoutes = () => {
                     <Route path="/home/seller/listOrdersSeller" element={<SellerAllOrdersPage/>}></Route>
                     <Route path="/home/seller/listOrdersSeller/edit/:orderId" element={<PatchOrderPage/>}/>
                     <Route path="/403"  element={<PageNotEnoughRules/>}></Route>
-                    <Route path="/check" element={<Check/>}></Route>
                     <Route path="/reg" element={<RegisterPage/>}></Route>
                     <Route path="/home/seller/create/done" element={<DonePage/>}></Route>
                     <Route path="/home/mainInstaller" element={<MainInstallerPage/>}></Route>

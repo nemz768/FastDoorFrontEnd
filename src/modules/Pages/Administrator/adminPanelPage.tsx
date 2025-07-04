@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Header } from '../../Header';
-import { Footer } from '../../Footer';
-import '../../../styles/stylePages/adminPanelPage.css';
+import { Header } from '../../Widgets/Header/Header';
+import { Footer } from '../../Widgets/Footer/Footer';
+import './adminPanelPage.css';
 import { Order, OrdersResponse } from '../../Interfaces/Interfaces';
 
 
