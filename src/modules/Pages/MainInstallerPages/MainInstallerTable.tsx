@@ -83,7 +83,7 @@ export const MainInstallerTable = ({
                                 value={selectedTag[order.id] || ""}
                                 onChange={(event) => handleChange(event, order.id)}
                             >
-                                <option value="">Выбрать установщика</option>
+                                <option value="">Выбрать установщикаff</option>
                                 {installers.map((option) => (
                                     <option key={option.id} value={option.id}>
                                         {option.fullName}{" "}
