@@ -11,16 +11,17 @@ export const MainInstallerTable = ({
                                        postData,
                                    }) => {
     const [date, setDate] = useState(null);
-    const [workloadData, setWorkloadData] = useState({}); // данные нагрузки установщиков по дате
+    const [workloadData, setWorkloadData] = useState({}); // { "installerId": { B: number, M: number } }
+    const [isOpen, setIsOpen] = useState({}); // Состояние для открытия/закрытия селекта по orderId
 
-    // Устанавливаем дату из первого заказа (чтобы загрузить нагрузку по дате)
+    // Устанавливаем дату из первого заказа
     useEffect(() => {
         if (orders && orders.length > 0) {
             setDate(orders[0].dateOrder);
         }
     }, [orders]);
 
-    // Загружаем данные нагрузок установщиков по выбранной дате
+    // Загружаем данные нагрузок установщиков
     useEffect(() => {
         if (!date) return;
 
@@ -34,7 +35,6 @@ export const MainInstallerTable = ({
                     }
                 );
                 const data = await response.json();
-                // Ожидается объект: { "installerId": число нагрузки, ... }
                 setWorkloadData(data);
             } catch (err) {
                 console.error("Ошибка при загрузке данных:", err);
@@ -43,6 +43,20 @@ export const MainInstallerTable = ({
 
         getApiOrdersInstallers();
     }, [date]);
+
+    // Toggle для открытия/закрытия выпадающего списка
+    const toggleSelect = (orderId) => {
+        setIsOpen((prev) => ({
+            ...prev,
+            [orderId]: !prev[orderId],
+        }));
+    };
+
+    // Обработчик выбора установщика
+    const handleSelect = (orderId, installerId) => {
+        handleChange(orderId, installerId); // Предполагается, что handleChange обновляет selectedTag
+        setIsOpen((prev) => ({ ...prev, [orderId]: false })); // Закрываем список после выбора
+    };
 
     return (
         <>
@@ -80,15 +94,36 @@ export const MainInstallerTable = ({
                         </td>
                         <td>
                             <div className="custom-select">
-                                {installers.map((option) => (
-                                    <div key={option.id} onClick={() => handleSelect(option.id)} className="custom-option">
-                                        <div>{option.fullName}</div>
-                                        <div>B: {workloadData[option.id]?.B ?? 0}</div>
-                                        <div>M: {workloadData[option.id]?.M ?? 0}</div>
+                                <div
+                                    className="select-header"
+                                    onClick={() => toggleSelect(order.id)}
+                                >
+                                    {selectedTag[order.id] ? (
+                                        <div>
+                                            <div>{installers.find((i) => i.id === selectedTag[order.id])?.fullName || "Выберите установщика"}</div>
+                                            <div>B: {workloadData[selectedTag[order.id]]?.inDoorQuantity ?? 0}</div>
+                                            <div>M: {workloadData[selectedTag[order.id]]?.frontDoorQuantity ?? 0}</div>
+                                        </div>
+                                    ) : (
+                                        "Выберите установщика"
+                                    )}
+                                </div>
+                                {isOpen[order.id] && (
+                                    <div className="options-list">
+                                        {installers.map((option) => (
+                                            <div
+                                                key={option.id}
+                                                className="custom-option"
+                                                onClick={() => handleSelect(order.id, option.id)}
+                                            >
+                                                <div>{option.fullName}</div>
+                                                <div>B: {workloadData[option.id]?.B ?? 0}</div>
+                                                <div>M: {workloadData[option.id]?.M ?? 0}</div>
+                                            </div>
+                                        ))}
                                     </div>
-                                ))}
+                                )}
                             </div>
-
                         </td>
                         <td>
                             <button
