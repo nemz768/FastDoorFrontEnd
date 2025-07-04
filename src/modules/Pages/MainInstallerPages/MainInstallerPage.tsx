@@ -456,7 +456,3 @@ export const MainInstallerPage = () => {
         </div>
     );
 };
-export interface NavItems {
-    label: string;
-    route: string;
-}
