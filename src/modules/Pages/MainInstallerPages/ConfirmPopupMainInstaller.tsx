@@ -3,13 +3,13 @@ import '../../../styles/specialStyles/ConfirmPopup.css';
 
 
 interface ConfirmPopupPropsType {
-    installerId: string;
-    closeModal: null;
-
+    installerId: number | null;
+    closeModal: () => void;
+    handleDeleteSuccess: (installerId: number | null) => void;
 }
 
 
-export const ConfirmPopupMainInstaller = ({handleDeleteSuccess, installerId, closeModal}) => {
+export const ConfirmPopupMainInstaller = ({handleDeleteSuccess, installerId, closeModal}: ConfirmPopupPropsType) => {
     const [isDeleting, setIsDeleting] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
