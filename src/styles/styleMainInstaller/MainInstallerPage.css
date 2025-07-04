@@ -122,3 +122,16 @@
     border: 1px black solid;
     border-radius: 0;
 }
+
+
+.mainInstallerTable select {
+    width: 100%;
+    max-width: 300px; /* Ограничиваем ширину, чтобы длинный текст не ломал таблицу */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.mainInstallerTable select option {
+    white-space: normal; /* Позволяем тексту в опциях переноситься */
+}

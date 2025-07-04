@@ -11,11 +11,18 @@ import {Pagination} from "../../special/Pagination";
 import {MainInstallerTable} from "./MainInstallerTable";
 import {Order, OrdersResponse} from "../../Interfaces/Interfaces";
 
-interface installersType {
+export interface installersType {
     id: string;
     fullName: string;
 }
 
+export interface InstallerWorkload {
+    orderId: number;
+    installerFullName: string;
+    installerComment: string;
+    frontDoorQuantity: number;
+    inDoorQuantity: number;
+}
 
 export interface Availability{
     date: string;
@@ -42,17 +49,16 @@ export const MainInstallerPage = () => {
     const [comments, setComments] = useState<Record<string, string>>({});
     const [currentAvailabilityPage, setCurrentAvailabilityPage] = useState(0);
     const [selectedDate, setSelectedDate] = useState<string | null>(null);
-    const recordsPerPage = 10;
+    const [workloadByDate, setWorkloadByDate] = useState<Record<string, InstallerWorkload[]>>({});
+   const recordsPerPage = 10;
     const [isOrdersLoading, setIsOrdersLoading] = useState(false);
     const [isAvailabilityChanging, setIsAvailabilityChanging] = useState(false);
     const [closedSelectedDates, setClosedSelectedDates] = useState<Set<string>>(new Set());
+    const [openCalendarDateChange, setOpenCalendarDateChange] = useState(false);
+    const [selectedDates, setSelectedDates] = useState<Set<string>>(new Set());
 
     const url = `/api/mainInstaller?page=${currentPage}`;
     const urlPost = `/api/mainInstaller`;
-
-// changeDataCalendar
-    const [openCalendarDateChange, setOpenCalendarDateChange] = useState(false);
-    const [selectedDates, setSelectedDates] = useState<Set<string>>(new Set());
 
     const navItems = [
         { label: 'Список установщиков', route: '/home/mainInstaller/InstallersList' },
@@ -60,8 +66,40 @@ export const MainInstallerPage = () => {
         { label: 'Полный список заказов', route: '/home/mainInstaller/listOrdersMainInstaller' },
     ];
 
+    const fetchInstallerWorkload = async (date: string) => {
+        if (workloadByDate[date]) return; // Пропускаем, если данные уже загружены
+        try {
+            const response = await fetch(`/api/listInstallers/workload?date=${encodeURIComponent(date)}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error(`Не удалось загрузить данные о рабочей нагрузке: ${response.status} ${response.statusText}`);
+            }
+
+            const data: InstallerWorkload[] = await response.json();
+            setWorkloadByDate((prev) => ({
+                ...prev,
+                [date]: data,
+            }));
+        } catch (err: any) {
+            console.error('Ошибка при загрузке рабочей нагрузки:', err);
+        }
+    };
+
+
+    useEffect(() => {
+        if (selectedDate) {
+            fetchInstallerWorkload(selectedDate);
+        }
+    }, [selectedDate]);
+
+
     // Форматирование даты в DD.MM.YYYY
-    const reversedDate = (dateString:string) => {
+    const reversedDate = (dateString: string) => {
         if (dateString.length < 10) return '';
         const day = dateString.slice(8, 10);
         const month = dateString.slice(5, 7);
@@ -118,14 +156,17 @@ export const MainInstallerPage = () => {
 
             setTotalPages(data.totalPages || 1);
             setCurrentPage(data.currentPage || 0);
-        } catch (err:any) {
+
+            // Запрашиваем нагрузку для уникальных дат заказов
+            const uniqueDates = [...new Set(data.orders.map((order) => order.dateOrder))];
+            await Promise.all(uniqueDates.map((date) => fetchInstallerWorkload(date)));
+        } catch (err: any) {
             console.error('Ошибка при загрузке заказов:', err);
             setError(err.message);
         } finally {
-            setIsOrdersLoading(false)
+            setIsOrdersLoading(false);
         }
     };
-
     useEffect(() => {
         const showCountOfDoors = async () => {
             try {
@@ -364,7 +405,7 @@ export const MainInstallerPage = () => {
                                 handleCommentChange={handleCommentChange}
                                 handleChange={handleChange}
                                 postData={postData}
-
+                                workloadByDate={workloadByDate}
                             />
                             <Pagination
                                 setCurrentPage={setCurrentPage}
