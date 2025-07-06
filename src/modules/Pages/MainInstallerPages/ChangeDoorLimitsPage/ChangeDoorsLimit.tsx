@@ -23,8 +23,8 @@ export const ChangeDoorsLimit = ({frontDoorQuantity, inDoorQuantity, selectedDat
                 },
                 body: JSON.stringify({
                     date: selectedDate,
-                    frontDoorQuantity: frontDoorQuantity,
-                    inDoorQuantity: inDoorQuantity,
+                    frontDoorQuantity: frontDoorQuantityValue,
+                    inDoorQuantity: inDoorQuantityValue,
                     available: true,
                 })
             });
