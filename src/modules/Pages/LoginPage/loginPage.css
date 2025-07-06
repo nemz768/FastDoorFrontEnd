@@ -37,9 +37,10 @@
 }
 .checkbox_div {
     display: flex;
-    gap: 8px;
-    align-items: flex-start;
-    white-space: nowrap;
+    flex-direction: row;
+    align-content: flex-start;
+    justify-content: flex-start;
+    gap: 10px;
 }
 
 .checkbox {
@@ -47,9 +48,7 @@
     height: 17px;
 }
 .p_login{
-    margin-top: 0;
-    line-height: 1;
-    font-size: 20px;
+    margin-top: 2px;
 }
 
 .button-login {

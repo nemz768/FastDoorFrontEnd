@@ -96,13 +96,15 @@ export const LoginPage = () => {
                         <Link style={{ color: 'black' }} to="/reg">
                             Нажми
                         </Link>
-                           для регистрации
+                          <span> для регистрации</span>
                     </p>
                     <div className="checkbox_div">
                         <input className="checkbox" onChange={(e) => setRememberMe(e.target.checked)}
                                checked={rememberMe} type="checkbox" name="rememberMe" />
                         <p className="p_login"
-                       > Запомнить меня</p>
+                       >
+                            Запомнить меня
+                        </p>
                     </div>
                     <button className="button-login shadowsSection" type="submit">
                         Войти
