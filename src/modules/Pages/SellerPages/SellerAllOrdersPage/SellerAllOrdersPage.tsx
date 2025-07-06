@@ -1,18 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import './SellerAllOrdersPage.css';
-import { Header } from '../../../Widgets/Header/Header.tsx';
-import { Footer } from '../../../Widgets/Footer/Footer.tsx';
-import { ConfirmPopup } from '../../../Widgets/ConfirmPopup/ConfirmPopup.tsx';
-import {SellerOrdersTable} from "./SellerOrdersTable.js";
+import { Header } from '../../../Widgets/Header/Header';
+import { Footer } from '../../../Widgets/Footer/Footer';
+import { ConfirmPopup } from '../../../Widgets/ConfirmPopup/ConfirmPopup';
+import {SellerOrdersTable} from "./SellerOrdersTable";
+import {Order, OrdersResponse} from '../../../Interfaces/Interfaces'
+
+
+
 
 export const SellerAllOrdersPage = () => {
-    const [orders, setOrders] = useState([]);
+    const [orders, setOrders] = useState<Order[]>([]);
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(1);
     const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState(null);
-    const [activeModal, setActiveModal] = useState(false); // Исправлено isActiveModal на setActiveModal
-    const [selectedOrderId, setSelectedOrderId] = useState(null);
+    const [error, setError] = useState<string | null>(null);
+    const [activeModal, setActiveModal] = useState(false);
+    const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null);
     const navItems = [
         { label: 'Главная продавца', route: '/home/seller' },
         { label: 'Создать заказ', route: '/home/seller/create' },
@@ -31,7 +35,7 @@ export const SellerAllOrdersPage = () => {
                 if (!response.ok) {
                     throw new Error(`Не удалось загрузить заказы: ${response.statusText}`);
                 }
-                const data = await response.json();
+                const data: OrdersResponse = await response.json();
                 setOrders(
                     data.orders.map((order) => ({
                         ...order,
@@ -40,7 +44,7 @@ export const SellerAllOrdersPage = () => {
                 );
                 setTotalPages(data.totalPages || 1);
                 setCurrentPage(data.currentPage || 0);
-            } catch (err) {
+            } catch (err:any) {
                 console.error('Ошибка загрузки заказов:', err);
                 setError(err.message);
             } finally {
@@ -53,13 +57,13 @@ export const SellerAllOrdersPage = () => {
 
     console.log('Orders state:', orders);
 
-    const handlePageChange = (newPage) => {
+    const handlePageChange = (newPage:number) => {
         if (newPage >= 0 && newPage < totalPages) {
             setCurrentPage(newPage);
         }
     };
 
-    const openModal = (orderId) => {
+    const openModal = (orderId:string) => {
         console.log('Открытие модального окна с orderId:', orderId); // Логирование
         setSelectedOrderId(orderId); // Приведение к строке
         setActiveModal(true);
@@ -71,7 +75,7 @@ export const SellerAllOrdersPage = () => {
         setActiveModal(false);
     };
 
-    const handleDeleteSuccess = (deletedOrderId) => {
+    const handleDeleteSuccess = (deletedOrderId:string) => {
         setOrders(orders.filter((order) => order.id !== deletedOrderId));
     };
 

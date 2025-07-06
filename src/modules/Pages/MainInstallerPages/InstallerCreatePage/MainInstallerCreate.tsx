@@ -6,15 +6,14 @@ export const MainInstallerCreate = () => {
     const navigate = useNavigate();
 
     const refs = {
-        fullName: useRef(null),
-        phone: useRef(null),
+        fullName: useRef<HTMLInputElement>(null),
+        phone: useRef<HTMLInputElement>(null),
     }
 
-    const sendDataInstaller = async (e) => {
+    const sendDataInstaller = async (e: {preventDefault: () => void;}) => {
         e.preventDefault()
-
-        const fullName = refs.fullName.current.value;
-        const phone = refs.phone.current.value;
+        const fullName = refs.fullName.current?.value || '';
+        const phone = refs.phone.current?.value || '';
 
         try {
             await fetch(`/api/listInstallers/create?fullName=${encodeURIComponent(fullName)}&phone=${encodeURIComponent(phone)}`, {

@@ -1,7 +1,19 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import {Order} from "../../../Interfaces/Interfaces";
 
-export const SellerOrdersTable = ({ isLoading, error, orders, openModal, handlePageChange, currentPage, totalPages }) => {
+interface SellerOrdersTableProps {
+    isLoading: boolean;
+    error: string | null;
+    orders: Order[];
+    openModal: (orderId: string)=> void;
+    handlePageChange: (page: number) => void;
+    currentPage: number;
+    totalPages: number;
+}
+
+
+export const SellerOrdersTable:React.FC<SellerOrdersTableProps> = ({ isLoading, error, orders, openModal, handlePageChange, currentPage, totalPages }) => {
     const navigate = useNavigate();
 
     return (

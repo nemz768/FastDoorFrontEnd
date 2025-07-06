@@ -4,22 +4,22 @@ import './registerPage.css'
 
 export const RegisterPage = () => {
     const refs = {
-        inputUser: useRef(null),
-        inputPass: useRef(null),
-        confirm: useRef(null),
-        fullname: useRef(null),
-        role: useRef(null)
+        inputUser: useRef<HTMLInputElement>(null),
+        inputPass: useRef<HTMLInputElement>(null),
+        confirm: useRef<HTMLInputElement>(null),
+        fullname: useRef<HTMLInputElement>(null),
+        role: useRef<HTMLInputElement>(null),
     }
     const navigate = useNavigate();
 
-    const registerToBack = async (e) =>
+    const registerToBack = async (e: {preventDefault: () => void;}) =>
     {
         e.preventDefault();
-        const username = refs.inputUser.current.value;
-        const password = refs.inputPass.current.value;
-        const conf = refs.confirm.current.value;
-        const fullname = refs.fullname.current.value;
-        const role = refs.role.current.value;
+        const username = refs.inputUser.current?.value || '';
+        const password = refs.inputPass.current?.value || '';
+        const conf = refs.confirm.current?.value || '';
+        const fullname = refs.fullname.current?.value || '';
+        const role = refs.role.current?.value || '';
 
        await fetch("/api/register", {
             method: 'POST',

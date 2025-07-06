@@ -1,5 +1,27 @@
+import React from 'react';
+import {Order, EditedOrder} from '../../../Interfaces/Interfaces'
 
-export const MainInstallersAllOrdersTable = ({orders, reversedDate, updateOrders,
+
+
+interface OrderMainInstaller extends Order {
+    messageMainInstaller?: string | null;
+}
+interface MainInstallersAllOrdersTableProps {
+    orders: OrderMainInstaller[];
+    reversedDate: (date: string) => string;
+    updateOrders: (id: string) => void;
+    editedOrder: EditedOrder;
+    setEditedOrder: React.Dispatch<React.SetStateAction<EditedOrder>>;
+    setOrderId: React.Dispatch<React.SetStateAction<string | null>>;
+    setSelectedTag: React.Dispatch<React.SetStateAction<Record<number, string>>>;
+    selectedTag: Record<number, string>;
+    orderId: string | null;
+}
+
+
+
+
+export const MainInstallersAllOrdersTable:React.FC<MainInstallersAllOrdersTableProps> = ({orders, reversedDate, updateOrders,
                                                  editedOrder,setEditedOrder, setOrderId, setSelectedTag,
                                                  selectedTag, orderId}) => {
 
@@ -7,7 +29,7 @@ export const MainInstallersAllOrdersTable = ({orders, reversedDate, updateOrders
         orders.filter(order => order.installerName).map(order => order.installerName)
     )];
 
-    const handleChangeButton = (order) => {
+    const handleChangeButton = (order: OrderMainInstaller) => {
         setOrderId(order.id)
         setEditedOrder({
             messageMainInstaller: order.messageMainInstaller || '',
@@ -23,30 +45,32 @@ export const MainInstallersAllOrdersTable = ({orders, reversedDate, updateOrders
 
     }
 
-    const handleChange = (event, orderId)=>{
-        setSelectedTag(prev => ({
+    const handleChange = (event: React.ChangeEvent<HTMLSelectElement>, orderId: number) => {
+        setSelectedTag((prev) => ({
             ...prev,
             [orderId]: event.target.value,
-        }))
-    }
+        }));
+    };
+
 
     const handleCancel = () => {
         setOrderId(null);
         setEditedOrder({
             messageMainInstaller: '',
             frontDoorQuantity: 0,
-            inDoorQuantity: 0
+            inDoorQuantity: 0,
+            installerName: ''
         });
         setSelectedTag(prev => {
             const updated = {...prev};
-            delete updated[orderId];
+            delete updated[Number(orderId)];
             return updated;
         });
     }
 
     return (
         <>
-            <table border="1" className='mainInstallerTable'>
+            <table style={{border:"1px solid black"}}  className='mainInstallerTable'>
                 <thead>
                 <tr>
                     <th>ФИО</th>
@@ -76,14 +100,14 @@ export const MainInstallersAllOrdersTable = ({orders, reversedDate, updateOrders
                             ?   <>
                                     <td>
                                         <input value={editedOrder.frontDoorQuantity}
-                                              onChange={(e)=> setEditedOrder((prev) => ({...prev, frontDoorQuantity: e.target.value }))}
+                                              onChange={(e)=> setEditedOrder((prev) => ({...prev, frontDoorQuantity: Number(e.target.value) }))}
                                                type="number"
                                                 min="0"
                                         />
                                     </td>
                                     <td>
                                         <input value={editedOrder.inDoorQuantity}
-                                               onChange={(e)=> setEditedOrder((prev) => ({...prev, inDoorQuantity: e.target.value }))}
+                                               onChange={(e)=> setEditedOrder((prev) => ({...prev, inDoorQuantity: Number(e.target.value) }))}
                                                type="number"
                                                min="0"
 
@@ -104,7 +128,7 @@ export const MainInstallersAllOrdersTable = ({orders, reversedDate, updateOrders
                         <td>
                             {
                                 orderId === order.id
-                                ? <input value={editedOrder.messageMainInstaller}
+                                ? <input value={String(editedOrder.messageMainInstaller)}
                                         onChange={(e)=>
                                         setEditedOrder((prev)=>
                                             ({...prev, messageMainInstaller: e.target.value}))} defaultValue={order.messageMainInstaller || ''}
@@ -118,12 +142,12 @@ export const MainInstallersAllOrdersTable = ({orders, reversedDate, updateOrders
                                 orderId === order.id
                                     ? (
                                         <select
-                                            value={selectedTag[order.id] || ''}
-                                            onChange={(event) => handleChange(event, order.id)}
+                                            value={selectedTag[Number(order.id)] || ''}
+                                            onChange={(event) => handleChange(event, Number(order.id))}
                                         >
                                             <option value="">Выбрать установщика</option>
                                                 {uniqueInstallers.map((installer) => (
-                                                    <option key={installer} value={installer}>
+                                                    <option key={installer} value={String(installer)}>
                                                         {installer}
                                                     </option>
                                                 ))}

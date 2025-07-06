@@ -1,33 +1,43 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import './createSellerPage.css';
-import { CustomCalendar } from "../../../Widgets/CustomCalendar/CustomCalendar.tsx";
+import { CustomCalendar } from "../../../Widgets/CustomCalendar/CustomCalendar";
+import { Availability } from '../../../Interfaces/Interfaces';
+
 
 export const SellerCreatePage = () => {
-    const [selectedDate, setSelectedDate] = useState(null);
+    const [selectedDate, setSelectedDate] = useState<string | null>(null);
     const [isCalendarOpen, setIsCalendarOpen] = useState(false);
-    const availabilityList = /*[[${availabilityList}]]*/ [];
+    const availabilityList: Availability[] = /*[[${availabilityList}]]*/ [];
     const [fetchedAvailability, setFetchedAvailability] = useState(availabilityList || []);
-    const calendarRef = useRef(null);
+    const calendarRef = useRef<HTMLDivElement>(null);
     const navigate = useNavigate();
     const numbers = '1234567890';
 
     const refs = {
-        fullname: useRef(null),
-        address: useRef(null),
-        phone: useRef(null),
-        comments: useRef(null),
-        dateRef: useRef(null),
-        frontDoorRef: useRef(null),
-        inDoorRef: useRef(null),
+        fullname: useRef<HTMLInputElement>(null),
+        address: useRef<HTMLInputElement>(null),
+        phone: useRef<HTMLInputElement>(null),
+        comments: useRef<HTMLInputElement>(null),
+        dateRef: useRef<HTMLInputElement>(null),
+        frontDoorRef: useRef<HTMLInputElement>(null),
+        inDoorRef: useRef<HTMLInputElement>(null),
     };
 
     useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (calendarRef.current && !calendarRef.current.contains(event.target) && !refs.dateRef.current.contains(event.target)) {
+        const handleClickOutside = (event: MouseEvent) => {
+            const target = event.target as Node;
+
+            if (
+                calendarRef.current &&
+                refs.dateRef.current &&
+                !calendarRef.current.contains(target) &&
+                !refs.dateRef.current.contains(target)
+            ) {
                 setIsCalendarOpen(false);
             }
         };
+
         document.addEventListener('mousedown', handleClickOutside);
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
@@ -56,13 +66,13 @@ export const SellerCreatePage = () => {
 
 
 
-    const sendResultsCreate = async (e) => {
+    const sendResultsCreate = async (e:React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const fullname = refs.fullname.current?.value || '';
         const address = refs.address.current?.value || '';
         const phone = refs.phone.current?.value || '';
         const comments = refs.comments.current?.value || '';
-        const dateOrder = selectedDate || '';
+        const dateOrder = selectedDate || null;
         const frontDoorQuantity = Number(refs.frontDoorRef.current?.value) || 0;
         const inDoorQuantity = Number(refs.inDoorRef.current?.value) || 0;
 
@@ -102,7 +112,7 @@ export const SellerCreatePage = () => {
         const frontInput = refs.frontDoorRef.current;
         const inInput = refs.inDoorRef.current;
 
-        const handleInput = (el) => {
+        const handleInput = (el: HTMLInputElement) => {
             const inputArray = el.value.split('');
             const currentVal = el.value;
             const onlyNumbers = inputArray.every(char => numbers.includes(char));
@@ -122,9 +132,11 @@ export const SellerCreatePage = () => {
         };
     }, []);
 
-    const handleDateSelected = (dateStr) => {
+    const handleDateSelected = (dateStr:string) => {
         setSelectedDate(dateStr);
-        refs.dateRef.current.value = dateStr; // Update input field
+        if (refs.dateRef.current) {
+            refs.dateRef.current.value = dateStr;
+        }
         setIsCalendarOpen(false);
     };
 

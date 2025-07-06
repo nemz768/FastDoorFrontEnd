@@ -9,7 +9,7 @@ import shutdownSvg from '../../../../../public/lock-alt-svgrepo-com.svg'
 import {ChangeDoorsLimit} from "../ChangeDoorLimitsPage/ChangeDoorsLimit";
 import {Pagination} from "../../../Widgets/Pagination/Pagination";
 import {MainInstallerTable} from "./MainInstallerTable";
-import {Order, OrdersResponse} from "../../../Interfaces/Interfaces";
+import {Order, OrdersResponse, Availability} from "../../../Interfaces/Interfaces";
 
 export interface installersType {
     id: string;
@@ -22,14 +22,6 @@ export interface InstallerWorkload {
     installerComment: string;
     frontDoorQuantity: number;
     inDoorQuantity: number;
-}
-
-export interface Availability{
-    date: string;
-    available: boolean;
-    frontDoorQuantity: number;
-    inDoorQuantity: number;
-    formattedDate?: string;
 }
 
 interface OrderResponseMainInstaller extends OrdersResponse{
@@ -291,7 +283,7 @@ export const MainInstallerPage = () => {
     };
 
     // Обработчик изменения комментария
-    const handleCommentChange = (event: React.ChangeEvent<HTMLTextAreaElement>, orderId: string) => {
+    const handleCommentChange = (event: React.ChangeEvent<HTMLInputElement>, orderId: string) => {
         setComments((prev) => ({
             ...prev,
             [orderId]: event.target.value,
@@ -299,7 +291,7 @@ export const MainInstallerPage = () => {
     };
 
     // Обработчик выбора установщика
-    const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>, orderId: string) => {
+    const handleChange = (event: React.ChangeEvent<HTMLSelectElement>, orderId: string) => {
         setSelectedTag((prev) => ({
             ...prev,
             [orderId]: event.target.value,
@@ -383,7 +375,6 @@ export const MainInstallerPage = () => {
     return (
         <div className='mainInstallerTables-FullBlock'>
             <Header navItems={navItems} />
-
             <div className="mainInstallerTables-block">
                 <h2>Панель установщика</h2>
                 <main>

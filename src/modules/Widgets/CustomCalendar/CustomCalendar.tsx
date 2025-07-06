@@ -8,9 +8,9 @@ interface CalendarTypeProps {
     onDateSelected: (date: string) => void;
     availabilityList: Availability[];
     fetchedAvailability: Availability[];
-    canSelectClosedDays: boolean;
-    closedSelectedDates: Set<string>;
-    setClosedSelectedDates: React.Dispatch<React.SetStateAction<Set<string>>>;
+    canSelectClosedDays?: boolean;
+    closedSelectedDates?: Set<string>;
+    setClosedSelectedDates?: React.Dispatch<React.SetStateAction<Set<string>>>;
 }
 
 
