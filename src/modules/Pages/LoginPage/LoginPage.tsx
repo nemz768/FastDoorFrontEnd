@@ -1,18 +1,23 @@
 import React, {useRef, useState} from 'react';
 import './loginPage.css';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../Context/Auth/AuthContext.js';
+import { useAuth } from '../../Context/Auth/AuthContext';
 
 export const LoginPage = () => {
-    const { setIsLoggedIn } = useAuth();
-    const UsernameRef = useRef(null);
-    const PasswordRef = useRef(null);
-    const navigate = useNavigate();
     const [rememberMe, setRememberMe] = useState(false);
+    const { setIsLoggedIn } = useAuth();
+    const UsernameRef = useRef<HTMLInputElement>(null);
+    const PasswordRef = useRef<HTMLInputElement>(null);
+    const navigate = useNavigate();
 
 
-    const sendToBack = async (e) => {
+
+    const sendToBack = async (e: { preventDefault: () => void; }) => {
         e.preventDefault();
+        if (!UsernameRef.current || !PasswordRef.current) {
+            alert('Поля не заполнены');
+            return;
+        }
         const login = UsernameRef.current.value;
         const password = PasswordRef.current.value;
         try {

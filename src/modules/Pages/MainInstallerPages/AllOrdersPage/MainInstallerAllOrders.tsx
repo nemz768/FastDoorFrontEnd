@@ -1,20 +1,30 @@
 import React, {useEffect, useState} from 'react';
-import {Header} from "../../../Widgets/Header/Header.tsx";
-import {Footer} from "../../../Widgets/Footer/Footer.tsx";
-import {MainInstallersAllOrdersTable} from "../MainInstallerPage/MainInstallersAllOrdersTable.tsx";
-import {Pagination} from "../../../Widgets/Pagination/Pagination.tsx";
+import {Header} from "../../../Widgets/Header/Header";
+import {Footer} from "../../../Widgets/Footer/Footer";
+import {MainInstallersAllOrdersTable} from "../MainInstallerPage/MainInstallersAllOrdersTable";
+import {Pagination} from "../../../Widgets/Pagination/Pagination";
 import './mainInstallerAllOrders.css'
+import {Order, OrdersResponse} from "../../../Interfaces/Interfaces";
+
+
+interface OrderEditorTypes {
+    frontDoorQuantity: number;
+    inDoorQuantity: number;
+    messageMainInstaller: string | null;
+    installerName: string;
+}
+
 
 export const MainInstallerAllOrders = () => {
-    const [orderId, setOrderId] = useState(null);
-    const [selectedTag, setSelectedTag] = useState({});
+    const [orderId, setOrderId] = useState<null | string>(null);
+    const [selectedTag, setSelectedTag] = useState<Record<string, string>>({});
     const [loading, isLoading] = useState(false);
-    const [error, setError] = useState(null);
-    const [orders, setOrders] = useState([]);
+    const [error, setError] = useState<null | string>(null);
+    const [orders, setOrders] = useState<Order[]>([]);
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(1);
-    const [message, sendMessage] = useState('');
-    const [editedOrder, setEditedOrder] = useState({
+    const [message, sendMessage] = useState<string>('');
+    const [editedOrder, setEditedOrder] = useState<OrderEditorTypes>({
         frontDoorQuantity: 0,
         inDoorQuantity: 0,
          messageMainInstaller: '',
@@ -29,7 +39,7 @@ export const MainInstallerAllOrders = () => {
                         "Content-Type": "application/json",
                     }
                 });
-                const data = await response.json();
+                const data: OrdersResponse = await response.json();
 
                 setOrders(
                     data.orders.map((order) => ({
@@ -41,7 +51,7 @@ export const MainInstallerAllOrders = () => {
                 setCurrentPage(data.currentPage || 0);
                 isLoading(false);
             }
-            catch (error) {
+            catch (error: any) {
                 console.error('Ошибка загрузки заказов:', error);
                 setError(error.message);
             }
@@ -56,23 +66,23 @@ export const MainInstallerAllOrders = () => {
     }, [currentPage])
 
 
-    const updateOrders = async (orderIdToUpdate) => {
+    const updateOrders = async (orderIdToUpdate:string) => {
         const order = orders.find(o => o.id === orderIdToUpdate);
         if (!order) return;
 
-        const numericId = Number(order.id);
+
         const frontDoorQuantity = Number(editedOrder.frontDoorQuantity);
         const inDoorQuantity = Number(editedOrder.inDoorQuantity);
 
         const payload = {
-            id: numericId,
+            id: order.id,
             fullName: order.fullName || '',
             address: order.address || '',
             phone: order.phone || '',
             dateOrder: order.dateOrder || '',
             frontDoorQuantity: frontDoorQuantity,
             inDoorQuantity: inDoorQuantity,
-            installerName: selectedTag[numericId] || order.installerName || null,
+            installerName: selectedTag[order.id] || order.installerName || null,
             messageSeller: order.messageSeller || '',
             messageMainInstaller: editedOrder.messageMainInstaller || '',
             nickname: order.nickname || '',
@@ -104,7 +114,7 @@ export const MainInstallerAllOrders = () => {
             sendMessage("Успешный успех");
             setOrderId(null); // очистка выделенного заказа
             setTimeout(() => sendMessage(''), 3000);
-        } catch (error) {
+        } catch (error: any) {
             console.error(error);
             sendMessage("Возникла ошибка: " + error.message);
         }
@@ -185,7 +195,6 @@ export const MainInstallerAllOrders = () => {
                             orderId={orderId}
                             setSelectedTag={setSelectedTag}
                             selectedTag={selectedTag}
-                            // deleteOrder={deleteOrder}
 
                         />
                         <Pagination

@@ -1,10 +1,7 @@
 
-
-
-
 export const MainInstallersAllOrdersTable = ({orders, reversedDate, updateOrders,
                                                  editedOrder,setEditedOrder, setOrderId, setSelectedTag,
-                                                 selectedTag, orderId, deleteOrder}) => {
+                                                 selectedTag, orderId}) => {
 
     const uniqueInstallers = [...new Set(
         orders.filter(order => order.installerName).map(order => order.installerName)
