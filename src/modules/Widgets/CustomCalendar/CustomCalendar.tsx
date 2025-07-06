@@ -148,6 +148,7 @@ export const CustomCalendar = ({
                                 ${isPast ? 'past' : ''} 
                                 ${isClosed ? 'closed' : ''} 
                                 ${isClosedSelected ? 'closed-selected' : ''} 
+                                ${isTodayOrNext ? 'next' : ''}
                                 buttons-calendar`}
                             onClick={() => onDayClick(dateStr, isClosed, isPast)}
                             disabled={isPast || isTodayOrNext || (isClosed && !canSelectClosedDays)}

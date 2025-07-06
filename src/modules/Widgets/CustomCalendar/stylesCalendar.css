@@ -41,3 +41,8 @@
 .custom-calendar .calendar-day.closed-selected .availability {
     color: #fff;
 }
+
+.calendar-day.next {
+    cursor: not-allowed;
+    background-color: #c27d7d;
+}
