@@ -1,10 +1,16 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import './ChangeDoorLimits.css'
 
 export const ChangeDoorsLimit = ({frontDoorQuantity, inDoorQuantity, selectedDate, setOpenCalendarDateChange,refreshAvailabilityData }) => {
 
     const [frontDoorQuantityValue, setFrontDoorQuantityValue] = useState(frontDoorQuantity);
     const [inDoorQuantityValue, setInDoorQuantityValue] = useState(inDoorQuantity);
+
+
+    useEffect(() => {
+        setFrontDoorQuantityValue(frontDoorQuantity)
+        setInDoorQuantityValue(inDoorQuantity)
+    }, [frontDoorQuantity, inDoorQuantity])
 
 
 
