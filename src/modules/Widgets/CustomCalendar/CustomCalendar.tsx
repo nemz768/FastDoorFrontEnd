@@ -85,9 +85,21 @@ export const CustomCalendar = ({
         return `${year}-${month}-${day}`;
     };
 
-    const onDayClick = (dateStr: string, isClosed: boolean, isPast: boolean) => {
-        if (isPast) return;
+    const isTodayOrTomorrow = (dateStr: string): boolean => {
+        const today = new Date();
+        const tomorrow = new Date();
+        tomorrow.setDate(today.getDate() + 1);
 
+        const todayStr = formatLocalDate(today);
+        const tomorrowStr = formatLocalDate(tomorrow);
+
+        return dateStr === todayStr || dateStr === tomorrowStr;
+    };
+
+
+    const onDayClick = (dateStr: string, isClosed: boolean, isPast: boolean) => {
+        if (isPast || isTodayOrTomorrow(dateStr)) return;
+        if (isPast) return;
         if (isClosed) {
             if (canSelectClosedDays && closedSelectedDates && setClosedSelectedDates) {
                 setClosedSelectedDates(prev => {
@@ -103,12 +115,14 @@ export const CustomCalendar = ({
         setSelectedDate?.(dateStr);
     };
 
+
+
+
     const renderDays = () => {
         const weeks = Math.ceil((firstDayOfWeek + daysInMonth) / 7);
         const days = [];
         let day = 1;
         const todayStr = formatLocalDate(new Date());
-
         for (let week = 0; week < weeks; week++) {
             const weekDays = [];
             for (let dow = 0; dow < 7; dow++) {
@@ -124,7 +138,7 @@ export const CustomCalendar = ({
                     const availability = availabilityMap[dateStr];
                     const isClosed = availability && !availability.available;
                     const isClosedSelected = closedSelectedDates?.has?.(dateStr);
-
+                    const isTodayOrNext = isTodayOrTomorrow(dateStr);
                     weekDays.push(
                         <button
                             key={dateStr}
@@ -136,7 +150,7 @@ export const CustomCalendar = ({
                                 ${isClosedSelected ? 'closed-selected' : ''} 
                                 buttons-calendar`}
                             onClick={() => onDayClick(dateStr, isClosed, isPast)}
-                            disabled={isPast || (isClosed && !canSelectClosedDays)}
+                            disabled={isPast || isTodayOrNext || (isClosed && !canSelectClosedDays)}
                         >
                             <div className="day-number">{day}</div>
                             {availability && !isPast && (
