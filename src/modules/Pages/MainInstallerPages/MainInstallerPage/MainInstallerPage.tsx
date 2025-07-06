@@ -66,6 +66,11 @@ export const MainInstallerPage = () => {
         { label: 'Полный список заказов', route: '/home/mainInstaller/listOrdersMainInstaller' },
     ];
 
+    const selectedAvailability = availabilityList.find(
+        (item) => item.date === selectedDate
+    );
+
+
     const fetchInstallerWorkload = async (date: string) => {
         if (workloadByDate[date]) return; // Пропускаем, если данные уже загружены
         try {
@@ -445,6 +450,8 @@ export const MainInstallerPage = () => {
                             </button>
 
                             {openCalendarDateChange && <ChangeDoorsLimit
+                                frontDoorQuantity={selectedAvailability?.frontDoorQuantity || 0}
+                                inDoorQuantity={selectedAvailability?.inDoorQuantity || 0}
                                 selectedDate={selectedDate}
                                 setOpenCalendarDateChange={setOpenCalendarDateChange}
                                  refreshAvailabilityData={refreshAvailabilityData}

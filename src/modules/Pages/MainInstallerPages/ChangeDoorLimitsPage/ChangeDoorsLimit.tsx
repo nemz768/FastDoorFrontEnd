@@ -1,10 +1,11 @@
 import {useState} from "react";
 import './ChangeDoorLimits.css'
 
-export const ChangeDoorsLimit = ({selectedDate, setOpenCalendarDateChange,refreshAvailabilityData }) => {
+export const ChangeDoorsLimit = ({frontDoorQuantity, inDoorQuantity, selectedDate, setOpenCalendarDateChange,refreshAvailabilityData }) => {
 
-    const [frontDoorQuantity, setFrontDoorQuantity] = useState(0);
-    const [inDoorQuantity, setInDoorQuantity] = useState(0);
+    const [frontDoorQuantityValue, setFrontDoorQuantityValue] = useState(frontDoorQuantity);
+    const [inDoorQuantityValue, setInDoorQuantityValue] = useState(inDoorQuantity);
+
 
 
     const patchDoorLimits = async () => {
@@ -40,10 +41,10 @@ export const ChangeDoorsLimit = ({selectedDate, setOpenCalendarDateChange,refres
             </div>
             <div>
                 <p>Входные двери: </p>
-                <input min="0" defaultValue={frontDoorQuantity}  value={frontDoorQuantity} onChange={(e)=> setFrontDoorQuantity(Number(e.target.value))} type="number" />
+                <input min="0"   value={frontDoorQuantityValue} onChange={(e)=> setFrontDoorQuantityValue(Number(e.target.value))} type="number" />
 
                 <p>Межкомнатные двери: </p>
-                <input min="0" defaultValue={inDoorQuantity} value={inDoorQuantity} onChange={(e)=> setInDoorQuantity(Number(e.target.value))} type="number" />
+                <input min="0"  value={inDoorQuantityValue} onChange={(e)=> setInDoorQuantityValue(Number(e.target.value))} type="number" />
                 <button onClick={patchDoorLimits}>Подтвердить</button>
             </div>
         </div>
