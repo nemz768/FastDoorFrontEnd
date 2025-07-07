@@ -42,7 +42,6 @@
     color: #fff;
 }
 
-.calendar-day.next {
+.calendar-day.closedNotInstaller {
     cursor: not-allowed;
-    background-color: #c27d7d;
 }

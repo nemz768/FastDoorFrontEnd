@@ -133,11 +133,11 @@ export const CustomCalendar = ({
                             key={dateStr}
                             className={`calendar-day 
                                 ${isSelected ? 'selected' : ''} 
-                                ${isToday ? 'closed' : ''} 
+                                ${isToday ? 'closedNotInstaller' : ''} 
                                 ${isPast ? 'past' : ''} 
                                 ${isClosed ? 'closed' : ''} 
                                 ${isClosedSelected ? 'closed-selected' : ''} 
-                                ${isUnavailable ? 'closed' : ''}
+                                ${isUnavailable ? 'closedNotInstaller' : ''}
                                 buttons-calendar`}
                             onClick={() => onDayClick(dateStr, isClosed, isPast)}
                             disabled={isPast || isToday || (isClosed && !canSelectClosedDays || isUnavailable)}
