@@ -18,6 +18,7 @@
 
 .custom-calendar .calendar-day.today {
     border: 2px solid #28a745;
+    background-color: grey;
 }
 
 .custom-calendar .calendar-day.past {

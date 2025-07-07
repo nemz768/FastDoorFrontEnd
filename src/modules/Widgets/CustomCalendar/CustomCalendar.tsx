@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import './stylesCalendar.css';
-import {Availability} from "../../Pages/MainInstallerPages/MainInstallerPage/MainInstallerPage";
+import {Availability} from "../../Interfaces/Interfaces";
 
 interface CalendarTypeProps {
     selectedDate: string | null;
@@ -85,20 +85,7 @@ export const CustomCalendar = ({
         return `${year}-${month}-${day}`;
     };
 
-    const isTodayOrTomorrow = (dateStr: string): boolean => {
-        const today = new Date();
-        const tomorrow = new Date();
-        tomorrow.setDate(today.getDate() + 1);
-
-        const todayStr = formatLocalDate(today);
-        const tomorrowStr = formatLocalDate(tomorrow);
-
-        return dateStr === todayStr || dateStr === tomorrowStr;
-    };
-
-
     const onDayClick = (dateStr: string, isClosed: boolean, isPast: boolean) => {
-        if (isPast || isTodayOrTomorrow(dateStr)) return;
         if (isPast) return;
         if (isClosed) {
             if (canSelectClosedDays && closedSelectedDates && setClosedSelectedDates) {
@@ -138,7 +125,6 @@ export const CustomCalendar = ({
                     const availability = availabilityMap[dateStr];
                     const isClosed = availability && !availability.available;
                     const isClosedSelected = closedSelectedDates?.has?.(dateStr);
-                    const isTodayOrNext = isTodayOrTomorrow(dateStr);
                     weekDays.push(
                         <button
                             key={dateStr}
@@ -148,10 +134,9 @@ export const CustomCalendar = ({
                                 ${isPast ? 'past' : ''} 
                                 ${isClosed ? 'closed' : ''} 
                                 ${isClosedSelected ? 'closed-selected' : ''} 
-                                ${isTodayOrNext ? 'next' : ''}
                                 buttons-calendar`}
                             onClick={() => onDayClick(dateStr, isClosed, isPast)}
-                            disabled={isPast || isTodayOrNext || (isClosed && !canSelectClosedDays)}
+                            disabled={isPast || isToday || (isClosed && !canSelectClosedDays)}
                         >
                             <div className="day-number">{day}</div>
                             {availability && !isPast && (

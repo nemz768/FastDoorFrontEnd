@@ -16,6 +16,7 @@ interface MainInstallersAllOrdersTableProps {
     setSelectedTag: React.Dispatch<React.SetStateAction<Record<number, string>>>;
     selectedTag: Record<number, string>;
     orderId: string | null;
+    deleteOrder: (id: string) => void;
 }
 
 
@@ -23,7 +24,7 @@ interface MainInstallersAllOrdersTableProps {
 
 export const MainInstallersAllOrdersTable:React.FC<MainInstallersAllOrdersTableProps> = ({orders, reversedDate, updateOrders,
                                                  editedOrder,setEditedOrder, setOrderId, setSelectedTag,
-                                                 selectedTag, orderId}) => {
+                                                 selectedTag, orderId, deleteOrder}) => {
 
     const uniqueInstallers = [...new Set(
         orders.filter(order => order.installerName).map(order => order.installerName)
@@ -165,6 +166,7 @@ export const MainInstallersAllOrdersTable:React.FC<MainInstallersAllOrdersTableP
                                     </div>
                                     :<div>
                                         <button onClick={()=> handleChangeButton(order)}>Изменить</button>
+                                        <button onClick={()=> deleteOrder(order.id)}>Удалить</button>
                                     </div>
                             }
                         </td>
