@@ -3,14 +3,12 @@
     flex-direction: column;
     background: #e0e5ec;
     border-radius: 16px;
-    position: relative;
     padding: 10px;
 }
 
 
 .ChangeDoorsLimit-close {
     position: absolute;
-    z-index: 100;
     right: 10px;
     top: 10px;
 }
