@@ -66,7 +66,7 @@ export const ChangeDoorsLimit = ({frontDoorQuantity, inDoorQuantity, selectedDat
                     <p>Входные двери: </p>
                     <input min="0"  value={inDoorQuantityValue} onChange={(e)=> setInDoorQuantityValue(Number(e.target.value))} type="number" />
                 </div>
-               <button className="ChangeDoorsLimit-btn" onClick={patchDoorLimits}>Подтвердить</button>
+               <button className="ChangeDoorsLimit-btn" onClick={patchDoorLimits}>Изменить</button>
             </div>
         </div>
     );

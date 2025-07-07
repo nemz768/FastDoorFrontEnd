@@ -1,7 +1,7 @@
 .ChangeDoorsLimit {
     position: absolute;
-    top: 0;              /* или top: 100%, если надо под кнопкой */
-    right: 100%;         /* это сдвинет блок полностью влево от кнопки */
+    top: 115%;              /* или top: 100%, если надо под кнопкой */
+    right: -18%;         /* это сдвинет блок полностью влево от кнопки */
     margin-right: 16px;  /* отступ от кнопки */
     z-index: 100;
     background: white;
@@ -26,7 +26,7 @@
 }
 
 .ChangeDoorsLimit-btn {
-    width: 50px;
-    height: 30px;
+    text-align: center;
+    align-self: center;
     cursor: pointer;
 }
