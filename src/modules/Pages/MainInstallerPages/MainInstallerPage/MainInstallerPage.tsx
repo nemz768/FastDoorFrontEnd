@@ -433,7 +433,7 @@ export const MainInstallerPage = () => {
                                 <img src={openSvg} alt="shutdown"/>
                             </button>
                             <div>
-                                <button onClick={()=> {openCalendarDateChange ? setOpenCalendarDateChange(true) : setOpenCalendarDateChange(false)
+                                <button onClick={()=> {!openCalendarDateChange ? setOpenCalendarDateChange(true) : setOpenCalendarDateChange(false)
                                 }} disabled={!selectedDate || isAvailabilityChanging}
                                         className="Calendar-Button-MainInstaller">
                                     <img src={changeDataSvg} alt="shutdown"/>
