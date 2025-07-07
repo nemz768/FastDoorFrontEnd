@@ -1,6 +1,6 @@
 import React from 'react';
-import { Order } from '../../../Interfaces/Interfaces';
-import { installersType, InstallerWorkload } from './MainInstallerPage';
+import { Order } from '../../../../Interfaces/Interfaces';
+import { installersType, InstallerWorkload } from '../MainInstallerPage';
 
 interface MainInstallerTableProps {
     reversedDate: (dateString: string) => string;

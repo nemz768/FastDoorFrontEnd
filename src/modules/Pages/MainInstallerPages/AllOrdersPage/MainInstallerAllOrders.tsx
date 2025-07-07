@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Header} from "../../../Widgets/Header/Header";
 import {Footer} from "../../../Widgets/Footer/Footer";
-import {MainInstallersAllOrdersTable} from "../MainInstallerPage/MainInstallersAllOrdersTable";
+import {MainInstallersAllOrdersTable} from "./MainInstallerAllOrdersTable/MainInstallersAllOrdersTable";
 import {Pagination} from "../../../Widgets/Pagination/Pagination";
 import './mainInstallerAllOrders.css'
 import {Order, OrdersResponse} from "../../../Interfaces/Interfaces";

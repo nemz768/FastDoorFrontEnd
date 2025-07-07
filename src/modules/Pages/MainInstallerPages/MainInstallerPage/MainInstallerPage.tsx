@@ -8,7 +8,7 @@ import changeDataSvg from '../../../../../public/change-management-backup-svgrep
 import shutdownSvg from '../../../../../public/lock-alt-svgrepo-com.svg'
 import {ChangeDoorsLimit} from "../ChangeDoorLimitsPage/ChangeDoorsLimit";
 import {Pagination} from "../../../Widgets/Pagination/Pagination";
-import {MainInstallerTable} from "./MainInstallerTable";
+import {MainInstallerTable} from "./MainInstallerTable/MainInstallerTable";
 import {Order, OrdersResponse, Availability} from "../../../Interfaces/Interfaces";
 
 export interface installersType {

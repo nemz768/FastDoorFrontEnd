@@ -1,5 +1,5 @@
 import React from 'react';
-import {Order, EditedOrder} from '../../../Interfaces/Interfaces'
+import {Order, EditedOrder} from '../../../../Interfaces/Interfaces'
 
 
 
@@ -18,9 +18,6 @@ interface MainInstallersAllOrdersTableProps {
     orderId: string | null;
     deleteOrder: (id: string) => void;
 }
-
-
-
 
 export const MainInstallersAllOrdersTable:React.FC<MainInstallersAllOrdersTableProps> = ({orders, reversedDate, updateOrders,
                                                  editedOrder,setEditedOrder, setOrderId, setSelectedTag,
@@ -157,7 +154,7 @@ export const MainInstallersAllOrdersTable:React.FC<MainInstallersAllOrdersTableP
                                     : order.installerName ||  "Не выставлен"
                             }
                         </td>
-                        <td>
+                        <td className="TableTdBtns">
                             {
                                 orderId === order.id
                                     ? <div>
