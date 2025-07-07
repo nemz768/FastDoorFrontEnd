@@ -4,7 +4,6 @@
 .custom-calendar .calendar-day.closed {
     background-color: #ff0000 !important;
     color: #ffffff;
-    cursor: not-allowed;
 }
 
 .custom-calendar .calendar-day.closed .availability {
@@ -23,7 +22,7 @@
 .custom-calendar .calendar-day.past {
     background-color: #d3d3d3 !important; /* светло-серый фон */
     color: #888888; /* тусклый текст */
-    cursor: not-allowed;
+    cursor: not-allowed!important;
 }
 
 .custom-calendar .calendar-day.past .availability {
@@ -43,5 +42,7 @@
 }
 
 .calendar-day.closedNotInstaller {
-    cursor: not-allowed;
+    color: #888888; /* тусклый текст */
+    background-color: #d3d3d3;
+    cursor: not-allowed!important;
 }
