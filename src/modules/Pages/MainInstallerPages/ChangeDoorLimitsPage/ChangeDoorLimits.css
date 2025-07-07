@@ -1,7 +1,21 @@
 .ChangeDoorsLimit {
     display: flex;
     flex-direction: column;
-    background: white;
-    border: 1px solid black;
+    background: #e0e5ec;
+    border-radius: 16px;
+    position: relative;
+    padding: 10px;
+}
 
+
+.ChangeDoorsLimit-close {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+
+.ChangeDoorLimits-inputsBlock {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
 }

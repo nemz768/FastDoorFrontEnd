@@ -413,7 +413,7 @@ export const MainInstallerPage = () => {
                 </main>
 
                 <div className="MainInstallerPage__calendar-dateTable-block">
-                    <div>
+                    <div className="MainInstallerPage__calendar-btns-block">
                         <CustomCalendar
                             availabilityList={availabilityList}
                             fetchedAvailability={fetchedAvailability}
@@ -424,29 +424,28 @@ export const MainInstallerPage = () => {
                             closedSelectedDates={closedSelectedDates}
                             setClosedSelectedDates={setClosedSelectedDates}
                         />
-
-                        <button className="Calendar-Button-MainInstaller" onClick={closeDateCalendar} disabled={!selectedDate || isAvailabilityChanging}>
-                            <img src={shutdownSvg} alt="shutdown"/>
-                        </button>
-                        <button className="Calendar-Button-MainInstaller" onClick={openDates}
-                                disabled={closedSelectedDates.size === 0 || isAvailabilityChanging}>
-                            <img src={openSvg} alt="shutdown"/>
-                        </button>
-
-                        <div>
-                            <button onClick={()=> {setOpenCalendarDateChange(true)
-                            }} disabled={!selectedDate || isAvailabilityChanging}
-                                    className="Calendar-Button-MainInstaller">
-                                <img src={changeDataSvg} alt="shutdown"/>
+                        <div className="MainInstallerPage__btns-block">
+                            <button className="Calendar-Button-MainInstaller" onClick={closeDateCalendar} disabled={!selectedDate || isAvailabilityChanging}>
+                                <img src={shutdownSvg} alt="shutdown"/>
                             </button>
-
-                            {openCalendarDateChange && <ChangeDoorsLimit
-                                frontDoorQuantity={selectedAvailability?.frontDoorQuantity || 0}
-                                inDoorQuantity={selectedAvailability?.inDoorQuantity || 0}
-                                selectedDate={selectedDate}
-                                setOpenCalendarDateChange={setOpenCalendarDateChange}
-                                 refreshAvailabilityData={refreshAvailabilityData}
-                            />}
+                            <button className="Calendar-Button-MainInstaller" onClick={openDates}
+                                    disabled={closedSelectedDates.size === 0 || isAvailabilityChanging}>
+                                <img src={openSvg} alt="shutdown"/>
+                            </button>
+                            <div>
+                                <button onClick={()=> {openCalendarDateChange ? setOpenCalendarDateChange(true) : setOpenCalendarDateChange(false)
+                                }} disabled={!selectedDate || isAvailabilityChanging}
+                                        className="Calendar-Button-MainInstaller">
+                                    <img src={changeDataSvg} alt="shutdown"/>
+                                </button>
+                                {openCalendarDateChange && <ChangeDoorsLimit
+                                    frontDoorQuantity={selectedAvailability?.frontDoorQuantity || 0}
+                                    inDoorQuantity={selectedAvailability?.inDoorQuantity || 0}
+                                    selectedDate={selectedDate}
+                                    setOpenCalendarDateChange={setOpenCalendarDateChange}
+                                    refreshAvailabilityData={refreshAvailabilityData}
+                                />}
+                            </div>
                         </div>
                     </div>
                     <div>

@@ -117,6 +117,19 @@
     font-size: 16px;
 }
 
+
+.MainInstallerPage__calendar-btns {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+
+}
+.MainInstallerPage__btns-block {
+    display: flex;
+    flex-direction: row;
+    column-gap: 2px;
+}
+
 .Calendar-Button-MainInstaller {
     background-color: transparent;
     border: 1px black solid;

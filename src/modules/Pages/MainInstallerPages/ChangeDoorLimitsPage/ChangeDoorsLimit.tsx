@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import './ChangeDoorLimits.css'
-
+import xSymbol from '../../../../../public/x-symbol.svg'
 
 interface ChangeDoorsLimitsProps {
     frontDoorQuantity: number;
@@ -52,18 +52,21 @@ export const ChangeDoorsLimit = ({frontDoorQuantity, inDoorQuantity, selectedDat
     };
     return (
         <div className="ChangeDoorsLimit">
-            <div onClick={()=> {
+            <div className="ChangeDoorsLimit-close" onClick={()=> {
                 setOpenCalendarDateChange(false)
             }}>
-                close
+                <img src={xSymbol} alt="X"/>
             </div>
-            <div>
-                <p>Входные двери: </p>
-                <input min="0"   value={frontDoorQuantityValue} onChange={(e)=> setFrontDoorQuantityValue(Number(e.target.value))} type="number" />
-
-                <p>Межкомнатные двери: </p>
-                <input min="0"  value={inDoorQuantityValue} onChange={(e)=> setInDoorQuantityValue(Number(e.target.value))} type="number" />
-                <button onClick={patchDoorLimits}>Подтвердить</button>
+            <div className="ChangeDoorLimits-inputsBlock">
+                <div>
+                    <input min="0" value={frontDoorQuantityValue} onChange={(e)=> setFrontDoorQuantityValue(Number(e.target.value))} type="number" />
+                    <p>Межкомнатные двери: </p>
+                </div>
+                <div>
+                    <p>Входные двери: </p>
+                    <input min="0"  value={inDoorQuantityValue} onChange={(e)=> setInDoorQuantityValue(Number(e.target.value))} type="number" />
+                </div>
+               <button onClick={patchDoorLimits}>Подтвердить</button>
             </div>
         </div>
     );
