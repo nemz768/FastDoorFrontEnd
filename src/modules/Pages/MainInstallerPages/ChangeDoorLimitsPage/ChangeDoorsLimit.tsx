@@ -59,8 +59,8 @@ export const ChangeDoorsLimit = ({frontDoorQuantity, inDoorQuantity, selectedDat
             </div>
             <div className="ChangeDoorLimits-inputsBlock">
                 <div>
-                    <input min="0" value={frontDoorQuantityValue} onChange={(e)=> setFrontDoorQuantityValue(Number(e.target.value))} type="number" />
                     <p>Межкомнатные двери: </p>
+                    <input min="0" value={frontDoorQuantityValue} onChange={(e)=> setFrontDoorQuantityValue(Number(e.target.value))} type="number" />
                 </div>
                 <div>
                     <p>Входные двери: </p>

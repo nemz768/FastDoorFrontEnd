@@ -150,3 +150,7 @@
 .mainInstallerTable select option {
     white-space: normal; /* Позволяем тексту в опциях переноситься */
 }
+.ChangeDoorsLimit-trigger {
+    position: relative;
+    display: inline-block;
+}

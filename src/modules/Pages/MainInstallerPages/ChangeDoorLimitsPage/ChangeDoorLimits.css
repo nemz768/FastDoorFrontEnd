@@ -1,12 +1,14 @@
 .ChangeDoorsLimit {
-    display: flex;
-    flex-direction: column;
-    background: #e0e5ec;
-    border-radius: 16px;
-    margin: 20px;
-    position: relative;
-    width: 320px;
-    height: 175px;
+    position: absolute;
+    top: 0;              /* или top: 100%, если надо под кнопкой */
+    right: 100%;         /* это сдвинет блок полностью влево от кнопки */
+    margin-right: 16px;  /* отступ от кнопки */
+    z-index: 100;
+    background: white;
+    border: 1px solid #ccc;
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 
