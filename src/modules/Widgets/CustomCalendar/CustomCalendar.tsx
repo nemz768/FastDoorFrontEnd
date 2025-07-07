@@ -125,9 +125,8 @@ export const CustomCalendar = ({
                     const availability = availabilityMap[dateStr];
                     const isClosed = availability && !availability.available;
                     const isClosedSelected = closedSelectedDates?.has?.(dateStr);
-                    const isEmptyAvailability = availability &&
-                        availability.frontDoorQuantity === 0 &&
-                        availability.inDoorQuantity === 0;
+                    const isUnavailable = !availability;
+
 
                     weekDays.push(
                         <button
@@ -138,10 +137,10 @@ export const CustomCalendar = ({
                                 ${isPast ? 'past' : ''} 
                                 ${isClosed ? 'closed' : ''} 
                                 ${isClosedSelected ? 'closed-selected' : ''} 
-                                ${isEmptyAvailability ? 'closed' : ''}
+                                ${isUnavailable ? 'closed' : ''}
                                 buttons-calendar`}
                             onClick={() => onDayClick(dateStr, isClosed, isPast)}
-                            disabled={isPast || isToday || (isClosed && !canSelectClosedDays || isEmptyAvailability)}
+                            disabled={isPast || isToday || (isClosed && !canSelectClosedDays || isUnavailable)}
                         >
                             <div className="day-number">{day}</div>
                             {availability && !isPast && (
