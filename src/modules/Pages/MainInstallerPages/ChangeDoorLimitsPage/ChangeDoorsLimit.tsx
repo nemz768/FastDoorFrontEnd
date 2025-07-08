@@ -59,11 +59,11 @@ export const ChangeDoorsLimit = ({frontDoorQuantity, inDoorQuantity, selectedDat
             </div>
             <div className="ChangeDoorLimits-inputsBlock">
                 <div>
-                    <p>Межкомнатные двери: </p>
+                    <p>Входные двери: </p>
                     <input min="0" value={frontDoorQuantityValue} onChange={(e)=> setFrontDoorQuantityValue(Number(e.target.value))} type="number" />
                 </div>
                 <div>
-                    <p>Входные двери: </p>
+                    <p>Межкомнатные двери: </p>
                     <input min="0"  value={inDoorQuantityValue} onChange={(e)=> setInDoorQuantityValue(Number(e.target.value))} type="number" />
                 </div>
                <button className="ChangeDoorsLimit-btn" onClick={patchDoorLimits}>Изменить</button>
