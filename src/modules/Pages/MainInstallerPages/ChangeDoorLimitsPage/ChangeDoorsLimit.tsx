@@ -11,20 +11,25 @@ interface ChangeDoorsLimitsProps {
 
 }
 
-
-
 export const ChangeDoorsLimit = ({frontDoorQuantity, inDoorQuantity, selectedDate, setOpenCalendarDateChange,refreshAvailabilityData }: ChangeDoorsLimitsProps) => {
 
-    const [frontDoorQuantityValue, setFrontDoorQuantityValue] = useState(frontDoorQuantity);
-    const [inDoorQuantityValue, setInDoorQuantityValue] = useState(inDoorQuantity);
+    const [frontDoorQuantityValue, setFrontDoorQuantityValue] = useState(frontDoorQuantity.toString());
+    const [inDoorQuantityValue, setInDoorQuantityValue] = useState(inDoorQuantity.toString());
 
 
     useEffect(() => {
-        setFrontDoorQuantityValue(frontDoorQuantity)
-        setInDoorQuantityValue(inDoorQuantity)
+        setFrontDoorQuantityValue(frontDoorQuantity.toString());
+        setInDoorQuantityValue(inDoorQuantity.toString())
     }, [frontDoorQuantity, inDoorQuantity])
 
-
+    const validateCountOfDoors = (InputValue: string, setValue: (val: string) => void) => {
+        if (InputValue === "") {
+            setValue("0"); // если удалили всё — ставим 0
+            return;
+        }
+        const cleaned = InputValue.replace(/^0+/, "") || "0";
+        setValue(cleaned);
+    }
 
     const patchDoorLimits = async () => {
         try {
@@ -35,8 +40,8 @@ export const ChangeDoorsLimit = ({frontDoorQuantity, inDoorQuantity, selectedDat
                 },
                 body: JSON.stringify({
                     date: selectedDate,
-                    frontDoorQuantity: frontDoorQuantityValue,
-                    inDoorQuantity: inDoorQuantityValue,
+                    frontDoorQuantity: Number(frontDoorQuantityValue),
+                    inDoorQuantity: Number(inDoorQuantityValue),
                     available: true,
                 })
             });
@@ -60,11 +65,11 @@ export const ChangeDoorsLimit = ({frontDoorQuantity, inDoorQuantity, selectedDat
             <div className="ChangeDoorLimits-inputsBlock">
                 <div>
                     <p>Входные двери: </p>
-                    <input min="0" value={frontDoorQuantityValue} onChange={(e)=> setFrontDoorQuantityValue(Number(e.target.value))} type="number" />
+                    <input min="0" step={1} value={frontDoorQuantityValue} onChange={(e)=> validateCountOfDoors(e.target.value, setFrontDoorQuantityValue)} type="number" />
                 </div>
                 <div>
                     <p>Межкомнатные двери: </p>
-                    <input min="0"  value={inDoorQuantityValue} onChange={(e)=> setInDoorQuantityValue(Number(e.target.value))} type="number" />
+                    <input min="0" step={1}  value={inDoorQuantityValue} onChange={(e)=> validateCountOfDoors(e.target.value, setInDoorQuantityValue)} type="number" />
                 </div>
                <button className="ChangeDoorsLimit-btn" onClick={patchDoorLimits}>Изменить</button>
             </div>
