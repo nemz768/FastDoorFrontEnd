@@ -42,7 +42,7 @@ export const MainInstallerAllOrders = () => {
     const fetchOrders = async () => {
             isLoading(true);
             try {
-                const response = await fetch(`/api/mainInstaller?page=${currentPage}`, {
+                const response = await fetch(`/api/mainInstaller/listOrdersMainInstaller?page=${currentPage}`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
