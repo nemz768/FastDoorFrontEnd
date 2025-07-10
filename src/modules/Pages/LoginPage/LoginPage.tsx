@@ -1,6 +1,6 @@
 import React, {useRef, useState} from 'react';
 import './loginPage.css';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../Context/Auth/AuthContext';
 
 export const LoginPage = () => {
@@ -45,7 +45,6 @@ export const LoginPage = () => {
             console.log('API Response:', data);
 
             if (data && data.roles) {
-                // Сохраняем роль в localStorage
                 localStorage.setItem('userRoles', data.roles);
 
                 if (data.roles === 'main') {
@@ -97,12 +96,6 @@ export const LoginPage = () => {
                         name="password"
                         id="password"
                     />
-                    <p>
-                        <Link style={{color: 'black'}} to="/reg">
-                            Нажми
-                        </Link>
-                        <span> для регистрации</span>
-                    </p>
                     <div className="checkbox_div">
                         <input className="checkbox" onChange={(e) => setRememberMe(e.target.checked)}
                                checked={rememberMe} type="checkbox" name="rememberMe"/>

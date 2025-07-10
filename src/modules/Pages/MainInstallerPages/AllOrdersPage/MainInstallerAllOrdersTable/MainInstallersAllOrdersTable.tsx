@@ -1,12 +1,15 @@
 import React from 'react';
 import {Order, EditedOrder} from '../../../../Interfaces/Interfaces'
+import {installersType, InstallerWorkload} from "../../MainInstallerPage/MainInstallerPage";
 
 
 
 interface OrderMainInstaller extends Order {
     messageMainInstaller?: string | null;
 }
+
 interface MainInstallersAllOrdersTableProps {
+    installers: installersType[];
     orders: OrderMainInstaller[];
     reversedDate: (date: string) => string;
     updateOrders: (id: string) => void;
@@ -17,15 +20,22 @@ interface MainInstallersAllOrdersTableProps {
     selectedTag: Record<number, string>;
     orderId: string | null;
     deleteOrder: (id: string) => void;
+    workloadByDate: Record<string, InstallerWorkload[]>;
 }
 
 export const MainInstallersAllOrdersTable:React.FC<MainInstallersAllOrdersTableProps> = ({orders, reversedDate, updateOrders,
                                                  editedOrder,setEditedOrder, setOrderId, setSelectedTag,
-                                                 selectedTag, orderId, deleteOrder}) => {
+                                                 selectedTag, orderId, deleteOrder, installers, workloadByDate}) => {
 
-    const uniqueInstallers = [...new Set(
-        orders.filter(order => order.installerName).map(order => order.installerName)
-    )];
+
+    const getWorkloadForInstaller = (installerId: string, date: string) => {
+        const workloads = workloadByDate[date] || [];
+        const workload = workloads.find((w) => w.installerFullName === installers.find((i) => i.id === installerId)?.fullName);
+        if (workload) {
+            return `Входные: ${workload.frontDoorQuantity}, Межкомнатные: ${workload.inDoorQuantity}`;
+        }
+        return 'Нет данных';
+    };
 
     const handleChangeButton = (order: OrderMainInstaller) => {
         setOrderId(order.id)
@@ -144,11 +154,11 @@ export const MainInstallersAllOrdersTable:React.FC<MainInstallersAllOrdersTableP
                                             onChange={(event) => handleChange(event, Number(order.id))}
                                         >
                                             <option value="">Выбрать установщика</option>
-                                                {uniqueInstallers.map((installer) => (
-                                                    <option key={installer} value={String(installer)}>
-                                                        {installer}
-                                                    </option>
-                                                ))}
+                                            {installers.map((option) => (
+                                                <option key={option.id} value={option.id}>
+                                                    {`${option.fullName} (${getWorkloadForInstaller(option.id, order.dateOrder)})`}
+                                                </option>
+                                            ))}
                                         </select>
                                     )
                                     : order.installerName ||  "Не выставлен"
