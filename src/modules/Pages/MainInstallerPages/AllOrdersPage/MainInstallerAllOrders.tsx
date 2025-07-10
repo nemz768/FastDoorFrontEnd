@@ -56,6 +56,7 @@ export const MainInstallerAllOrders = () => {
                         id: order.id,
                     })) || []
                 );
+                console.log("Installers from API:", data.installers);
                 setInstallers(
                     Array.isArray(data.installers)
                         ? data.installers.map((inst) => ({
