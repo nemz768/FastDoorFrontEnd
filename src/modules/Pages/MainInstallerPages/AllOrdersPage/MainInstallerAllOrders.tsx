@@ -122,7 +122,12 @@ export const MainInstallerAllOrders = () => {
             dateOrder: order.dateOrder || '',
             frontDoorQuantity: frontDoorQuantity,
             inDoorQuantity: inDoorQuantity,
-            installerName: selectedTag[order.id] || order.installerName || null,
+            installerName: (() => {
+                const selectedInstallerId = selectedTag[order.id];
+                const found = installers.find(inst => inst.id === selectedInstallerId);
+                return found?.fullName || order.installerName || null;
+            })(),
+
             messageSeller: order.messageSeller || '',
             messageMainInstaller: editedOrder.messageMainInstaller || '',
             nickname: order.nickname || '',

@@ -150,7 +150,7 @@ export const MainInstallersAllOrdersTable:React.FC<MainInstallersAllOrdersTableP
                                 orderId === order.id
                                     ? (
                                         <select
-                                            value={selectedTag[Number(order.id)] || ''}
+                                            value={selectedTag[order.id] || ''}
                                             onChange={(event) => handleChange(event, order.id)}
 
                                         >
