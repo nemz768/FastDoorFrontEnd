@@ -23,8 +23,8 @@ export interface OrdersResponse {
     orders: Order[];
     totalPages: number;
     currentPage: number;
-
 }
+
 
 export interface NavItems {
     label: string;

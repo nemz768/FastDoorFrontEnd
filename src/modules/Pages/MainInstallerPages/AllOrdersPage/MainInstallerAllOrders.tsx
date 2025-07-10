@@ -4,7 +4,8 @@ import {Footer} from "../../../Widgets/Footer/Footer";
 import {MainInstallersAllOrdersTable} from "./MainInstallerAllOrdersTable/MainInstallersAllOrdersTable";
 import {Pagination} from "../../../Widgets/Pagination/Pagination";
 import './mainInstallerAllOrders.css'
-import {Order, OrdersResponse} from "../../../Interfaces/Interfaces";
+import {Availability, Order, OrdersResponse} from "../../../Interfaces/Interfaces";
+import {installersType, InstallerWorkload} from "../MainInstallerPage/MainInstallerPage";
 
 
 interface OrderEditorTypes {
@@ -14,16 +15,24 @@ interface OrderEditorTypes {
     installerName: string;
 }
 
+interface OrderResponseAllOrders extends OrdersResponse {
+    installers?: installersType[]
+    availabilityList?: Availability[]
+
+}
+
 
 export const MainInstallerAllOrders = () => {
     const [orderId, setOrderId] = useState<null | string>(null);
     const [selectedTag, setSelectedTag] = useState<Record<string, string>>({});
     const [loading, isLoading] = useState(false);
+    const [installers, setInstallers] = useState<installersType[]>([]);
     const [error, setError] = useState<null | string>(null);
     const [orders, setOrders] = useState<Order[]>([]);
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(1);
     const [message, sendMessage] = useState<string>('');
+    const [workloadByDate, setWorkloadByDate] = useState<Record<string, InstallerWorkload[]>>({})
     const [editedOrder, setEditedOrder] = useState<OrderEditorTypes>({
         frontDoorQuantity: 0,
         inDoorQuantity: 0,
@@ -39,7 +48,7 @@ export const MainInstallerAllOrders = () => {
                         "Content-Type": "application/json",
                     }
                 });
-                const data: OrdersResponse = await response.json();
+                const data: OrderResponseAllOrders = await response.json();
 
                 setOrders(
                     data.orders.map((order) => ({
@@ -47,11 +56,21 @@ export const MainInstallerAllOrders = () => {
                         id: order.id,
                     })) || []
                 );
+                setInstallers(
+                    Array.isArray(data.installers)
+                        ? data.installers.map((inst) => ({
+                            ...inst,
+                            id: String(inst.id),
+                        }))
+                        : []
+                );
                 setTotalPages(data.totalPages || 1);
                 setCurrentPage(data.currentPage || 0);
                 isLoading(false);
+                const uniqueDates = [...new Set(data.orders.map((order) => order.dateOrder))];
+                await Promise.all(uniqueDates.map((date) => fetchInstallerWorkload(date)));
             }
-            catch (error: any) {
+    catch (error: any) {
                 console.error('Ошибка загрузки заказов:', error);
                 setError(error.message);
             }
@@ -111,7 +130,7 @@ export const MainInstallerAllOrders = () => {
                 )
             );
 
-            sendMessage("Успешный успех");
+            sendMessage("Успешно");
             setOrderId(null); // очистка выделенного заказа
             setTimeout(() => sendMessage(''), 3000);
         } catch (error: any) {
@@ -149,7 +168,30 @@ export const MainInstallerAllOrders = () => {
         }
     };
 
+    const fetchInstallerWorkload = async (date: string) => {
+        if (workloadByDate[date]) return;
+        try {
+            const response = await fetch(`/api/listInstallers/workload?date=${encodeURIComponent(date)}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
 
+            if (!response.ok) {
+                throw new Error(`Не удалось загрузить данные о рабочей нагрузке: ${response.status} ${response.statusText}`);
+            }
+
+            const data: InstallerWorkload[] = await response.json();
+
+            setWorkloadByDate((prev) => ({
+                ...prev,
+                [date]: data,
+            }));
+        } catch (err: any) {
+            console.error('Ошибка при загрузке рабочей нагрузки:', err);
+        }
+    };
 
     const navItems = [
         { label: 'Главная', route: '/home/mainInstaller/'  },
@@ -196,6 +238,8 @@ export const MainInstallerAllOrders = () => {
                             setSelectedTag={setSelectedTag}
                             selectedTag={selectedTag}
                             deleteOrder={deleteOrder}
+                            workloadByDate={workloadByDate}
+                            installers={installers}
                         />
                         <Pagination
                             currentPage={currentPage}
