@@ -30,25 +30,12 @@ export const MainInstallersAllOrdersTable:React.FC<MainInstallersAllOrdersTableP
 
     const getWorkloadForInstaller = (installerId: string, date: string) => {
         const workloads = workloadByDate[date] || [];
-        const installer = installers.find((i) => i.id === installerId);
-        if (!installer) {
-            console.log('Не найден установщик по ID:', installerId);
-            return 'Нет данных';
-        }
-
-        console.log('Ищем по имени:', installer.fullName);
-        console.log('Вся нагрузка:', workloads);
-
-        const workload = workloads.find((w) => w.installerFullName === installer.fullName);
-        console.log('Найдена нагрузка:', workload);
-
+        const workload = workloads.find((w) => w.installerFullName === installers.find((i) => i.id === installerId)?.fullName);
         if (workload) {
             return `Входные: ${workload.frontDoorQuantity}, Межкомнатные: ${workload.inDoorQuantity}`;
         }
         return 'Нет данных';
     };
-
-
 
     const handleChangeButton = (order: OrderMainInstaller) => {
         setOrderId(order.id)

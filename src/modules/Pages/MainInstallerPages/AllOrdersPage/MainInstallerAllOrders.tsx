@@ -59,6 +59,8 @@ export const MainInstallerAllOrders = () => {
                 setTotalPages(data.totalPages || 1);
                 setCurrentPage(data.currentPage || 0);
                 isLoading(false);
+                const uniqueDates = [...new Set(data.orders.map((order) => order.dateOrder))];
+                await Promise.all(uniqueDates.map((date) => fetchInstallerWorkload(date)));
            }
     catch (error: any) {
                 console.error('Ошибка загрузки заказов:', error);
@@ -101,9 +103,36 @@ export const MainInstallerAllOrders = () => {
     }
 
     useEffect(() => {
-        fetchOrders();
         fetchInstallers();
+    }, []); // один раз при загрузке компонента
+
+    useEffect(() => {
+        fetchOrders();
     }, [currentPage])
+
+    const fetchInstallerWorkload = async (date: string) => {
+        if (workloadByDate[date]) return; // Пропускаем, если данные уже загружены
+        try {
+            const response = await fetch(`/api/listInstallers/workload?date=${encodeURIComponent(date)}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error(`Не удалось загрузить данные о рабочей нагрузке: ${response.status} ${response.statusText}`);
+            }
+
+            const data: InstallerWorkload[] = await response.json();
+            setWorkloadByDate((prev) => ({
+                ...prev,
+                [date]: data,
+            }));
+        } catch (err: any) {
+            console.error('Ошибка при загрузке рабочей нагрузки:', err);
+        }
+    };
 
 
     const updateOrders = async (orderIdToUpdate:string) => {
@@ -169,7 +198,6 @@ export const MainInstallerAllOrders = () => {
         setOrders(orders.filter((order) => order.id !== deletedInstallerId));
     };
 
-
     const deleteOrder = async (orderIdToDelete:string) => {
         setError(null);
         try {
@@ -194,30 +222,7 @@ export const MainInstallerAllOrders = () => {
         }
     };
 
-    const fetchInstallerWorkload = async (date: string) => {
-        if (workloadByDate[date]) return;
-        try {
-            const response = await fetch(`/api/listInstallers/workload?date=${encodeURIComponent(date)}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
 
-            if (!response.ok) {
-                throw new Error(`Не удалось загрузить данные о рабочей нагрузке: ${response.status} ${response.statusText}`);
-            }
-
-            const data: InstallerWorkload[] = await response.json();
-
-            setWorkloadByDate((prev) => ({
-                ...prev,
-                [date]: data,
-            }));
-        } catch (err: any) {
-            console.error('Ошибка при загрузке рабочей нагрузки:', err);
-        }
-    };
 
     const navItems = [
         { label: 'Главная', route: '/home/mainInstaller/'  },
