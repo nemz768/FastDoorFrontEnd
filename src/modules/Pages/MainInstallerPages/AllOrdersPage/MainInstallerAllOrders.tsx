@@ -15,11 +15,10 @@ interface OrderEditorTypes {
     installerName: string;
 }
 
-interface OrderResponseAllOrders extends OrdersResponse {
+interface OrderResponseMainInstaller extends OrdersResponse{
     installers?: installersType[]
     availabilityList?: Availability[]
-
-}
+};
 
 
 export const MainInstallerAllOrders = () => {
@@ -48,7 +47,7 @@ export const MainInstallerAllOrders = () => {
                         "Content-Type": "application/json",
                     }
                 });
-                const data: OrderResponseAllOrders = await response.json();
+                const data: OrderResponseMainInstaller = await response.json();
 
                 setOrders(
                     data.orders.map((order) => ({
@@ -56,21 +55,11 @@ export const MainInstallerAllOrders = () => {
                         id: order.id,
                     })) || []
                 );
-                console.log("Installers from API:", data.installers);
-                setInstallers(
-                    Array.isArray(data.installers)
-                        ? data.installers.map((inst) => ({
-                            ...inst,
-                            id: String(inst.id),
-                        }))
-                        : []
-                );
+
                 setTotalPages(data.totalPages || 1);
                 setCurrentPage(data.currentPage || 0);
                 isLoading(false);
-                const uniqueDates = [...new Set(data.orders.map((order) => order.dateOrder))];
-                await Promise.all(uniqueDates.map((date) => fetchInstallerWorkload(date)));
-            }
+           }
     catch (error: any) {
                 console.error('Ошибка загрузки заказов:', error);
                 setError(error.message);
@@ -81,8 +70,39 @@ export const MainInstallerAllOrders = () => {
             }
         }
 
+    const fetchInstallers = async () => {
+        try {
+            const response = await fetch(`/api/mainInstaller?page=${currentPage}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                }
+            });
+            const data:OrderResponseMainInstaller = await response.json();
+
+            console.log("Installers from API(data):", data);
+            console.log("Installers from API:", data.installers);
+
+            setInstallers(
+                Array.isArray(data.installers)
+                    ? data.installers.map((inst) => ({
+                        ...inst,
+                        id: String(inst.id),
+                    }))
+                    : []
+            );
+
+            const uniqueDates = [...new Set(data.orders.map((order) => order.dateOrder))];
+            await Promise.all(uniqueDates.map((date) => fetchInstallerWorkload(date)));
+        }
+        catch (error: any) {
+            console.error('Ошибка загрузки заказов:', error);
+        }
+    }
+
     useEffect(() => {
         fetchOrders();
+        fetchInstallers();
     }, [currentPage])
 
 
