@@ -16,8 +16,8 @@ interface MainInstallersAllOrdersTableProps {
     editedOrder: EditedOrder;
     setEditedOrder: React.Dispatch<React.SetStateAction<EditedOrder>>;
     setOrderId: React.Dispatch<React.SetStateAction<string | null>>;
-    setSelectedTag: React.Dispatch<React.SetStateAction<Record<number, string>>>;
-    selectedTag: Record<number, string>;
+    setSelectedTag: React.Dispatch<React.SetStateAction<Record<string, string>>>;
+    selectedTag: Record<string, string>;
     orderId: string | null;
     deleteOrder: (id: string) => void;
     workloadByDate: Record<string, InstallerWorkload[]>;
@@ -53,7 +53,7 @@ export const MainInstallersAllOrdersTable:React.FC<MainInstallersAllOrdersTableP
 
     }
 
-    const handleChange = (event: React.ChangeEvent<HTMLSelectElement>, orderId: number) => {
+    const handleChange = (event: React.ChangeEvent<HTMLSelectElement>, orderId: string) => {
         setSelectedTag((prev) => ({
             ...prev,
             [orderId]: event.target.value,
@@ -151,7 +151,8 @@ export const MainInstallersAllOrdersTable:React.FC<MainInstallersAllOrdersTableP
                                     ? (
                                         <select
                                             value={selectedTag[Number(order.id)] || ''}
-                                            onChange={(event) => handleChange(event, Number(order.id))}
+                                            onChange={(event) => handleChange(event, order.id)}
+
                                         >
                                             <option value="">Выбрать установщика</option>
                                             {installers.map((option) => (
