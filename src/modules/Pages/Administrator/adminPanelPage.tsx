@@ -3,6 +3,7 @@ import { Header } from '../../Widgets/Header/Header';
 import { Footer } from '../../Widgets/Footer/Footer';
 import './adminPanelPage.css';
 import { Order, OrdersResponse } from '../../Interfaces/Interfaces';
+import {Popup} from "../../Widgets/Popup/Popup";
 
 
 
@@ -20,6 +21,10 @@ export const AdminPanelPage = () => {
         ? `/api/list/sort?nickname=${nickName}&page=${currentPage}`
         : `/api/list/adminList?page=${currentPage}`;
 
+    const navItems = [
+        { label: 'Главная', route: '/home/mainInstaller/'  },
+        { label: 'Создать отчет', route: '/404' },
+    ];
 
     useEffect(() => {
         const fetchOrders = async () => {
@@ -168,6 +173,7 @@ export const AdminPanelPage = () => {
             </main>
 
             <Footer />
+            <Popup navItems={navItems}/>
         </div>
     );
 };

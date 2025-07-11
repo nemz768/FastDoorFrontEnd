@@ -31,6 +31,9 @@
 }
 
 @media (max-width: 576px) {
+    .header {
+        display: none;
+    }
     .header-nav {
         display: none;
     }

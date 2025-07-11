@@ -10,6 +10,7 @@ import {ChangeDoorsLimit} from "../ChangeDoorLimitsPage/ChangeDoorsLimit";
 import {Pagination} from "../../../Widgets/Pagination/Pagination";
 import {MainInstallerTable} from "./MainInstallerTable/MainInstallerTable";
 import {Order, OrdersResponse, Availability} from "../../../Interfaces/Interfaces";
+import {Popup} from "../../../Widgets/Popup/Popup";
 
 export interface installersType {
     id: string;
@@ -496,6 +497,7 @@ export const MainInstallerPage = () => {
                 </div>
             </div>
             <Footer />
+            <Popup navItems={navItems}/>
         </div>
     );
 };

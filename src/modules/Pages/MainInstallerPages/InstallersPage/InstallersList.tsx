@@ -4,6 +4,7 @@ import { Footer } from '../../../Widgets/Footer/Footer';
 import './installers.css';
 import { useNavigate } from 'react-router-dom';
 import { ConfirmPopupMainInstaller } from './ConfirmPopupMainInstaller';
+import {Popup} from "../../../Widgets/Popup/Popup";
 
 
 
@@ -221,6 +222,7 @@ export const InstallersList : React.FC = () => {
                     {message}
                 </div>
             )}
+            <Popup navItems={navItems}/>
         </div>
     );
 };

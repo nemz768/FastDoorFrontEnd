@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
 import './popup.css';
 import { Link } from "react-router-dom";
+import {NavItems} from "../../Interfaces/Interfaces";
 
-export const Popup = () => {
+interface HeaderProps {
+    navItems?: NavItems[];
+}
+
+export const Popup = ({navItems = []}: HeaderProps) => {
     const [showNavbar, setShowNavbar] = useState(false);
     const [bgColor, setBgColor] = useState('#4E3629');
 
@@ -16,6 +21,7 @@ export const Popup = () => {
                 }}
                 className={`popup_adaptive ${showNavbar ? 'active' : ''}`}
             >
+                {/*popupCloseBtn*/}
                 <div className="popup_line"></div>
                 <div className="popup_line"></div>
                 <div className="popup_line"></div>
@@ -23,8 +29,11 @@ export const Popup = () => {
 
             {showNavbar && (
                 <nav className={`popup_navbar ${showNavbar ? 'active' : ''}`}>
-                    <Link to='/login'>Войти</Link>
-                    <Link to='/reg'>Регистрация</Link>
+                    {navItems.map((item) => (
+                        <Link className="navbar_address" to={item.route}>
+                            {item.label}
+                        </Link>
+                    ))}
                 </nav>
             )}
         </>

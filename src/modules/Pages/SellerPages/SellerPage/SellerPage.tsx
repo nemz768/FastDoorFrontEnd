@@ -1,9 +1,9 @@
 import React, {useEffect} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
-import {Header} from "../../../Widgets/Header/Header.tsx";
-import {Footer} from "../../../Widgets/Footer/Footer.tsx";
+import {Header} from "../../../Widgets/Header/Header";
+import {Footer} from "../../../Widgets/Footer/Footer";
 import './sellerPage.css'
-import {Popup} from "../../../Widgets/Popup/Popup.tsx";
+import {Popup} from "../../../Widgets/Popup/Popup";
 
 export const SellerPage = () => {
 
@@ -43,7 +43,7 @@ export const SellerPage = () => {
                         <Link className="orders_address" to="./listOrdersSeller">Список всех заказов</Link>
                     </div>
                 </section>
-                <Popup />
+                <Popup navItems={navItems}/>
             </div>
             <Footer/>
         </>

@@ -5,6 +5,7 @@ import { Footer } from '../../../Widgets/Footer/Footer';
 import { ConfirmPopup } from '../../../Widgets/ConfirmPopup/ConfirmPopup';
 import {SellerOrdersTable} from "./SellerOrdersTable";
 import {Order, OrdersResponse} from '../../../Interfaces/Interfaces'
+import {Popup} from "../../../Widgets/Popup/Popup";
 
 
 
@@ -91,6 +92,7 @@ export const SellerAllOrdersPage = () => {
                 />
             )}
             <Footer />
+            <Popup navItems={navItems}/>
         </div>
     );
 };

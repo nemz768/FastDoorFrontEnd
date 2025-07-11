@@ -12,31 +12,31 @@ export const Header = ({navItems = []}: HeaderProps) => {
     const navigate = useNavigate();
 
 
-    useEffect(() => {
-        const getSession = async () => {
-            try {
-                const response = await fetch('/api/check-session', {
-                    method: 'GET',
-                    headers: {
-                        "Content-Type": "application/json",
-                    }
-                });
-
-                const data = await response.json();
-                console.log(data)
-                if (data.status === 401) {
-                    navigate('/login');
-                }
-            }
-            catch(err) {
-                console.log(err)
-                    navigate('/login');
-            }
-        }
-        getSession()
-    }, [])
-
-
+    // useEffect(() => {
+    //     const getSession = async () => {
+    //         try {
+    //             const response = await fetch('/api/check-session', {
+    //                 method: 'GET',
+    //                 headers: {
+    //                     "Content-Type": "application/json",
+    //                 }
+    //             });
+    //
+    //             const data = await response.json();
+    //             console.log(data)
+    //             // if (data.status === 401) {
+    //             //     navigate('/login');
+    //             // }
+    //         }
+    //         catch(err) {
+    //             console.log(err)
+    //                 navigate('/login');
+    //         }
+    //     }
+    //     getSession()
+    // }, [])
+    //
+    //
     const handleLogout = async (e: React.MouseEvent<HTMLAnchorElement>) => {
         e.preventDefault();
         try {

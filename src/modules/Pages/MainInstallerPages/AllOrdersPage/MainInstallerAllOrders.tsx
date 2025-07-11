@@ -6,6 +6,7 @@ import {Pagination} from "../../../Widgets/Pagination/Pagination";
 import './mainInstallerAllOrders.css'
 import {Availability, Order, OrdersResponse} from "../../../Interfaces/Interfaces";
 import {installersType, InstallerWorkload} from "../MainInstallerPage/MainInstallerPage";
+import {Popup} from "../../../Widgets/Popup/Popup";
 
 
 interface OrderEditorTypes {
@@ -38,6 +39,12 @@ export const MainInstallerAllOrders = () => {
          messageMainInstaller: '',
         installerName: ''
     });
+
+    const navItems = [
+        { label: 'Главная', route: '/home/mainInstaller/'  },
+        { label: 'Добавить установщика', route: '/home/mainInstaller/create' },
+    ];
+
     const fetchOrders = async () => {
             isLoading(true);
             try {
@@ -185,7 +192,7 @@ export const MainInstallerAllOrders = () => {
                 )
             );
 
-            sendMessage("Успешно");
+            sendMessage("Изменение прошло успешно");
             setOrderId(null); // очистка выделенного заказа
             setTimeout(() => sendMessage(''), 3000);
         } catch (error: any) {
@@ -224,10 +231,7 @@ export const MainInstallerAllOrders = () => {
 
 
 
-    const navItems = [
-        { label: 'Главная', route: '/home/mainInstaller/'  },
-        { label: 'Добавить установщика', route: '/home/mainInstaller/create' },
-    ];
+
 
     const reversedDate = (dateString = '') => {
         const day = dateString.slice(8, 10);
@@ -286,6 +290,7 @@ export const MainInstallerAllOrders = () => {
                     {message}
                 </div>
             )}
+            <Popup navItems={navItems}/>
         </div>
     );
 };
