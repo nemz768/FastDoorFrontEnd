@@ -49,7 +49,7 @@ export const Header = ({ navItems = [] }: HeaderProps) => {
                         {item.label}
                     </Link>
                 ))}
-                {isLoggedIn && <LogoutApi />}
+                {!isLoggedIn && <LogoutApi />}
             </div>
         </header>
     );

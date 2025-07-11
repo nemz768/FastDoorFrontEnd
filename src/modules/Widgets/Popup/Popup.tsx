@@ -36,7 +36,7 @@ export const Popup = ({ navItems = [] }: HeaderProps) => {
                             {item.label}
                         </Link>
                     ))}
-                    {isLoggedIn && <LogoutApi />}
+                    {!isLoggedIn && <LogoutApi />}
                     <GetSessionApi setIsLoggedIn={setIsLoggedIn} />
                 </nav>
             )}
