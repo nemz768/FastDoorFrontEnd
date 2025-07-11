@@ -3,6 +3,7 @@ import './popup.css';
 import { Link } from "react-router-dom";
 import {NavItems} from "../../Interfaces/Interfaces";
 import {LogoutApi} from "../../Api/getLogoutApi/LogoutApi";
+import {GetSessionApi} from "../../Api/getSessionApi/GetSessionApi";
 
 interface HeaderProps {
     navItems?: NavItems[];
@@ -11,6 +12,7 @@ interface HeaderProps {
 export const Popup = ({navItems = []}: HeaderProps) => {
     const [showNavbar, setShowNavbar] = useState(false);
     const [bgColor, setBgColor] = useState('#4E3629');
+    const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
 
     return (
         <>
@@ -35,7 +37,7 @@ export const Popup = ({navItems = []}: HeaderProps) => {
                             {item.label}
                         </Link>
                     ))}
-                    <LogoutApi/>
+                   <GetSessionApi isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
                 </nav>
             )}
         </>

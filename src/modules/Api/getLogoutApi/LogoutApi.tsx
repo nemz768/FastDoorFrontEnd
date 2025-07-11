@@ -2,11 +2,9 @@ import React from 'react'
 import {useNavigate} from "react-router-dom";
 
 
-interface LogoutProps {
-    isLoggedIn?: boolean;
-}
 
-export const LogoutApi = ({isLoggedIn}:LogoutProps) => {
+
+export const LogoutApi = () => {
     const navigate = useNavigate();
     const handleLogout = async (e: React.MouseEvent<HTMLAnchorElement>) => {
         e.preventDefault();
@@ -27,7 +25,5 @@ export const LogoutApi = ({isLoggedIn}:LogoutProps) => {
         }
     };
 
-    return !isLoggedIn ? (
-            <a className="navbar_address" href="#" onClick={handleLogout}>Выйти</a>
-        ) : null
+    return <a className="navbar_address" href="#" onClick={handleLogout}>Выйти</a>
 }
