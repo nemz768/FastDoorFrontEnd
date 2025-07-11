@@ -1,6 +1,6 @@
 import './header.css';
 import {Link, useNavigate} from 'react-router-dom';
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {NavItems} from "../../Interfaces/Interfaces";
 import {LogoutApi} from "../../Api/getLogoutApi/LogoutApi";
 
@@ -11,6 +11,8 @@ interface HeaderProps {
 export const Header = ({navItems = []}: HeaderProps) => {
 
     const navigate = useNavigate();
+    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+
 
     useEffect(() => {
         const getSession = async () => {
@@ -25,12 +27,16 @@ export const Header = ({navItems = []}: HeaderProps) => {
                 const data = await response.json();
                 console.log(data)
                 if (data.status === 401) {
+                    setIsLoggedIn(false)
                     navigate('/login');
+                }else {
+                    setIsLoggedIn(true)
                 }
             }
             catch(err) {
                 console.log(err)
-                    navigate('/login');
+                setIsLoggedIn(false)
+                navigate('/login');
             }
         }
         getSession()
@@ -44,7 +50,7 @@ export const Header = ({navItems = []}: HeaderProps) => {
                         {item.label}
                     </Link>
                 ))}
-                <LogoutApi/>
+                <LogoutApi isLoggedIn={isLoggedIn}/>
             </div>
         </header>
     );
