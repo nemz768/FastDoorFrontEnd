@@ -27,7 +27,7 @@ export const LogoutApi = ({isLoggedIn}:LogoutProps) => {
         }
     };
 
-    return isLoggedIn ? (
+    return !isLoggedIn ? (
             <a className="navbar_address" href="#" onClick={handleLogout}>Выйти</a>
         ) : null
 }
