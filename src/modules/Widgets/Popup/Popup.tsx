@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './popup.css';
 import { Link } from "react-router-dom";
 import {NavItems} from "../../Interfaces/Interfaces";
+import {LogoutApi} from "../../Api/getLogoutApi/LogoutApi";
 
 interface HeaderProps {
     navItems?: NavItems[];
@@ -34,6 +35,7 @@ export const Popup = ({navItems = []}: HeaderProps) => {
                             {item.label}
                         </Link>
                     ))}
+                    <LogoutApi/>
                 </nav>
             )}
         </>
