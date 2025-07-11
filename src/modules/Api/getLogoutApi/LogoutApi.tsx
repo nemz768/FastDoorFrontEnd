@@ -6,22 +6,25 @@ export const LogoutApi = () => {
 
     const handleLogout = async (e: React.MouseEvent<HTMLAnchorElement>) => {
         e.preventDefault();
+
         try {
-            const response = await fetch("/api/logout", {
+            await fetch("/api/logout", {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                 }
             });
-
-            const data = await response;
-            console.log(data);
-            localStorage.removeItem('userRoles');
-            navigate('/');
         } catch (error) {
-            console.log(error);
+            console.warn("Ошибка при выходе:", error);
         }
+
+        localStorage.removeItem('userRoles');
+        navigate('/login');
     };
 
-    return <a className="navbar_address" href="#" onClick={handleLogout}>Выйти</a>;
+    return (
+        <a className="navbar_address" href="#" onClick={handleLogout}>
+            Выйти
+        </a>
+    );
 };

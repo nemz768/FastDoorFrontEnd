@@ -1,17 +1,15 @@
 import './header.css';
 import { Link } from 'react-router-dom';
-import React, { useState } from "react";
+import React from "react";
 import { NavItems } from "../../Interfaces/Interfaces";
 import { LogoutApi } from "../../Api/getLogoutApi/LogoutApi";
-import {GetSessionApi} from "../../Api/getSessionApi/GetSessionApi";
+import { GetSessionApi } from "../../Api/getSessionApi/GetSessionApi";
 
 interface HeaderProps {
     navItems?: NavItems[];
 }
 
 export const Header = ({ navItems = [] }: HeaderProps) => {
-    const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
-
     return (
         <header className="header">
             <div className="navbar-block">
@@ -20,8 +18,9 @@ export const Header = ({ navItems = [] }: HeaderProps) => {
                         {item.label}
                     </Link>
                 ))}
-                {isLoggedIn === true && <LogoutApi />}
-                <GetSessionApi setIsLoggedIn={setIsLoggedIn} />
+
+                <LogoutApi />
+                <GetSessionApi />
             </div>
         </header>
     );

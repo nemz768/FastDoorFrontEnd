@@ -12,7 +12,6 @@ interface HeaderProps {
 export const Popup = ({ navItems = [] }: HeaderProps) => {
     const [showNavbar, setShowNavbar] = useState(false);
     const [bgColor, setBgColor] = useState('#4E3629');
-    const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
 
     return (
         <>
@@ -36,9 +35,8 @@ export const Popup = ({ navItems = [] }: HeaderProps) => {
                             {item.label}
                         </Link>
                     ))}
-                    {isLoggedIn === true && <LogoutApi />}
-
-                    <GetSessionApi setIsLoggedIn={setIsLoggedIn} />
+                     <LogoutApi />
+                    <GetSessionApi/>
                 </nav>
             )}
         </>
