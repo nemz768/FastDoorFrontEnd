@@ -1,13 +1,11 @@
-import React, {useEffect} from "react";
-import {useNavigate} from "react-router-dom";
-import {LogoutApi} from "../getLogoutApi/LogoutApi";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-interface getSessionApiProps {
-    isLoggedIn: null | boolean;
-    setIsLoggedIn: (isLoggedIn: null | boolean) => void;
+interface GetSessionApiProps {
+    setIsLoggedIn: (value: boolean) => void;
 }
 
-export const GetSessionApi = ({isLoggedIn, setIsLoggedIn}:getSessionApiProps) => {
+export const GetSessionApi = ({ setIsLoggedIn }: GetSessionApiProps) => {
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -21,22 +19,23 @@ export const GetSessionApi = ({isLoggedIn, setIsLoggedIn}:getSessionApiProps) =>
                 });
 
                 const data = await response.json();
-                console.log(data)
+                console.log(data);
+
                 if (data.status === 401) {
-                    setIsLoggedIn(false)
+                    setIsLoggedIn(false);
                     navigate('/login');
-                }else {
-                    setIsLoggedIn(true)
+                } else {
+                    setIsLoggedIn(true);
                 }
-            }
-            catch(err) {
-                console.log(err)
-                setIsLoggedIn(false)
+            } catch (err) {
+                console.log(err);
+                setIsLoggedIn(false);
                 navigate('/login');
             }
-        }
-        getSession()
-    }, [])
+        };
 
-    return isLoggedIn === true && <LogoutApi/>
-}
+        getSession();
+    }, [navigate, setIsLoggedIn]);
+
+    return null;
+};
