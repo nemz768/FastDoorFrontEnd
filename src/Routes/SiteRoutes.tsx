@@ -14,6 +14,7 @@ import {AdminPanelPage} from "../modules/Pages/Administrator/adminPanelPage";
 import {MainInstallerCreate} from "../modules/Pages/MainInstallerPages/InstallerCreatePage/MainInstallerCreate";
 import {InstallersList} from "../modules/Pages/MainInstallerPages/InstallersPage/InstallersList";
 import {MainInstallerAllOrders} from "../modules/Pages/MainInstallerPages/AllOrdersPage/MainInstallerAllOrders";
+import {ReportPage} from "../modules/Pages/ReportPage/ReportPage";
 
 
 
@@ -35,6 +36,7 @@ export const SiteRoutes = () => {
                     <Route path="/home/mainInstaller/listOrdersMainInstaller" element={<MainInstallerAllOrders/>}></Route>
                     <Route path="/home/mainInstaller/create" element={<MainInstallerCreate/>}></Route>
                     <Route path="/home/admin" element={<AdminPanelPage/>}></Route>
+                    <Route path="/home/admin/report" element={<ReportPage/>}> </Route>
                     <Route path="*"  element={<PageNotFound/>}></Route>
                  </Routes>
         </>

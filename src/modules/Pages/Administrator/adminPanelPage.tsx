@@ -78,7 +78,7 @@ export const AdminPanelPage = () => {
     return (
         <div className="admin-panel">
             <Header navItems={navItems} />
-            <main className="SellerAllOrdersPage">
+            <main className="AdminPage">
                 <div>
                     <h2>Панель администратора</h2>
                     <div className="InputBlock">
