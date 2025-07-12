@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import 'pikaday/css/pikaday.css';
 import './PatchOrderPage.css';
 import { CustomCalendar } from '../../../Widgets/CustomCalendar/CustomCalendar';
+import xSymbol from '../../../../../public/x-symbol.svg'
 
 interface OrderInputValues {
     fullName: string;
@@ -148,6 +149,9 @@ export const PatchOrderPage = () => {
     return (
         <div className="sellerCreatePage">
             <form onSubmit={handleSubmit} className="form-container">
+                <div onClick={()=> navigate(-1)} className="xSymbol">
+                    <img className="xSymbol-img" src={xSymbol} alt="X"/>
+                </div>
                 <h1>Заполните данные о заказе</h1>
                 <h3 className="subtitleInput">Укажите данные заказчика</h3>
 
@@ -252,7 +256,7 @@ export const PatchOrderPage = () => {
                     </div>
 
                     <div className="buttons-group">
-                        <button type="button" className="submit-btn" onClick={() => navigate('/home/seller/listOrdersSeller/')}>
+                        <button type="button" className="cancelBtnPatch submit-btn" onClick={() => navigate('/home/seller/listOrdersSeller/')}>
                             Отмена
                         </button>
                         <button type="submit" className="submit-btn">

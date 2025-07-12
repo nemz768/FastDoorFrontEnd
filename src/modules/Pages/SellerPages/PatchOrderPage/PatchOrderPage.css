@@ -6,10 +6,7 @@
 }
 
 .buttons-group {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    column-gap: 20px;
+
 }
 
 .submit-btn {
@@ -141,6 +138,10 @@
     cursor: default;
 }
 
+.form-container {
+    position: relative;
+}
+
 .availability {
     font-size: 8px;
     color: #555;
@@ -159,4 +160,12 @@
 .input_SellerPage[readonly] {
     cursor: pointer;
     background-color: #fff;
+}
+
+
+@media (max-width: 1102px) {
+
+    .cancelBtnPatch {
+        display: none;
+    }
 }
