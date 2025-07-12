@@ -38,14 +38,14 @@
 
 
 @media (max-width: 1102px) and (min-width: 577px) {
-    .SellerAllOrdersPage {
+    .table-container {
         display: none;
     }
 
 }
 
 @media (max-width: 576px) {
-    .SellerAllOrdersPage {
+    .table-container {
         display: none;
     }
     .orders-mobile {
