@@ -4,6 +4,7 @@ import { Footer } from '../../Widgets/Footer/Footer';
 import './adminPanelPage.css';
 import { Order, OrdersResponse } from '../../Interfaces/Interfaces';
 import {Popup} from "../../Widgets/Popup/Popup";
+import {Pagination} from "../../Widgets/Pagination/Pagination";
 
 
 
@@ -63,12 +64,6 @@ export const AdminPanelPage = () => {
         fetchOrders();
     }, [currentPage, nickName]);
 
-    const handlePageChange = (newPage: number) => {
-        if (newPage >= 0 && newPage < totalPages) {
-            setCurrentPage(newPage);
-        }
-    };
-
     const handleSearch = (value: string) => {
         setShowButtonClear(value !== '');
         setNickName(value);
@@ -82,7 +77,7 @@ export const AdminPanelPage = () => {
     }
     return (
         <div className="admin-panel">
-            <Header />
+            <Header navItems={navItems} />
             <main className="SellerAllOrdersPage">
                 <div>
                     <h2>Панель администратора</h2>
@@ -117,8 +112,8 @@ export const AdminPanelPage = () => {
                 )}
                 {!isLoading && !error && orders.length > 0 && (
                     <>
-                        <div className="table-container">
-                            <table className="orders-table">
+                        <div className="table-container-admin">
+                            <table className="orders-table-admin">
                                 <thead>
                                 <tr>
                                     <th>ФИО</th>
@@ -149,29 +144,10 @@ export const AdminPanelPage = () => {
                                 </tbody>
                             </table>
                         </div>
-                        <div className="pagination">
-                            <button
-                                onClick={() => handlePageChange(currentPage - 1)}
-                                disabled={currentPage === 0}
-                                className="pagination-button"
-                            >
-                                Предыдущая
-                            </button>
-                            <span className="pagination-info">
-                Страница {currentPage + 1} из {totalPages}
-              </span>
-                            <button
-                                onClick={() => handlePageChange(currentPage + 1)}
-                                disabled={currentPage >= totalPages - 1}
-                                className="pagination-button"
-                            >
-                                Следующая
-                            </button>
-                        </div>
+                     <Pagination currentPage={currentPage} totalPages={totalPages} setCurrentPage={setCurrentPage}/>
                     </>
                 )}
             </main>
-
             <Footer />
             <Popup navItems={navItems}/>
         </div>
