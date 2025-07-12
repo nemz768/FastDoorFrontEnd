@@ -24,7 +24,7 @@ export const AdminPanelPage = () => {
 
     const navItems = [
         { label: 'Главная', route: '/home/mainInstaller/'  },
-        { label: 'Создать отчет', route: '/404' },
+        { label: 'Создать отчет', route: '/home/admin/report' },
     ];
 
     useEffect(() => {
@@ -78,7 +78,7 @@ export const AdminPanelPage = () => {
     return (
         <div className="admin-panel">
             <Header navItems={navItems} />
-            <main className="AdminPage">
+            <main className="SellerAllOrdersPage">
                 <div>
                     <h2>Панель администратора</h2>
                     <div className="InputBlock">
@@ -112,8 +112,8 @@ export const AdminPanelPage = () => {
                 )}
                 {!isLoading && !error && orders.length > 0 && (
                     <>
-                        <div className="table-container-admin">
-                            <table className="orders-table-admin">
+                        <div className="table-container">
+                            <table className="orders-table">
                                 <thead>
                                 <tr>
                                     <th>ФИО</th>
@@ -148,6 +148,7 @@ export const AdminPanelPage = () => {
                     </>
                 )}
             </main>
+
             <Footer />
             <Popup navItems={navItems}/>
         </div>
