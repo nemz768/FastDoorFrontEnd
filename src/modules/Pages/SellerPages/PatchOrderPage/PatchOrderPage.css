@@ -192,10 +192,11 @@
     border: none;
     cursor: pointer;
     border-radius: 4px;
+    color: black;
 }
 
 .pagination-number.active {
-    background-color: #007bff;
+    background-color: #3a281f;
     color: white;
     font-weight: bold;
 }
