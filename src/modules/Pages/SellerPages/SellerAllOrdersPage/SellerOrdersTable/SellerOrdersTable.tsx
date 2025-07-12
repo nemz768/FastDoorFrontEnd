@@ -107,13 +107,13 @@ export const SellerOrdersTable:React.FC<SellerOrdersTableProps> = ({ isLoading, 
                             <div className="action-buttons-mobile">
                                 <button
                                     onClick={() => navigate(`/home/seller/listOrdersSeller/edit/${order.id}`)}
-                                    className="edit-button"
+                                    className="edit-button buttonAction"
                                 >
                                     Изменить
                                 </button>
                                 <button
                                     onClick={() => openModal(order.id)}
-                                    className="delete-button"
+                                    className="delete-button buttonAction"
                                 >
                                     Удалить
                                 </button>

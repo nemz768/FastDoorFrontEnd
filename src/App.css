@@ -4,6 +4,7 @@ html {
   min-height: 120vh;
   scrollbar-width: thin; !important
   scrollbar-color: #4E3629 #f1f1f1; !important
+  font-family: Inter, sans-serif;
 }
 
 ::-webkit-scrollbar {

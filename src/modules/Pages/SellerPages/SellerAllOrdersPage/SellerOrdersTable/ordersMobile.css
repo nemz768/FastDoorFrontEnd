@@ -2,7 +2,8 @@
 
 .orders-mobile {
     display: none;
-    border-radius: 16px;
+    border-top-right-radius: 16px;
+    border-top-left-radius: 16px;
     border: 1px solid #000;
 }
 
@@ -10,6 +11,7 @@
     color: white;
     background-color: #4E3629;
     width: 100%;
+    text-align: center;
 }
 .orders-mobile-info-block {
     display: flex;
@@ -25,6 +27,8 @@
     justify-content: space-between;
     color: #4E3629;
     font-size: 16px;
+    padding: 16px;
+
 }
 
 .orders-mobile-info-last {
@@ -34,10 +38,14 @@
 }
 
 .action-buttons-mobile {
+    width: 100%;
+}
+
+.buttonAction {
     width: 199px;
     height: 60px;
-
 }
+
 
 @media (max-width: 1102px) and (min-width: 577px) {
     .table-container {
