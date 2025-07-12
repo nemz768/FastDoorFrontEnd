@@ -480,19 +480,29 @@ export const MainInstallerPage = () => {
                                 disabled={currentAvailabilityPage === 0}
                                 className="pagination-button"
                             >
-                                Предыдущая
+                                {"<"}
                             </button>
-                            <span className="pagination-info">
-                                Страница {currentAvailabilityPage + 1} из {totalAvailabilityPages}
-                            </span>
+                            <div className="pagination-pages">
+                                {Array.from({ length: totalAvailabilityPages }, (_, index) => (
+                                    <button
+                                        key={index}
+                                        onClick={() => handleAvailabilityPageChange(index)}
+                                        className={`pagination-number ${index === currentAvailabilityPage ? "active" : ""}`}
+                                    >
+                                        {index + 1}
+                                    </button>
+                                ))}
+                            </div>
+
                             <button
                                 onClick={() => handleAvailabilityPageChange(currentAvailabilityPage + 1)}
                                 disabled={currentAvailabilityPage >= totalAvailabilityPages - 1}
                                 className="pagination-button"
                             >
-                                Следующая
+                                {">"}
                             </button>
                         </div>
+
                     </div>
                 </div>
             </div>
