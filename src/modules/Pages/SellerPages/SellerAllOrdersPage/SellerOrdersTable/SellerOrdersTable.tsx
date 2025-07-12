@@ -83,25 +83,25 @@ export const SellerOrdersTable:React.FC<SellerOrdersTableProps> = ({ isLoading, 
                             </div>
                             <div className="orders-mobile-info-block">
                                 <div className="orders-mobile-info">
-                                   <p className="orders-mobile-info-text">ФИО <strong>{order.fullName}</strong></p>
+                                  ФИО <strong>{order.fullName}</strong>
                                 </div>
                                 <div className="orders-mobile-info">
-                                    <p className="orders-mobile-info-text">Номер <strong>{order.phone}</strong></p>
+                                  Номер <strong>{order.phone}</strong>
                                 </div>
                                 <div className="orders-mobile-info">
-                                    <p className="orders-mobile-info-text">Дата <strong>{order.dateOrder}</strong></p>
+                                   Дата <strong>{order.dateOrder}</strong>
                                 </div>
                                 <div className="orders-mobile-info">
-                                    <p className="orders-mobile-info-text">Входные двери <strong>{order.frontDoorQuantity}</strong></p>
+                                    Входные двери <strong>{order.frontDoorQuantity}</strong>
                                 </div>
                                 <div className="orders-mobile-info">
-                                    <p className="orders-mobile-info-text">Межкомнатные двери <strong>{order.inDoorQuantity}</strong></p>
+                                   Межкомнатные двери <strong>{order.inDoorQuantity}</strong>
                                 </div>
                                 <div className="orders-mobile-info">
-                                    <p className="orders-mobile-info-text">Установщик <strong>{order.installerName || "Не назначен"}</strong></p>
+                                   Установщик <strong>{order.installerName || "Не назначен"}</strong>
                                 </div>
                                 <div className="orders-mobile-info-last">
-                                    <p className="orders-mobile-info-text">Ваш комментарий <strong>{order.messageSeller}</strong></p>
+                                 Ваш комментарий <strong>{order.messageSeller}</strong>
                                 </div>
                             </div>
                             <div className="action-buttons-mobile">
