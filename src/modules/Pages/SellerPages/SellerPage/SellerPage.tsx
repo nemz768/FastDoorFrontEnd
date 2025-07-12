@@ -39,13 +39,13 @@ export const SellerPage = () => {
                 <section className="orders">
                     <h2>Действия</h2>
                     <div className="orders_addresses">
-                        <Link className="orders_address" to="./create">Создать новый заказ!</Link>
-                        <Link className="orders_address" to="./listOrdersSeller">Список всех заказов</Link>
+                        <button className="orders_address" onClick={()=> navigate("./create")}>Создать новый заказ!</button>
+                        <button className="orders_address" onClick={()=> navigate("./listOrdersSeller")}>Список всех заказов</button>
                     </div>
                 </section>
-                <Popup navItems={navItems}/>
             </div>
             <Footer/>
+            <Popup navItems={navItems}/>
         </>
     );
 };

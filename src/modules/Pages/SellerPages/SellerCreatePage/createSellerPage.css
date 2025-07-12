@@ -65,15 +65,23 @@ label {
     margin: 20px 0;
 }
 
+
+.xSymbol {
+    display: none;
+}
+.xSymbol-img {
+    width: 15px;
+    height: 15px;
+}
+
 @media (max-width: 576px) {
     .form-container {
         text-align: center;
         height: 100%;
         background: #E5F0FA;
-        border-radius: 20px;
         padding: 10px;
         width: 100%;
-        max-width: 340px;
+
     }
 
     .sellerCreatePage label {
@@ -132,4 +140,12 @@ label {
     .submit-btn:hover {
         background-color: #3b2a20;
     }
+
+    .xSymbol {
+        display: block;
+        position: absolute;
+        left: 5%;
+        top: 3%;
+    }
+
 }

@@ -19,7 +19,7 @@ export const SellerAllOrdersPage = () => {
     const [activeModal, setActiveModal] = useState(false);
     const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null);
     const navItems = [
-        { label: 'Главная продавца', route: '/home/seller' },
+        { label: 'Главная', route: '/home/seller' },
         { label: 'Создать заказ', route: '/home/seller/create' },
     ];
     useEffect(() => {

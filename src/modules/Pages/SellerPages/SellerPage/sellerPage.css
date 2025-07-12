@@ -54,9 +54,23 @@ button {
 .orders_addresses {
     display: flex;
     flex-direction: column;
-
+    row-gap: 10px;
 }
 
 .orders_address {
-    color: black;
+    color: #E9D6C7;
+    width: 200px;
+    height: 50px;
+    padding: 5px;
+}
+
+@media (max-width: 576px) {
+    .sellerPage_block {
+        display: flex;
+        align-items: center;
+        text-align: center;
+    }
+    .orders_addresses {
+        align-items: center;
+    }
 }

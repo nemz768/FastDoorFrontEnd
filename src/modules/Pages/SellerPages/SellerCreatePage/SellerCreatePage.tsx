@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import './createSellerPage.css';
 import { CustomCalendar } from "../../../Widgets/CustomCalendar/CustomCalendar";
 import { Availability } from '../../../Interfaces/Interfaces';
-
+import xSymbol from '../../../../../public/x-symbol.svg'
 
 export const SellerCreatePage = () => {
     const [selectedDate, setSelectedDate] = useState<string | null>(null);
@@ -42,7 +42,6 @@ export const SellerCreatePage = () => {
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
-
     useEffect(() => {
         const showCountOfDoors = async () => {
             try {
@@ -63,8 +62,6 @@ export const SellerCreatePage = () => {
         };
         showCountOfDoors();
     }, []);
-
-
 
     const sendResultsCreate = async (e:React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -143,6 +140,9 @@ export const SellerCreatePage = () => {
     return (
         <div className="sellerCreatePage">
             <form onSubmit={sendResultsCreate} className="form-container">
+                <div onClick={()=> navigate(-1)} className="xSymbol">
+                    <img className="xSymbol-img" src={xSymbol} alt="X"/>
+                </div>
                 <h1>Заполните данные о заказе</h1>
                 <h3 className="subtitleInput">Укажите данные заказчика</h3>
 
@@ -188,7 +188,6 @@ export const SellerCreatePage = () => {
                         type="text"
                         className="input_SellerPage"
                         id="messageSeller"
-                        required
                         ref={refs.comments}
                         placeholder="Комментарий"
                     />
