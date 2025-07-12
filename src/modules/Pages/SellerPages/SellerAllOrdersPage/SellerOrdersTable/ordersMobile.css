@@ -1,0 +1,63 @@
+
+
+.orders-mobile {
+    display: none;
+    border-radius: 16px;
+    border: 1px solid #000;
+}
+
+.orders-mobile-address {
+    color: white;
+    background-color: #4E3629;
+
+}
+.orders-mobile-info-block {
+    display: flex;
+
+}
+
+.orders-mobile-info {
+    border-bottom: 0.5px solid lightgray;
+    background-color: #D9D9D9;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+}
+
+.orders-mobile-info-last {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.orders-mobile-info-text {
+    color: #4E3629;
+    font-size: 16px;
+}
+
+
+@media (max-width: 1102px) and (min-width: 577px) {
+    .SellerAllOrdersPage {
+        display: none;
+    }
+
+}
+
+@media (max-width: 576px) {
+    .SellerAllOrdersPage {
+        display: none;
+    }
+    .orders-mobile {
+        flex-direction: column;
+        align-items: center;
+        margin-top: 30px;
+    }
+    .orders-mobile-info-block {
+
+    }
+
+    .orders-mobile-info {
+
+    }
+}

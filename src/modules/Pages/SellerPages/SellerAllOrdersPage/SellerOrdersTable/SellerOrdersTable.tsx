@@ -1,6 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import {Order} from "../../../Interfaces/Interfaces";
+import {Order} from "../../../../Interfaces/Interfaces";
+import './ordersMobile.css'
+
 
 interface SellerOrdersTableProps {
     isLoading: boolean;
@@ -73,6 +75,54 @@ export const SellerOrdersTable:React.FC<SellerOrdersTableProps> = ({ isLoading, 
                             </tbody>
                         </table>
                     </div>
+
+                    {orders.map(order => (
+                        <div key={order.id} className="orders-mobile">
+                            <div className="orders-mobile-address">
+                                <h1>{order.address}</h1>
+                            </div>
+                            <div className="orders-mobile-info-block">
+                                <div className="orders-mobile-info">
+                                   <p className="orders-mobile-info-text">ФИО <strong>{order.fullName}</strong></p>
+                                </div>
+                                <div className="orders-mobile-info">
+                                    <p className="orders-mobile-info-text">Номер <strong>{order.phone}</strong></p>
+                                </div>
+                                <div className="orders-mobile-info">
+                                    <p className="orders-mobile-info-text">Дата <strong>{order.dateOrder}</strong></p>
+                                </div>
+                                <div className="orders-mobile-info">
+                                    <p className="orders-mobile-info-text">Входные двери <strong>{order.frontDoorQuantity}</strong></p>
+                                </div>
+                                <div className="orders-mobile-info">
+                                    <p className="orders-mobile-info-text">Межкомнатные двери <strong>{order.inDoorQuantity}</strong></p>
+                                </div>
+                                <div className="orders-mobile-info">
+                                    <p className="orders-mobile-info-text">Установщик <strong>{order.installerName || "Не назначен"}</strong></p>
+                                </div>
+                                <div className="orders-mobile-info-last">
+                                    <p className="orders-mobile-info-text">Ваш комментарий <strong>{order.messageSeller}</strong></p>
+                                </div>
+                            </div>
+                            <div className="action-buttons-mobile">
+                                <button
+                                    onClick={() => navigate(`/home/seller/listOrdersSeller/edit/${order.id}`)}
+                                    className="edit-button"
+                                >
+                                    Изменить
+                                </button>
+                                <button
+                                    onClick={() => openModal(order.id)}
+                                    className="delete-button"
+                                >
+                                    Удалить
+                                </button>
+                            </div>
+                        </div>
+                    ))}
+
+
+
                     <div className="pagination">
                         <button
                             onClick={() => handlePageChange(currentPage - 1)}

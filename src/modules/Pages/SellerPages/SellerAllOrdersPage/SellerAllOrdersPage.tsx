@@ -3,12 +3,9 @@ import './SellerAllOrdersPage.css';
 import { Header } from '../../../Widgets/Header/Header';
 import { Footer } from '../../../Widgets/Footer/Footer';
 import { ConfirmPopup } from '../../../Widgets/ConfirmPopup/ConfirmPopup';
-import {SellerOrdersTable} from "./SellerOrdersTable";
+import {SellerOrdersTable} from "./SellerOrdersTable/SellerOrdersTable";
 import {Order, OrdersResponse} from '../../../Interfaces/Interfaces'
 import {Popup} from "../../../Widgets/Popup/Popup";
-
-
-
 
 export const SellerAllOrdersPage = () => {
     const [orders, setOrders] = useState<Order[]>([]);
@@ -56,7 +53,6 @@ export const SellerAllOrdersPage = () => {
         fetchOrders();
     }, [currentPage]);
 
-    console.log('Orders state:', orders);
 
     const handlePageChange = (newPage:number) => {
         if (newPage >= 0 && newPage < totalPages) {
@@ -65,13 +61,11 @@ export const SellerAllOrdersPage = () => {
     };
 
     const openModal = (orderId:string) => {
-        console.log('Открытие модального окна с orderId:', orderId); // Логирование
         setSelectedOrderId(orderId); // Приведение к строке
         setActiveModal(true);
     };
 
     const closeModal = () => {
-        console.log('Закрытие модального окна, selectedOrderId:', selectedOrderId);
         setSelectedOrderId(null);
         setActiveModal(false);
     };

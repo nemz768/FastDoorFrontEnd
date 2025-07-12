@@ -1,11 +1,5 @@
 
-.registerBlock {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #E9D6C7;
-}
+
 
 .registration {
     display: flex;
@@ -21,6 +15,13 @@
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
+.registerBlock {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #E9D6C7;
+}
 
 .form-register {
     display: flex;
@@ -69,7 +70,7 @@
         max-width: 576px;
         height: 100vh;
         border-radius: 0;
-        justify-content: flex-start;
+
     }
     input {
         width: 100%;

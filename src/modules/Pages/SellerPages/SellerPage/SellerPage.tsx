@@ -39,7 +39,7 @@ export const SellerPage = () => {
                 <section className="orders">
                     <h2>Действия</h2>
                     <div className="orders_addresses">
-                        <button className="orders_address" onClick={()=> navigate("./create")}>Создать новый заказ!</button>
+                        <button className="orders_address" onClick={()=> navigate("./create")}>Создать новый заказ</button>
                         <button className="orders_address" onClick={()=> navigate("./listOrdersSeller")}>Список всех заказов</button>
                     </div>
                 </section>

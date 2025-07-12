@@ -76,6 +76,7 @@ label {
 
 @media (max-width: 576px) {
     .form-container {
+        position: relative;
         text-align: center;
         height: 100%;
         background: #E5F0FA;
