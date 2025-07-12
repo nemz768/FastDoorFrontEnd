@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import {Order} from "../../../../Interfaces/Interfaces";
 import './ordersMobile.css'
+import {Pagination} from "../../../../Widgets/Pagination/Pagination";
 
 
 interface SellerOrdersTableProps {
@@ -12,10 +13,11 @@ interface SellerOrdersTableProps {
     handlePageChange: (page: number) => void;
     currentPage: number;
     totalPages: number;
+    setCurrentPage: (currentPage: number) => void;
 }
 
 
-export const SellerOrdersTable:React.FC<SellerOrdersTableProps> = ({ isLoading, error, orders, openModal, handlePageChange, currentPage, totalPages }) => {
+export const SellerOrdersTable:React.FC<SellerOrdersTableProps> = ({ isLoading, error, orders, openModal,  currentPage, totalPages, setCurrentPage }) => {
     const navigate = useNavigate();
 
     return (
@@ -120,28 +122,7 @@ export const SellerOrdersTable:React.FC<SellerOrdersTableProps> = ({ isLoading, 
                             </div>
                         </div>
                     ))}
-
-
-
-                    <div className="pagination">
-                        <button
-                            onClick={() => handlePageChange(currentPage - 1)}
-                            disabled={currentPage === 0}
-                            className="pagination-button"
-                        >
-                            Предыдущая
-                        </button>
-                        <span className="pagination-info">
-              Страница {currentPage + 1} из {totalPages}
-            </span>
-                        <button
-                            onClick={() => handlePageChange(currentPage + 1)}
-                            disabled={currentPage >= totalPages - 1}
-                            className="pagination-button"
-                        >
-                            Следующая
-                        </button>
-                    </div>
+                    <Pagination currentPage={currentPage} totalPages={totalPages} setCurrentPage={setCurrentPage} />
                 </>
             )}
         </main>
