@@ -77,7 +77,7 @@ export const SellerAllOrdersPage = () => {
     return (
         <div className="page-wrapper">
             <Header navItems={navItems}/>
-            <SellerOrdersTable isLoading={isLoading} error={error} orders={orders} currentPage={currentPage} totalPages={totalPages} handlePageChange={handlePageChange} openModal={openModal} />
+            <SellerOrdersTable setCurrentPage={setCurrentPage} isLoading={isLoading} error={error} orders={orders} currentPage={currentPage} totalPages={totalPages} handlePageChange={handlePageChange} openModal={openModal} />
             {activeModal && (
                 <ConfirmPopup
                     handleDeleteSuccess={handleDeleteSuccess}
