@@ -5,6 +5,7 @@ import './installers.css';
 import { useNavigate } from 'react-router-dom';
 import { ConfirmPopupMainInstaller } from './ConfirmPopupMainInstaller';
 import {Popup} from "../../../Widgets/Popup/Popup";
+import {Pagination} from "../../../Widgets/Pagination/Pagination";
 
 
 
@@ -122,12 +123,6 @@ export const InstallersList : React.FC = () => {
         setInstallers(installers.filter((installer) => installer.id !== deletedInstallerId));
     };
 
-    const handlePageChange = (newPage:number) => {
-        if (newPage >= 0 && newPage < totalPages) {
-            setCurrentPage(newPage);
-        }
-    };
-
     const handleChangeBtn = (installer: InstallersListType) => {
         setEditingInstallerId(installer.id);
         setEditedInstaller({ fullName: installer.fullName, phone: installer.phone });
@@ -182,25 +177,8 @@ export const InstallersList : React.FC = () => {
                         ))}
                         </tbody>
                     </table>
-                    <div className="pagination">
-                        <button
-                            onClick={() => handlePageChange(currentPage - 1)}
-                            disabled={currentPage === 0}
-                            className="pagination-button"
-                        >
-                            Предыдущая
-                        </button>
-                        <span className="pagination-info">
-                            Страница {currentPage + 1} из {totalPages}
-                        </span>
-                        <button
-                            onClick={() => handlePageChange(currentPage + 1)}
-                            disabled={currentPage >= totalPages - 1}
-                            className="pagination-button"
-                        >
-                            Следующая
-                        </button>
-                    </div>
+                    <Pagination currentPage={currentPage} totalPages={totalPages} setCurrentPage={setCurrentPage}/>
+
                     <button
                         className="add-installer-button"
                         onClick={() => navigate('/home/mainInstaller/create')}

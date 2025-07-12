@@ -88,15 +88,6 @@
   transform: translateY(0);
 }
 
-/* Pagination */
-.pagination {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 12px; /* Space between elements */
-  margin: 20px 0;
-}
-
 .pagination-button {
   padding: 8px 16px;
   background-color: #4e3629;
@@ -171,10 +162,6 @@
     padding: 7px 14px;
     font-size: 12px;
   }
-
-  .pagination {
-    gap: 8px;
-  }
 }
 
 @media (max-width: 576px) {
@@ -202,11 +189,6 @@
     width: 100%;
   }
 
-  .pagination {
-    flex-direction: column;
-    gap: 10px;
-  }
-
   .add-installer-button {
     width: 90%;
     max-width: 300px;
@@ -219,9 +201,6 @@
   bottom: 0;
 
 }
-
-
-
 .toast-notification {
   position: fixed;
   bottom: 20px;

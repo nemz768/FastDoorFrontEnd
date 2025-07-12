@@ -103,7 +103,7 @@ export const SellerOrdersTable:React.FC<SellerOrdersTableProps> = ({ isLoading, 
                                    Установщик <strong>{order.installerName || "Не назначен"}</strong>
                                 </div>
                                 <div className="orders-mobile-info-last">
-                                 Ваш комментарий <strong>{order.messageSeller}</strong>
+                                 Ваш комментарий <strong>{order.messageSeller || "Нет"}</strong>
                                 </div>
                             </div>
                             <div className="action-buttons-mobile">
