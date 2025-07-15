@@ -84,7 +84,7 @@ export const MainInstallersAllOrdersTable:React.FC<MainInstallersAllOrdersTableP
                     <th>ФИО</th>
                     <th>Адрес доставки</th>
                     <th>Филиал</th>
-                    <th>Дата</th>
+                    <th>Дата установки</th>
                     <th>Номер телефона</th>
                     <th>Количество входных дверей</th>
                     <th>Количество межкомнатных дверей</th>

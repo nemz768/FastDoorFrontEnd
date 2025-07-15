@@ -196,7 +196,7 @@ export const SellerCreatePage = () => {
                 <h3 className="subtitleInput">Укажите прочие данные</h3>
 
                 <div className="input-group">
-                    <label htmlFor="dateOrdered">Дата доставки: </label>
+                    <label htmlFor="dateOrdered">Дата установки: </label>
                     <input
                         readOnly
                         required

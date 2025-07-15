@@ -1,13 +1,7 @@
-/* Reset defaults */
-* {
-    box-sizing: border-box;
-    margin: 0;
-}
-
 html {
     height: 100%;
-    overflow-x: hidden; /* Prevent horizontal scroll */
 }
+
 
 #root {
     display: flex;

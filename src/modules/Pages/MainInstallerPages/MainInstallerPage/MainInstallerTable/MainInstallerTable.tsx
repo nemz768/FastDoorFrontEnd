@@ -40,7 +40,7 @@ export const MainInstallerTable: React.FC<MainInstallerTableProps> = ({
             <tr>
                 <th>Адрес доставки</th>
                 <th>Филиалы</th>
-                <th>Дата</th>
+                <th>Дата установки</th>
                 <th>Номер телефона</th>
                 <th>Количество входных дверей</th>
                 <th>Количество межкомнатных дверей</th>

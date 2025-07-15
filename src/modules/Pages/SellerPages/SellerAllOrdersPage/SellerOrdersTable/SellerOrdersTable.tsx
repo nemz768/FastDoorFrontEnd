@@ -37,7 +37,7 @@ export const SellerOrdersTable:React.FC<SellerOrdersTableProps> = ({ isLoading, 
                                 <th>ФИО</th>
                                 <th>Адрес доставки</th>
                                 <th>Номер</th>
-                                <th>Дата</th>
+                                <th>Дата установки</th>
                                 <th>Количество входных дверей</th>
                                 <th>Количество межкомнатных дверей</th>
                                 <th>Ваш комментарий</th>

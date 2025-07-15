@@ -1,6 +1,34 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
 .ReportPage {
+    min-height: 100%;
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
     background-color: #E9D6C7;
+}
+
+.ReportPage-section {
+    flex: 1; /* Этот блок займет всё свободное пространство */
+    display: flex;
+    flex-direction: row;
+    column-gap: 40px;
+    width: 100%;
+    justify-content: space-around;
+}
+
+
+
+.ReportPage-section-block {
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+    padding: 40px;
+    text-align: center;
+}
+
+.ReportPage-section-block-title {
+    text-align: center;
 }

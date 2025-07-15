@@ -23,19 +23,27 @@ export const ReportPage = () => {
     return (
         <div className="ReportPage">
             <Header navItems={navItems}/>
-                <section>
-                    {isAvaiable ? (<div>
-                        <h1>Список отчетов пуст</h1>
-                        <p>Создайте новый, чтобы получить доступ к списку отчетов</p>
-                    </div>) :
+
+            <section className="ReportPage-section">
+                <div className="ReportPage-section-block">
+                    {isAvaiable ? (
+                        <div className="ReportPage-section-block-title">
+                            <h1>Список отчетов пуст</h1>
+                            <p>Создайте новый, чтобы получить доступ к списку отчетов</p>
+                        </div>) :
                         (
-                            <div>
+                            <div className="ReportPage-section-block-title">
                                 <h1>Список созданных отчетов</h1>
 
                             </div>
                         )
                     }
-                </section>
+                </div>
+                <div className="ReportPage-section-block">
+                    <h1>Создать новый отчет</h1>
+                </div>
+
+            </section>
 
             <Footer/>
             <Popup navItems={navItems}/>

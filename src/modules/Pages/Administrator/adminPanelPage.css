@@ -1,37 +1,10 @@
+
+
 .admin-panel {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
     background-color: #E9D6C7;
-}
-
-.AdminPage {
-    flex: 1;
-    padding: 20px 0;
-    max-width: 1200px;
-    margin: 0 auto;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-.AdminPage h2 {
-    text-align: center;
-    color: #4E3629;
-    margin-bottom: 20px;
-    font-size: 24px;
-}
-
-.table-container-admin {
-    overflow-x: auto;
-    margin-bottom: 20px;
-    width: 100%;
-}
-
-.orders-table-admin {
-    width: 100%;
-    border-collapse: collapse;
-    background-color: #fff;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .error {
