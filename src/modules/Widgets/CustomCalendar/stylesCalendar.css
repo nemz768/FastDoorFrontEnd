@@ -11,7 +11,7 @@
 }
 
 .custom-calendar .calendar-day.selected {
-    background-color: #007bff; !important;
+    background-color: #007bff !important;
     color: #fff;
 }
 
@@ -22,7 +22,7 @@
 .custom-calendar .calendar-day.past {
     background-color: #d3d3d3 !important; /* светло-серый фон */
     color: #888888; /* тусклый текст */
-    cursor: not-allowed!important;
+    cursor: not-allowed !important;
 }
 
 .custom-calendar .calendar-day.past .availability {
@@ -44,5 +44,5 @@
 .calendar-day.closedNotInstaller {
     color: #888888; /* тусклый текст */
     background-color: #d3d3d3;
-    cursor: not-allowed!important;
+    cursor: not-allowed !important;
 }

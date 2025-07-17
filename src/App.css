@@ -2,30 +2,30 @@ html {
   margin: 0;
   padding: 0;
   min-height: 120vh;
-  scrollbar-width: thin; !important
-  scrollbar-color: #4E3629 #f1f1f1; !important
+  scrollbar-width: thin !important;
+  scrollbar-color: #4E3629 #f1f1f1 !important;
   font-family: Inter, sans-serif;
 }
 
 ::-webkit-scrollbar {
-  width: 8px; /* Уменьшено с 12px до 8px */ !important;
+  width: 8px /* Уменьшено с 12px до 8px */ !important;
 }
 
 ::-webkit-scrollbar-track {
-  background: #E9D6C7; !important
-  border-radius: 10px; !important
-  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1); !important
+  background: #E9D6C7 !important;
+  border-radius: 10px !important;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1) !important;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #4E3629; !important
-  border-radius: 10px; !important
-  border: 2px solid #f1f1f1; !important
-  transition: background 0.3s ease; !important
+  background: #4E3629 !important;
+  border-radius: 10px !important;
+  border: 2px solid #f1f1f1 !important;
+  transition: background 0.3s ease !important;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #35261b; !important
+  background: #35261b !important;
 }
 
 body {

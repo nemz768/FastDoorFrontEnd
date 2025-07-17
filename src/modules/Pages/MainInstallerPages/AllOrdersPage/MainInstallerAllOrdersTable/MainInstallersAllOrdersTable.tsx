@@ -97,40 +97,20 @@ export const MainInstallersAllOrdersTable:React.FC<MainInstallersAllOrdersTableP
                 <tbody>
                 {orders.map((order) => (
                     <tr key={order.id}>
+
                         <td>{order.fullName}</td>
+
                         <td>{order.address}</td>
+
                         <td>{order.nickname}</td>
+
                         <td>{order.dateOrder ? reversedDate(order.dateOrder) : ''}</td>
+
                         <td>{order.phone}</td>
 
-                        {
-                            orderId === order.id
-                            ?   <>
-                                    <td>
-                                        <input value={editedOrder.frontDoorQuantity}
-                                              onChange={(e)=> setEditedOrder((prev) => ({...prev, frontDoorQuantity: Number(e.target.value) }))}
-                                               type="number"
-                                                min="0"
-                                        />
-                                    </td>
-                                    <td>
-                                        <input value={editedOrder.inDoorQuantity}
-                                               onChange={(e)=> setEditedOrder((prev) => ({...prev, inDoorQuantity: Number(e.target.value) }))}
-                                               type="number"
-                                               min="0"
+                        <td>{order.frontDoorQuantity}</td>
 
-                                        />
-
-                                    </td>
-                                </>
-                                : <>
-                                    <td>{order.frontDoorQuantity}</td>
-                                    <td>{order.inDoorQuantity}</td>
-                                </>
-                        }
-
-
-
+                        <td>{order.inDoorQuantity}</td>
 
                         <td>{order.messageSeller}</td>
                         <td>
