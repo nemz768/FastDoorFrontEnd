@@ -27,18 +27,26 @@ export const ConfirmPopup = ({ closeModal, handleDeleteSuccess, orderId }:Confir
                     'Content-Type': 'application/json',
                 },
             });
+
             if (!response.ok) {
                 const errorData = await response.json();
                 throw new Error(errorData.message || 'Произошла ошибка при удалении');
             }
-            handleDeleteSuccess(orderId);
-            closeModal();
-        } catch (err:any) {
+
+            try {
+                handleDeleteSuccess(orderId);
+                closeModal();
+            } catch (callbackError) {
+                console.error('Ошибка в callback после удаления:', callbackError);
+            }
+
+        } catch (err: any) {
             setError(err.message);
             console.error('Delete error:', err.message);
         } finally {
             setIsDeleting(false);
         }
+
     };
 
     return (

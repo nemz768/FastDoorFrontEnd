@@ -66,8 +66,8 @@ export const SellerAllOrdersPage = () => {
     };
 
     const closeModal = () => {
-        setSelectedOrderId(null);
         setActiveModal(false);
+       setTimeout(()=> setSelectedOrderId(null), 0)
     };
 
     const handleDeleteSuccess = (deletedOrderId:string) => {
