@@ -300,7 +300,7 @@ export const MainInstallerPage = () => {
     };
 
     // Отправка данных на сервер
-    const postData = async (orderId: string) => {
+    const postData = async (orderId: number) => {
         try {
             const selectedInstaller = installers.find(
                 (installer) => installer.id === selectedTag[orderId]
@@ -326,12 +326,13 @@ export const MainInstallerPage = () => {
 
 
 
-            setOrders((prevOrders) => prevOrders.filter((order) => String(order.id) !== orderId));
+            setOrders((prevOrders) => prevOrders.filter((order) => Number(order.id) !== orderId));
         } catch (err:any) {
             console.error('Ошибка при отправке данных:', err);
             setError(err.message);
         }
     };
+
 
  const handleAvailabilityPageChange = (newPage:number) => {
         if (newPage >= 0 && newPage < Math.ceil(availabilityList.length / recordsPerPage)) {

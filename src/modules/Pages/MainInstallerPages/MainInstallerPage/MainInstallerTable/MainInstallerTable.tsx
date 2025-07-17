@@ -10,7 +10,7 @@ interface MainInstallerTableProps {
     selectedTag: Record<string, string>;
     handleCommentChange: (event: React.ChangeEvent<HTMLInputElement>, orderId: string) => void;
     handleChange: (event: React.ChangeEvent<HTMLSelectElement>, orderId: string) => void;
-    postData: (orderId: string) => void;
+    postData: (orderId: number) => void;
     workloadByDate: Record<string, InstallerWorkload[]>;
 }
 
@@ -82,7 +82,7 @@ export const MainInstallerTable: React.FC<MainInstallerTableProps> = ({
                     </td>
                     <td>
                         <button
-                            onClick={() => postData(order.id)}
+                            onClick={() => postData(Number(order.id))}
                             disabled={!selectedTag[order.id]}
                             id="ConfirmBtn"
                         >
