@@ -322,17 +322,18 @@ export const MainInstallerPage = () => {
             if (!response.ok) {
                 throw new Error(`Не удалось отправить данные: ${response.status} ${response.statusText}`);
             }
-            console.log('Подтвержден заказ:', orderId);
-           await fetchOrders();
+
+
+
+  
+            setOrders((prevOrders) => prevOrders.filter((order) => order.id !== orderId));
         } catch (err:any) {
             console.error('Ошибка при отправке данных:', err);
             setError(err.message);
         }
     };
 
-
-    // Обработчик смены страницы доступности
-    const handleAvailabilityPageChange = (newPage:number) => {
+ const handleAvailabilityPageChange = (newPage:number) => {
         if (newPage >= 0 && newPage < Math.ceil(availabilityList.length / recordsPerPage)) {
             setCurrentAvailabilityPage(newPage);
         }
