@@ -322,8 +322,8 @@ export const MainInstallerPage = () => {
             if (!response.ok) {
                 throw new Error(`Не удалось отправить данные: ${response.status} ${response.statusText}`);
             }
-
-            fetchOrders();
+            console.log('Подтвержден заказ:', orderId);
+           await fetchOrders();
         } catch (err:any) {
             console.error('Ошибка при отправке данных:', err);
             setError(err.message);

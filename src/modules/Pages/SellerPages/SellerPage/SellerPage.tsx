@@ -31,7 +31,6 @@ export const SellerPage = () => {
 
     }, [navigate])
 
-
     return (
         <>
             <Header navItems={navItems} />
