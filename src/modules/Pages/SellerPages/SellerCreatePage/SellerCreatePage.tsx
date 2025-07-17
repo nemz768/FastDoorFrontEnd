@@ -150,7 +150,7 @@ export const SellerCreatePage = () => {
                     <label htmlFor="fullName">ФИО: </label>
                     <input
                         type="text"
-                        className="input_SellerPage"
+                        className="input_SellerPage bg-white"
                         id="fullName"
                         required
                         ref={refs.fullname}
@@ -162,7 +162,7 @@ export const SellerCreatePage = () => {
                     <label htmlFor="address">Адрес: </label>
                     <input
                         type="text"
-                        className="input_SellerPage"
+                        className="input_SellerPage bg-white"
                         id="address"
                         required
                         ref={refs.address}
@@ -174,7 +174,7 @@ export const SellerCreatePage = () => {
                     <label htmlFor="phoneDelivery">Номер телефона: </label>
                     <input
                         type="text"
-                        className="input_SellerPage"
+                        className="input_SellerPage bg-white"
                         id="phoneDelivery"
                         required
                         ref={refs.phone}
@@ -186,7 +186,7 @@ export const SellerCreatePage = () => {
                     <label htmlFor="messageSeller">Комментарий: </label>
                     <input
                         type="text"
-                        className="input_SellerPage"
+                        className="input_SellerPage bg-white"
                         id="messageSeller"
                         ref={refs.comments}
                         placeholder="Комментарий"
@@ -200,7 +200,7 @@ export const SellerCreatePage = () => {
                     <input
                         readOnly
                         required
-                        className="input_SellerPage"
+                        className="input_SellerPage bg-white"
                         type="text"
                         id="dateOrdered"
                         ref={refs.dateRef}
@@ -224,7 +224,7 @@ export const SellerCreatePage = () => {
                     <label htmlFor="frontDoorQuantity">Количество входных дверей</label>
                     <input
                         type="text"
-                        className="input_SellerPage"
+                        className="input_SellerPage bg-white"
                         id="frontDoorQuantity"
                         ref={refs.frontDoorRef}
                         required
@@ -236,7 +236,7 @@ export const SellerCreatePage = () => {
                     <label htmlFor="inDoorQuantity">Количество межкомнатных дверей</label>
                     <input
                         type="text"
-                        className="input_SellerPage"
+                        className="input_SellerPage bg-white"
                         id="inDoorQuantity"
                         ref={refs.inDoorRef}
                         required

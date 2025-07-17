@@ -164,7 +164,7 @@ export const PatchOrderPage = () => {
                             onChange={handleChange}
                             required
                             placeholder="ФИО"
-                            className="input_SellerPage"
+                            className="input_SellerPage bg-white"
                         />
                     </div>
 
@@ -176,7 +176,7 @@ export const PatchOrderPage = () => {
                             onChange={handleChange}
                             required
                             placeholder="Адрес"
-                            className="input_SellerPage"
+                            className="input_SellerPage bg-white"
                         />
                     </div>
 
@@ -188,7 +188,7 @@ export const PatchOrderPage = () => {
                             onChange={handleChange}
                             required
                             placeholder="Номер телефона"
-                            className="input_SellerPage"
+                            className="input_SellerPage bg-white"
                         />
                     </div>
 
@@ -200,7 +200,7 @@ export const PatchOrderPage = () => {
                             onChange={handleChange}
                             required
                             placeholder="Комментарий"
-                            className="input_SellerPage"
+                            className="input_SellerPage bg-white"
                         />
                     </div>
 
@@ -215,7 +215,7 @@ export const PatchOrderPage = () => {
                             readOnly
                             required
                             placeholder="Выбрать дату"
-                            className="input_SellerPage"
+                            className="input_SellerPage bg-white"
                             ref={dateRef}
                         />
                         {isCalendarOpen && (
@@ -239,7 +239,7 @@ export const PatchOrderPage = () => {
                             onChange={handleChange}
                             required
                             placeholder="Входные двери"
-                            className="input_SellerPage"
+                            className="input_SellerPage bg-white"
                         />
                     </div>
 
@@ -251,7 +251,7 @@ export const PatchOrderPage = () => {
                             onChange={handleChange}
                             required
                             placeholder="Межкомнатные двери"
-                            className="input_SellerPage"
+                            className="input_SellerPage bg-white"
                         />
                     </div>
 

@@ -83,7 +83,7 @@ export const AdminPanelPage = () => {
                     <h2>Панель администратора</h2>
                     <div className="InputBlock">
                         <input
-                            className="inputFind"
+                            className="inputFind bg-white"
                             onChange={(e)=> handleSearch(e.target.value)}
                             type="search"
                             value={nickName}

@@ -456,7 +456,7 @@ export const MainInstallerPage = () => {
                         </div>
                     </div>
                     <div>
-                        <table className="table-dates" border={1}>
+                        <table className="table-dates border-1">
                             <thead>
                             <tr>
                                 <th>Дата</th>

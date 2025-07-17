@@ -52,7 +52,7 @@ jobs:
              else
              echo "Папка assets не найдена"
              fi
-             cd ~/mrDverkinFront/
+             cd ~/FastDoorFrontEnd/
              git pull origin master
              npm install
              yarn build

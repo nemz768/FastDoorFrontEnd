@@ -116,6 +116,7 @@ export const MainInstallersAllOrdersTable:React.FC<MainInstallersAllOrdersTableP
                                         onChange={(e)=>
                                         setEditedOrder((prev)=>
                                             ({...prev, messageMainInstaller: e.target.value}))} defaultValue={order.messageMainInstaller || ''}
+                                         className="bg-white"
                                          type="text"/>
                                 : order.messageMainInstaller || "Нет"
                             }
@@ -126,6 +127,7 @@ export const MainInstallersAllOrdersTable:React.FC<MainInstallersAllOrdersTableP
                                 orderId === order.id
                                     ? (
                                         <select
+                                            className="bg-white"
                                             value={selectedTag[order.id] || ''}
                                             onChange={(event) => handleChange(event, order.id)}
 

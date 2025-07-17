@@ -10,8 +10,8 @@ import {Popup} from "../../../Widgets/Popup/Popup";
 
 
 interface OrderEditorTypes {
-    frontDoorQuantity: number;
-    inDoorQuantity: number;
+    frontDoorQuantity?: number;
+    inDoorQuantity?: number;
     messageMainInstaller: string | null;
     installerName: string;
 }
