@@ -41,8 +41,6 @@ export const MainInstallersAllOrdersTable:React.FC<MainInstallersAllOrdersTableP
         setOrderId(order.id)
         setEditedOrder({
             messageMainInstaller: order.messageMainInstaller || '',
-            frontDoorQuantity: order.frontDoorQuantity || 0,
-            inDoorQuantity: order.inDoorQuantity || 0,
             installerName: order.installerName || ''
         });
 
@@ -65,8 +63,6 @@ export const MainInstallersAllOrdersTable:React.FC<MainInstallersAllOrdersTableP
         setOrderId(null);
         setEditedOrder({
             messageMainInstaller: '',
-            frontDoorQuantity: 0,
-            inDoorQuantity: 0,
             installerName: ''
         });
         setSelectedTag(prev => {

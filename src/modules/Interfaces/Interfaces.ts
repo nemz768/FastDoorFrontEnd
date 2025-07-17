@@ -14,8 +14,6 @@ export interface Order {
 
 export interface EditedOrder {
     messageMainInstaller: string | null;
-    frontDoorQuantity: number;
-    inDoorQuantity: number;
     installerName: string;
 }
 
