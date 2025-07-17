@@ -1,9 +1,15 @@
 import React, { useState } from 'react';
 import './ConfirmPopup.css';
 
-export const ConfirmPopup = ({ closeModal, handleDeleteSuccess, orderId }) => {
+interface ConfirmPopupProps {
+    orderId: string | null;
+    closeModal: () => void;
+    handleDeleteSuccess: (deletedOrderId: string) => void;
+}
+
+export const ConfirmPopup = ({ closeModal, handleDeleteSuccess, orderId }:ConfirmPopupProps) => {
     const [isDeleting, setIsDeleting] = useState(false);
-    const [error, setError] = useState(null);
+    const [error, setError] = useState<null | string>(null);
 
     const deleteOrder = async () => {
         if (!orderId || typeof orderId !== 'string') {
@@ -27,7 +33,7 @@ export const ConfirmPopup = ({ closeModal, handleDeleteSuccess, orderId }) => {
             }
             handleDeleteSuccess(orderId);
             closeModal();
-        } catch (err) {
+        } catch (err:any) {
             setError(err.message);
             console.error('Delete error:', err.message);
         } finally {
