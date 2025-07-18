@@ -326,7 +326,7 @@ export const MainInstallerPage = () => {
 
 
 
-            setOrders((prevOrders) => prevOrders.filter((order) => Number(order.id) !== orderId));
+            setOrders((prevOrders) => prevOrders.filter((order) => order.id !== String(orderId)));
         } catch (err:any) {
             console.error('Ошибка при отправке данных:', err);
             setError(err.message);
