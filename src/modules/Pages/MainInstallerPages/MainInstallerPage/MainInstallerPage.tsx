@@ -323,10 +323,18 @@ export const MainInstallerPage = () => {
                 throw new Error(`Не удалось отправить данные: ${response.status} ${response.statusText}`);
             }
 
+            if (!response.ok) {
+                throw new Error(`Не удалось отправить данные: ${response.status} ${response.statusText}`);
+            }
 
+            console.log("✅ Успешно отправлено", orderId);
 
+            setOrders((prevOrders) => {
+                const filtered = prevOrders.filter((order) => order.id !== String(orderId));
+                console.log("⏱ До:", prevOrders.length, "→ После:", filtered.length);
+                return filtered;
+            });
 
-            setOrders((prevOrders) => prevOrders.filter((order) => order.id !== String(orderId)));
         } catch (err:any) {
             console.error('Ошибка при отправке данных:', err);
             setError(err.message);
