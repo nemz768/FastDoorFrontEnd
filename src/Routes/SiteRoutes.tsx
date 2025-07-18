@@ -35,8 +35,8 @@ export const SiteRoutes = () => {
                     <Route path="/home/mainInstaller/InstallersList" element={<InstallersList/>}></Route>
                     <Route path="/home/mainInstaller/listOrdersMainInstaller" element={<MainInstallerAllOrders/>}></Route>
                     <Route path="/home/mainInstaller/create" element={<MainInstallerCreate/>}></Route>
-                    <Route path="/home/admin" element={<AdminPanelPage/>}></Route>
-                    <Route path="/home/admin/report" element={<ReportPage/>}> </Route>
+                    <Route path="/home/owner" element={<AdminPanelPage/>}></Route>
+                    <Route path="/home/owner/report" element={<ReportPage/>}> </Route>
                     <Route path="*"  element={<PageNotFound/>}></Route>
                  </Routes>
         </>
