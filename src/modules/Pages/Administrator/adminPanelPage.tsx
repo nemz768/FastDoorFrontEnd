@@ -23,7 +23,7 @@ export const AdminPanelPage = () => {
         : `/api/list/adminList?page=${currentPage}`;
 
     const navItems = [
-        { label: 'Создать отчет', route: '/home/admin/report' },
+        { label: 'Создать отчет', route: '/home/owner/report' },
     ];
 
     useEffect(() => {

@@ -14,10 +14,10 @@ export const DonePage = () => {
                 <h1 className="donePage-title">Done!</h1>
                 <h2 className="donePage-subtitle">Заказ успешно сохранён!</h2>
                 <div className="donePage-btns">
-                    <button className="donePage-btn"
+                    <button className="standartButton donePage-btn"
                             onClick={()=> navigate("/home/seller")}>
                         Главная</button>
-                    <button className="donePage-btn"
+                    <button className="standartButton donePage-btn"
                             onClick={()=> navigate("/home/seller/listOrdersSeller")}>
                         К заказам</button>
                 </div>
