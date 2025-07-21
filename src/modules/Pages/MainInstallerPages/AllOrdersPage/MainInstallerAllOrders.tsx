@@ -229,10 +229,17 @@ export const MainInstallerAllOrders = () => {
             setOrders(prev =>
                 prev.map(item =>
                     item.id === orderIdToUpdate
-                        ? { ...item, ...payload }
+                        ? {
+                            ...item,
+                            frontDoorQuantity: payload.frontDoorQuantity,
+                            inDoorQuantity: payload.inDoorQuantity,
+                            installerName: payload.installerFullName,
+                            messageMainInstaller: payload.installerComment,
+                        }
                         : item
                 )
             );
+
 
             sendMessage("Изменение прошло успешно");
             setOrderId(null); // очистка выделенного заказа
