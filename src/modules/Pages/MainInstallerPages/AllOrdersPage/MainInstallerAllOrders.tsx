@@ -156,14 +156,8 @@ export const MainInstallerAllOrders = () => {
         if (!order) return;
 
 
-        const frontDoorQuantity = Number(editedOrder.frontDoorQuantity);
-        const inDoorQuantity = Number(editedOrder.inDoorQuantity);
-
-
         const payload = {
             orderId: order.id,
-            frontDoorQuantity: frontDoorQuantity,
-            inDoorQuantity: inDoorQuantity,
             installerFullName: (() => {
                 const selectedInstallerId = selectedTag[order.id];
                 const found = installers.find(inst => inst.id === selectedInstallerId);
@@ -192,8 +186,6 @@ export const MainInstallerAllOrders = () => {
                     item.id === orderIdToUpdate
                         ? {
                             ...item,
-                            frontDoorQuantity: payload.frontDoorQuantity,
-                            inDoorQuantity: payload.inDoorQuantity,
                             installerName: payload.installerFullName,
                             messageMainInstaller: payload.installerComment,
                         }
@@ -209,7 +201,7 @@ export const MainInstallerAllOrders = () => {
 
             setTimeout(() => {
                 setHighlightedRowId(null);
-            }, 2000);
+            }, 4000);
 
 
             setOrderId(null); // очистка выделенного заказа
