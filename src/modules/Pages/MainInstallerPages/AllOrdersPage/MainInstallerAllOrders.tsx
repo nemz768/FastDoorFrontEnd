@@ -150,12 +150,56 @@ export const MainInstallerAllOrders = () => {
         const frontDoorQuantity = Number(editedOrder.frontDoorQuantity);
         const inDoorQuantity = Number(editedOrder.inDoorQuantity);
 
+        // const payload = {
+        //     id: order.id,
+        //     dateOrder: order.dateOrder || '',
+        //     frontDoorQuantity: frontDoorQuantity,
+        //     inDoorQuantity: inDoorQuantity,
+        //     installerName: (() => {
+        //         const selectedInstallerId = selectedTag[order.id];
+        //         const found = installers.find(inst => inst.id === selectedInstallerId);
+        //         return found?.fullName || order.installerName || null;
+        //     })(),
+        //
+        //     messageSeller: order.messageSeller || '',
+        //     messageMainInstaller: editedOrder.messageMainInstaller || '',
+        //     nickname: order.nickname || '',
+        // };
+
+        // try {
+        //     const response = await fetch(`/api/edit/${orderIdToUpdate}`, { // поменять на apiMainInstaller
+        //         method: "PATCH",
+        //         headers: {
+        //             "Content-Type": "application/json",
+        //         },
+        //         body: JSON.stringify(payload),
+        //     });
+        //
+        //     if (!response.ok) {
+        //         const errText = await response.text(); // посмотри, что вернёт сервер
+        //         throw new Error(`Ошибка: ${response.status} — ${errText}`);
+        //     }
+        //
+        //     // Обновление в списке заказов
+        //     setOrders(prev =>
+        //         prev.map(item =>
+        //             item.id === orderIdToUpdate
+        //                 ? { ...item, ...payload }
+        //                 : item
+        //         )
+        //     );
+        //
+        //     sendMessage("Изменение прошло успешно");
+        //     setOrderId(null); // очистка выделенного заказа
+        //     setTimeout(() => sendMessage(''), 3000);
+        // } catch (error: any) {
+        //     console.error(error);
+        //     sendMessage("Возникла ошибка: " + error.message);
+        // }
+
+
         const payload = {
             id: order.id,
-            fullName: order.fullName || '',
-            address: order.address || '',
-            phone: order.phone || '',
-            dateOrder: order.dateOrder || '',
             frontDoorQuantity: frontDoorQuantity,
             inDoorQuantity: inDoorQuantity,
             installerName: (() => {
@@ -163,15 +207,12 @@ export const MainInstallerAllOrders = () => {
                 const found = installers.find(inst => inst.id === selectedInstallerId);
                 return found?.fullName || order.installerName || null;
             })(),
-
-            messageSeller: order.messageSeller || '',
             messageMainInstaller: editedOrder.messageMainInstaller || '',
-            nickname: order.nickname || '',
         };
 
         try {
-            const response = await fetch(`/api/edit/${orderIdToUpdate}`, {
-                method: "PATCH",
+            const response = await fetch(`/api/mainInstaller`, { // поменять на apiMainInstaller
+                method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
