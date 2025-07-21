@@ -2,7 +2,7 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import {useNavigate} from 'react-router-dom';
 import './donePage.css'
-import doneSvg from '../../../public/check-mark-4820.svg'
+import doneSvg from '../../../../public/check-mark-4820.svg'
 export const DonePage = () => {
     const navigate = useNavigate();
 

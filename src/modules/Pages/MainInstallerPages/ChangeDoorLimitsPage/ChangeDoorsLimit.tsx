@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import './ChangeDoorLimits.css'
-import xSymbol from '../../../../public/x-symbol.svg'
+import xSymbol from '../../../../../public/x-symbol.svg'
 
 interface ChangeDoorsLimitsProps {
     frontDoorQuantity: number;

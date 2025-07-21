@@ -3,9 +3,9 @@ import { Header } from '../../../Widgets/Header/Header';
 import { Footer } from '../../../Widgets/Footer/Footer';
 import { CustomCalendar } from '../../../Widgets/CustomCalendar/CustomCalendar';
 import './MainInstallerPage.css'
-import openSvg from '../../../../public/unlock-alt-svgrepo-com.svg'
-import changeDataSvg from '../../../../public/change-management-backup-svgrepo-com.svg'
-import shutdownSvg from '../../../../public/lock-alt-svgrepo-com.svg'
+import openSvg from '../../../../../public/unlock-alt-svgrepo-com.svg'
+import changeDataSvg from '../../../../../public/change-management-backup-svgrepo-com.svg'
+import shutdownSvg from '../../../../../public/lock-alt-svgrepo-com.svg'
 import {ChangeDoorsLimit} from "../ChangeDoorLimitsPage/ChangeDoorsLimit";
 import {Pagination} from "../../../Widgets/Pagination/Pagination";
 import {MainInstallerTable} from "./MainInstallerTable/MainInstallerTable";

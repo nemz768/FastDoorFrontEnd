@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import 'pikaday/css/pikaday.css';
 import './PatchOrderPage.css';
 import { CustomCalendar } from '../../../Widgets/CustomCalendar/CustomCalendar';
-import xSymbol from '../../../../public/x-symbol.svg'
+import xSymbol from '../../../../../public/x-symbol.svg'
 
 interface OrderInputValues {
     fullName: string;

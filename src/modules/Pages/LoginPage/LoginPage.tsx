@@ -78,7 +78,7 @@ export const LoginPage = () => {
     return (
         <div className="login-page">
             <div className="login-section">
-                <h1 className="loginTitle">Вход</h1>
+                <h1 className="loginTitle">Вход TEST</h1>
                 <form onSubmit={sendToBack} className="loginForm" id="loginForm">
                     <input
                         ref={UsernameRef}
