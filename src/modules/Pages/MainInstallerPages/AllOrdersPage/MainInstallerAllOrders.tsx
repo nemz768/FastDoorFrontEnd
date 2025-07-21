@@ -150,6 +150,7 @@ export const MainInstallerAllOrders = () => {
         const frontDoorQuantity = Number(editedOrder.frontDoorQuantity);
         const inDoorQuantity = Number(editedOrder.inDoorQuantity);
 
+
         // const payload = {
         //     id: order.id,
         //     dateOrder: order.dateOrder || '',
@@ -199,15 +200,15 @@ export const MainInstallerAllOrders = () => {
 
 
         const payload = {
-            id: order.id,
+            orderId: order.id,
             frontDoorQuantity: frontDoorQuantity,
             inDoorQuantity: inDoorQuantity,
-            installerName: (() => {
+            installerFullName: (() => {
                 const selectedInstallerId = selectedTag[order.id];
                 const found = installers.find(inst => inst.id === selectedInstallerId);
                 return found?.fullName || order.installerName || null;
             })(),
-            messageMainInstaller: editedOrder.messageMainInstaller || '',
+            installerComment: editedOrder.messageMainInstaller || '',
         };
 
         try {
