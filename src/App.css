@@ -133,3 +133,15 @@ footer a:hover {
     margin: 0 5px;
   }
 }
+
+
+.standartBtn {
+  background-color: #4E3629;
+  border-radius: 8px;
+  transition: .8s;
+}
+
+.standartBtn:hover {
+  background-color: #4E3629;
+  transition: .8s;
+}

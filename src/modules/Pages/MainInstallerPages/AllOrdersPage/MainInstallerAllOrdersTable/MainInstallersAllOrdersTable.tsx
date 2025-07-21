@@ -152,12 +152,12 @@ export const MainInstallersAllOrdersTable:React.FC<MainInstallersAllOrdersTableP
                             {
                                 orderId === order.id
                                     ? <div>
-                                        <button onClick={()=> updateOrders(order.id)}>Сохранить</button>
-                                        <button onClick={handleCancel}>Отмена</button>
+                                        <button   className="standartBtn" onClick={()=> updateOrders(order.id)}>Сохранить</button>
+                                        <button   className="standartBtn" onClick={handleCancel}>Отмена</button>
                                     </div>
                                     :<div>
-                                        <button onClick={()=> handleChangeButton(order)}>Изменить</button>
-                                        <button onClick={()=> deleteOrder(order.id)}>Удалить</button>
+                                        <button   className="standartBtn" onClick={()=> handleChangeButton(order)}>Изменить</button>
+                                        <button   className="standartBtn" onClick={()=> deleteOrder(order.id)}>Удалить</button>
                                     </div>
                             }
                         </td>
