@@ -48,7 +48,6 @@ export const MainInstallerAllOrders = () => {
     ];
 
     // podskazka
-
     const [highlightedRowId, setHighlightedRowId] = React.useState<string | null>(null);
 
 
@@ -167,7 +166,7 @@ export const MainInstallerAllOrders = () => {
         };
 
         try {
-            const response = await fetch(`/api/mainInstaller`, { // поменять на apiMainInstaller
+            const response = await fetch(`/api/mainInstaller`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -201,7 +200,7 @@ export const MainInstallerAllOrders = () => {
 
             setTimeout(() => {
                 setHighlightedRowId(null);
-            }, 4000);
+            }, 3000);
 
 
             setOrderId(null); // очистка выделенного заказа

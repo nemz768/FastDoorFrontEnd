@@ -96,7 +96,7 @@ export const MainInstallersAllOrdersTable:React.FC<MainInstallersAllOrdersTableP
                 <tbody>
                 {orders.map((order) => (
                     <tr key={order.id}
-                        className={highlightedRowId === order.id ? "bg-green-100 transition-colors" : ""}
+                        className={highlightedRowId === order.id ? "bg-green-400 transition-colors" : ""}
                     >
 
                         <td>{order.fullName}</td>

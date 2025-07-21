@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import './createSellerPage.css';
 import { CustomCalendar } from "../../../Widgets/CustomCalendar/CustomCalendar";
 import { Availability } from '../../../Interfaces/Interfaces';
-import xSymbol from '../../../../../public/x-symbol.svg'
+import xSymbol from '../../../../public/x-symbol.svg'
 
 export const SellerCreatePage = () => {
     const [selectedDate, setSelectedDate] = useState<string | null>(null);

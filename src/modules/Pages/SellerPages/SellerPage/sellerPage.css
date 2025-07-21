@@ -34,15 +34,7 @@ header, footer {
     color: #4E3629;
 }
 
-button {
-    background-color: #4E3629;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-}
+
 
 
 .orders_addresses {
@@ -56,6 +48,14 @@ button {
     width: 200px;
     height: 50px;
     padding: 5px;
+    background-color: #4E3629;
+    border-radius: 8px;
+    transition: .8s;
+}
+.orders_address:hover {
+    transition: .8s;
+    color: #4E3629;
+    background-color: #E9D6C7;
 }
 
 @media (max-width: 576px) {

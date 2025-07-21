@@ -17,6 +17,7 @@ html, body {
     column-gap: 40px;
     width: 100%;
     justify-content: space-around;
+
 }
 
 
@@ -28,6 +29,8 @@ html, body {
     padding: 40px;
     text-align: center;
 }
+
+
 
 .ReportPage-section-block-title {
     text-align: center;

@@ -1,6 +1,6 @@
 import './pageNotEnoughRules.css';
 import {useNavigate} from "react-router-dom";
-import image from '../../../../public/dog-family.jpg'
+import image from '../../../public/dog-family.jpg'
 
 
 

@@ -1,0 +1,33 @@
+/* Обертка для центрирования */
+.calendar-wrapper {
+    max-width: 400px;
+    margin: 2rem auto;
+    font-family: Arial, sans-serif;
+}
+
+/* Стилизация выделенного диапазона */
+.react-calendar__tile.highlight {
+    background: #007bff;
+    color: white;
+    border-radius: 0;
+}
+
+/* Стилизация начальной и конечной даты */
+.react-calendar__tile--rangeStart,
+.react-calendar__tile--rangeEnd {
+    background: #0056b3 !important;
+    color: white;
+    border-radius: 10px;
+}
+
+/* Hover */
+.react-calendar__tile:hover {
+    background-color: #e6f0ff;
+}
+
+/* Кастомные стрелки */
+.react-calendar__navigation__prev-button,
+.react-calendar__navigation__next-button {
+    font-size: 1.5rem;
+    padding: 0 10px;
+}

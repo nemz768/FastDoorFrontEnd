@@ -3,13 +3,15 @@ import {Popup} from "../../Widgets/Popup/Popup";
 import './ReportPage.css'
 import {Footer} from "../../Widgets/Footer/Footer";
 import {useEffect, useState} from "react";
-import {CustomCalendar} from "../../Widgets/CustomCalendar/CustomCalendar";
 import Select, {MultiValue} from "react-select";
+import RangeCalendar from "./RangeCalendar";
+
 
 interface getReportTypes {
     dateFrom: string;
     dateTo: string;
     title: string;
+    relatedUser: string[];
 }
 
 type UserOption = {
@@ -17,8 +19,8 @@ type UserOption = {
     label: string;
 };
 
-export const ReportPage = () => {
 
+export const ReportPage = () => {
     const usersOptions: UserOption[] = [
         { value: "user1", label: "БМ" },
     ];
@@ -29,9 +31,14 @@ export const ReportPage = () => {
 
     const [selectedUsers, setSelectedUsers] = useState<MultiValue<UserOption>>([]);
 
+    const [dateRange, setDateRange] = useState<[Date | null, Date | null]>([null, null]);
+
+    const [title, setTitle] = useState("");
+
     const navItems = [
-        { label: "Главная", route: '/home/admin'  },
+        { label: "Главная", route: '/home/owner'  },
     ]
+
 
 
     const handleGetReports = async () => {
@@ -57,6 +64,37 @@ export const ReportPage = () => {
     useEffect(() => {
         handleGetReports();
     }, [])
+
+
+    const postReport = async () => {
+        if (!title || !dateRange[0] || !dateRange[1] || selectedUsers.length === 0) {
+            alert("Пожалуйста, заполните все поля");
+            return;
+        }
+
+        const payload = {
+            title: title,
+            dateFrom: dateRange[0].toISOString(),
+            dateTo: dateRange[1].toISOString(),
+            relatedUser: selectedUsers.map(u => u.value),
+        }
+
+        try {
+        const response = await fetch("/api/report/create", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload)
+        })
+            const data = await response.json();
+            console.log(data)
+
+        }
+        catch(err: any) {
+            console.log(err)
+        }
+    }
 
 
     return (
@@ -88,22 +126,32 @@ export const ReportPage = () => {
                         )
                     }
                 </div>
-                <div className="ReportPage-section-block">
+                <div className="ReportPage-section-block bg-gray-200 mt-10 mb-10 rounded-4xl">
                     <h1>Создать новый отчет</h1>
-                    <form className="flex flex-col gap-y-5">
-                        <input className="border-1  bg-white h-10" type="text" />
-                        <input  className="border-1  bg-white h-10" type="text"/>
-                        <input   className="border-1  bg-white h-10" type="text" />
-
+                    <form onSubmit={postReport} className="flex flex-col gap-y-5">
+                            <input
+                                value={title}
+                                onChange={(e) => setTitle(e.target.value)}
+                                placeholder="Введите title..."
+                                required
+                                className="border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600 bg-white h-12 pl-3 rounded"
+                                type="text" />
                         <Select
+                            required
                             placeholder={"Выбрать необходимые магазины"}
                             isMulti
                             options={usersOptions}
                             value={selectedUsers}
                             onChange={setSelectedUsers}
                         />
+                            <RangeCalendar
+                                value={dateRange}
+                                onChange={setDateRange}
+                            />
+                       <button className=" group bg-[#E9D6C7] w-50 h-20 center-block hover:bg-[#4E3629] transition-colors duration-300 px-4 py-2 rounded mx-auto block">
+                            <span className="text-black group-hover:text-white">Создать отчет</span>
+                        </button>
                     </form>
-
 
                 </div>
 
