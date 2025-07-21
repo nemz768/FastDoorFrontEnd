@@ -59,7 +59,7 @@ export const MainInstallerCreate = () => {
                 </div>
 
 
-                <button id="submitButton" type="submit" className="submit-btn standartButton">Добавить</button>
+                <button id="submitButton" type="submit" className="submitInstallers">Добавить</button>
             </form>
         </div>
     );

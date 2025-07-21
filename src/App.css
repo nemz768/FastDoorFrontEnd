@@ -135,11 +135,3 @@ footer a:hover {
 }
 
 
-.standartButton {
-  width: 200px;
-  height: 50px;
-  padding: 5px;
-  background-color: #4E3629;
-  border-radius: 8px;
-  transition: .8s;
-}

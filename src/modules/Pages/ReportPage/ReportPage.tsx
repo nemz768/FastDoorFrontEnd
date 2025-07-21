@@ -66,7 +66,8 @@ export const ReportPage = () => {
     }, [])
 
 
-    const postReport = async () => {
+    const postReport = async (e:any) => {
+        e.preventDefault();
         if (!title || !dateRange[0] || !dateRange[1] || selectedUsers.length === 0) {
             alert("Пожалуйста, заполните все поля");
             return;
@@ -128,7 +129,7 @@ export const ReportPage = () => {
                 </div>
                 <div className="ReportPage-section-block bg-gray-200 mt-10 mb-10 rounded-4xl">
                     <h1>Создать новый отчет</h1>
-                    <form onSubmit={postReport} className="flex flex-col gap-y-5">
+                    <form onSubmit={(e)=> postReport(e)} className="flex flex-col gap-y-5">
                             <input
                                 value={title}
                                 onChange={(e) => setTitle(e.target.value)}

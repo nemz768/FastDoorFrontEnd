@@ -82,7 +82,7 @@ export const MainInstallerTable: React.FC<MainInstallerTableProps> = ({
                     </td>
                     <td>
                         <button
-                            className="standartBtn"
+                            className="mainInstallerTable-btn"
                             onClick={() => postData(Number(order.id))}
                             disabled={!selectedTag[order.id]}
                             id="ConfirmBtn"

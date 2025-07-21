@@ -259,7 +259,7 @@ export const PatchOrderPage = () => {
                         <button type="button" className="cancelBtnPatch submit-btn" onClick={() => navigate('/home/seller/listOrdersSeller/')}>
                             Отмена
                         </button>
-                        <button type="submit" className="submit-btn">
+                        <button type="submit" className="confirmBtn">
                             Подтвердить
                         </button>
                     </div>
