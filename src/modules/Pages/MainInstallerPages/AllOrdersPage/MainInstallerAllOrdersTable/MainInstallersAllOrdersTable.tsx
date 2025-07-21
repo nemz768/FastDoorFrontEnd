@@ -21,11 +21,12 @@ interface MainInstallersAllOrdersTableProps {
     orderId: string | null;
     deleteOrder: (id: string) => void;
     workloadByDate: Record<string, InstallerWorkload[]>;
+    highlightedRowId: string | null;
 }
 
 export const MainInstallersAllOrdersTable:React.FC<MainInstallersAllOrdersTableProps> = ({orders, reversedDate, updateOrders,
                                                  editedOrder,setEditedOrder, setOrderId, setSelectedTag,
-                                                 selectedTag, orderId, deleteOrder, installers, workloadByDate}) => {
+                                                 selectedTag, orderId, deleteOrder, installers, workloadByDate, highlightedRowId}) => {
 
 
     const getWorkloadForInstaller = (installerId: string, date: string) => {
@@ -38,18 +39,20 @@ export const MainInstallersAllOrdersTable:React.FC<MainInstallersAllOrdersTableP
     };
 
     const handleChangeButton = (order: OrderMainInstaller) => {
-        setOrderId(order.id)
+        setOrderId(order.id);
+
         setEditedOrder({
             messageMainInstaller: order.messageMainInstaller || '',
             installerName: order.installerName || ''
         });
 
+        const installer = installers.find(inst => inst.fullName === order.installerName);
         setSelectedTag(prev => ({
             ...prev,
-            [order.id]: order.installerName || ''
+            [order.id]: installer?.id || ''
         }));
-
     }
+
 
     const handleChange = (event: React.ChangeEvent<HTMLSelectElement>, orderId: string) => {
         setSelectedTag((prev) => ({
@@ -92,7 +95,9 @@ export const MainInstallersAllOrdersTable:React.FC<MainInstallersAllOrdersTableP
                 </thead>
                 <tbody>
                 {orders.map((order) => (
-                    <tr key={order.id}>
+                    <tr key={order.id}
+                        className={highlightedRowId === order.id ? "bg-green-100 transition-colors" : ""}
+                    >
 
                         <td>{order.fullName}</td>
 
@@ -132,7 +137,7 @@ export const MainInstallersAllOrdersTable:React.FC<MainInstallersAllOrdersTableP
                                             onChange={(event) => handleChange(event, order.id)}
 
                                         >
-                                            <option value="">Выбрать установщика</option>
+                                            <option disabled value="">Выбрать установщика</option>
                                             {installers.map((option) => (
                                                 <option key={option.id} value={option.id}>
                                                     {`${option.fullName} (${getWorkloadForInstaller(option.id, order.dateOrder)})`}

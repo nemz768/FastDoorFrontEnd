@@ -24,6 +24,7 @@ interface OrderResponseMainInstaller extends OrdersResponse{
 
 export const MainInstallerAllOrders = () => {
     const [orderId, setOrderId] = useState<null | string>(null);
+
     const [selectedTag, setSelectedTag] = useState<Record<string, string>>({});
     const [loading, isLoading] = useState(false);
     const [installers, setInstallers] = useState<installersType[]>([]);
@@ -40,10 +41,18 @@ export const MainInstallerAllOrders = () => {
         installerName: ''
     });
 
+
     const navItems = [
         { label: 'Главная', route: '/home/mainInstaller/'  },
         { label: 'Добавить установщика', route: '/home/mainInstaller/create' },
     ];
+
+    // podskazka
+
+    const [highlightedRowId, setHighlightedRowId] = React.useState<string | null>(null);
+
+
+
 
     const fetchOrders = async () => {
             isLoading(true);
@@ -151,54 +160,6 @@ export const MainInstallerAllOrders = () => {
         const inDoorQuantity = Number(editedOrder.inDoorQuantity);
 
 
-        // const payload = {
-        //     id: order.id,
-        //     dateOrder: order.dateOrder || '',
-        //     frontDoorQuantity: frontDoorQuantity,
-        //     inDoorQuantity: inDoorQuantity,
-        //     installerName: (() => {
-        //         const selectedInstallerId = selectedTag[order.id];
-        //         const found = installers.find(inst => inst.id === selectedInstallerId);
-        //         return found?.fullName || order.installerName || null;
-        //     })(),
-        //
-        //     messageSeller: order.messageSeller || '',
-        //     messageMainInstaller: editedOrder.messageMainInstaller || '',
-        //     nickname: order.nickname || '',
-        // };
-
-        // try {
-        //     const response = await fetch(`/api/edit/${orderIdToUpdate}`, { // поменять на apiMainInstaller
-        //         method: "PATCH",
-        //         headers: {
-        //             "Content-Type": "application/json",
-        //         },
-        //         body: JSON.stringify(payload),
-        //     });
-        //
-        //     if (!response.ok) {
-        //         const errText = await response.text(); // посмотри, что вернёт сервер
-        //         throw new Error(`Ошибка: ${response.status} — ${errText}`);
-        //     }
-        //
-        //     // Обновление в списке заказов
-        //     setOrders(prev =>
-        //         prev.map(item =>
-        //             item.id === orderIdToUpdate
-        //                 ? { ...item, ...payload }
-        //                 : item
-        //         )
-        //     );
-        //
-        //     sendMessage("Изменение прошло успешно");
-        //     setOrderId(null); // очистка выделенного заказа
-        //     setTimeout(() => sendMessage(''), 3000);
-        // } catch (error: any) {
-        //     console.error(error);
-        //     sendMessage("Возникла ошибка: " + error.message);
-        // }
-
-
         const payload = {
             orderId: order.id,
             frontDoorQuantity: frontDoorQuantity,
@@ -242,6 +203,15 @@ export const MainInstallerAllOrders = () => {
 
 
             sendMessage("Изменение прошло успешно");
+
+
+            setHighlightedRowId(orderIdToUpdate);
+
+            setTimeout(() => {
+                setHighlightedRowId(null);
+            }, 2000);
+
+
             setOrderId(null); // очистка выделенного заказа
             setTimeout(() => sendMessage(''), 3000);
         } catch (error: any) {
@@ -279,9 +249,6 @@ export const MainInstallerAllOrders = () => {
     };
 
 
-
-
-
     const reversedDate = (dateString = '') => {
         const day = dateString.slice(8, 10);
         const month = dateString.slice(5, 7);
@@ -312,6 +279,7 @@ export const MainInstallerAllOrders = () => {
                 {!loading && !error && orders.length > 0 &&
                     <div>
                         <MainInstallersAllOrdersTable
+                            highlightedRowId={highlightedRowId}
                             orders={orders}
                             reversedDate={reversedDate}
                             updateOrders={updateOrders}
