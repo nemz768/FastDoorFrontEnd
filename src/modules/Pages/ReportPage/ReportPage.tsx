@@ -23,7 +23,7 @@ type UserOption = {
 
 export const ReportPage = () => {
     const usersOptions: UserOption[] = [
-        { value: "user1", label: "БМ" },
+        { value: "user1", label: "бм" },
     ];
 
     const [isAvaiable, setIsAvaiable] = useState<null | boolean>(null);
