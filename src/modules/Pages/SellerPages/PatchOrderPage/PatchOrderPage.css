@@ -163,16 +163,6 @@
 }
 
 
-@media (max-width: 1102px) {
-
-    .cancelBtnPatch {
-        display: none;
-    }
-}
-
-
-
-/*PaginationNumbers*/
 
 
 .pagination {

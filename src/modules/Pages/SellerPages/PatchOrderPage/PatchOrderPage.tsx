@@ -256,7 +256,7 @@ export const PatchOrderPage = () => {
                     </div>
 
                     <div className="buttons-group">
-                        <button type="button" className="cancelBtnPatch submit-btn" onClick={() => navigate('/home/seller/listOrdersSeller/')}>
+                        <button type="button" className="confirmBtn" onClick={() => navigate('/home/seller/listOrdersSeller/')}>
                             Отмена
                         </button>
                         <button type="submit" className="confirmBtn">
