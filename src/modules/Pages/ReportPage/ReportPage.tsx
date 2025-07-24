@@ -11,7 +11,7 @@ interface getReportTypes {
     dateFrom: string;
     dateTo: string;
     title: string;
-    relatedUser: string[];
+    relatedUsers: string[];
 }
 
 type UserOption = {
@@ -77,8 +77,10 @@ export const ReportPage = () => {
             title: title,
             dateFrom: dateRange[0].toISOString(),
             dateTo: dateRange[1].toISOString(),
-            relatedUsers: selectedUsers.map(u => u.value),
+            relatedUsers: selectedUsers.map(u => u.label),
         }
+
+        console.log(payload)
 
         try {
         const response = await fetch("/api/report/create", {
