@@ -20,6 +20,7 @@ type UserOption = {
 };
 
 
+
 export const ReportPage = () => {
     const usersOptions: UserOption[] = [
         { value: "user1", label: "БМ" },
@@ -38,6 +39,8 @@ export const ReportPage = () => {
     const navItems = [
         { label: "Главная", route: '/home/owner'  },
     ]
+
+
 
 
 
@@ -75,8 +78,8 @@ export const ReportPage = () => {
 
         const payload = {
             title: title,
-            dateFrom: dateRange[0],
-            dateTo: dateRange[1],
+            dateFrom: dateRange[0].toISOString().split('T')[0],
+            dateTo: dateRange[1].toISOString().split('T')[0],
             relatedUsers: selectedUsers.map(u => u.label),
         }
 
