@@ -73,12 +73,12 @@ export const ReportPage = () => {
             return;
         }
 
-        // const payload = {
-        //     title: title,
-        //     dateFrom: dateRange[0].toISOString(),
-        //     dateTo: dateRange[1].toISOString(),
-        //     relatedUser: selectedUsers.map(u => u.value),
-        // }
+        const payload = {
+            title: title,
+            dateFrom: dateRange[0].toISOString(),
+            dateTo: dateRange[1].toISOString(),
+            relatedUsers: selectedUsers.map(u => u.value),
+        }
 
         try {
         const response = await fetch("/api/report/create", {
@@ -86,12 +86,7 @@ export const ReportPage = () => {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({
-                title: 'title',
-                dateFrom: "2025-1-1",
-                dateTo: "2025-2-2",
-                relatedUser: ["БМ"],
-            })
+            body: JSON.stringify(payload)
         })
             const data = await response.json();
             console.log(data)
