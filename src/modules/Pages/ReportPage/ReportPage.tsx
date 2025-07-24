@@ -75,8 +75,8 @@ export const ReportPage = () => {
 
         const payload = {
             title: title,
-            dateFrom: dateRange[0].toISOString(),
-            dateTo: dateRange[1].toISOString(),
+            dateFrom: dateRange[0],
+            dateTo: dateRange[1],
             relatedUsers: selectedUsers.map(u => u.label),
         }
 
