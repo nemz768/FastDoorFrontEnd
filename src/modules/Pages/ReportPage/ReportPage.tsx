@@ -8,6 +8,7 @@ import RangeCalendar from "./RangeCalendar";
 
 
 interface getReportTypes {
+    id: number;
     dateFrom: string;
     dateTo: string;
     title: string;
@@ -67,9 +68,40 @@ export const ReportPage = () => {
         }
     }
 
+
+
+    const getDownloadFile = async (reportId:number, fileName:string) => {
+
+        try {
+            const response = await fetch(`/api/report/download?reportId=${reportId}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.href = url;
+            link.download = `${fileName}.xls`; // имя файла
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+
+
+            window.URL.revokeObjectURL(url);
+        }
+        catch (error:any) {
+            console.error("Ошибка загрузки:", error.message);
+        }
+
+    }
+
+
     useEffect(() => {
         handleGetReports();
     }, [])
+
 
     const postReport = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -117,6 +149,18 @@ export const ReportPage = () => {
     }
 
 
+
+    // Форматирование даты в DD.MM.YYYY
+    const reversedDate = (dateString: string) => {
+        if (dateString.length < 10) return '';
+        const day = dateString.slice(8, 10);
+        const month = dateString.slice(5, 7);
+        const year = dateString.slice(0, 4);
+        if (!day || !month || !year) return '';
+        return `${day}.${month}.${year}`;
+    };
+
+
     return (
         <div className="ReportPage">
             <Header navItems={navItems}/>
@@ -132,10 +176,16 @@ export const ReportPage = () => {
                             <div className="ReportPage-section-block-title">
                                 <h1>Список созданных отчетов</h1>
                                 {getReports.map((report)=> (
-                                    <div key={report.title} className="report">
+                                    <div key={report.title} className="report border-2">
                                         <ul>
                                             <li>{report.title}</li>
-                                            <li>С {report.dateFrom} по {report.dateTo} </li>
+                                            <li>С {reversedDate(report.dateFrom)} по {reversedDate(report.dateTo)} </li>
+
+                                            <button     onClick={() => getDownloadFile(report.id, report.title)}
+                                                        className="text-blue-600 hover:underline">
+                                                Скачать отчёт
+                                            </button>
+
                                         </ul>
                                     </div>
                                 ))
