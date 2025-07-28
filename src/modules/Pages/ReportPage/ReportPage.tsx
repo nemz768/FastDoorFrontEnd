@@ -173,24 +173,33 @@ export const ReportPage = () => {
                             <p>Создайте новый, чтобы получить доступ к списку отчетов</p>
                         </div>) :
                         (
-                            <div className="ReportPage-section-block-title">
-                                <h1>Список созданных отчетов</h1>
-                                {getReports.map((report)=> (
-                                    <div key={report.title.replace("admin", "")} className="report border-2">
-                                        <ul>
-                                            <li>{report.title}</li>
-                                            <li>С {reversedDate(report.dateFrom)} по {reversedDate(report.dateTo)} </li>
-
-                                            <button     onClick={() => getDownloadFile(report.id, report.title)}
-                                                        className="text-blue-600 hover:underline">
-                                                Скачать отчёт
-                                            </button>
-
-                                        </ul>
-                                    </div>
-                                ))
-                                }
+                            <div className="ReportPage-section-block-title p-6 bg-white rounded-2xl shadow-md">
+                                <h1 className="text-2xl font-semibold text-gray-800 mb-4">Список созданных отчетов</h1>
+                                <div className="space-y-4">
+                                    {getReports.map((report) => (
+                                        <div
+                                            key={report.title}
+                                            className="report border border-gray-200 rounded-lg p-4 hover:shadow transition duration-200 bg-gray-50"
+                                        >
+                                            <ul className="space-y-1 text-gray-700">
+                                                <li className="text-lg font-medium">{report.title.replace("admin", "")}</li>
+                                                <li className="text-sm text-gray-500">
+                                                    С {reversedDate(report.dateFrom)} по {reversedDate(report.dateTo)}
+                                                </li>
+                                            </ul>
+                                            <div className="mt-2">
+                                                <button
+                                                    onClick={() => getDownloadFile(report.id, report.title)}
+                                                    className="text-sm text-blue-600 hover:underline hover:text-blue-800 transition"
+                                                >
+                                                    Скачать отчёт
+                                                </button>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
+
                         )
                     }
                 </div>
