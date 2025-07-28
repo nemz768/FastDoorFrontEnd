@@ -123,7 +123,7 @@ export const ReportPage = () => {
 
             <section className="ReportPage-section">
                 <div className="ReportPage-section-block">
-                    {!isAvaiable || getReports.length !== 0 ? (
+                    {!isAvaiable || getReports.length === 0 ? (
                         <div className="ReportPage-section-block-title">
                             <h1>Список отчетов пуст</h1>
                             <p>Создайте новый, чтобы получить доступ к списку отчетов</p>
