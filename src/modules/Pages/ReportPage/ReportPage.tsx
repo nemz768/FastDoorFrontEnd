@@ -19,14 +19,13 @@ type UserOption = {
     label: string;
 };
 
+const [showForm, setShowForm] = useState(false);
 
 export const ReportPage = () => {
 
     const usersOptions: UserOption[] = [
         {  label: "бм" },
     ];
-
-    const [showForm, setShowForm] = useState(false);
 
     const [isAvaiable, setIsAvaiable] = useState<null | boolean>(null);
 
@@ -198,70 +197,53 @@ export const ReportPage = () => {
                 </div>
                 <div className="ReportPage-section-block bg-gray-200 mt-10 mb-10 rounded-4xl">
                     <h1>Создать новый отчет</h1>
+                    <form onSubmit={postReport} className="flex flex-col gap-y-5">
+                        <input
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
+                            placeholder={formError.title ? "Введите название отчета" : "Введите title..."}
+                            className={`border ${formError.title ? "border-red-500" : "border-gray-300"} focus:outline-none focus:ring-2 focus:ring-blue-600 bg-white h-12 pl-3 rounded`}
+                            type="text"
+                        />
+                        <Select
+                            placeholder={formError.selectedUsers ? "Выберите магазины (обязательно)" : "Выбрать необходимые магазины"}
+                            isMulti
+                            options={usersOptions}
+                            value={selectedUsers}
+                            onChange={(value) => {
+                                setSelectedUsers(value);
+                                if (value.length > 0) {
+                                    setFormError(prev => ({ ...prev, selectedUsers: false }));
+                                }
+                            }}
+                            styles={{
+                                control: (base, state) => ({
+                                    ...base,
+                                    borderColor: formError.selectedUsers ? "red" : base.borderColor,
+                                    boxShadow: formError.selectedUsers ? "0 0 0 1px red" : state.isFocused ? "0 0 0 1px #2563eb" : base.boxShadow,
+                                    '&:hover': {
+                                        borderColor: formError.selectedUsers ? "red" : base.borderColor,
+                                    },
+                                }),
+                            }}
+                        />
 
-                    <div className="ReportPage-section-block bg-gray-200 mt-10 mb-10 rounded-4xl">
-                        <button
-                            type="button"
-                            className="mobile-toggle-button md:hidden bg-[#4E3629] text-white px-4 py-2 rounded mb-4"
-                            onClick={() => setShowForm(prev => !prev)}
-                        >
-                            {showForm ? "Скрыть форму" : "Создать отчет"}
-                        </button>
-
-                       <div className={`report-form ${showForm ? "block" : "hidden"} md:block`}>
-                            <h1>Создать новый отчет</h1>
-                            <form onSubmit={postReport} className="flex flex-col gap-y-5">
-                                <form onSubmit={postReport} className="flex flex-col gap-y-5">
-                                    <input
-                                        value={title}
-                                        onChange={(e) => setTitle(e.target.value)}
-                                        placeholder={formError.title ? "Введите название отчета" : "Введите title..."}
-                                        className={`border ${formError.title ? "border-red-500" : "border-gray-300"} focus:outline-none focus:ring-2 focus:ring-blue-600 bg-white h-12 pl-3 rounded`}
-                                        type="text"
-                                    />
-                                    <Select
-                                        placeholder={formError.selectedUsers ? "Выберите магазины (обязательно)" : "Выбрать необходимые магазины"}
-                                        isMulti
-                                        options={usersOptions}
-                                        value={selectedUsers}
-                                        onChange={(value) => {
-                                            setSelectedUsers(value);
-                                            if (value.length > 0) {
-                                                setFormError(prev => ({ ...prev, selectedUsers: false }));
-                                            }
-                                        }}
-                                        styles={{
-                                            control: (base, state) => ({
-                                                ...base,
-                                                borderColor: formError.selectedUsers ? "red" : base.borderColor,
-                                                boxShadow: formError.selectedUsers ? "0 0 0 1px red" : state.isFocused ? "0 0 0 1px #2563eb" : base.boxShadow,
-                                                '&:hover': {
-                                                    borderColor: formError.selectedUsers ? "red" : base.borderColor,
-                                                },
-                                            }),
-                                        }}
-                                    />
-
-                                    <div className={formError.dateRange ? "border border-red-500 p-2 rounded" : ""}>
-                                        <RangeCalendar
-                                            value={dateRange}
-                                            onChange={(val) => {
-                                                setDateRange(val);
-                                                if (val[0] && val[1]) {
-                                                    setFormError(prev => ({ ...prev, dateRange: false }));
-                                                }
-                                            }}
-                                        />
-                                    </div>
-
-                                    <button className=" group bg-[#E9D6C7] w-50 h-20 center-block hover:bg-[#4E3629] transition-colors duration-300 px-4 py-2 rounded mx-auto block">
-                                        <span className="text-black group-hover:text-white">Создать отчет</span>
-                                    </button>
-                                </form>
-                            </form>
+                        <div className={formError.dateRange ? "border border-red-500 p-2 rounded" : ""}>
+                            <RangeCalendar
+                                value={dateRange}
+                                onChange={(val) => {
+                                    setDateRange(val);
+                                    if (val[0] && val[1]) {
+                                        setFormError(prev => ({ ...prev, dateRange: false }));
+                                    }
+                                }}
+                            />
                         </div>
-                    </div>
 
+                        <button className=" group bg-[#E9D6C7] w-50 h-20 center-block hover:bg-[#4E3629] transition-colors duration-300 px-4 py-2 rounded mx-auto block">
+                            <span className="text-black group-hover:text-white">Создать отчет</span>
+                        </button>
+                    </form>
 
                 </div>
 
