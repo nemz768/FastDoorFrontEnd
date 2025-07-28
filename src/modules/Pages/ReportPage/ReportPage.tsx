@@ -16,7 +16,6 @@ interface getReportTypes {
 }
 
 type UserOption = {
-    value: string;
     label: string;
 };
 
@@ -24,7 +23,7 @@ type UserOption = {
 export const ReportPage = () => {
 
     const usersOptions: UserOption[] = [
-        { value: "user1", label: "бм" },
+        {  label: "бм" },
     ];
 
     const [isAvaiable, setIsAvaiable] = useState<null | boolean>(null);
@@ -83,7 +82,7 @@ export const ReportPage = () => {
             const url = window.URL.createObjectURL(blob);
             const link = document.createElement("a");
             link.href = url;
-            link.download = `${fileName}.xls`; // имя файла
+            link.download = `${fileName.replace("admin", "")}.xls`; // имя файла
             document.body.appendChild(link);
             link.click();
             link.remove();
@@ -150,6 +149,7 @@ export const ReportPage = () => {
 
 
 
+
     // Форматирование даты в DD.MM.YYYY
     const reversedDate = (dateString: string) => {
         if (dateString.length < 10) return '';
@@ -162,48 +162,56 @@ export const ReportPage = () => {
 
 
     return (
-        <div className="ReportPage">
-            <Header navItems={navItems}/>
+        <div className="min-h-screen flex flex-col bg-gray-100 text-gray-900">
+            <Header navItems={navItems} />
 
-            <section className="ReportPage-section">
-                <div className="ReportPage-section-block">
-                    {!isAvaiable || getReports.length === 0 ? (
-                        <div className="ReportPage-section-block-title">
-                            <h1>Список отчетов пуст</h1>
-                            <p>Создайте новый, чтобы получить доступ к списку отчетов</p>
-                        </div>) :
-                        (
-                            <div className="ReportPage-section-block-title">
-                                <h1>Список созданных отчетов</h1>
-                                {getReports.map((report)=> (
-                                    <div key={report.title} className="report border-2">
-                                        <ul>
-                                            <li>{report.title}</li>
-                                            <li>С {reversedDate(report.dateFrom)} по {reversedDate(report.dateTo)} </li>
-
-                                            <button     onClick={() => getDownloadFile(report.id, report.title)}
-                                                        className="text-blue-600 hover:underline">
-                                                Скачать отчёт
-                                            </button>
-
-                                        </ul>
+            <main className="flex-grow container mx-auto px-4 py-8">
+                <section className="mb-10">
+                    {(!isAvaiable || getReports.length === 0) ? (
+                        <div className="text-center space-y-2">
+                            <h1 className="text-2xl font-semibold">Список отчетов пуст</h1>
+                            <p className="text-gray-600">Создайте новый, чтобы получить доступ к списку отчетов</p>
+                        </div>
+                    ) : (
+                        <div>
+                            <h1 className="text-2xl font-bold mb-4">Список созданных отчетов</h1>
+                            <div className="space-y-4">
+                                {getReports.map((report) => (
+                                    <div
+                                        key={report.title}
+                                        className="p-4 border border-gray-300 rounded-xl bg-white shadow-sm flex justify-between items-center"
+                                    >
+                                        <div>
+                                            <h2 className="font-medium text-lg">{report.title.replace("admin", "")}</h2>
+                                            <p className="text-sm text-gray-500">
+                                                С {reversedDate(report.dateFrom)} по {reversedDate(report.dateTo)}
+                                            </p>
+                                        </div>
+                                        <button
+                                            onClick={() => getDownloadFile(report.id, report.title)}
+                                            className="text-blue-600 hover:underline text-sm font-medium"
+                                        >
+                                            Скачать отчёт
+                                        </button>
                                     </div>
-                                ))
-                                }
+                                ))}
                             </div>
-                        )
-                    }
-                </div>
-                <div className="ReportPage-section-block bg-gray-200 mt-10 mb-10 rounded-4xl">
-                    <h1>Создать новый отчет</h1>
-                    <form onSubmit={postReport} className="flex flex-col gap-y-5">
+                        </div>
+                    )}
+                </section>
+
+                <section className="bg-white p-6 rounded-2xl shadow-md">
+                    <h1 className="text-xl font-semibold mb-6">Создать новый отчет</h1>
+                    <form onSubmit={postReport} className="space-y-5">
                         <input
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
                             placeholder={formError.title ? "Введите название отчета" : "Введите title..."}
-                            className={`border ${formError.title ? "border-red-500" : "border-gray-300"} focus:outline-none focus:ring-2 focus:ring-blue-600 bg-white h-12 pl-3 rounded`}
+                            className={`w-full h-12 px-4 rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-500 
+                            ${formError.title ? "border-red-500" : "border-gray-300"}`}
                             type="text"
                         />
+
                         <Select
                             placeholder={formError.selectedUsers ? "Выберите магазины (обязательно)" : "Выбрать необходимые магазины"}
                             isMulti
@@ -227,7 +235,7 @@ export const ReportPage = () => {
                             }}
                         />
 
-                        <div className={formError.dateRange ? "border border-red-500 p-2 rounded" : ""}>
+                        <div className={`${formError.dateRange ? "border border-red-500 p-2 rounded-lg" : ""}`}>
                             <RangeCalendar
                                 value={dateRange}
                                 onChange={(val) => {
@@ -239,17 +247,19 @@ export const ReportPage = () => {
                             />
                         </div>
 
-                        <button className=" group bg-[#E9D6C7] w-50 h-20 center-block hover:bg-[#4E3629] transition-colors duration-300 px-4 py-2 rounded mx-auto block">
-                            <span className="text-black group-hover:text-white">Создать отчет</span>
+                        <button
+                            type="submit"
+                            className="bg-[#E9D6C7] text-black hover:bg-[#4E3629] hover:text-white transition-colors duration-300 px-6 py-3 rounded-lg w-full sm:w-64 mx-auto block text-center"
+                        >
+                            Создать отчет
                         </button>
                     </form>
+                </section>
+            </main>
 
-                </div>
-
-            </section>
-
-            <Footer/>
-            <Popup navItems={navItems}/>
+            <Footer />
+            <Popup navItems={navItems} />
         </div>
     );
+
 };
