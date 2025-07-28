@@ -2,7 +2,7 @@ import {Header} from "../../Widgets/Header/Header";
 import {Popup} from "../../Widgets/Popup/Popup";
 import './ReportPage.css'
 import {Footer} from "../../Widgets/Footer/Footer";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import Select, {MultiValue} from "react-select";
 import RangeCalendar from "./RangeCalendar";
 
@@ -20,8 +20,8 @@ type UserOption = {
 };
 
 
-
 export const ReportPage = () => {
+
     const usersOptions: UserOption[] = [
         { value: "user1", label: "бм" },
     ];
@@ -36,13 +36,16 @@ export const ReportPage = () => {
 
     const [title, setTitle] = useState("");
 
+    const [formError, setFormError] = useState({
+        title: false,
+        dateRange: false,
+        selectedUsers: false,
+    });
+
+
     const navItems = [
         { label: "Главная", route: '/home/owner'  },
     ]
-
-
-
-
 
     const handleGetReports = async () => {
         try {
@@ -68,9 +71,20 @@ export const ReportPage = () => {
         handleGetReports();
     }, [])
 
-
-    const postReport = async (e:any) => {
+    const postReport = async (e: React.FormEvent) => {
         e.preventDefault();
+
+
+        const error = {
+            title: !title,
+            dateRange: !dateRange[0] || !dateRange[1],
+            selectedUsers: selectedUsers.length === 0,
+        }
+        setFormError(error);
+
+        const hasErrors = Object.values(error).some(Boolean);
+        if (hasErrors) return;
+
         if (!title || !dateRange[0] || !dateRange[1] || selectedUsers.length === 0) {
             alert("Пожалуйста, заполните все поля");
             return;
@@ -93,9 +107,9 @@ export const ReportPage = () => {
             },
             body: JSON.stringify(payload)
         })
-            const data = await response.json();
+            const data = await response.text();
             console.log(data)
-
+            await handleGetReports();
         }
         catch(err: any) {
             console.log(err)
@@ -109,9 +123,7 @@ export const ReportPage = () => {
 
             <section className="ReportPage-section">
                 <div className="ReportPage-section-block">
-
-                    {/*|| getReports.length !== 0*/}
-                    {isAvaiable ? (
+                    {!isAvaiable || getReports.length !== 0 ? (
                         <div className="ReportPage-section-block-title">
                             <h1>Список отчетов пуст</h1>
                             <p>Создайте новый, чтобы получить доступ к списку отчетов</p>
@@ -134,27 +146,50 @@ export const ReportPage = () => {
                 </div>
                 <div className="ReportPage-section-block bg-gray-200 mt-10 mb-10 rounded-4xl">
                     <h1>Создать новый отчет</h1>
-                    <form onSubmit={(e)=> postReport(e)} className="flex flex-col gap-y-5">
-                            <input
-                                value={title}
-                                onChange={(e) => setTitle(e.target.value)}
-                                placeholder="Введите title..."
-                                required
-                                className="border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600 bg-white h-12 pl-3 rounded"
-                                type="text" />
+                    <form onSubmit={postReport} className="flex flex-col gap-y-5">
+                        <input
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
+                            placeholder={formError.title ? "Введите название отчета" : "Введите title..."}
+                            className={`border ${formError.title ? "border-red-500" : "border-gray-300"} focus:outline-none focus:ring-2 focus:ring-blue-600 bg-white h-12 pl-3 rounded`}
+                            type="text"
+                        />
                         <Select
-                            required
-                            placeholder={"Выбрать необходимые магазины"}
+                            placeholder={formError.selectedUsers ? "Выберите магазины (обязательно)" : "Выбрать необходимые магазины"}
                             isMulti
                             options={usersOptions}
                             value={selectedUsers}
-                            onChange={setSelectedUsers}
+                            onChange={(value) => {
+                                setSelectedUsers(value);
+                                if (value.length > 0) {
+                                    setFormError(prev => ({ ...prev, selectedUsers: false }));
+                                }
+                            }}
+                            styles={{
+                                control: (base, state) => ({
+                                    ...base,
+                                    borderColor: formError.selectedUsers ? "red" : base.borderColor,
+                                    boxShadow: formError.selectedUsers ? "0 0 0 1px red" : state.isFocused ? "0 0 0 1px #2563eb" : base.boxShadow,
+                                    '&:hover': {
+                                        borderColor: formError.selectedUsers ? "red" : base.borderColor,
+                                    },
+                                }),
+                            }}
                         />
+
+                        <div className={formError.dateRange ? "border border-red-500 p-2 rounded" : ""}>
                             <RangeCalendar
                                 value={dateRange}
-                                onChange={setDateRange}
+                                onChange={(val) => {
+                                    setDateRange(val);
+                                    if (val[0] && val[1]) {
+                                        setFormError(prev => ({ ...prev, dateRange: false }));
+                                    }
+                                }}
                             />
-                       <button className=" group bg-[#E9D6C7] w-50 h-20 center-block hover:bg-[#4E3629] transition-colors duration-300 px-4 py-2 rounded mx-auto block">
+                        </div>
+
+                        <button className=" group bg-[#E9D6C7] w-50 h-20 center-block hover:bg-[#4E3629] transition-colors duration-300 px-4 py-2 rounded mx-auto block">
                             <span className="text-black group-hover:text-white">Создать отчет</span>
                         </button>
                     </form>
