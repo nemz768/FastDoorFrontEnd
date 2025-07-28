@@ -147,7 +147,7 @@ export const SellerCreatePage = () => {
                 <h3 className="subtitleInput">Укажите данные заказчика</h3>
 
                 <div className="input-group">
-                    <label htmlFor="fullName">ФИО: </label>
+                    <label htmlFor="fullName">ФИО(Без фамилии): </label>
                     <input
                         type="text"
                         className="input_SellerPage bg-white"
