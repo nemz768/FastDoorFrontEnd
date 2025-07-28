@@ -26,6 +26,8 @@ export const ReportPage = () => {
         {  label: "бм" },
     ];
 
+    const [showForm, setShowForm] = useState(false);
+
     const [isAvaiable, setIsAvaiable] = useState<null | boolean>(null);
 
     const [getReports, setGetReports] = useState<getReportTypes[]>([]);
@@ -162,104 +164,111 @@ export const ReportPage = () => {
 
 
     return (
-        <div className="min-h-screen flex flex-col bg-gray-100 text-gray-900">
-            <Header navItems={navItems} />
+        <div className="ReportPage">
+            <Header navItems={navItems}/>
 
-            <main className="flex-grow container mx-auto px-4 py-8">
-                <section className="mb-10">
-                    {(!isAvaiable || getReports.length === 0) ? (
-                        <div className="text-center space-y-2">
-                            <h1 className="text-2xl font-semibold">Список отчетов пуст</h1>
-                            <p className="text-gray-600">Создайте новый, чтобы получить доступ к списку отчетов</p>
-                        </div>
-                    ) : (
-                        <div>
-                            <h1 className="text-2xl font-bold mb-4">Список созданных отчетов</h1>
-                            <div className="space-y-4">
-                                {getReports.map((report) => (
-                                    <div
-                                        key={report.title}
-                                        className="p-4 border border-gray-300 rounded-xl bg-white shadow-sm flex justify-between items-center"
-                                    >
-                                        <div>
-                                            <h2 className="font-medium text-lg">{report.title.replace("admin", "")}</h2>
-                                            <p className="text-sm text-gray-500">
-                                                С {reversedDate(report.dateFrom)} по {reversedDate(report.dateTo)}
-                                            </p>
-                                        </div>
-                                        <button
-                                            onClick={() => getDownloadFile(report.id, report.title)}
-                                            className="text-blue-600 hover:underline text-sm font-medium"
-                                        >
-                                            Скачать отчёт
-                                        </button>
+            <section className="ReportPage-section">
+                <div className="ReportPage-section-block">
+                    {!isAvaiable || getReports.length === 0 ? (
+                        <div className="ReportPage-section-block-title">
+                            <h1>Список отчетов пуст</h1>
+                            <p>Создайте новый, чтобы получить доступ к списку отчетов</p>
+                        </div>) :
+                        (
+                            <div className="ReportPage-section-block-title">
+                                <h1>Список созданных отчетов</h1>
+                                {getReports.map((report)=> (
+                                    <div key={report.title.replace("admin", "")} className="report border-2">
+                                        <ul>
+                                            <li>{report.title}</li>
+                                            <li>С {reversedDate(report.dateFrom)} по {reversedDate(report.dateTo)} </li>
+
+                                            <button     onClick={() => getDownloadFile(report.id, report.title)}
+                                                        className="text-blue-600 hover:underline">
+                                                Скачать отчёт
+                                            </button>
+
+                                        </ul>
                                     </div>
-                                ))}
-                            </div>
-                        </div>
-                    )}
-                </section>
-
-                <section className="bg-white p-6 rounded-2xl shadow-md">
-                    <h1 className="text-xl font-semibold mb-6">Создать новый отчет</h1>
-                    <form onSubmit={postReport} className="space-y-5">
-                        <input
-                            value={title}
-                            onChange={(e) => setTitle(e.target.value)}
-                            placeholder={formError.title ? "Введите название отчета" : "Введите title..."}
-                            className={`w-full h-12 px-4 rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-500 
-                            ${formError.title ? "border-red-500" : "border-gray-300"}`}
-                            type="text"
-                        />
-
-                        <Select
-                            placeholder={formError.selectedUsers ? "Выберите магазины (обязательно)" : "Выбрать необходимые магазины"}
-                            isMulti
-                            options={usersOptions}
-                            value={selectedUsers}
-                            onChange={(value) => {
-                                setSelectedUsers(value);
-                                if (value.length > 0) {
-                                    setFormError(prev => ({ ...prev, selectedUsers: false }));
+                                ))
                                 }
-                            }}
-                            styles={{
-                                control: (base, state) => ({
-                                    ...base,
-                                    borderColor: formError.selectedUsers ? "red" : base.borderColor,
-                                    boxShadow: formError.selectedUsers ? "0 0 0 1px red" : state.isFocused ? "0 0 0 1px #2563eb" : base.boxShadow,
-                                    '&:hover': {
-                                        borderColor: formError.selectedUsers ? "red" : base.borderColor,
-                                    },
-                                }),
-                            }}
-                        />
+                            </div>
+                        )
+                    }
+                </div>
+                <div className="ReportPage-section-block bg-gray-200 mt-10 mb-10 rounded-4xl">
+                    <h1>Создать новый отчет</h1>
 
-                        <div className={`${formError.dateRange ? "border border-red-500 p-2 rounded-lg" : ""}`}>
-                            <RangeCalendar
-                                value={dateRange}
-                                onChange={(val) => {
-                                    setDateRange(val);
-                                    if (val[0] && val[1]) {
-                                        setFormError(prev => ({ ...prev, dateRange: false }));
-                                    }
-                                }}
-                            />
-                        </div>
-
+                    <div className="ReportPage-section-block bg-gray-200 mt-10 mb-10 rounded-4xl">
                         <button
-                            type="submit"
-                            className="bg-[#E9D6C7] text-black hover:bg-[#4E3629] hover:text-white transition-colors duration-300 px-6 py-3 rounded-lg w-full sm:w-64 mx-auto block text-center"
+                            type="button"
+                            className="mobile-toggle-button md:hidden bg-[#4E3629] text-white px-4 py-2 rounded mb-4"
+                            onClick={() => setShowForm(prev => !prev)}
                         >
-                            Создать отчет
+                            {showForm ? "Скрыть форму" : "Создать отчет"}
                         </button>
-                    </form>
-                </section>
-            </main>
 
-            <Footer />
-            <Popup navItems={navItems} />
+                       <div className={`report-form ${showForm ? "block" : "hidden"} md:block`}>
+                            <h1>Создать новый отчет</h1>
+                            <form onSubmit={postReport} className="flex flex-col gap-y-5">
+                                <form onSubmit={postReport} className="flex flex-col gap-y-5">
+                                    <input
+                                        value={title}
+                                        onChange={(e) => setTitle(e.target.value)}
+                                        placeholder={formError.title ? "Введите название отчета" : "Введите title..."}
+                                        className={`border ${formError.title ? "border-red-500" : "border-gray-300"} focus:outline-none focus:ring-2 focus:ring-blue-600 bg-white h-12 pl-3 rounded`}
+                                        type="text"
+                                    />
+                                    <Select
+                                        placeholder={formError.selectedUsers ? "Выберите магазины (обязательно)" : "Выбрать необходимые магазины"}
+                                        isMulti
+                                        options={usersOptions}
+                                        value={selectedUsers}
+                                        onChange={(value) => {
+                                            setSelectedUsers(value);
+                                            if (value.length > 0) {
+                                                setFormError(prev => ({ ...prev, selectedUsers: false }));
+                                            }
+                                        }}
+                                        styles={{
+                                            control: (base, state) => ({
+                                                ...base,
+                                                borderColor: formError.selectedUsers ? "red" : base.borderColor,
+                                                boxShadow: formError.selectedUsers ? "0 0 0 1px red" : state.isFocused ? "0 0 0 1px #2563eb" : base.boxShadow,
+                                                '&:hover': {
+                                                    borderColor: formError.selectedUsers ? "red" : base.borderColor,
+                                                },
+                                            }),
+                                        }}
+                                    />
+
+                                    <div className={formError.dateRange ? "border border-red-500 p-2 rounded" : ""}>
+                                        <RangeCalendar
+                                            value={dateRange}
+                                            onChange={(val) => {
+                                                setDateRange(val);
+                                                if (val[0] && val[1]) {
+                                                    setFormError(prev => ({ ...prev, dateRange: false }));
+                                                }
+                                            }}
+                                        />
+                                    </div>
+
+                                    <button className=" group bg-[#E9D6C7] w-50 h-20 center-block hover:bg-[#4E3629] transition-colors duration-300 px-4 py-2 rounded mx-auto block">
+                                        <span className="text-black group-hover:text-white">Создать отчет</span>
+                                    </button>
+                                </form>
+                            </form>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </section>
+
+            <Footer/>
+            <Popup navItems={navItems}/>
         </div>
     );
-
 };

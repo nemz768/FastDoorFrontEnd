@@ -35,3 +35,25 @@ html, body {
 .ReportPage-section-block-title {
     text-align: center;
 }
+
+
+
+@media (max-width: 768px) {
+    .ReportPage-section {
+        flex-direction: column;
+        padding: 0 10px;
+        row-gap: 30px;
+    }
+
+    .ReportPage-section-block {
+        padding: 20px;
+    }
+
+    .report-form {
+        margin-top: 20px;
+    }
+
+    .mobile-toggle-button {
+        display: block;
+    }
+}
