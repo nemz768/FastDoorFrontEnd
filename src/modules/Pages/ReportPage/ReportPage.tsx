@@ -19,7 +19,6 @@ type UserOption = {
     label: string;
 };
 
-const [showForm, setShowForm] = useState(false);
 
 export const ReportPage = () => {
 
