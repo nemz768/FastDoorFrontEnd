@@ -207,10 +207,9 @@ export const ReportPage = () => {
                         </div>
                     </div>
 
-                    {/* Создание отчета */}
-                    <div className="w-full lg:w-1/2">
-                        <div className="bg-gray-100 p-6 rounded-2xl shadow-md w-full">
-                            <h2 className="text-2xl font-semibold text-gray-800 mb-4">Создать новый отчет</h2>
+                    <div className="w-full lg:w-1/2 flex items-center justify-center">
+                        <div className="bg-gray-100 p-6 rounded-2xl shadow-md w-full max-w-md">
+                            <h2 className="text-2xl font-semibold text-gray-800 mb-4 text-center">Создать новый отчет</h2>
                             <form onSubmit={postReport} className="flex flex-col gap-y-5">
                                 <input
                                     value={title}
@@ -255,12 +254,13 @@ export const ReportPage = () => {
                                     />
                                 </div>
 
-                                <button className="group bg-[#E9D6C7] w-50 h-20 hover:bg-[#4E3629] transition-colors duration-300 px-4 py-2 rounded mx-auto block">
+                                <button className="group bg-[#E9D6C7] w-full h-12 hover:bg-[#4E3629] transition-colors duration-300 px-4 py-2 rounded">
                                     <span className="text-black group-hover:text-white">Создать отчет</span>
                                 </button>
                             </form>
                         </div>
                     </div>
+
                 </div>
             </section>
 
