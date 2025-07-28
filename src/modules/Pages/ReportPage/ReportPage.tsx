@@ -170,7 +170,7 @@ export const ReportPage = () => {
 
                     {/* Список отчетов */}
                     <div className="w-full lg:w-1/2">
-                        <div className="bg-white p-6 rounded-2xl shadow-md w-full">
+                        <div className="text-center">
                             {(!isAvaiable || getReports.length === 0) ? (
                                 <div>
                                     <h1 className="text-2xl font-semibold text-gray-800 mb-2">Список отчетов пуст</h1>
@@ -208,9 +208,9 @@ export const ReportPage = () => {
                     </div>
 
                     <div className="w-full lg:w-1/2 flex items-center justify-center">
-                        <div className="bg-gray-100 p-6 rounded-2xl shadow-md w-full max-w-md">
+                        <div className="bg-gray-100 p-6 rounded-2xl shadow-md w-full max-w-3xl">
                             <h2 className="text-2xl font-semibold text-gray-800 mb-4 text-center">Создать новый отчет</h2>
-                            <form onSubmit={postReport} className="flex flex-col gap-y-5">
+                            <form onSubmit={postReport} className="flex flex-col text-center gap-y-5">
                                 <input
                                     value={title}
                                     onChange={(e) => setTitle(e.target.value)}
