@@ -1,7 +1,7 @@
 import React from 'react';
 import { Order } from '../../../../Interfaces/Interfaces';
 import { installersType, InstallerWorkload } from '../MainInstallerPage';
-import '../MainInstallerPage.css'
+import './mainInstallerTable.css'
 
 
 interface MainInstallerTableProps {
@@ -64,6 +64,8 @@ export const MainInstallerTable: React.FC<MainInstallerTableProps> = ({
                     <td>{order.messageSeller}</td>
                     <td>
                         <input
+                            placeholder="Ваш комментарий..."
+                            className="mainInstallerTable-comment"
                             type="text"
                             value={comments[order.id] || ''}
                             onChange={(event) => handleCommentChange(event, order.id)}
@@ -75,7 +77,7 @@ export const MainInstallerTable: React.FC<MainInstallerTableProps> = ({
                             value={selectedTag[order.id] || ''}
                             onChange={(event) => handleChange(event, order.id)}
                         >
-                            <option value="">Выбрать установщика</option>
+                            <option disabled value="">Выбрать установщика</option>
                             {installers.map((option) => (
                                 <option key={option.id} value={option.id}>
                                     {`${option.fullName} (${getWorkloadForInstaller(option.id, order.dateOrder)})`}
