@@ -43,6 +43,23 @@ export const ReportPage = () => {
     });
 
 
+
+    // const getStoresForm = async () => {
+    //     try {
+    //         const response = await fetch("/api/seller/all", {
+    //             method: "GET",
+    //             headers: {
+    //                 "Content-Type": "application/json"
+    //             }
+    //         })
+    //
+    //         const data = await response.str();
+    //     }
+    //     catch (error:any) {
+    //         console.error(error.message);
+    //     }
+    // }
+
     const navItems = [
         { label: "Главная", route: '/home/owner'  },
     ]

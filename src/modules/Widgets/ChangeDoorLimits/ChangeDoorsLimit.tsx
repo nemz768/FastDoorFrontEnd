@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import './ChangeDoorLimits.css'
-import xSymbol from '../../../../../public/x-symbol.svg'
+import xSymbol from '../../../../public/x-symbol.svg'
 
 interface ChangeDoorsLimitsProps {
     frontDoorQuantity: number;
@@ -65,11 +65,11 @@ export const ChangeDoorsLimit = ({frontDoorQuantity, inDoorQuantity, selectedDat
             <div className="ChangeDoorLimits-inputsBlock">
                 <div>
                     <p>Входные двери: </p>
-                    <input min="0" step={1} value={frontDoorQuantityValue} onChange={(e)=> validateCountOfDoors(e.target.value, setFrontDoorQuantityValue)} type="number" />
+                    <input  className="input-changeDoorLimits" min="0" step={1} value={frontDoorQuantityValue} onChange={(e)=> validateCountOfDoors(e.target.value, setFrontDoorQuantityValue)} type="number" />
                 </div>
                 <div>
                     <p>Межкомнатные двери: </p>
-                    <input min="0" step={1}  value={inDoorQuantityValue} onChange={(e)=> validateCountOfDoors(e.target.value, setInDoorQuantityValue)} type="number" />
+                    <input className="input-changeDoorLimits" min="0" step={1}  value={inDoorQuantityValue} onChange={(e)=> validateCountOfDoors(e.target.value, setInDoorQuantityValue)} type="number" />
                 </div>
                <button className="ChangeDoorsLimit-btn" onClick={patchDoorLimits}>Изменить</button>
             </div>

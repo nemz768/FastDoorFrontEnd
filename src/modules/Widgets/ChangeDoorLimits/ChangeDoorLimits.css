@@ -26,14 +26,21 @@
     row-gap: 5px;
 }
 
+
+.input-changeDoorLimits {
+    border: 1px solid black;
+    padding: 0 0 0 3px;
+    border-radius: 4px;
+}
+
 .ChangeDoorsLimit-btn {
-    width: 50px;
+    width: 80px;
     height: 30px;
     background-color: #4E3629;
     color: #fff;
     border: none;
-    border-radius: 20px;
+    border-radius: 6px;
     font-family: Inter, sans-serif;
-    font-size: 16px;
+    font-size: 14px;
     cursor: pointer;
 }

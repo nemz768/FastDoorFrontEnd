@@ -1,6 +1,8 @@
 import React from 'react';
 import { Order } from '../../../../Interfaces/Interfaces';
 import { installersType, InstallerWorkload } from '../MainInstallerPage';
+import '../MainInstallerPage.css'
+
 
 interface MainInstallerTableProps {
     reversedDate: (dateString: string) => string;
@@ -69,6 +71,7 @@ export const MainInstallerTable: React.FC<MainInstallerTableProps> = ({
                     </td>
                     <td>
                         <select
+                            className="mainInstallerTable-select"
                             value={selectedTag[order.id] || ''}
                             onChange={(event) => handleChange(event, order.id)}
                         >

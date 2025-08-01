@@ -6,7 +6,7 @@ import './MainInstallerPage.css'
 import openSvg from '../../../../../public/unlock-alt-svgrepo-com.svg'
 import changeDataSvg from '../../../../../public/change-management-backup-svgrepo-com.svg'
 import shutdownSvg from '../../../../../public/lock-alt-svgrepo-com.svg'
-import {ChangeDoorsLimit} from "../ChangeDoorLimitsPage/ChangeDoorsLimit";
+import {ChangeDoorsLimit} from "../../../Widgets/ChangeDoorLimits/ChangeDoorsLimit";
 import {Pagination} from "../../../Widgets/Pagination/Pagination";
 import {MainInstallerTable} from "./MainInstallerTable/MainInstallerTable";
 import {Order, OrdersResponse, Availability} from "../../../Interfaces/Interfaces";
