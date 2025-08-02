@@ -2,7 +2,7 @@ import {Header} from "../../Widgets/Header/Header";
 import {Popup} from "../../Widgets/Popup/Popup";
 import './ReportPage.css'
 import {Footer} from "../../Widgets/Footer/Footer";
-import React, {use, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import Select, {MultiValue} from "react-select";
 import RangeCalendar from "./RangeCalendar";
 
@@ -25,7 +25,7 @@ export const ReportPage = () => {
         {  label: "бм" },
     ];
 
-    const [getStores, setGetStores] = useState<string[]>([]);
+    // const [getStores, setGetStores] = useState<string[]>([]);
 
     const [getDatesDisabled, setGetDatesDisabled] = useState<string[]>([]);
 
