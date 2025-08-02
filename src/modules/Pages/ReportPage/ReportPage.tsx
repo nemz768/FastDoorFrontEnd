@@ -19,12 +19,21 @@ type UserOption = {
     label: string;
 };
 
+type DateOption = {
+    label: string;
+};
+
 
 export const ReportPage = () => {
 
     const usersOptions: UserOption[] = [
         {  label: "бм" },
     ];
+
+    // const [getStores, setGetStores] = useState<UserOption[]>([]);
+    //
+    // const [getDatesDisabled, setGetDatesDisabled] = useState<DateOption[]>([]);
+
 
     const [isAvaiable, setIsAvaiable] = useState<null | boolean>(null);
 
@@ -53,12 +62,37 @@ export const ReportPage = () => {
     //             }
     //         })
     //
-    //         const data = await response.str();
+    //         const data = await response.text();
+    //
+    //
+    //
     //     }
     //     catch (error:any) {
     //         console.error(error.message);
     //     }
     // }
+
+    const handleGetCalendarDisabledDates = async() => {
+        try {
+            const response = await fetch("/api/doorLimits/allDays", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                }
+            });
+
+            const data = await response.json();
+            console.log(data);
+        }
+        catch (err:any) {
+            console.error(err.message);
+        }
+    }
+
+    useEffect(()=> {
+        handleGetCalendarDisabledDates();
+    }, [])
+
 
     const navItems = [
         { label: "Главная", route: '/home/owner'  },
@@ -196,16 +230,16 @@ export const ReportPage = () => {
                             ) : (
                                 <>
                                     <h1 className="text-2xl font-semibold text-gray-800 mb-4">Список созданных отчетов</h1>
-                                    <div className="flex flex-col gap-4 w-full">
+                                    <div className="flex flex-col gap-4 w-full bg-white">
                                         {getReports.map((report) => (
                                             <div
                                                 key={report.title}
-                                                className="w-full border border-gray-200 rounded-lg p-4 bg-gray-50 hover:shadow"
+                                                className="w-full border border-t-1 border-b-1  rounded-lg p-4  hover:shadow"
                                             >
                                                 <div className="flex flex-col md:flex-row md:justify-between md:items-center">
                                                     <ul className="text-gray-700">
-                                                        <li className="text-lg font-medium">{report.title.replace("admin", "")}</li>
-                                                        <li className="text-sm text-gray-500">
+                                                        <li className="text-2xl">{report.title.replace("admin", "")}</li>
+                                                        <li className="text-xl text-gray-500">
                                                             С {reversedDate(report.dateFrom)} по {reversedDate(report.dateTo)}
                                                         </li>
                                                     </ul>
