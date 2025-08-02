@@ -2,7 +2,7 @@ import {Header} from "../../Widgets/Header/Header";
 import {Popup} from "../../Widgets/Popup/Popup";
 import './ReportPage.css'
 import {Footer} from "../../Widgets/Footer/Footer";
-import React, {useEffect, useState} from "react";
+import React, {use, useEffect, useState} from "react";
 import Select, {MultiValue} from "react-select";
 import RangeCalendar from "./RangeCalendar";
 
@@ -25,8 +25,8 @@ export const ReportPage = () => {
         {  label: "бм" },
     ];
 
-    // const [getStores, setGetStores] = useState<UserOption[]>([]);
-    //
+    const [getStores, setGetStores] = useState<string[]>([]);
+
     const [getDatesDisabled, setGetDatesDisabled] = useState<string[]>([]);
 
 
@@ -48,24 +48,31 @@ export const ReportPage = () => {
 
 
 
-    // const getStoresForm = async () => {
-    //     try {
-    //         const response = await fetch("/api/seller/all", {
-    //             method: "GET",
-    //             headers: {
-    //                 "Content-Type": "application/json"
-    //             }
-    //         })
-    //
-    //         const data = await response.text();
-    //
-    //
-    //
-    //     }
-    //     catch (error:any) {
-    //         console.error(error.message);
-    //     }
-    // }
+    const getStoresForm = async () => {
+        try {
+            const response = await fetch("/api/seller/all", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+
+            const data1 = await response.json();
+            const data = await response.text();
+            console.log(data1)
+            console.log(data)
+
+
+        }
+        catch (error:any) {
+            console.error(error.message);
+        }
+    }
+
+    useEffect(()=> {
+        getStoresForm()
+    }, [])
+
 
     const handleGetCalendarDisabledDates = async() => {
         try {

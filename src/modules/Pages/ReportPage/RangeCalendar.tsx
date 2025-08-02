@@ -34,7 +34,7 @@ const RangeCalendar: React.FC<RangeCalendarProps> = ({ value, onChange, disabled
 
         const formatted = date.toISOString().slice(0, 10);
 
-        return disabledDatesSet.has(formatted);
+        return !disabledDatesSet.has(formatted);
     };
 
 
