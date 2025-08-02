@@ -57,9 +57,7 @@ export const ReportPage = () => {
                 }
             })
 
-            const data1 = await response.json();
             const data = await response.text();
-            console.log(data1)
             console.log(data)
 
 
@@ -72,6 +70,7 @@ export const ReportPage = () => {
     useEffect(()=> {
         getStoresForm()
     }, [])
+
 
 
     const handleGetCalendarDisabledDates = async() => {
@@ -201,10 +200,6 @@ export const ReportPage = () => {
             console.log(err)
         }
     }
-
-
-
-
 
 
     // Форматирование даты в DD.MM.YYYY
