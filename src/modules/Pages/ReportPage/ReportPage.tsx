@@ -19,11 +19,6 @@ type UserOption = {
     label: string;
 };
 
-type DateOption = {
-    label: string;
-};
-
-
 export const ReportPage = () => {
 
     const usersOptions: UserOption[] = [
@@ -32,7 +27,7 @@ export const ReportPage = () => {
 
     // const [getStores, setGetStores] = useState<UserOption[]>([]);
     //
-    // const [getDatesDisabled, setGetDatesDisabled] = useState<DateOption[]>([]);
+    const [getDatesDisabled, setGetDatesDisabled] = useState<string[]>([]);
 
 
     const [isAvaiable, setIsAvaiable] = useState<null | boolean>(null);
@@ -83,6 +78,8 @@ export const ReportPage = () => {
 
             const data = await response.json();
             console.log(data);
+            setGetDatesDisabled(data);
+
         }
         catch (err:any) {
             console.error(err.message);
@@ -201,6 +198,8 @@ export const ReportPage = () => {
 
 
 
+
+
     // Форматирование даты в DD.MM.YYYY
     const reversedDate = (dateString: string) => {
         if (dateString.length < 10) return '';
@@ -296,6 +295,7 @@ export const ReportPage = () => {
                                 <div className={formError.dateRange ? "border border-red-500 p-2 rounded" : ""}>
                                     <RangeCalendar
                                         value={dateRange}
+                                        disabledDates={getDatesDisabled}
                                         onChange={(val) => {
                                             setDateRange(val);
                                             if (val[0] && val[1]) {
