@@ -57,7 +57,7 @@ export const ReportPage = () => {
                 }
             })
 
-            const data = await response.text();
+            const data = await response.json();
             console.log(data)
 
 
