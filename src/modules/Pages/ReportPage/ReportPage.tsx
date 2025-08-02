@@ -15,17 +15,14 @@ interface getReportTypes {
     relatedUsers: string[];
 }
 
-type UserOption = {
+interface UserOption {
     label: string;
 };
 
 export const ReportPage = () => {
 
-    const usersOptions: UserOption[] = [
-        {  label: "бм" },
-    ];
 
-    // const [getStores, setGetStores] = useState<string[]>([]);
+    const [getStores, setGetStores] = useState<UserOption[]>([]);
 
     const [getDatesDisabled, setGetDatesDisabled] = useState<string[]>([]);
 
@@ -55,21 +52,27 @@ export const ReportPage = () => {
                 headers: {
                     "Content-Type": "application/json"
                 }
-            })
+            });
 
-            const data = await response.json();
-            console.log(data)
+            const data: string[] = await response.json();
 
+            setGetStores(data.map(item => ({
+                label: item,
+            })));
 
-        }
-        catch (error:any) {
+            console.log(data);
+
+        } catch (error: any) {
             console.error(error.message);
         }
-    }
+    };
+
 
     useEffect(()=> {
         getStoresForm()
     }, [])
+
+
 
 
 
@@ -274,7 +277,7 @@ export const ReportPage = () => {
                                 <Select
                                     placeholder={formError.selectedUsers ? "Выберите магазины (обязательно)" : "Выбрать необходимые магазины"}
                                     isMulti
-                                    options={usersOptions}
+                                    options={getStores}
                                     value={selectedUsers}
                                     onChange={(value) => {
                                         setSelectedUsers(value);
