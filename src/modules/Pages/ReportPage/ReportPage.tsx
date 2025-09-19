@@ -17,7 +17,6 @@ interface getReportTypes {
 
 interface UserOption {
     label: string;
-    value: string;
 };
 
 export const ReportPage = () => {
@@ -59,7 +58,6 @@ export const ReportPage = () => {
 
             setGetStores(data.map(item => ({
                 label: item,
-                value: item
             })));
 
             console.log(data);
