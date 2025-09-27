@@ -40,7 +40,7 @@ export const LoginPage = () => {
                 }
                 throw new Error(`HTTP ошибка! Статус: ${response.status}`);
             }
-//1231321
+//1231321222
             const data = await response.json();
             console.log('API Response:', data);
 
