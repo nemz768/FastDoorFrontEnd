@@ -74,6 +74,18 @@ export const AdminPanelPage = () => {
         setNickName('');
         setCurrentPage(0);
     }
+
+
+    const reversedDate = (dateString = '') => {
+        const day = dateString.slice(8, 10);
+        const month = dateString.slice(5, 7);
+        const year = dateString.slice(0, 4);
+        if (!day || !month || !year) return '';
+        return `${day}.${month}.${year}`;
+    };
+
+
+
     return (
         <div className="admin-panel">
             <Header navItems={navItems} />
@@ -132,7 +144,7 @@ export const AdminPanelPage = () => {
                                         <td>{order.fullName}</td>
                                         <td>{order.address}</td>
                                         <td>{order.phone}</td>
-                                        <td>{order.dateOrder}</td>
+                                        <td>{reversedDate(order.dateOrder)}</td>
                                         <td>{order.frontDoorQuantity}</td>
                                         <td>{order.inDoorQuantity}</td>
                                         <td>{order.messageSeller}</td>
@@ -146,6 +158,38 @@ export const AdminPanelPage = () => {
                      <Pagination currentPage={currentPage} totalPages={totalPages} setCurrentPage={setCurrentPage}/>
                     </>
                 )}
+
+                {orders.map(order => (
+                    <div key={order.id} className="orders-mobile">
+                        <div className="orders-mobile-address">
+                            <h1>{order.address}</h1>
+                        </div>
+                        <div className="orders-mobile-info-block">
+                            <div className="orders-mobile-info">
+                                ФИО <strong>{order.fullName}</strong>
+                            </div>
+                            <div className="orders-mobile-info">
+                                Номер <strong>{order.phone}</strong>
+                            </div>
+                            <div className="orders-mobile-info">
+                                Дата <strong>{reversedDate(order.dateOrder)}</strong>
+                            </div>
+                            <div className="orders-mobile-info">
+                                Входные двери <strong>{order.frontDoorQuantity}</strong>
+                            </div>
+                            <div className="orders-mobile-info">
+                                Межкомнатные двери <strong>{order.inDoorQuantity}</strong>
+                            </div>
+                            <div className="orders-mobile-info">
+                                Установщик <strong>{order.installerName || "Не назначен"}</strong>
+                            </div>
+                            <div className="orders-mobile-info-last">
+                                Ваш комментарий <strong>{order.messageSeller || "Нет"}</strong>
+                            </div>
+                        </div>
+                    </div>
+                ))}
+
             </main>
 
             <Footer />

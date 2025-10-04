@@ -20,6 +20,16 @@ interface SellerOrdersTableProps {
 export const SellerOrdersTable:React.FC<SellerOrdersTableProps> = ({ isLoading, error, orders, openModal,  currentPage, totalPages, setCurrentPage }) => {
     const navigate = useNavigate();
 
+
+    const reversedDate = (dateString = '') => {
+        const day = dateString.slice(8, 10);
+        const month = dateString.slice(5, 7);
+        const year = dateString.slice(0, 4);
+        if (!day || !month || !year) return '';
+        return `${day}.${month}.${year}`;
+    };
+
+
     return (
         <main className="SellerAllOrdersPage">
             <h2>Заказы продавца</h2>
@@ -51,7 +61,7 @@ export const SellerOrdersTable:React.FC<SellerOrdersTableProps> = ({ isLoading, 
                                     <td>{order.fullName}</td>
                                     <td>{order.address}</td>
                                     <td>{order.phone}</td>
-                                    <td>{order.dateOrder}</td>
+                                    <td>{reversedDate(order.dateOrder)}</td>
                                     <td>{order.frontDoorQuantity}</td>
                                     <td>{order.inDoorQuantity}</td>
                                     <td>{order.messageSeller}</td>
@@ -91,7 +101,7 @@ export const SellerOrdersTable:React.FC<SellerOrdersTableProps> = ({ isLoading, 
                                   Номер <strong>{order.phone}</strong>
                                 </div>
                                 <div className="orders-mobile-info">
-                                   Дата <strong>{order.dateOrder}</strong>
+                                   Дата <strong>{reversedDate(order.dateOrder)}</strong>
                                 </div>
                                 <div className="orders-mobile-info">
                                     Входные двери <strong>{order.frontDoorQuantity}</strong>
