@@ -1,33 +1,38 @@
+/* mainInstaller-page.scss */
+
 html, body {
   height: 100%;
   margin: 0;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  background-color: #E9D6C7; // фон страницы
+  background-color: #E9D6C7;
 }
 
 .main-installer {
-  min-height: 100vh; // чтобы занимать весь экран
   display: flex;
   flex-direction: column;
-  background-color: #E9D6C7; // фон основного блока
+  min-height: 100vh;
 
   &__content {
-    flex: 1; // основной контент растягивается
+    flex: 1;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    margin: 50px 0 50px 0;
     width: 100%;
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 0 20px;
   }
 
   &__title {
     margin-bottom: 20px;
     color: #4e3629;
+    font-size: 1.8rem;
+    text-align: center;
   }
 
   &__main {
-    width: 100%;
     flex: 1;
+    width: 100%;
+
     & > .main-installer__loading,
     & > .main-installer__error,
     & > .main-installer__no-orders {
@@ -60,24 +65,80 @@ html, body {
     }
   }
 
-  &__calendar-block {
-    display: flex;
-    flex-direction: row;
-    column-gap: 300px;
+  /* Горизонтальный скролл для таблиц */
+  &__orders-block,
+  &__availability-table-block {
     width: 100%;
-    justify-content: center;
-    flex-wrap: wrap;
+    overflow-x: auto;
+    margin-bottom: 30px;
   }
 
-  &__calendar-controls {
+  /* Таблицы */
+  &__table {
+    width: 100%;
+    min-width: 600px;
+    border-collapse: collapse;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+
+    th, td {
+      padding: 12px 16px;
+      border: 1px solid #ddd;
+      text-align: left;
+      vertical-align: middle;
+      word-break: break-word;
+      background-clip: padding-box;
+    }
+
+    thead {
+      background-color: #f0f0f0;
+
+      th {
+        text-transform: uppercase;
+        font-weight: 600;
+        font-size: 0.85rem;
+        color: #333;
+      }
+    }
+
+    tbody tr:hover {
+      background-color: #f9f9f9;
+    }
+  }
+
+  /* Пагинация */
+  &__pagination {
     display: flex;
-    flex-direction: column;
-    row-gap: 10px;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 10px;
+
+    &-btn,
+    &-number {
+      padding: 6px 12px;
+      border-radius: 6px;
+      border: 1px solid #ddd;
+      background-color: #fff;
+      cursor: pointer;
+    }
+
+    &-number--active {
+      background-color: #4e3629;
+      color: #fff;
+      border-color: #4e3629;
+    }
+
+    &-btn:disabled {
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
   }
 
+  /* Кнопки управления календарем */
   &__buttons {
     display: flex;
-    column-gap: 5px;
+    gap: 10px;
     margin-top: 10px;
 
     .main-installer__btn {
@@ -103,9 +164,26 @@ html, body {
     }
   }
 
+  /* Footer */
+  footer {
+    flex-shrink: 0;
+  }
 
-}
+  /* Адаптив */
+  @media (max-width: 768px) {
+    &__table {
+      min-width: 540px;
+    }
+  }
 
-Footer {
-  flex-shrink: 0; // чтобы футер не сжимался
+  @media (max-width: 576px) {
+    &__table {
+      min-width: 480px;
+    }
+
+    th, td {
+      padding: 10px 8px;
+      font-size: 0.9rem;
+    }
+  }
 }
