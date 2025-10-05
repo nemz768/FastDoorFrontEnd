@@ -1,5 +1,6 @@
 import React, {useRef} from 'react';
-import '../../SellerPages/SellerCreatePage/createSellerPage.css';
+import './mainInstallerCreate.scss';
+
 import {useNavigate} from "react-router-dom";
 export const MainInstallerCreate = () => {
 
@@ -29,37 +30,38 @@ export const MainInstallerCreate = () => {
     }
 
     return (
-        <div className="sellerCreatePage">
-            <form onSubmit={sendDataInstaller} className="form-container">
-                <h1>Добавление установщика</h1>
-                <h3 className="subtitleInput">Укажите данные установщика</h3>
+        <div className="installer-create">
+            <form onSubmit={sendDataInstaller} className="installer-create__form">
+                <h1 className="installer-create__title">Добавление установщика</h1>
+                <h3 className="installer-create__subtitle">Укажите данные установщика</h3>
 
-                <div className="input-group">
-                    <label htmlFor="fullName">ФИО: </label>
+                <div className="installer-create__group">
+                    <label htmlFor="fullName" className="installer-create__label">ФИО:</label>
                     <input
                         type="text"
-                        className="input_SellerPage"
                         id="fullName"
                         required
                         ref={refs.fullName}
                         placeholder="ФИО"
+                        className="installer-create__input"
                     />
                 </div>
 
-                <div className="input-group">
-                    <label htmlFor="phone">Номер телефона: </label>
+                <div className="installer-create__group">
+                    <label htmlFor="phone" className="installer-create__label">Номер телефона:</label>
                     <input
                         type="text"
-                        className="input_SellerPage"
                         id="phone"
                         required
                         ref={refs.phone}
                         placeholder="Номер телефона"
+                        className="installer-create__input"
                     />
                 </div>
 
-
-                <button id="submitButton" type="submit" className="submitInstallers">Добавить</button>
+                <button type="submit" className="installer-create__submit">
+                    Добавить
+                </button>
             </form>
         </div>
     );

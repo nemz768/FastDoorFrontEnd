@@ -3,7 +3,7 @@ import {Header} from "../../../Widgets/Header/Header";
 import {Footer} from "../../../Widgets/Footer/Footer";
 import {MainInstallersAllOrdersTable} from "./MainInstallerAllOrdersTable/MainInstallersAllOrdersTable";
 import {Pagination} from "../../../Widgets/Pagination/Pagination";
-import './mainInstallerAllOrders.css'
+import './mainInstallerAllOrders-page.scss'
 import {Availability, Order, OrdersResponse} from "../../../Interfaces/Interfaces";
 import {installersType, InstallerWorkload} from "../MainInstallerPage/MainInstallerPage";
 import {Popup} from "../../../Widgets/Popup/Popup";
@@ -251,23 +251,23 @@ export const MainInstallerAllOrders = () => {
 
     return (
         <div className="mainInstallerAllOrders">
-            <Header navItems={navItems}/>
+            <Header navItems={navItems} />
 
-            <div className="mainInstallerAllOrders-block">
-                <h2 className="mainInstallerAllOrders-title">Все заказы</h2>
+            <div className="mainInstallerAllOrders__block">
+                <h2 className="mainInstallerAllOrders__title">Все заказы</h2>
 
                 {error && (
-                    <div className="error">
+                    <div className="mainInstallerAllOrders__error">
                         <h3>Ошибка: {error}</h3>
-                        <button className="retry-button" onClick={fetchOrders}>
-                            Повторить
-                        </button>
+                        <button className="retry-button" onClick={fetchOrders}>Повторить</button>
                     </div>
                 )}
+
                 {!loading && !error && orders.length === 0 && (
-                    <div className="no-orders">Заказы не найдены</div>
+                    <div className="mainInstallerAllOrders__no-orders">Заказы не найдены</div>
                 )}
-                {!loading && !error && orders.length > 0 &&
+
+                {!loading && !error && orders.length > 0 && (
                     <div>
                         <MainInstallersAllOrdersTable
                             highlightedRowId={highlightedRowId}
@@ -290,15 +290,16 @@ export const MainInstallerAllOrders = () => {
                             setCurrentPage={setCurrentPage}
                         />
                     </div>
-                }
+                )}
             </div>
-            <Footer/>
+
+            <Footer />
+
             {message && (
-                <div className="toast-notification">
-                    {message}
-                </div>
+                <div className="toast-notification">{message}</div>
             )}
-            <Popup navItems={navItems}/>
+
+            <Popup navItems={navItems} />
         </div>
     );
 };

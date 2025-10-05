@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Header } from '../../../Widgets/Header/Header';
 import { Footer } from '../../../Widgets/Footer/Footer';
-import './installers.css';
+import './installers.scss';
 import { useNavigate } from 'react-router-dom';
 import { ConfirmPopupMainInstaller } from './ConfirmPopupMainInstaller';
 import {Popup} from "../../../Widgets/Popup/Popup";
@@ -130,34 +130,42 @@ export const InstallersList : React.FC = () => {
 
 
     return (
-        <div className="InstallersListPage">
+        <div className="installers-list">
             <Header navItems={navItems} />
-            {isLoading && <div className="loading">Загрузка...</div>}
-            {error && <div className="error">Ошибка: {error}</div>}
+
+            {isLoading && <div className="installers-list__state installers-list__state--loading">Загрузка...</div>}
+            {error && <div className="installers-list__state installers-list__state--error">Ошибка: {error}</div>}
             {!isLoading && !error && installers.length === 0 && (
-                <div className="no-orders">Заказы не найдены</div>
+                <div className="installers-list__state installers-list__state--empty">Установщики не найдены</div>
             )}
+
             {!isLoading && !error && installers.length > 0 && (
-                <div className="admin-panel">
-                    <table className="installers-table">
-                        <thead>
+                <div className="installers-list__content">
+                    <table className="installers-list__table">
+                        <thead className="installers-list__head">
                         <tr>
-                            <th>Фио Установщика</th>
+                            <th>ФИО Установщика</th>
                             <th>Номер телефона</th>
                             <th>Действие</th>
                         </tr>
                         </thead>
-                        <tbody>
-                        {installers.map((item) => (
-                            <tr key={item.id}>
+                        <tbody className="installers-list__body">
+                        {installers.map(item => (
+                            <tr key={item.id} className="installers-list__row">
                                 {editingInstallerId === item.id ? (
                                     <>
-                                        <td><input     value={editedInstaller.fullName}
-                                                       onChange={(e) => setEditedInstaller(prev => ({ ...prev, fullName: e.target.value }))}
-                                                       defaultValue={item.fullName} /></td>
-                                        <td><input     value={editedInstaller.phone}
-                                                       onChange={(e) => setEditedInstaller(prev => ({ ...prev, phone: e.target.value }))}
-                                                       defaultValue={item.phone} /></td>
+                                        <td>
+                                            <input
+                                                value={editedInstaller.fullName}
+                                                onChange={e => setEditedInstaller(prev => ({ ...prev, fullName: e.target.value }))}
+                                            />
+                                        </td>
+                                        <td>
+                                            <input
+                                                value={editedInstaller.phone}
+                                                onChange={e => setEditedInstaller(prev => ({ ...prev, phone: e.target.value }))}
+                                            />
+                                        </td>
                                     </>
                                 ) : (
                                     <>
@@ -165,28 +173,49 @@ export const InstallersList : React.FC = () => {
                                         <td>{item.phone}</td>
                                     </>
                                 )}
-                                <td>
+                                <td className="installers-list__actions">
                                     {editingInstallerId === item.id ? (
-                                        <button onClick={() => saveDataInstaller(item.id)}>Сохранить</button>
+                                        <button
+                                            className="installers-list__btn installers-list__btn--save"
+                                            onClick={() => saveDataInstaller(item.id)}
+                                        >
+                                            Сохранить
+                                        </button>
                                     ) : (
-                                        <button onClick={() => handleChangeBtn(item)}>Изменить</button>
+                                        <button
+                                            className="installers-list__btn installers-list__btn--edit"
+                                            onClick={() => handleChangeBtn(item)}
+                                        >
+                                            Изменить
+                                        </button>
                                     )}
-                                    <button onClick={() => openModal(item.id)}>Удалить</button>
+                                    <button
+                                        className="installers-list__btn installers-list__btn--delete"
+                                        onClick={() => openModal(item.id)}
+                                    >
+                                        Удалить
+                                    </button>
                                 </td>
                             </tr>
                         ))}
                         </tbody>
                     </table>
-                    <Pagination currentPage={currentPage} totalPages={totalPages} setCurrentPage={setCurrentPage}/>
+
+                    <Pagination
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        setCurrentPage={setCurrentPage}
+                    />
 
                     <button
-                        className="add-installer-button"
+                        className="installers-list__btn installers-list__btn--add"
                         onClick={() => navigate('/home/mainInstaller/create')}
                     >
                         Добавить установщика
                     </button>
                 </div>
             )}
+
             {activeModal && (
                 <ConfirmPopupMainInstaller
                     handleDeleteSuccess={handleDeleteSuccess}
@@ -194,13 +223,10 @@ export const InstallersList : React.FC = () => {
                     closeModal={closeModal}
                 />
             )}
-            <Footer/>
-            {message && (
-                <div className="toast-notification">
-                    {message}
-                </div>
-            )}
-            <Popup navItems={navItems}/>
+
+            <Footer />
+            {message && <div className="installers-list__toast">{message}</div>}
+            <Popup navItems={navItems} />
         </div>
     );
 };

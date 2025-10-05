@@ -1,0 +1,139 @@
+.installer-create {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #E9D6C7;
+  height: 100vh;
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #E0E5EC;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  &__title,
+  &__subtitle {
+    font-family: Inter, sans-serif;
+    font-weight: bold;
+    color: #4E3629;
+    text-align: center;
+  }
+
+  &__title {
+    font-size: 20px;
+  }
+
+  &__subtitle {
+    font-size: 16px;
+    margin-top: 20px;
+  }
+
+  &__group {
+    display: flex;
+    flex-direction: column;
+    margin-top: 15px;
+    width: 100%;
+  }
+
+  &__label {
+    font-family: Inter, sans-serif;
+    font-size: 16px;
+    margin-bottom: 6px;
+  }
+
+  &__input {
+    width: 520px;
+    height: 34px;
+    border-radius: 100px;
+    outline: none;
+    padding-left: 10px;
+    font-size: 16px;
+    font-family: Inter, sans-serif;
+    border: 1px solid #4E3629;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    transition: 0.2s ease-in-out;
+
+    &::placeholder {
+      color: transparent;
+    }
+
+    &:focus {
+      border-color: #2d201a;
+      box-shadow: 0 0 6px rgba(78, 54, 41, 0.6);
+    }
+  }
+
+  &__submit {
+    width: 150px;
+    height: 39px;
+    background-color: #4E3629;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    font-family: Inter, sans-serif;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background 0.2s ease-in-out;
+
+    &:hover {
+      background-color: #3a271f;
+    }
+  }
+
+  @media (max-width: 576px) {
+    background: #E5F0FA;
+    height: 100%;
+
+    &__form {
+      width: 100%;
+      text-align: center;
+      padding: 10px;
+    }
+
+    &__label {
+      display: none;
+    }
+
+    &__title {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    &__subtitle {
+      font-size: 18px;
+      color: #666;
+      margin: 10px 0;
+    }
+
+    &__input {
+      width: 281px;
+      height: 39px;
+      border-radius: 20px;
+      padding: 0 15px;
+      border: none;
+      background-color: #fff;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      color: #333;
+
+      &::placeholder {
+        color: #666;
+        font-size: 16px;
+        font-family: Inter, sans-serif;
+      }
+    }
+
+    &__submit {
+      width: 165px;
+      height: 39px;
+      border-radius: 20px;
+      font-size: 16px;
+    }
+  }
+}
