@@ -1,7 +1,7 @@
 import React from 'react';
 import { Order } from '../../../../Interfaces/Interfaces';
 import { installersType, InstallerWorkload } from '../MainInstallerPage';
-import './mainInstallerTable.css'
+import './mainInstallerTable.scss'
 
 
 interface MainInstallerTableProps {
@@ -37,47 +37,49 @@ export const MainInstallerTable: React.FC<MainInstallerTableProps> = ({
     };
 
     return (
-        <table border={1} className="mainInstallerTable">
-            <thead>
-            <tr>
-                <th>Адрес доставки</th>
-                <th>Филиалы</th>
-                <th>Дата установки</th>
-                <th>Номер телефона</th>
-                <th>Количество входных дверей</th>
-                <th>Количество межкомнатных дверей</th>
-                <th>Комментарий продавца</th>
-                <th>Ваш комментарий</th>
-                <th>Установщик</th>
-                <th>Действие</th>
+        <table className="main-installer__table">
+            <thead className="main-installer__table-head">
+            <tr className="main-installer__table-row">
+                <th className="main-installer__table-cell">Адрес доставки</th>
+                <th className="main-installer__table-cell">Филиалы</th>
+                <th className="main-installer__table-cell">Дата установки</th>
+                <th className="main-installer__table-cell">Номер телефона</th>
+                <th className="main-installer__table-cell">Количество входных дверей</th>
+                <th className="main-installer__table-cell">Количество межкомнатных дверей</th>
+                <th className="main-installer__table-cell">Комментарий продавца</th>
+                <th className="main-installer__table-cell">Ваш комментарий</th>
+                <th className="main-installer__table-cell">Установщик</th>
+                <th className="main-installer__table-cell">Действие</th>
             </tr>
             </thead>
-            <tbody>
+            <tbody className="main-installer__table-body">
             {orders.map((order) => (
-                <tr key={order.id}>
-                    <td>{order.address}</td>
-                    <td>{order.nickname}</td>
-                    <td>{reversedDate(order.dateOrder)}</td>
-                    <td>{order.phone}</td>
-                    <td>{order.frontDoorQuantity}</td>
-                    <td>{order.inDoorQuantity}</td>
-                    <td>{order.messageSeller}</td>
-                    <td>
+                <tr key={order.id} className="main-installer__table-row">
+                    <td className="main-installer__table-cell">{order.address}</td>
+                    <td className="main-installer__table-cell">{order.nickname}</td>
+                    <td className="main-installer__table-cell">{reversedDate(order.dateOrder)}</td>
+                    <td className="main-installer__table-cell">{order.phone}</td>
+                    <td className="main-installer__table-cell">{order.frontDoorQuantity}</td>
+                    <td className="main-installer__table-cell">{order.inDoorQuantity}</td>
+                    <td className="main-installer__table-cell">{order.messageSeller}</td>
+                    <td className="main-installer__table-cell">
                         <input
-                            placeholder="Ваш комментарий..."
-                            className="mainInstallerTable-comment"
                             type="text"
+                            placeholder="Ваш комментарий..."
+                            className="main-installer__table-input"
                             value={comments[order.id] || ''}
                             onChange={(event) => handleCommentChange(event, order.id)}
                         />
                     </td>
-                    <td>
+                    <td className="main-installer__table-cell">
                         <select
-                            className="mainInstallerTable-select"
+                            className="main-installer__table-select"
                             value={selectedTag[order.id] || ''}
                             onChange={(event) => handleChange(event, order.id)}
                         >
-                            <option disabled value="">Выбрать установщика</option>
+                            <option disabled value="">
+                                Выбрать установщика
+                            </option>
                             {installers.map((option) => (
                                 <option key={option.id} value={option.id}>
                                     {`${option.fullName} (${getWorkloadForInstaller(option.id, order.dateOrder)})`}
@@ -85,12 +87,11 @@ export const MainInstallerTable: React.FC<MainInstallerTableProps> = ({
                             ))}
                         </select>
                     </td>
-                    <td>
+                    <td className="main-installer__table-cell">
                         <button
-                            className="mainInstallerTable-btn"
+                            className="main-installer__table-btn"
                             onClick={() => postData(Number(order.id))}
                             disabled={!selectedTag[order.id]}
-                            id="ConfirmBtn"
                         >
                             Подтвердить
                         </button>
