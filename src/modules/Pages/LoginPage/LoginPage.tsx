@@ -68,7 +68,7 @@ export const LoginPage = () => {
             alert('Произошла ошибка при входе');
         }
     };
-
+// test 
     return (
         <div className="login-page">
             <div className="login-page__section">

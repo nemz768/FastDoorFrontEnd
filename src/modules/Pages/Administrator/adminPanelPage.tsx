@@ -188,7 +188,7 @@ export const AdminPanelPage = () => {
                         </div>
                     </div>
                 ))}
-
+            {/*test*/}
                 <Pagination currentPage={currentPage} totalPages={totalPages} setCurrentPage={setCurrentPage}/>
 
             </main>
