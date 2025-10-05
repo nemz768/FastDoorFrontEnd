@@ -20,7 +20,7 @@ jobs:
           node-version: 20
 
       - name: Install dependencies
-        run:  npm ci
+        run: npm ci
 
       - name: Run linter
         run: npm run lint
@@ -39,24 +39,23 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           port: ${{ secrets.PORT }}
           script: |
-             cd /var/www/frontend/
-             if [ -f index.html ]; then
-             rm index.html
-             echo "Удалён index.html"
-             else
-             echo "Файл index.html не найден"
-             fi   
-             if [ -d assets ]; then
-             rm -r assets
-             echo "Удалена папка assets"
-             else
-             echo "Папка assets не найдена"
-             fi
-             cd ~/FastDoorFrontEnd/
-             git pull origin master
-             npm install
-             npm run build
-             sudo cp -r dist/* /var/www/frontend/
-             sudo nginx -t
-             sudo systemctl restart nginx
-             echo "Finish!!!"
+            echo "=== Очистка старого фронтенда ==="
+            sudo rm -rf /var/www/frontend/*
+            
+            echo "=== Подтягиваем последние изменения из Git ==="
+            cd ~/FastDoorFrontEnd/
+            git fetch --all
+            git reset --hard origin/master
+
+            echo "=== Установка зависимостей и сборка ==="
+            npm ci
+            npm run build -- --force
+
+            echo "=== Копируем билд на сервер ==="
+            sudo cp -r dist/* /var/www/frontend/
+
+            echo "=== Проверка Nginx и рестарт ==="
+            sudo nginx -t
+            sudo systemctl restart nginx
+
+            echo "=== Деплой завершен! ==="

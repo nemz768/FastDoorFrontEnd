@@ -68,11 +68,11 @@ export const LoginPage = () => {
             alert('Произошла ошибка при входе');
         }
     };
-// test 
+
     return (
         <div className="login-page">
             <div className="login-page__section">
-                <h1 className="login-page__section-title">Вход</h1>
+                <h1 className="login-page__section-title">Вход newBuild</h1>
                 <form className="login-page__section-form" onSubmit={sendToBack}>
                     <input
                         ref={UsernameRef}
