@@ -1,4 +1,4 @@
-import './App.css'
+import './App.scss'
 import {SiteRoutes} from "./Routes/SiteRoutes.js";
 import React from "react";
 

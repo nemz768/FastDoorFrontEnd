@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Header } from '../../../Widgets/Header/Header';
 import { Footer } from '../../../Widgets/Footer/Footer';
 import { CustomCalendar } from '../../../Widgets/CustomCalendar/CustomCalendar';
-import './MainInstallerPage.css'
+import './mainInstaller-page.scss'
 import openSvg from '../../../../../public/unlock-alt-svgrepo-com.svg'
 import changeDataSvg from '../../../../../public/change-management-backup-svgrepo-com.svg'
 import shutdownSvg from '../../../../../public/lock-alt-svgrepo-com.svg'
@@ -386,25 +386,30 @@ export const MainInstallerPage = () => {
     };
 
     return (
-        <div className='mainInstallerTables-FullBlock'>
+        <div className="main-installer">
             <Header navItems={navItems} />
-            <div className="mainInstallerTables-block">
-                <h2>Панель установщика</h2>
-                <main>
-                    {isOrdersLoading  && <div className="loading">Загрузка...</div>}
+
+            <div className="main-installer__content">
+                <h2 className="main-installer__title">Панель установщика</h2>
+
+                <main className="main-installer__main">
+                    {isOrdersLoading && <div className="main-installer__loading">Загрузка...</div>}
+
                     {error && (
-                        <div className="error">
-                            <h3>Ошибка: {error}</h3>
-                            <button className="retry-button" onClick={fetchOrders}>
+                        <div className="main-installer__error">
+                            <h3 className="main-installer__error-title">Ошибка: {error}</h3>
+                            <button className="main-installer__retry-btn" onClick={fetchOrders}>
                                 Повторить
                             </button>
                         </div>
                     )}
+
                     {!isOrdersLoading && !error && orders.length === 0 && (
-                        <div className="no-orders">Заказы не найдены</div>
+                        <div className="main-installer__no-orders">Заказы не найдены</div>
                     )}
+
                     {!isOrdersLoading && !error && orders.length > 0 && (
-                        <div>
+                        <div className="main-installer__orders-block">
                             <MainInstallerTable
                                 reversedDate={reversedDate}
                                 installers={installers}
@@ -416,6 +421,7 @@ export const MainInstallerPage = () => {
                                 postData={postData}
                                 workloadByDate={workloadByDate}
                             />
+
                             <Pagination
                                 setCurrentPage={setCurrentPage}
                                 currentPage={currentPage}
@@ -425,8 +431,8 @@ export const MainInstallerPage = () => {
                     )}
                 </main>
 
-                <div className="MainInstallerPage__calendar-dateTable-block">
-                    <div className="MainInstallerPage__calendar-btns-block">
+                <div className="main-installer__calendar-block">
+                    <div className="main-installer__calendar-controls">
                         <CustomCalendar
                             availabilityList={availabilityList}
                             fetchedAvailability={fetchedAvailability}
@@ -437,22 +443,31 @@ export const MainInstallerPage = () => {
                             closedSelectedDates={closedSelectedDates}
                             setClosedSelectedDates={setClosedSelectedDates}
                         />
-                        <div className="MainInstallerPage__btns-block">
 
-                            <button className="Calendar-Button-MainInstaller" onClick={closeDateCalendar} disabled={!selectedDate || isAvailabilityChanging}>
-                                <img src={shutdownSvg} alt="shutdown"/>
+                        <div className="main-installer__buttons">
+                            <button
+                                className="main-installer__btn main-installer__btn--close"
+                                onClick={closeDateCalendar}
+                                disabled={!selectedDate || isAvailabilityChanging}
+                            >
+                                <img src={shutdownSvg} alt="Закрыть"/>
                             </button>
-                            <button className="Calendar-Button-MainInstaller" onClick={openDates}
-                                    disabled={closedSelectedDates.size === 0 || isAvailabilityChanging}>
-                                <img src={openSvg} alt="shutdown"/>
+
+                            <button
+                                className="main-installer__btn main-installer__btn--open"
+                                onClick={openDates}
+                                disabled={closedSelectedDates.size === 0 || isAvailabilityChanging}
+                            >
+                                <img src={openSvg} alt="Открыть"/>
                             </button>
-                            <div className="ChangeDoorsLimit-trigger">
+
+                            <div className="main-installer__btn-wrapper">
                                 <button
                                     onClick={() => setOpenCalendarDateChange(prev => !prev)}
                                     disabled={!selectedDate || isAvailabilityChanging}
-                                    className="Calendar-Button-MainInstaller"
+                                    className="main-installer__btn main-installer__btn--change"
                                 >
-                                    <img src={changeDataSvg} alt="shutdown" />
+                                    <img src={changeDataSvg} alt="Изменить" />
                                 </button>
 
                                 {openCalendarDateChange && (
@@ -467,18 +482,19 @@ export const MainInstallerPage = () => {
                             </div>
                         </div>
                     </div>
-                    <div>
-                        <table className="table-dates border-1">
-                            <thead>
+
+                    <div className="main-installer__availability-table-block">
+                        <table className="main-installer__table">
+                            <thead className="main-installer__table-head">
                             <tr>
                                 <th>Дата</th>
                                 <th>Доступные входные двери</th>
                                 <th>Доступные межкомнатные двери</th>
                             </tr>
                             </thead>
-                            <tbody>
+                            <tbody className="main-installer__table-body">
                             {paginatedAvailabilityList.map((availability, index) => (
-                                <tr key={index}>
+                                <tr key={index} className="main-installer__table-row">
                                     <td>{availability.formattedDate}</td>
                                     <td>{availability.frontDoorQuantity}</td>
                                     <td>{availability.inDoorQuantity}</td>
@@ -486,20 +502,22 @@ export const MainInstallerPage = () => {
                             ))}
                             </tbody>
                         </table>
-                        <div className="pagination">
+
+                        <div className="main-installer__pagination">
                             <button
                                 onClick={() => handleAvailabilityPageChange(currentAvailabilityPage - 1)}
                                 disabled={currentAvailabilityPage === 0}
-                                className="pagination-button"
+                                className="main-installer__pagination-btn"
                             >
                                 {"<"}
                             </button>
-                            <div className="pagination-pages">
+
+                            <div className="main-installer__pagination-pages">
                                 {Array.from({ length: totalAvailabilityPages }, (_, index) => (
                                     <button
                                         key={index}
                                         onClick={() => handleAvailabilityPageChange(index)}
-                                        className={`pagination-number ${index === currentAvailabilityPage ? "active" : ""}`}
+                                        className={`main-installer__pagination-number ${index === currentAvailabilityPage ? "main-installer__pagination-number--active" : ""}`}
                                     >
                                         {index + 1}
                                     </button>
@@ -509,17 +527,18 @@ export const MainInstallerPage = () => {
                             <button
                                 onClick={() => handleAvailabilityPageChange(currentAvailabilityPage + 1)}
                                 disabled={currentAvailabilityPage >= totalAvailabilityPages - 1}
-                                className="pagination-button"
+                                className="main-installer__pagination-btn"
                             >
                                 {">"}
                             </button>
                         </div>
-
                     </div>
                 </div>
             </div>
+
             <Footer />
             <Popup navItems={navItems}/>
         </div>
+
     );
 };

@@ -130,7 +130,7 @@ export const InstallersList : React.FC = () => {
 
 
     return (
-        <div>
+        <div className="InstallersListPage">
             <Header navItems={navItems} />
             {isLoading && <div className="loading">Загрузка...</div>}
             {error && <div className="error">Ошибка: {error}</div>}

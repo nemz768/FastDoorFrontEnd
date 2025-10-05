@@ -1,5 +1,5 @@
-import React, {useRef, useState} from 'react';
-import './loginPage.css';
+import React, { useRef, useState } from 'react';
+import './login-page.scss';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../Context/Auth/AuthContext';
 
@@ -9,28 +9,22 @@ export const LoginPage = () => {
     const UsernameRef = useRef<HTMLInputElement>(null);
     const PasswordRef = useRef<HTMLInputElement>(null);
     const navigate = useNavigate();
-        //deployssss
 
-
-    const sendToBack = async (e: { preventDefault: () => void; }) => {
+    const sendToBack = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!UsernameRef.current || !PasswordRef.current) {
             alert('Поля не заполнены');
             return;
         }
+
         const login = UsernameRef.current.value;
         const password = PasswordRef.current.value;
+
         try {
             const response = await fetch(`/api/login?remember-me=${rememberMe}`, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    username: login,
-                    password: password,
-                    rememberMe: rememberMe
-                }),
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username: login, password, rememberMe }),
             });
 
             if (!response.ok) {
@@ -47,21 +41,21 @@ export const LoginPage = () => {
             if (data && data.roles) {
                 localStorage.setItem('userRoles', data.roles);
 
-                if (data.roles === 'main') {
-                    navigate('/home/mainInstaller');
-                } else if (data.roles === 'administrator') {
-                    navigate('/home/owner');
-                } else if (data.roles === 'salespeople') {
-                    navigate('/home/seller');
-                } else {
-                    navigate('/');
+                switch (data.roles) {
+                    case 'main':
+                        navigate('/home/mainInstaller');
+                        break;
+                    case 'administrator':
+                        navigate('/home/owner');
+                        break;
+                    case 'salespeople':
+                        navigate('/home/seller');
+                        break;
+                    default:
+                        navigate('/');
                 }
 
-                if (data.roles === 'administrator' || data.roles === 'salespeople' || data.roles === 'main') {
-                    setIsLoggedIn(true);
-                } else {
-                    setIsLoggedIn(false);
-                }
+                setIsLoggedIn(['administrator', 'salespeople', 'main'].includes(data.roles));
             } else {
                 console.error('Неверный формат ответа API:', data);
                 navigate('/');
@@ -77,37 +71,39 @@ export const LoginPage = () => {
 
     return (
         <div className="login-page">
-            <div className="login-section">
-                <h1 className="loginTitle">Вход</h1>
-                <form onSubmit={sendToBack} className="loginForm" id="loginForm">
+            <div className="login-page__section">
+                <h1 className="login-page__section-title">Вход</h1>
+                <form className="login-page__section-form" onSubmit={sendToBack}>
                     <input
                         ref={UsernameRef}
-                        className="shadows-input"
+                        className="login-page__section-input"
                         placeholder="Логин"
                         type="text"
-                        name="username"
-                        id="username"
                     />
                     <input
                         ref={PasswordRef}
-                        className="shadows-input"
+                        className="login-page__section-input"
                         placeholder="Пароль"
                         type="password"
-                        name="password"
-                        id="password"
                     />
-                    <div className="checkbox_div">
-                        <input className="checkbox" onChange={(e) => setRememberMe(e.target.checked)}
-                               checked={rememberMe} type="checkbox" name="rememberMe"/>
-                        <p className="p_login"
-                        >
+
+                    <div className="login-page__section-checkbox">
+                        <input
+                            type="checkbox"
+                            className="login-page__section-checkbox-input"
+                            checked={rememberMe}
+                            onChange={(e) => setRememberMe(e.target.checked)}
+                        />
+                        <label className="login-page__section-checkbox-label">
                             Запомнить меня
-                        </p>
+                        </label>
                     </div>
-                    <button className="button-login shadowsSection" type="submit">
+
+                    <button type="submit" className="login-page__section-button">
                         Войти
                     </button>
                 </form>
+
             </div>
         </div>
     );

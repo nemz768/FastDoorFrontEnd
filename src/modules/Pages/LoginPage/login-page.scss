@@ -1,0 +1,126 @@
+// login-page.scss
+
+.login-page {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #e9d6c7;
+
+  &__section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    row-gap: 15px;
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    background: #e0e5ec;
+    border-radius: 20px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+
+    &-title {
+      font-size: 32px;
+      font-weight: bold;
+      color: #222;
+    }
+
+    &-form {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      row-gap: 20px;
+      width: 100%;
+    }
+
+    &-input {
+      box-sizing: border-box; // важно для override reset
+      width: 100%;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+      background: #e0e5ec;
+      box-shadow: inset 5px 5px 10px rgba(0,0,0,0.1),
+      inset -5px -5px 10px white;
+      transition: box-shadow 0.3s ease;
+
+      &:focus {
+        outline: none;
+        box-shadow: inset 5px 5px 10px rgba(0,0,0,0.15),
+        inset -5px -5px 10px white;
+      }
+    }
+
+    &-checkbox {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      &-input {
+        width: 17px;
+        height: 17px;
+        accent-color: #4e3629;
+        cursor: pointer;
+        border: 1px solid black;
+      }
+
+      &-label {
+        margin-top: 2px;
+        font-size: 14px;
+      }
+    }
+
+    &-button {
+      box-sizing: border-box; // чтобы reset не ломал стили
+      background-color: #e0e5ec;
+      color: black;
+      border-radius: 20px;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 5px 5px 10px rgba(0,0,0,0.1),
+      -5px -5px 10px white;
+
+      &:hover {
+        background-color: #cbd2d9;
+      }
+
+      &:active {
+        background-color: #b3bcc8;
+      }
+    }
+  }
+
+  // медиазапросы
+  @media (max-width: 576px) {
+    &__section {
+      width: 100%;
+      max-width: 576px;
+      height: 100%;
+      border-radius: 0;
+
+      &-title {
+        font-size: 38px;
+      }
+
+      &-input {
+        font-size: 16px;
+        height: 40px;
+      }
+
+      &-checkbox-label {
+        font-size: 20px;
+      }
+
+      &-button {
+        width: 130px;
+        height: 60px;
+        font-size: 24px;
+      }
+    }
+  }
+}

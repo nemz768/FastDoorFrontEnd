@@ -1,0 +1,67 @@
+/* === ChangeDoorsLimit.scss === */
+/* Блок: change-doors-limit */
+
+.change-doors-limit {
+  position: absolute;
+  top: 115%; // или 100%, если нужно прямо под кнопкой
+  right: -18%;
+  margin-right: 16px;
+  z-index: 100;
+  background: #fff;
+  border: 1px solid #ccc;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+  &__close {
+    cursor: pointer;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+
+    img {
+      width: 12px;
+      height: 12px;
+    }
+  }
+
+  &__inputs {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    row-gap: 5px;
+
+    p {
+      margin: 0;
+      font-size: 14px;
+    }
+
+    input {
+      border: 1px solid black;
+      padding: 0 0 0 3px;
+      border-radius: 4px;
+      height: 28px;
+    }
+  }
+
+  &__button {
+    width: 80px;
+    height: 30px;
+    margin-top: 10px;
+    background-color: #4e3629;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-family: Inter, sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: darken(#4e3629, 8%);
+    }
+
+    &:active {
+      background-color: lighten(#4e3629, 5%);
+    }
+  }
+}

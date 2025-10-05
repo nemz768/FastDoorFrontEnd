@@ -1,5 +1,7 @@
 import {useEffect, useState} from "react";
-import './ChangeDoorLimits.css'
+
+import './ChangeDoorsLimit.scss';
+
 import xSymbol from '../../../../public/x-symbol.svg'
 
 interface ChangeDoorsLimitsProps {
@@ -56,24 +58,40 @@ export const ChangeDoorsLimit = ({frontDoorQuantity, inDoorQuantity, selectedDat
         }
     };
     return (
-        <div className="ChangeDoorsLimit">
-            <div className="ChangeDoorsLimit-close" onClick={()=> {
-                setOpenCalendarDateChange(false)
-            }}>
-                <img src={xSymbol} alt="X"/>
+        <div className="change-doors-limit">
+            <div className="change-doors-limit__close" onClick={() => setOpenCalendarDateChange(false)}>
+                <img src={xSymbol} alt="X" />
             </div>
-            <div className="ChangeDoorLimits-inputsBlock">
+
+            <div className="change-doors-limit__inputs">
                 <div>
-                    <p>Входные двери: </p>
-                    <input  className="input-changeDoorLimits" min="0" step={1} value={frontDoorQuantityValue} onChange={(e)=> validateCountOfDoors(e.target.value, setFrontDoorQuantityValue)} type="number" />
+                    <p>Входные двери:</p>
+                    <input
+                        min="0"
+                        step={1}
+                        value={frontDoorQuantityValue}
+                        onChange={(e) => validateCountOfDoors(e.target.value, setFrontDoorQuantityValue)}
+                        type="number"
+                    />
                 </div>
+
                 <div>
-                    <p>Межкомнатные двери: </p>
-                    <input className="input-changeDoorLimits" min="0" step={1}  value={inDoorQuantityValue} onChange={(e)=> validateCountOfDoors(e.target.value, setInDoorQuantityValue)} type="number" />
+                    <p>Межкомнатные двери:</p>
+                    <input
+                        min="0"
+                        step={1}
+                        value={inDoorQuantityValue}
+                        onChange={(e) => validateCountOfDoors(e.target.value, setInDoorQuantityValue)}
+                        type="number"
+                    />
                 </div>
-               <button className="ChangeDoorsLimit-btn" onClick={patchDoorLimits}>Изменить</button>
+
+                <button className="change-doors-limit__button" onClick={patchDoorLimits}>
+                    Изменить
+                </button>
             </div>
         </div>
+
     );
 };
 

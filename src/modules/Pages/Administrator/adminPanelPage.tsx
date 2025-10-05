@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Header } from '../../Widgets/Header/Header';
 import { Footer } from '../../Widgets/Footer/Footer';
-import './adminPanelPage.css';
+import './admin-panel-page.scss';
 import { Order, OrdersResponse } from '../../Interfaces/Interfaces';
 import {Popup} from "../../Widgets/Popup/Popup";
 import {Pagination} from "../../Widgets/Pagination/Pagination";
@@ -155,7 +155,6 @@ export const AdminPanelPage = () => {
                                 </tbody>
                             </table>
                         </div>
-                     <Pagination currentPage={currentPage} totalPages={totalPages} setCurrentPage={setCurrentPage}/>
                     </>
                 )}
 
@@ -189,6 +188,8 @@ export const AdminPanelPage = () => {
                         </div>
                     </div>
                 ))}
+
+                <Pagination currentPage={currentPage} totalPages={totalPages} setCurrentPage={setCurrentPage}/>
 
             </main>
 
