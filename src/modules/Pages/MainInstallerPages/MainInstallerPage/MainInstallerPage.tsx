@@ -11,6 +11,8 @@ import {Pagination} from "../../../Widgets/Pagination/Pagination";
 import {MainInstallerTable} from "./MainInstallerTable/MainInstallerTable";
 import {Order, OrdersResponse, Availability} from "../../../Interfaces/Interfaces";
 import {Popup} from "../../../Widgets/Popup/Popup";
+// import { mockOrders } from '../../../mocks/orders';
+
 
 export interface installersType {
     id: string;
@@ -159,12 +161,14 @@ export const MainInstallerPage = () => {
             const uniqueDates = [...new Set(data.orders.map((order) => order.dateOrder))];
             await Promise.all(uniqueDates.map((date) => fetchInstallerWorkload(date)));
         } catch (err: any) {
-            console.error('Ошибка при загрузке заказов:', err);
-            setError(err.message);
+            // console.error('Ошибка при загрузке заказов:', err);
+            // setError(err.message);
         } finally {
             setIsOrdersLoading(false);
         }
     };
+
+
     useEffect(() => {
         const showCountOfDoors = async () => {
             try {
@@ -484,7 +488,7 @@ export const MainInstallerPage = () => {
                     </div>
 
                     <div className="main-installer__availability-table-block">
-                        <table className="main-installer__table">
+                        <table className="main-installer__availability-table">
                             <thead className="main-installer__table-head">
                             <tr>
                                 <th>Дата</th>

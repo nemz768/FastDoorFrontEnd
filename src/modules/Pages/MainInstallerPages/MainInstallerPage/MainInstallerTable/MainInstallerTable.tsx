@@ -16,6 +16,9 @@ interface MainInstallerTableProps {
     workloadByDate: Record<string, InstallerWorkload[]>;
 }
 
+
+
+
 export const MainInstallerTable: React.FC<MainInstallerTableProps> = ({
                                                                           reversedDate,
                                                                           installers,
@@ -37,7 +40,7 @@ export const MainInstallerTable: React.FC<MainInstallerTableProps> = ({
     };
 
     return (
-        <table className="main-installer__table">
+        <table className="main-installer__orders-table">
             <thead className="main-installer__table-head">
             <tr className="main-installer__table-row">
                 <th className="main-installer__table-cell">Адрес доставки</th>
