@@ -161,7 +161,7 @@ export const MainInstallerPage = () => {
             const uniqueDates = [...new Set(data.orders.map((order) => order.dateOrder))];
             await Promise.all(uniqueDates.map((date) => fetchInstallerWorkload(date)));
         } catch (err: any) {
-            // console.error('Ошибка при загрузке заказов:', err);
+            console.error('Ошибка при загрузке заказов:', err);
             // setError(err.message);
         } finally {
             setIsOrdersLoading(false);
