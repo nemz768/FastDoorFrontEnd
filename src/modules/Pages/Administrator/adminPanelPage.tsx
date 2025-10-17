@@ -95,7 +95,19 @@ export const AdminPanelPage = () => {
                     <>
                         <div className="table-container">
                             <table className="orders-table">
-                                {/* ... твоя таблица ... */}
+                                <thead>
+                                <tr>
+                                    <th>ФИО</th>
+                                    <th>Адрес доставки</th>
+                                    <th>Номер</th>
+                                    <th>Дата установки</th>
+                                    <th>Количество входных дверей</th>
+                                    <th>Количество межкомнатных дверей</th>
+                                    <th>Ваш комментарий</th>
+                                    <th>Установщик</th>
+                                    <th>Филиалы</th>
+                                </tr>
+                                </thead>
                                 <tbody>
                                 {orders.map((order) => (
                                     <tr key={order.id}>
@@ -117,7 +129,32 @@ export const AdminPanelPage = () => {
                         {/* Мобильная версия */}
                         {orders.map(order => (
                             <div key={order.id} className="orders-mobile">
-                                {/* ... */}
+                                <div className="orders-mobile-address">
+                                    <h1>{order.address}</h1>
+                                </div>
+                                <div className="orders-mobile-info-block">
+                                    <div className="orders-mobile-info">
+                                        ФИО <strong>{order.fullName}</strong>
+                                    </div>
+                                    <div className="orders-mobile-info">
+                                        Номер <strong>{order.phone}</strong>
+                                    </div>
+                                    <div className="orders-mobile-info">
+                                        Дата <strong>{reversedDate(order.dateOrder)}</strong>
+                                    </div>
+                                    <div className="orders-mobile-info">
+                                        Входные двери <strong>{order.frontDoorQuantity}</strong>
+                                    </div>
+                                    <div className="orders-mobile-info">
+                                        Межкомнатные двери <strong>{order.inDoorQuantity}</strong>
+                                    </div>
+                                    <div className="orders-mobile-info">
+                                        Установщик <strong>{order.installerName || "Не назначен"}</strong>
+                                    </div>
+                                    <div className="orders-mobile-info-last">
+                                        Ваш комментарий <strong>{order.messageSeller || "Нет"}</strong>
+                                    </div>
+                                </div>
                             </div>
                         ))}
                     </>
