@@ -1,49 +1,42 @@
 import React, { useRef, useState } from 'react';
 import './login-page.scss';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../Context/Auth/AuthContext';
-import {LoginHelmet} from "../../helmet/LoginHelmet";
+import { useDispatch, useSelector } from 'react-redux';
+import { login } from '../../store/slices/authSlice'; // ← путь к твоему слайсу
+import { AppDispatch, RootState } from '../../store/store'; // ← путь к store
+import { LoginHelmet } from '../../helmet/LoginHelmet';
 
 export const LoginPage = () => {
-
     const [rememberMe, setRememberMe] = useState(false);
-    const { setIsLoggedIn } = useAuth();
-    const UsernameRef = useRef<HTMLInputElement>(null);
-    const PasswordRef = useRef<HTMLInputElement>(null);
+    const usernameRef = useRef<HTMLInputElement>(null);
+    const passwordRef = useRef<HTMLInputElement>(null);
     const navigate = useNavigate();
+    const dispatch = useDispatch<AppDispatch>();
 
-    const sendToBack = async (e: React.FormEvent) => {
+    // Получаем состояние из Redux (для ошибок и загрузки)
+    const { loading, error } = useSelector((state: RootState) => state.auth);
+
+    const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        if (!UsernameRef.current || !PasswordRef.current) {
-            alert('Поля не заполнены');
+
+        // Получаем значения из ref
+        const username = usernameRef.current?.value.trim();
+        const password = passwordRef.current?.value;
+
+        // Валидация
+        if (!username || !password) {
+            alert('Пожалуйста, заполните все поля');
             return;
         }
 
-        const login = UsernameRef.current.value;
-        const password = PasswordRef.current.value;
+        // Диспатчим thunk
+        dispatch(login({ username, password, rememberMe }))
+            .unwrap() // ← позволяет обрабатывать результат как Promise
+            .then((result:any) => {
+                // Успешный вход — навигация по ролям
+                const roles = result.roles;
 
-        try {
-            const response = await fetch(`/api/login?remember-me=${rememberMe}`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username: login, password, rememberMe }),
-            });
-
-            if (!response.ok) {
-                if (response.status === 401) {
-                    alert('Ошибка: Неверный логин или пароль');
-                    return;
-                }
-                throw new Error(`HTTP ошибка! Статус: ${response.status}`);
-            }
-
-            const data = await response.json();
-            console.log('API Response:', data);
-
-            if (data && data.roles) {
-                localStorage.setItem('userRoles', data.roles);
-
-                switch (data.roles) {
+                switch (roles) {
                     case 'main':
                         navigate('/home/mainInstaller');
                         break;
@@ -56,41 +49,41 @@ export const LoginPage = () => {
                     default:
                         navigate('/');
                 }
-
-                setIsLoggedIn(['administrator', 'salespeople', 'main'].includes(data.roles));
-            } else {
-                console.error('Неверный формат ответа API:', data);
-                navigate('/');
-            }
-
-            UsernameRef.current.value = '';
-            PasswordRef.current.value = '';
-        } catch (err) {
-            console.error('Ошибка при запросе:', err);
-            alert('Произошла ошибка при входе');
-        }
+            })
+            .catch((err) => {
+                // Ошибка уже в Redux, но можно показать alert (опционально)
+                console.error('Login failed:', err);
+            });
     };
 
     return (
-
-
         <>
-            <LoginHelmet/>
+            <LoginHelmet />
             <div className="login-page">
                 <div className="login-page__section">
                     <h1 className="login-page__section-title">Вход</h1>
-                    <form className="login-page__section-form" onSubmit={sendToBack}>
+
+                    {/* Показ ошибки из Redux */}
+                    {error && (
+                        <div className="login-page__error">
+                            {error}
+                        </div>
+                    )}
+
+                    <form className="login-page__section-form" onSubmit={handleSubmit}>
                         <input
-                            ref={UsernameRef}
+                            ref={usernameRef}
                             className="login-page__section-input"
                             placeholder="Логин"
                             type="text"
+                            disabled={loading} // блокируем при загрузке
                         />
                         <input
-                            ref={PasswordRef}
+                            ref={passwordRef}
                             className="login-page__section-input"
                             placeholder="Пароль"
                             type="password"
+                            disabled={loading}
                         />
 
                         <div className="login-page__section-checkbox">
@@ -99,17 +92,21 @@ export const LoginPage = () => {
                                 className="login-page__section-checkbox-input"
                                 checked={rememberMe}
                                 onChange={(e) => setRememberMe(e.target.checked)}
+                                disabled={loading}
                             />
                             <label className="login-page__section-checkbox-label">
                                 Запомнить меня
                             </label>
                         </div>
 
-                        <button type="submit" className="login-page__section-button">
-                            Войти
+                        <button
+                            type="submit"
+                            className="login-page__section-button"
+                            disabled={loading}
+                        >
+                            {loading ? 'Вход...' : 'Войти'}
                         </button>
                     </form>
-
                 </div>
             </div>
         </>
