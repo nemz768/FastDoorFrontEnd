@@ -18,10 +18,8 @@ export const LoginPage = () => {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
-
         const username = usernameRef.current?.value.trim();
         const password = passwordRef.current?.value;
-
 
         if (!username || !password) {
             alert('Пожалуйста, заполните все поля');
@@ -71,7 +69,7 @@ export const LoginPage = () => {
                             className="login-page__section-input"
                             placeholder="Логин"
                             type="text"
-                            disabled={loading} // блокируем при загрузке
+                            disabled={loading}
                         />
                         <input
                             ref={passwordRef}

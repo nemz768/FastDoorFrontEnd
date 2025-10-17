@@ -18,11 +18,7 @@ interface LoginCredentials {
     rememberMe: boolean;
 }
 
-export const login = createAsyncThunk<
-    { roles: UserRole },
-    LoginCredentials,
-    { rejectValue: string }
->(
+export const login = createAsyncThunk<{ roles: UserRole }, LoginCredentials, { rejectValue: string }>(
     'auth/login',
     async (credentials, { rejectWithValue }) => {
         try {
@@ -50,17 +46,17 @@ export const login = createAsyncThunk<
 );
 
 // Async Thunk: восстановление сессии при старте
-export const restoreSession = createAsyncThunk<void, void, { dispatch: any }>(
-    'auth/restoreSession',
-    async (_, { dispatch }) => {
-        const storedRoles = localStorage.getItem('userRoles') as UserRole | null;
-        if (storedRoles && ['administrator', 'salespeople', 'main'].includes(storedRoles)) {
-            dispatch(authActions.setLoggedIn(storedRoles));
-        } else {
-            dispatch(authActions.logout());
-        }
-    }
-);
+// export const restoreSession = createAsyncThunk<void, void, { dispatch: any }>(
+//     'auth/restoreSession',
+//     async (_, { dispatch }) => {
+//         const storedRoles = localStorage.getItem('userRoles') as UserRole | null;
+//         if (storedRoles && ['administrator', 'salespeople', 'main'].includes(storedRoles)) {
+//             dispatch(authActions.setLoggedIn(storedRoles));
+//         } else {
+//             dispatch(authActions.logout());
+//         }
+//     }
+// );
 
 // Инициальное состояние
 const initialState: AuthState = {
