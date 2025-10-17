@@ -2,9 +2,8 @@ import React, { useRef, useState } from 'react';
 import './login-page.scss';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { login } from '../../store/slices/authSlice'; // ← путь к твоему слайсу
-import { AppDispatch, RootState } from '../../store/store'; // ← путь к store
-import { LoginHelmet } from '../../helmet/LoginHelmet';
+import { login } from '../../store/slices/authSlice';
+import { AppDispatch, RootState } from '../../store/store';
 
 export const LoginPage = () => {
     const [rememberMe, setRememberMe] = useState(false);
@@ -13,23 +12,22 @@ export const LoginPage = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch<AppDispatch>();
 
-    // Получаем состояние из Redux (для ошибок и загрузки)
+
     const { loading, error } = useSelector((state: RootState) => state.auth);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
-        // Получаем значения из ref
+
         const username = usernameRef.current?.value.trim();
         const password = passwordRef.current?.value;
 
-        // Валидация
+
         if (!username || !password) {
             alert('Пожалуйста, заполните все поля');
             return;
         }
 
-        // Диспатчим thunk
         dispatch(login({ username, password, rememberMe }))
             .unwrap() // ← позволяет обрабатывать результат как Promise
             .then((result:any) => {
@@ -51,14 +49,11 @@ export const LoginPage = () => {
                 }
             })
             .catch((err) => {
-                // Ошибка уже в Redux, но можно показать alert (опционально)
                 console.error('Login failed:', err);
             });
     };
 
     return (
-        <>
-            <LoginHelmet />
             <div className="login-page">
                 <div className="login-page__section">
                     <h1 className="login-page__section-title">Вход</h1>
@@ -109,6 +104,5 @@ export const LoginPage = () => {
                     </form>
                 </div>
             </div>
-        </>
     );
 };
