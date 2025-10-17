@@ -2,8 +2,10 @@ import React, { useRef, useState } from 'react';
 import './login-page.scss';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../Context/Auth/AuthContext';
+import {LoginHelmet} from "../../helmet/LoginHelmet";
 
 export const LoginPage = () => {
+
     const [rememberMe, setRememberMe] = useState(false);
     const { setIsLoggedIn } = useAuth();
     const UsernameRef = useRef<HTMLInputElement>(null);
@@ -70,41 +72,46 @@ export const LoginPage = () => {
     };
 
     return (
-        <div className="login-page">
-            <div className="login-page__section">
-                <h1 className="login-page__section-title">Вход</h1>
-                <form className="login-page__section-form" onSubmit={sendToBack}>
-                    <input
-                        ref={UsernameRef}
-                        className="login-page__section-input"
-                        placeholder="Логин"
-                        type="text"
-                    />
-                    <input
-                        ref={PasswordRef}
-                        className="login-page__section-input"
-                        placeholder="Пароль"
-                        type="password"
-                    />
 
-                    <div className="login-page__section-checkbox">
+
+        <>
+            <LoginHelmet/>
+            <div className="login-page">
+                <div className="login-page__section">
+                    <h1 className="login-page__section-title">Вход</h1>
+                    <form className="login-page__section-form" onSubmit={sendToBack}>
                         <input
-                            type="checkbox"
-                            className="login-page__section-checkbox-input"
-                            checked={rememberMe}
-                            onChange={(e) => setRememberMe(e.target.checked)}
+                            ref={UsernameRef}
+                            className="login-page__section-input"
+                            placeholder="Логин"
+                            type="text"
                         />
-                        <label className="login-page__section-checkbox-label">
-                            Запомнить меня
-                        </label>
-                    </div>
+                        <input
+                            ref={PasswordRef}
+                            className="login-page__section-input"
+                            placeholder="Пароль"
+                            type="password"
+                        />
 
-                    <button type="submit" className="login-page__section-button">
-                        Войти
-                    </button>
-                </form>
+                        <div className="login-page__section-checkbox">
+                            <input
+                                type="checkbox"
+                                className="login-page__section-checkbox-input"
+                                checked={rememberMe}
+                                onChange={(e) => setRememberMe(e.target.checked)}
+                            />
+                            <label className="login-page__section-checkbox-label">
+                                Запомнить меня
+                            </label>
+                        </div>
 
+                        <button type="submit" className="login-page__section-button">
+                            Войти
+                        </button>
+                    </form>
+
+                </div>
             </div>
-        </div>
+        </>
     );
 };

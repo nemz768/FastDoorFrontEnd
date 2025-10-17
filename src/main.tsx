@@ -4,6 +4,8 @@ import {BrowserRouter} from "react-router-dom";
 import {App} from './App'
 import './index.css';
 import {AuthProvider} from "./modules/Context/Auth/AuthContext";
+import {HelmetProvider} from "react-helmet-async";
+
 const rootElement = document.getElementById('root');
 if (!rootElement) throw new Error('Root element not found');
 
@@ -11,10 +13,12 @@ if (!rootElement) throw new Error('Root element not found');
 
 createRoot(rootElement).render(
   <StrictMode>
-      <AuthProvider>
-          <BrowserRouter>
-              <App />
-          </BrowserRouter>
-      </AuthProvider>
+      <BrowserRouter>
+          <HelmetProvider>
+              <AuthProvider>
+                  <App />
+              </AuthProvider>
+          </HelmetProvider>
+      </BrowserRouter>
   </StrictMode>,
 )
