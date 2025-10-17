@@ -2,34 +2,42 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { Order } from '../../Interfaces/Interfaces';
 
-// Ключ — обычная строка (можно и без типа, но с ним чище)
 type QueryKey = string;
 
-interface OrdersState {
+interface QueryEntry {
+    data: Order[];
+    loading: boolean;
+    error: string | null;
+    totalPages: number;
+}
 
-    queries: Record<QueryKey, {
-        data: Order[];
-        loading: boolean;
-        error: string | null;
-        totalPages?: number;
-    }>;
+interface OrdersState {
+    queries: Record<QueryKey, QueryEntry>;
 }
 
 const initialState: OrdersState = {
     queries: {},
 };
 
-
-export const fetchOrders = createAsyncThunk<
-    { data: Order[]; queryKey: string },
-    { endpoint: string; queryKey: string },
-    { rejectValue: string }
->(
+export const fetchOrders = createAsyncThunk(
     'orders/fetch',
-    async ({ endpoint }, { rejectWithValue }) => {
+    async (
+        { endpoint, queryKey }: { endpoint: string; queryKey: string },
+        { rejectWithValue }
+    ) => {
         try {
-            const response = await axios.get<Order[]>(endpoint);
-            return { data: response.data, queryKey: endpoint }; // или переданный queryKey
+            const res = await axios.get<{
+                orders: Order[];
+                totalPages: number;
+                currentPage: number;
+            }>(endpoint);
+
+            const normalized = res.data.orders.map((o) => ({
+                ...o,
+                id: String(o.id),
+            }));
+
+             return { data: normalized, totalPages: res.data.totalPages, queryKey };
         } catch (err: any) {
             return rejectWithValue(err.response?.data?.message || 'Ошибка загрузки');
         }
@@ -46,24 +54,29 @@ const ordersSlice = createSlice({
                 const key = action.meta.arg.queryKey;
                 state.queries[key] = {
                     data: [],
+                    totalPages: 0,
                     loading: true,
                     error: null,
                 };
             })
             .addCase(fetchOrders.fulfilled, (state, action) => {
-                const { data, queryKey } = action.payload;
+                const { data, totalPages, queryKey } = action.payload;
                 state.queries[queryKey] = {
                     data,
+                    totalPages,
                     loading: false,
                     error: null,
                 };
             })
             .addCase(fetchOrders.rejected, (state, action) => {
                 const key = action.meta.arg.queryKey;
-                if (state.queries[key]) {
-                    state.queries[key].loading = false;
-                    state.queries[key].error = action.payload || 'Ошибка';
-                }
+                state.queries[key] = {
+
+                    data: [],
+                    totalPages: 0,
+                    loading: false,
+                    error: action.payload as string || 'Ошибка',
+                };
             });
     },
 });
