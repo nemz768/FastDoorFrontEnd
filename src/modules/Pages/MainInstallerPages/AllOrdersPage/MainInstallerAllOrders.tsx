@@ -83,7 +83,7 @@ export const MainInstallerAllOrders = () => {
     const fetchInstallers = async () => {
         try {
             // Лучше использовать отдельный эндпоинт для установщиков
-            const response = await fetch('/api/installers', {
+            const response = await fetch(`/api/mainInstaller?page=${currentPage}`, {
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json' },
             });
