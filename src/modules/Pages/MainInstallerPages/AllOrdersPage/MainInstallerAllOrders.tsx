@@ -4,10 +4,12 @@ import {Footer} from "../../../Widgets/Footer/Footer";
 import {MainInstallersAllOrdersTable} from "./MainInstallerAllOrdersTable/MainInstallersAllOrdersTable";
 import {Pagination} from "../../../Widgets/Pagination/Pagination";
 import './mainInstallerAllOrders-page.scss'
-import {Availability, Order, OrdersResponse} from "../../../Interfaces/Interfaces";
+import {Availability, OrdersResponse} from "../../../Interfaces/Interfaces";
 import {installersType, InstallerWorkload} from "../MainInstallerPage/MainInstallerPage";
 import {Popup} from "../../../Widgets/Popup/Popup";
-
+import {useDispatch, useSelector} from "react-redux";
+import {AppDispatch, RootState} from "../../../store/store";
+import {fetchOrders} from "../../../store/slices/ordersSlice";
 
 interface OrderEditorTypes {
     frontDoorQuantity?: number;
@@ -26,12 +28,11 @@ export const MainInstallerAllOrders = () => {
     const [orderId, setOrderId] = useState<null | string>(null);
 
     const [selectedTag, setSelectedTag] = useState<Record<string, string>>({});
-    const [loading, isLoading] = useState(false);
+
     const [installers, setInstallers] = useState<installersType[]>([]);
-    const [error, setError] = useState<null | string>(null);
-    const [orders, setOrders] = useState<Order[]>([]);
-    const [currentPage, setCurrentPage] = useState(0);
-    const [totalPages, setTotalPages] = useState(1);
+
+   const [currentPage, setCurrentPage] = useState(0);
+
     const [message, sendMessage] = useState<string>('');
     const [workloadByDate, setWorkloadByDate] = useState<Record<string, InstallerWorkload[]>>({})
     const [editedOrder, setEditedOrder] = useState<OrderEditorTypes>({
@@ -41,89 +42,66 @@ export const MainInstallerAllOrders = () => {
         installerName: ''
     });
 
+    const dispatch = useDispatch<AppDispatch>();
+
+    const getMainInstallerDataEndpoint = `/api/mainInstaller/listOrdersMainInstaller?page=${currentPage}`;
+
+    const query = useSelector((state: RootState) =>
+        state.orders.queries[getMainInstallerDataEndpoint]
+    );
+
+    const orders = query?.data || [];
+    const loading = query?.loading || false;
+    const error = query?.error;
+    const totalPages = query?.totalPages || 1;
+
 
     const navItems = [
         { label: 'Главная', route: '/home/mainInstaller/'  },
         { label: 'Добавить установщика', route: '/home/mainInstaller/create' },
     ];
 
-    // podskazka
     const [highlightedRowId, setHighlightedRowId] = React.useState<string | null>(null);
 
-
-
-
-    const fetchOrders = async () => {
-            isLoading(true);
-            try {
-                const response = await fetch(`/api/mainInstaller/listOrdersMainInstaller?page=${currentPage}`, {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                    }
-                });
-                const data: OrderResponseMainInstaller = await response.json();
-
-                setOrders(
-                    data.orders.map((order) => ({
-                        ...order,
-                        id: order.id,
-                    })) || []
-                );
-
-                setTotalPages(data.totalPages || 1);
-                setCurrentPage(data.currentPage || 0);
-                isLoading(false);
-                const uniqueDates = [...new Set(data.orders.map((order) => order.dateOrder))];
-                await Promise.all(uniqueDates.map((date) => fetchInstallerWorkload(date)));
-           }
-    catch (error: any) {
-                console.error('Ошибка загрузки заказов:', error);
-                setError(error.message);
-            }
-
-            finally {
-                isLoading(false);
+    useEffect(() => {
+        if (orders.length > 0) {
+            const uniqueDates = [...new Set(orders.map(order => order.dateOrder))];
+            const datesToFetch = uniqueDates.filter(date => date && !workloadByDate[date]);
+            if (datesToFetch.length > 0) {
+                Promise.all(datesToFetch.map(fetchInstallerWorkload)).catch(console.error);
             }
         }
+    }, [orders, workloadByDate]);
+
+    useEffect(() => {
+        dispatch(fetchOrders({
+            endpoint: `/api/mainInstaller/listOrdersMainInstaller?page=${currentPage}`,
+            queryKey: getMainInstallerDataEndpoint
+        }));
+    }, [currentPage, dispatch]);
 
     const fetchInstallers = async () => {
         try {
-            const response = await fetch(`/api/mainInstaller?page=${currentPage}`, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                }
+            // Лучше использовать отдельный эндпоинт для установщиков
+            const response = await fetch('/api/installers', {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' },
             });
-            const data:OrderResponseMainInstaller = await response.json();
-
-            console.log("Installers from API(data):", data);
-            console.log("Installers from API:", data.installers);
+            const data: OrderResponseMainInstaller = await response.json();
 
             setInstallers(
                 Array.isArray(data.installers)
-                    ? data.installers.map((inst) => ({
-                        ...inst,
-                        id: String(inst.id),
-                    }))
+                    ? data.installers.map(inst => ({ ...inst, id: String(inst.id) }))
                     : []
             );
-
-            const uniqueDates = [...new Set(data.orders.map((order) => order.dateOrder))];
-            await Promise.all(uniqueDates.map((date) => fetchInstallerWorkload(date)));
+        } catch (error: any) {
+            console.error('Ошибка загрузки установщиков:', error);
         }
-        catch (error: any) {
-            console.error('Ошибка загрузки заказов:', error);
-        }
-    }
-
+    };
     useEffect(() => {
         fetchInstallers();
     }, []); // один раз при загрузке компонента
 
-    useEffect(() => {
-        fetchOrders();
-    }, [currentPage])
 
     const fetchInstallerWorkload = async (date: string) => {
         if (workloadByDate[date]) return; // Пропускаем, если данные уже загружены
@@ -179,18 +157,10 @@ export const MainInstallerAllOrders = () => {
                 throw new Error(`Ошибка: ${response.status} — ${errText}`);
             }
 
-            // Обновление в списке заказов
-            setOrders(prev =>
-                prev.map(item =>
-                    item.id === orderIdToUpdate
-                        ? {
-                            ...item,
-                            installerName: payload.installerFullName,
-                            messageMainInstaller: payload.installerComment,
-                        }
-                        : item
-                )
-            );
+            dispatch(fetchOrders({
+                endpoint: `/api/mainInstaller/listOrdersMainInstaller?page=${currentPage}`,
+                queryKey: getMainInstallerDataEndpoint
+            }));
 
 
             sendMessage("Изменение прошло успешно");
@@ -211,12 +181,8 @@ export const MainInstallerAllOrders = () => {
         }
     };
 
-    const handleDeleteSuccess = (deletedInstallerId:string) => {
-        setOrders(orders.filter((order) => order.id !== deletedInstallerId));
-    };
 
     const deleteOrder = async (orderIdToDelete:string) => {
-        setError(null);
         try {
           const response = await fetch(`/api/delete?id=${orderIdToDelete}`, {
                 method: "DELETE",
@@ -228,11 +194,9 @@ export const MainInstallerAllOrders = () => {
 
           const data = await response.json();
             console.log(data)
-            handleDeleteSuccess(orderIdToDelete);
             sendMessage("Удаление прошло успешно");
         } catch (error:any) {
             console.error("Ошибка удаления заказа:", error);
-            setError(error.message);
             sendMessage("Ошибка при удалении: " + error.message);
         }finally {
             setTimeout(()=> sendMessage(""), 3000)
@@ -248,7 +212,12 @@ export const MainInstallerAllOrders = () => {
         return `${day}.${month}.${year}`;
     };
 
-
+    const handleRetry = () => {
+        dispatch(fetchOrders({
+            endpoint: `/api/mainInstaller/listOrdersMainInstaller?page=${currentPage}`,
+            queryKey: getMainInstallerDataEndpoint
+        }));
+    };
     return (
         <div className="mainInstallerAllOrders">
             <Header navItems={navItems} />
@@ -259,7 +228,7 @@ export const MainInstallerAllOrders = () => {
                 {error && (
                     <div className="mainInstallerAllOrders__error">
                         <h3>Ошибка: {error}</h3>
-                        <button className="retry-button" onClick={fetchOrders}>Повторить</button>
+                        <button className="retry-button" onClick={handleRetry}>Повторить</button>
                     </div>
                 )}
 

@@ -2,17 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { Header } from '../../Widgets/Header/Header';
 import { Footer } from '../../Widgets/Footer/Footer';
 import './admin-panel-page.scss';
-import { Order } from '../../Interfaces/Interfaces';
 import { Popup } from "../../Widgets/Popup/Popup";
 import { Pagination } from "../../Widgets/Pagination/Pagination";
 import { useDispatch, useSelector } from "react-redux";
 import {AppDispatch, RootState} from "../../store/store";
-import { fetchOrders } from '../../store/slices/ordersSlice'; // ← добавь этот импорт!
+import { fetchOrders } from '../../store/slices/ordersSlice';
 
 export const AdminPanelPage = () => {
     const [nickName, setNickName] = useState('');
     const [showButtonClear, setShowButtonClear] = useState(false);
-    const [currentPage, setCurrentPage] = useState(0); // ← остаётся, управляет пагинацией
+    const [currentPage, setCurrentPage] = useState(0);
 
     const endpoint = nickName
         ? `/api/list/sort?nickname=${nickName}&page=${currentPage}`
@@ -25,15 +24,14 @@ export const AdminPanelPage = () => {
         { label: 'Создать отчет', route: '/home/owner/report' },
     ];
 
-    // Загружаем данные при изменении endpoint (т.е. nickName или currentPage)
     useEffect(() => {
         dispatch(fetchOrders({ endpoint, queryKey: endpoint }));
-    }, [endpoint, dispatch]); // ← зависимость от endpoint!
+    }, [endpoint, dispatch]);
 
     const handleSearch = (value: string) => {
         setShowButtonClear(value !== '');
         setNickName(value);
-        setCurrentPage(0); // сброс пагинации
+        setCurrentPage(0);
     };
 
     const handleClearSearch = () => {

@@ -27,9 +27,8 @@ export const LoginPage = () => {
         }
 
         dispatch(login({ username, password, rememberMe }))
-            .unwrap() // ← позволяет обрабатывать результат как Promise
+            .unwrap()
             .then((result:any) => {
-                // Успешный вход — навигация по ролям
                 const roles = result.roles;
 
                 switch (roles) {
@@ -55,8 +54,6 @@ export const LoginPage = () => {
             <div className="login-page">
                 <div className="login-page__section">
                     <h1 className="login-page__section-title">Вход</h1>
-
-                    {/* Показ ошибки из Redux */}
                     {error && (
                         <div className="login-page__error">
                             {error}
