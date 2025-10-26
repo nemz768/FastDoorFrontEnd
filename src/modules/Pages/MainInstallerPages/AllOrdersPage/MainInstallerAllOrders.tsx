@@ -10,6 +10,8 @@ import {Popup} from "../../../Widgets/Popup/Popup";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, RootState} from "../../../store/store";
 import {fetchOrders} from "../../../store/slices/ordersSlice";
+// import {mockOrders} from "../../../mocks/orders";
+
 
 interface OrderEditorTypes {
     frontDoorQuantity?: number;
@@ -50,6 +52,7 @@ export const MainInstallerAllOrders = () => {
         state.orders.queries[getMainInstallerDataEndpoint]
     );
 
+    // const orders = mockOrders;
     const orders = query?.data || [];
     const loading = query?.loading || false;
     const error = query?.error;
@@ -100,11 +103,11 @@ export const MainInstallerAllOrders = () => {
     };
     useEffect(() => {
         fetchInstallers();
-    }, []); // один раз при загрузке компонента
+    }, []);
 
 
     const fetchInstallerWorkload = async (date: string) => {
-        if (workloadByDate[date]) return; // Пропускаем, если данные уже загружены
+        if (workloadByDate[date]) return;
         try {
             const response = await fetch(`/api/listInstallers/workload?date=${encodeURIComponent(date)}`, {
                 method: 'GET',

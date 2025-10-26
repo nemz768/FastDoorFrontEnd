@@ -7,6 +7,7 @@ import { Pagination } from "../../Widgets/Pagination/Pagination";
 import { useDispatch, useSelector } from "react-redux";
 import {AppDispatch, RootState} from "../../store/store";
 import { fetchOrders } from '../../store/slices/ordersSlice';
+// import {mockOrders} from "../../mocks/orders";
 
 export const AdminPanelPage = () => {
     const [nickName, setNickName] = useState('');
@@ -48,7 +49,8 @@ export const AdminPanelPage = () => {
         return `${day}.${month}.${year}`;
     };
 
-    // Данные из Redux
+
+    // const orders = mockOrders;
     const orders = query?.data || [];
     const totalPages = query?.totalPages || 1;
     const isLoading = query?.loading || false;
