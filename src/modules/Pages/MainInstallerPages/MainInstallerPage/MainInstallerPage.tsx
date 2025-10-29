@@ -67,7 +67,7 @@ export const MainInstallerPage = () => {
 
 
     const fetchInstallerWorkload = async (date: string) => {
-        if (workloadByDate[date]) return; // Пропускаем, если данные уже загружены
+        if (workloadByDate[date]) return;
         try {
             const response = await fetch(`/api/listInstallers/workload?date=${encodeURIComponent(date)}`, {
                 method: 'GET',
@@ -108,8 +108,6 @@ export const MainInstallerPage = () => {
         return `${day}.${month}.${year}`;
     };
 
-
-    // Получение данных о заказах и доступности
     const fetchOrders = async () => {
         setIsOrdersLoading(true);
         setError(null);
@@ -157,7 +155,6 @@ export const MainInstallerPage = () => {
             setTotalPages(data.totalPages || 1);
             setCurrentPage(data.currentPage || 0);
 
-            // Запрашиваем нагрузку для уникальных дат заказов
             const uniqueDates = [...new Set(data.orders.map((order) => order.dateOrder))];
             await Promise.all(uniqueDates.map((date) => fetchInstallerWorkload(date)));
         } catch (err: any) {
@@ -178,10 +175,53 @@ export const MainInstallerPage = () => {
                         "Content-Type": "application/json",
                     },
                 });
-                const data = await res.json();
+                const data: OrderResponseMainInstaller = await res.json();
                 const availabilityData = Array.isArray(data.availabilityList) ? data.availabilityList : [];
                 setFetchedAvailability(availabilityData);
                 console.log("Загруженные данные о доступности:", availabilityData);
+
+                const tomorrow = new Date();
+                tomorrow.setDate(tomorrow.getDate() + 1);
+                const tomorrowStr = tomorrow.toISOString().split('T')[0];
+
+                const tomorrowEntry = availabilityData.find(item  => item.date === tomorrowStr);
+                const isTomorrowOpen = !tomorrowEntry || tomorrowEntry.available;
+
+                if (isTomorrowOpen) {
+                   try {
+                        const closeRes = await fetch(`/api/doorLimits/closeDate?date=${encodeURIComponent(tomorrowStr)}`, {
+                            method: "PATCH",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({ date: tomorrowStr, available: false }),
+                        });
+
+                        if (closeRes.ok) {
+                             const updatedAvailability = [...availabilityData];
+                            if (!tomorrowEntry) {
+                                updatedAvailability.push({
+                                    date: tomorrowStr,
+                                    available: false,
+                                    frontDoorQuantity: 0,
+                                    inDoorQuantity: 0,
+                                });
+                            } else {
+                                const index = updatedAvailability.findIndex(item => item.date === tomorrowStr);
+                                updatedAvailability[index] = { ...updatedAvailability[index], available: false };
+                            }
+
+                            setFetchedAvailability(updatedAvailability);
+                            setAvailabilityList(
+                                updatedAvailability.map(item => ({
+                                    ...item,
+                                    formattedDate: reversedDate(item.date),
+                                }))
+                            );
+                        }
+                    } catch (err) {
+                        console.error("Не удалось автоматически закрыть завтрашний день:", err);
+                    }
+                }
+
             } catch (err) {
                 console.error("Ошибка при загрузке доступности:", err);
                 setFetchedAvailability(availabilityList || []);
@@ -384,6 +424,7 @@ export const MainInstallerPage = () => {
                     formattedDate: reversedDate(item.date),
                 }))
             );
+
         } catch (err) {
             console.error(err);
         }

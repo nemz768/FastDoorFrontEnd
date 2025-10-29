@@ -46,3 +46,10 @@
     background-color: #d3d3d3;
     cursor: not-allowed !important;
 }
+
+
+/* Жёлтый фон для дней через 2–3 дня */
+.calendar-day.highlight-2-3-days {
+    background-color: #fff9c4 !important; /* Светло-жёлтый */
+    border: 1px solid #ffd54f;
+}

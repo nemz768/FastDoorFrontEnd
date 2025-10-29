@@ -102,14 +102,16 @@ export const CustomCalendar = ({
         setSelectedDate?.(dateStr);
     };
 
-
-
-
     const renderDays = () => {
         const weeks = Math.ceil((firstDayOfWeek + daysInMonth) / 7);
         const days = [];
         let day = 1;
-        const todayStr = formatLocalDate(new Date());
+
+        // Сегодня (без времени)
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const todayStr = formatLocalDate(today);
+
         for (let week = 0; week < weeks; week++) {
             const weekDays = [];
             for (let dow = 0; dow < 7; dow++) {
@@ -119,28 +121,35 @@ export const CustomCalendar = ({
                 } else {
                     const date = new Date(currentYearMonth.year, currentYearMonth.month, day);
                     const dateStr = formatLocalDate(date);
+
                     const isSelected = selectedDate === dateStr;
                     const isToday = dateStr === todayStr;
-                    const isPast = date < new Date() && !isToday;
+                    const isPast = date < today && !isToday;
+
                     const availability = availabilityMap[dateStr];
                     const isClosed = availability && !availability.available;
                     const isClosedSelected = closedSelectedDates?.has?.(dateStr);
                     const isUnavailable = !availability;
 
+                    // === Логика для жёлтых дней (через 2–3 дня) ===
+                    const diffTime = date.getTime() - today.getTime();
+                    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+                    const isDayIn2to3 = diffDays === 2 || diffDays === 3;
 
                     weekDays.push(
                         <button
                             key={dateStr}
                             className={`calendar-day 
-                                ${isSelected ? 'selected' : ''} 
-                                ${isToday ? 'closedNotInstaller' : ''} 
-                                ${isPast ? 'past' : ''} 
-                                ${isClosed ? 'closed' : ''} 
-                                ${isClosedSelected ? 'closed-selected' : ''} 
-                                ${isUnavailable ? 'closedNotInstaller' : ''}
-                                buttons-calendar`}
+                            ${isSelected ? 'selected' : ''} 
+                            ${isToday ? 'closedNotInstaller' : ''} 
+                            ${isPast ? 'past' : ''} 
+                            ${isClosed ? 'closed' : ''} 
+                            ${isClosedSelected ? 'closed-selected' : ''} 
+                            ${isUnavailable ? 'closedNotInstaller' : ''}
+                            ${isDayIn2to3 ? 'highlight-2-3-days' : ''}
+                            buttons-calendar`}
                             onClick={() => onDayClick(dateStr, isClosed, isPast)}
-                            disabled={isPast || isToday || (isClosed && !canSelectClosedDays || isUnavailable)}
+                            disabled={isPast || isToday || (isClosed && !canSelectClosedDays) || isUnavailable}
                         >
                             <div className="day-number">{day}</div>
                             {availability && !isPast && (
@@ -158,7 +167,6 @@ export const CustomCalendar = ({
         }
         return days;
     };
-
     return (
         <div className="custom-calendar">
             <div className="calendar-header">
