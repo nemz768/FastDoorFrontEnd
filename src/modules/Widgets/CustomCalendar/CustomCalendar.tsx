@@ -3,9 +3,9 @@ import './stylesCalendar.css';
 import {Availability} from "../../Interfaces/Interfaces";
 
 interface CalendarTypeProps {
-    selectedDate: string | null;
     setSelectedDate: (date: string) => void;
     onDateSelected: (date: string) => void;
+    selectedDates?: Set<string>;
     availabilityList: Availability[];
     fetchedAvailability: Availability[];
     canSelectClosedDays?: boolean;
@@ -15,12 +15,12 @@ interface CalendarTypeProps {
 
 
 export const CustomCalendar = ({
-                                   selectedDate,
                                    setSelectedDate,
                                    onDateSelected,
                                    availabilityList,
                                    fetchedAvailability,
                                    canSelectClosedDays = false,
+                                   selectedDates,
                                    closedSelectedDates,
                                    setClosedSelectedDates,
                                }: CalendarTypeProps) => {
@@ -122,7 +122,7 @@ export const CustomCalendar = ({
                     const date = new Date(currentYearMonth.year, currentYearMonth.month, day);
                     const dateStr = formatLocalDate(date);
 
-                    const isSelected = selectedDate === dateStr;
+                    const isSelected = selectedDates?.has(dateStr);
                     const isToday = dateStr === todayStr;
                     const isPast = date < today && !isToday;
 

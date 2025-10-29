@@ -483,7 +483,7 @@ export const MainInstallerPage = () => {
                             fetchedAvailability={fetchedAvailability}
                             setSelectedDate={setSelectedDate}
                             onDateSelected={handleDateSelected}
-                            selectedDate={selectedDate}
+                            selectedDates={selectedDates}
                             canSelectClosedDays={true}
                             closedSelectedDates={closedSelectedDates}
                             setClosedSelectedDates={setClosedSelectedDates}
