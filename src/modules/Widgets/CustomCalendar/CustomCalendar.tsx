@@ -11,7 +11,7 @@ interface CalendarTypeProps {
     canSelectClosedDays?: boolean;
     closedSelectedDates?: Set<string>;
     setClosedSelectedDates?: React.Dispatch<React.SetStateAction<Set<string>>>;
-    unassignedOrderDates: Set<string>;
+    unassignedOrderDates?: Set<string>;
 }
 
 
