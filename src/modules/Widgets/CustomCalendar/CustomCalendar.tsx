@@ -12,7 +12,7 @@ interface CalendarTypeProps {
     closedSelectedDates?: Set<string>;
     setClosedSelectedDates?: React.Dispatch<React.SetStateAction<Set<string>>>;
     selectedDate?: string | null;
-    unassignedOrderDates: Set<string>;
+    unassignedOrderDates?: Set<string>;
 }
 
 
@@ -147,7 +147,7 @@ export const CustomCalendar = ({
                     const isUnavailable = !availability;
 
 
-                    const hasUnassigned = unassignedOrderDates.has(dateStr);
+                    const hasUnassigned = unassignedOrderDates?.has(dateStr);
                     const isTomorrowWithUnassigned = dateStr === tomorrowStr && hasUnassigned;
                     const isDay2or3WithUnassigned = (dateStr === dayPlus2Str || dateStr === dayPlus3Str) && hasUnassigned;
 
