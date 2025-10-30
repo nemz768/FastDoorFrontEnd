@@ -11,6 +11,7 @@ interface CalendarTypeProps {
     canSelectClosedDays?: boolean;
     closedSelectedDates?: Set<string>;
     setClosedSelectedDates?: React.Dispatch<React.SetStateAction<Set<string>>>;
+    unassignedOrderDates: Set<string>;
 }
 
 
@@ -23,6 +24,7 @@ export const CustomCalendar = ({
                                    selectedDates,
                                    closedSelectedDates,
                                    setClosedSelectedDates,
+                                   unassignedOrderDates,
                                }: CalendarTypeProps) => {
     const [currentYearMonth, setCurrentYearMonth] = useState({
         year: new Date().getFullYear(),
@@ -110,6 +112,18 @@ export const CustomCalendar = ({
         // Сегодня (без времени)
         const today = new Date();
         today.setHours(0, 0, 0, 0);
+
+        const tomorrow = new Date(today);
+        tomorrow.setDate(today.getDate() + 1);
+        const dayPlus2 = new Date(today);
+        dayPlus2.setDate(today.getDate() + 2);
+        const dayPlus3 = new Date(today);
+        dayPlus3.setDate(today.getDate() + 3);
+
+        const tomorrowStr = formatLocalDate(tomorrow);
+        const dayPlus2Str = formatLocalDate(dayPlus2);
+        const dayPlus3Str = formatLocalDate(dayPlus3);
+
         const todayStr = formatLocalDate(today);
 
         for (let week = 0; week < weeks; week++) {
@@ -131,10 +145,10 @@ export const CustomCalendar = ({
                     const isClosedSelected = closedSelectedDates?.has?.(dateStr);
                     const isUnavailable = !availability;
 
-                    // === Логика для жёлтых дней (через 2–3 дня) ===
-                    const diffTime = date.getTime() - today.getTime();
-                    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-                    const isDayIn2to3 = diffDays === 2 || diffDays === 3;
+
+                    const hasUnassigned = unassignedOrderDates.has(dateStr);
+                    const isTomorrowWithUnassigned = dateStr === tomorrowStr && hasUnassigned;
+                    const isDay2or3WithUnassigned = (dateStr === dayPlus2Str || dateStr === dayPlus3Str) && hasUnassigned;
 
                     weekDays.push(
                         <button
@@ -146,7 +160,9 @@ export const CustomCalendar = ({
                             ${isClosed ? 'closed' : ''} 
                             ${isClosedSelected ? 'closed-selected' : ''} 
                             ${isUnavailable ? 'closedNotInstaller' : ''}
-                            ${isDayIn2to3 ? 'highlight-2-3-days' : ''}
+                            ${isTomorrowWithUnassigned ? 'unassigned-tomorrow' : ''}
+                            ${isDay2or3WithUnassigned ? 'highlight-2-3-days' : ''}
+                            
                             buttons-calendar`}
                             onClick={() => onDayClick(dateStr, isClosed, isPast)}
                             disabled={isPast || isToday || (isClosed && !canSelectClosedDays) || isUnavailable}

@@ -55,6 +55,11 @@ export const MainInstallerPage = () => {
     const url = `/api/mainInstaller?page=${currentPage}`;
     const urlPost = `/api/mainInstaller`;
 
+
+    const [unassignedOrderDates, setUnassignedOrderDates] = useState<Set<string>>(new Set());
+
+
+
     const navItems = [
         { label: 'Список установщиков', route: '/home/mainInstaller/InstallersList' },
         { label: 'Добавить установщика', route: '/home/mainInstaller/create' },
@@ -157,6 +162,15 @@ export const MainInstallerPage = () => {
 
             const uniqueDates = [...new Set(data.orders.map((order) => order.dateOrder))];
             await Promise.all(uniqueDates.map((date) => fetchInstallerWorkload(date)));
+
+            const unassignedDates = new Set<string>();
+            data.orders.forEach((order) => {
+                if(order.installerName === "") {
+                    unassignedOrderDates.add(order.dateOrder);
+                }
+            })
+
+            setUnassignedOrderDates(unassignedDates);
         } catch (err: any) {
             console.error('Ошибка при загрузке заказов:', err);
             // setError(err.message);
@@ -179,49 +193,6 @@ export const MainInstallerPage = () => {
                 const availabilityData = Array.isArray(data.availabilityList) ? data.availabilityList : [];
                 setFetchedAvailability(availabilityData);
                 console.log("Загруженные данные о доступности:", availabilityData);
-
-                const tomorrow = new Date();
-                tomorrow.setDate(tomorrow.getDate() + 1);
-                const tomorrowStr = tomorrow.toISOString().split('T')[0];
-
-                const tomorrowEntry = availabilityData.find(item  => item.date === tomorrowStr);
-                const isTomorrowOpen = !tomorrowEntry || tomorrowEntry.available;
-
-                if (isTomorrowOpen) {
-                   try {
-                        const closeRes = await fetch(`/api/doorLimits/closeDate?date=${encodeURIComponent(tomorrowStr)}`, {
-                            method: "PATCH",
-                            headers: { "Content-Type": "application/json" },
-                            body: JSON.stringify({ date: tomorrowStr, available: false }),
-                        });
-
-                        if (closeRes.ok) {
-                             const updatedAvailability = [...availabilityData];
-                            if (!tomorrowEntry) {
-                                updatedAvailability.push({
-                                    date: tomorrowStr,
-                                    available: false,
-                                    frontDoorQuantity: 0,
-                                    inDoorQuantity: 0,
-                                });
-                            } else {
-                                const index = updatedAvailability.findIndex(item => item.date === tomorrowStr);
-                                updatedAvailability[index] = { ...updatedAvailability[index], available: false };
-                            }
-
-                            setFetchedAvailability(updatedAvailability);
-                            setAvailabilityList(
-                                updatedAvailability.map(item => ({
-                                    ...item,
-                                    formattedDate: reversedDate(item.date),
-                                }))
-                            );
-                        }
-                    } catch (err) {
-                        console.error("Не удалось автоматически закрыть завтрашний день:", err);
-                    }
-                }
-
             } catch (err) {
                 console.error("Ошибка при загрузке доступности:", err);
                 setFetchedAvailability(availabilityList || []);
@@ -487,6 +458,7 @@ export const MainInstallerPage = () => {
                             canSelectClosedDays={true}
                             closedSelectedDates={closedSelectedDates}
                             setClosedSelectedDates={setClosedSelectedDates}
+                            unassignedOrderDates={unassignedOrderDates}
                         />
 
                         <div className="main-installer__buttons">

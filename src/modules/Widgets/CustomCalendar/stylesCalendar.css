@@ -42,14 +42,20 @@
 }
 
 .calendar-day.closedNotInstaller {
-    color: #888888; /* тусклый текст */
+    color: #888888;
     background-color: #d3d3d3;
-    cursor: not-allowed !important;
+    cursor: not-allowed;
 }
 
+
+.unassigned-tomorrow {
+    border: 1px solid #9f1212;
+    background-color: #de0f0f;
+}
 
 /* Жёлтый фон для дней через 2–3 дня */
 .calendar-day.highlight-2-3-days {
-    background-color: #fff9c4 !important; /* Светло-жёлтый */
+    background-color: #fff9c4;
     border: 1px solid #ffd54f;
 }
+
