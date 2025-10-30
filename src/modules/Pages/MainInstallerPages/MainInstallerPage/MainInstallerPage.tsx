@@ -165,11 +165,11 @@ export const MainInstallerPage = () => {
 
             const unassignedDates = new Set<string>();
             data.orders.forEach((order) => {
-                if(order.installerName === "") {
-                    unassignedOrderDates.add(order.dateOrder);
+                const isUnassigned = !order.installerName || order.installerName.trim() === '';
+                if (isUnassigned) {
+                    unassignedDates.add(order.dateOrder);
                 }
-            })
-
+            });
             setUnassignedOrderDates(unassignedDates);
         } catch (err: any) {
             console.error('Ошибка при загрузке заказов:', err);
