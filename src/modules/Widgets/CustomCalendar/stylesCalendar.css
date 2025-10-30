@@ -42,20 +42,20 @@
 }
 
 .calendar-day.closedNotInstaller {
-    color: #888888;
+    color: #888888; /* тусклый текст */
     background-color: #d3d3d3;
-    cursor: not-allowed;
+    cursor: not-allowed !important;
 }
-
 
 .unassigned-tomorrow {
-    border: 1px solid #9f1212;
-    background-color: #de0f0f;
+    border: 1px solid #9f1212 !important;
+    background-color: #de0f0f !important;
+    color: white !important;
 }
 
-/* Жёлтый фон для дней через 2–3 дня */
-.calendar-day.highlight-2-3-days {
-    background-color: #fff9c4;
-    border: 1px solid #ffd54f;
+.highlight-2-3-days {
+    background-color: #fff9c4 !important;
+    border: 1px solid #ffd54f !important;
+    color: white !important;
 }
 

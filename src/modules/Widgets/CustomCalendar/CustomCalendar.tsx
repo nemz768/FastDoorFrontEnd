@@ -151,6 +151,7 @@ export const CustomCalendar = ({
                     const isTomorrowWithUnassigned = dateStr === tomorrowStr && hasUnassigned;
                     const isDay2or3WithUnassigned = (dateStr === dayPlus2Str || dateStr === dayPlus3Str) && hasUnassigned;
 
+                    console.log("dateStr:", dateStr, "hasUnassigned:", hasUnassigned, "isDay2or3WithUnassigned:", isDay2or3WithUnassigned);
                     weekDays.push(
                         <button
                             key={dateStr}
