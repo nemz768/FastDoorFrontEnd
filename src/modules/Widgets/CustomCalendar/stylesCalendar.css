@@ -12,6 +12,7 @@
 
 .custom-calendar .calendar-day.selected {
     background-color: #007bff !important;
+    border: none;
     color: #fff;
 }
 
@@ -20,19 +21,19 @@
 }
 
 .custom-calendar .calendar-day.past {
-    background-color: #d3d3d3 !important; /* светло-серый фон */
-    color: #888888; /* тусклый текст */
+    background-color: #d3d3d3 !important;
+    color: #888888;
     cursor: not-allowed !important;
 }
 
 .custom-calendar .calendar-day.past .availability {
-    display: none; /* скрыть инфу о дверях */
+    display: none;
 }
 
 
 
 .custom-calendar .calendar-day.closed-selected {
-    background-color: #28a745 !important; /* зелёный */
+    background-color: #28a745 !important;
     color: #fff;
     cursor: pointer;
 }
@@ -42,7 +43,7 @@
 }
 
 .calendar-day.closedNotInstaller {
-    color: #888888; /* тусклый текст */
+    color: #888888;
     background-color: #d3d3d3;
     cursor: not-allowed !important;
 }
@@ -54,7 +55,7 @@
 }
 
 .highlight-2-3-days {
-    background-color: #fff9c4 !important;
+    background-color: #ccbb2a !important;
     border: 1px solid #ffd54f !important;
     color: white !important;
 }

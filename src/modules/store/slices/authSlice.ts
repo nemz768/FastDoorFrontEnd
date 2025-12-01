@@ -2,6 +2,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+
 // Типы
 export type UserRole = 'administrator' | 'salespeople' | 'main';
 export interface AuthState {
@@ -17,6 +18,7 @@ interface LoginCredentials {
     password: string;
     rememberMe: boolean;
 }
+
 
 export const login = createAsyncThunk<{ roles: UserRole }, LoginCredentials, { rejectValue: string }>(
     'auth/login',
